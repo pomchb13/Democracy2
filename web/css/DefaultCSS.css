@@ -1,0 +1,49 @@
+body {
+    background: url(../res/background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    zoom: 130%;
+}
+
+.loginText {
+    margin-top: 130px;
+    margin-bottom: 100px;
+    margin-right: 200px;
+    margin-left: 200px;
+}
+
+.activeVotes {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 200px;
+    margin-left: 200px;
+}
+
+.newVote {
+    margin-top: 130px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 200px;
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.voteDiv {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 200px;
+    margin-left: 200px;
+}
+
+.chartEvaluation {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 200px;
+    margin-left: 200px;
+}
