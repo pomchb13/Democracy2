@@ -17,8 +17,9 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/CloseWin.js"></script>
 </head>
-<body>
+<body onload="loaded()">
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
