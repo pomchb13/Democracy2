@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
-  Time: 12:01
+  Time: 19:03
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -58,7 +58,7 @@
                 ['Muster1', 150],
                 ['Mann1', 70],
             ],
-            type: 'bar',
+            type: 'pie',
             onclick: function (d, i) {
                 console.log("onclick", d, i);
             },
@@ -68,8 +68,24 @@
             onmouseout: function (d, i) {
                 console.log("onmouseout", d, i);
             }
+        },
+        axis: {
+
+            x: {
+                label: 'Namen der Kandidaten'
+            },
+            y: {
+                label: 'Anzahl der Stimmen'
+
+            },
         }
     });
 </script>
+
+<center>
+    <button id="evaluation" type="submit" class="btn btn-primary"
+            onclick="window.location.href='/evaluationBarChartUI.jsp'">Balkendiagramm
+    </button>
+</center>
 </body>
 </html>
