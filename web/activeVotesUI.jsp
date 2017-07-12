@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -28,12 +28,12 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="AdminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="ActiveVotesUI.jsp"><span class="glyphicon glyphicon-time"></span> Aktive Wahlen</a></li>
-                <li><a href="NewVoteUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl</a></li>
+                <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
+                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-time"></span> Aktive Wahlen</a></li>
+                <li><a href="newVoteUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="HomeUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -44,7 +44,7 @@
     </div>
 </center>
 <div class="activeVotes">
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>Titel</th>
@@ -55,14 +55,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr class="active">
             <td>Bundespräsitentenwahl</td>
             <td>11.07.2017</td>
             <td>13.07.2017</td>
             <td>Ermittlung eines neunen Präsitenten für Österreich</td>
             <td>aktiv</td>
         </tr>
-        <tr>
+        <tr class="success">
             <td>Schulsprecher</td>
             <td>03.02.2017</td>
             <td>04.02.2017</td>

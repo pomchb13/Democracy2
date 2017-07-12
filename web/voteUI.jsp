@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -24,16 +24,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Democracy 2.0</a>
+            <a class="navbar-brand" href="">Democracy 2.0</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="HomeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="LoginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Wahl</a></li>
-                <li><a href="AboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
+                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
+                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Wahl</a></li>
+                <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="AdminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
+                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
             </ul>
         </div>
     </div>
@@ -72,7 +72,9 @@
 </div>
 <center>
     <div class="input-group">
-        <button id="login" type="button" class="btn btn-link"><a href="EvaluationUI.jsp">Stimme abgeben </a></button>
+        <button id="evaluation" type="submit" class="btn btn-primary" onclick="window.location.href='/thankYouUI.jsp'">
+            Stimme abgeben
+        </button>
     </div>
 </center>
 <div class="modal fade" id="infoModal" role="dialog">

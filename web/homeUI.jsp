@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
-  Time: 19:14
+  Time: 17:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -24,20 +24,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Democracy 2.0</a>
+            <a class="navbar-brand" href="">Democracy 2.0</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="AdminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="ActiveVotesUI.jsp"><span class="glyphicon glyphicon-time"></span> Aktive Wahlen</a></li>
-                <li><a href="NewVoteUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl</a></li>
+                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
+                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Wahl</a></li>
+                <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="HomeUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
 
 </body>
 </html>
