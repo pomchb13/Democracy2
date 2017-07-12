@@ -56,17 +56,17 @@
         </thead>
         <tbody>
         <tr class="active">
-            <td>Bundespräsitentenwahl</td>
+            <td>Bundespräsidentenwahl</td>
             <td>11.07.2017</td>
             <td>13.07.2017</td>
-            <td>Ermittlung eines neunen Präsitenten für Österreich</td>
+            <td>Ermittlung eines neunen Präsidenten für Österreich</td>
             <td>aktiv</td>
         </tr>
         <tr class="success">
             <td>Schulsprecher</td>
             <td>03.02.2017</td>
             <td>04.02.2017</td>
-            <td>Ermittlung eines neunen Schulersprecher für die Schule HTBLA Kaindorf</td>
+            <td>Ermittlung eines neunen Schulersprechers für die Schule HTBLA Kaindorf</td>
             <td>beendet</td>
         </tr>
         </tbody>
