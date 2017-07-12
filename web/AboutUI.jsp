@@ -41,7 +41,9 @@
 
 
 <div class="container">
-    <h2>About us</h2>
+    <center>
+        <h1>About us</h1>
+    </center>
     <p>There can be our Text</p>
     <br>
     <div class="media">
