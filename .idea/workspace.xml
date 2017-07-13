@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1dae92e-e0e5-438b-bed3-689d3c0f298c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/js/loginJS.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/loginUI.jsp" afterPath="$PROJECT_DIR$/web/loginUI.jsp" />
     </list>
@@ -21,8 +20,8 @@
       <file leaf-file-name="loginUI.jsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/loginUI.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="75" column="7" lean-forward="true" selection-start-line="75" selection-start-column="7" selection-end-line="75" selection-end-column="7" />
+            <state relative-caret-position="238">
+              <caret line="53" column="9" lean-forward="false" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -824,7 +823,7 @@
       <workItem from="1499855873091" duration="968000" />
       <workItem from="1499860493722" duration="1177000" />
       <workItem from="1499873371508" duration="7983000" />
-      <workItem from="1499961549491" duration="5956000" />
+      <workItem from="1499961549491" duration="6012000" />
     </task>
     <task id="LOCAL-00001" summary="test commit">
       <created>1499860704067</created>
@@ -889,11 +888,18 @@
       <option name="project" value="LOCAL" />
       <updated>1499969017972</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Change the LoginUI">
+      <created>1499969322335</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1499969322335</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18919000" />
+    <option name="totallyTimeSpent" value="18975000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -982,7 +988,8 @@
     <MESSAGE value="Try Autoclose" />
     <MESSAGE value="Correction" />
     <MESSAGE value="Add commentary" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add commentary" />
+    <MESSAGE value="Change the LoginUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change the LoginUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1221,8 +1228,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/loginUI.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="75" column="7" lean-forward="true" selection-start-line="75" selection-start-column="7" selection-end-line="75" selection-end-column="7" />
+        <state relative-caret-position="238">
+          <caret line="53" column="9" lean-forward="false" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
           <folding />
         </state>
       </provider>

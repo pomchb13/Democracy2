@@ -48,10 +48,10 @@
 <!-- Title of the page -->
 <center>
     <div class="heading">
+        <br>
         <h1>Willkommen bei der Wahl</h1>
     </div>
 </center>
-<br>
 <!-- Add the username, the password and submit button -->
 <div class="loginText">
     <div class="input-group">
