@@ -8,14 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="DefaultCSS.css" rel="stylesheet" type="text/css">
+    <!-- Change the Tab-title of the page -->
     <title>Democracy 2.0</title>
+    <!-- Import the CSS of Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Import the JavaScript of AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <!-- Set Tab picture -->
+    <link rel="icon" type="image/png" href="res/avatar.png">
 </head>
 <body>
+<!-- Implements the navigation bar in the webseite -->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -39,48 +46,63 @@
     </div>
 </nav>
 
-
 <div class="container">
+    <!-- Title of the page -->
     <center>
-        <h1>Über uns</h1>
+        <div class="aboutTitle">
+            <h1>Über uns</h1>
+        </div>
     </center>
+    <!-- Over text of the page -->
     <p>There can be our Text</p>
     <br>
+    <!-- Info about the teammembers-->
     <div class="media">
         <div class="media-left media-middle">
+            <!-- Add a picture -->
             <img src="res/avatar.png" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
+            <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Windegger</b> Patrick </h4>
             <p>Fun</p>
         </div>
     </div>
     <hr>
+    <!-- Info about the teammembers -->
     <div class="media">
         <div class="media-left media-middle">
+            <!-- Add a picture -->
             <img src="res/avatar.png" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
+            <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Pommer</b> Christoph</h4>
             <p>Fun</p>
         </div>
     </div>
     <hr>
+    <!-- Info about the teammembers -->
     <div class="media">
         <div class="media-left media-middle">
+            <!-- Add a picture -->
             <img src="res/avatar.png" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
+            <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Hartmann</b> Ewald</h4>
             <p>Fun</p>
         </div>
     </div>
     <hr>
+    <!-- Info about the teammembers -->
     <div class="media">
         <div class="media-left media-middle">
+            <!-- Add a picture -->
             <img src="res/avatar.png" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
+            <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Gangl</b> Leonhard</h4>
             <p>Fun</p>
         </div>

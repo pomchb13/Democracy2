@@ -8,16 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="DefaultCSS.css" rel="stylesheet" type="text/css">
+    <!-- Change the Tab-title of the page -->
     <title>Democracy 2.0</title>
+    <!-- Import the CSS of Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Import the JavaScript of AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
-    <script language="javascript" type="text/javascript" src="js/loginJS.js"></script>
+    <!-- Set Tab picture -->
+    <link rel="icon" type="image/png" href="res/avatar.png">
 </head>
 <body>
-
+<!-- Implements the navigation bar in the webseite -->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -44,11 +49,13 @@
     <br>
     <br>
     <br>
+    <!-- Title of the page -->
     <div class="thankYouTitle">
         <h1> Ein Fehler ist aufgetreten! </h1>
     </div>
     <br>
     <br>
+    <!-- Error text -->
     <div class="alert alert-danger" id="Error">
         <strong>Achtung!</strong> <br> Beim Eintragen Ihrer Stimme ist ein Fehler aufgetreten. <br><br> Bitte melden Sie
         sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr

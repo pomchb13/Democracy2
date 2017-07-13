@@ -8,18 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="DefaultCSS.css" rel="stylesheet" type="text/css">
+    <!-- Change the Tab-title of the page -->
     <title>Democracy 2.0</title>
+    <!-- Import the CSS of Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Import the JavaScript of AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <!-- Set Tab picture -->
+    <link rel="icon" type="image/png" href="res/avatar.png">
+    <!-- Import the C3 diagramm CSS -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
+    <!-- Import the JavaScript for D3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
+    <!-- Import the JavaScript for C3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/CloseWin.js"></script>
+    <!-- <script language="javascript" type="text/javascript" src="js/CloseWin.js"></script> -->
 </head>
 <body onload="loaded()">
+<!-- Implements the navigation bar in the webseite -->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -43,11 +53,14 @@
     </div>
 </nav>
 <center>
+    <!-- Title of the page -->
     <div class="titleEvaluation">
         <h1>Derzeitiger Stand der Wahl</h1>
     </div>
 </center>
+<!-- Div for the Chart -->
 <div id="chart" class="chartEvaluation"></div>
+<!-- JavaScript for the Chart -->
 <script>
     var chart = c3.generate({
         data: {
@@ -78,21 +91,22 @@
                 label: 'Anzahl der Stimmen'
             },
         },
-/*        colors: {
-            Max: '#ffff00',
-            Muster: '#99ccff',
-            Mann: '#cc80ff',
-            Max1: '#88cc00',
-            Muster1: '#00ffff',
-            Mann1: '#008080'
-        },
-        color: function (color, d) {
-            // d will be 'id' when called for legends
-            return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-        }*/
+        /*        colors: {
+         Max: '#ffff00',
+         Muster: '#99ccff',
+         Mann: '#cc80ff',
+         Max1: '#88cc00',
+         Muster1: '#00ffff',
+         Mann1: '#008080'
+         },
+         color: function (color, d) {
+         // d will be 'id' when called for legends
+         return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+         }*/
     });
 </script>
 <center>
+    <!-- Add a Button the change to the other chart -->
     <button id="evaluation" type="submit" class="btn btn-primary"
             onclick="window.location.href='/evaluationPieChartUI.jsp'">Kreisdiagramm
     </button>
