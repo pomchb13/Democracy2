@@ -99,7 +99,8 @@
 <center>
     <!-- Add a Button the change to the other chart -->
     <button id="evaluation" type="submit" class="btn btn-primary"
-            onclick="window.location.href='/evaluationBarChartUI.jsp'">Balkendiagramm
+            onclick="window.location.href='/evaluationBarChartUI.jsp'">
+        <span class="glyphicon glyphicon-retweet"></span> Balkendiagramm
     </button>
 </center>
 </body>

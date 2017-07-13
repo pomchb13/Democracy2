@@ -66,7 +66,7 @@
     <center>
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="window.location.href='/voteUI.jsp'">
+                    onclick="window.location.href='/voteUI.jsp'"> <span class="glyphicon glyphicon-log-in"></span>
                 Login
             </button>
         </div>

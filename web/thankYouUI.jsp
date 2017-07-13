@@ -64,7 +64,8 @@
     <!-- Button for the evaluationpage -->
     <div class="input-group">
         <button id="evaluation" type="submit" class="btn btn-primary"
-                onclick="window.location.href='/evaluationBarChartUI.jsp'">Derzeitiger Stand
+                onclick="window.location.href='/evaluationBarChartUI.jsp'">
+            <span class="glyphicon glyphicon-time"></span> Derzeitiger Stand
         </button>
     </div>
 </center>

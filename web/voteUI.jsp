@@ -86,7 +86,7 @@
     <!-- Adds a button the submit the choise -->
     <div class="input-group">
         <button id="evaluation" type="submit" class="btn btn-primary" onclick="window.location.href='/thankYouUI.jsp'">
-            Stimme abgeben
+            <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
         </button>
     </div>
 </center>

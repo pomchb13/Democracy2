@@ -35,12 +35,12 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Wahl</a></li>
-                <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
+                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
+                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>
+                <li><a href="newVoteUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
+                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -52,37 +52,42 @@
     </div>
 </center>
 <div class="newVote">
-    <!-- Feld to add a titel -->
+    <!-- Field to add a titel -->
     <div class="input-group">
         <span class="input-group-addon">Title</span>
         <input id="titel" type="text" class="form-control" name="titel" placeholder="Titel einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
-    <!-- Feld to add the startdate -->
+    <!-- Field to add the startdate -->
     <div class="input-group">
         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         <input id="start" type="date" class="form-control" name="start" placeholder="Startdatum einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
-    <!-- Feld to add the enddate -->
+    <!-- Field to add the enddate -->
     <div class="input-group">
         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         <input id="end" type="date" class="form-control" name="end" placeholder="Enddatum einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
-    <!-- Feld to add a description -->
+    <!-- Field to add a description -->
     <div class="input-group">
         <span class="input-group-addon">Beschreibung</span>
-        <textarea id="description" type="text" class="form-control" name="description" placeholder="Beschreibung einfügen" rows="5"></textarea>
+        <textarea id="description" type="text" class="form-control" name="description"
+                  placeholder="Beschreibung einfügen" rows="5"></textarea>
     </div>
     <br>
     <!-- Add a submit button -->
-    <div class="submitButton">
-        <button id="submitButton" type="button" class="btn btn-primary">Speichern</button>
-    </div>
+    <center>
+        <div class="submitButton">
+            <button id="submitButton" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-floppy-disk"></span> Speichern
+            </button>
+        </div>
+    </center>
 </div>
 
 </body>

@@ -22,7 +22,6 @@
     <link rel="icon" type="image/png" href="res/avatar.png">
 </head>
 <body>
-<!-- Implements the navigation bar in the webseite -->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -65,10 +64,11 @@
         <br>
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="window.location.href='/adminSettingsUI.jsp'">Login
+                    onclick="window.location.href='/adminSettingsUI.jsp'"><span class="glyphicon glyphicon-log-in"></span> Login
             </button>
         </div>
     </div>
 </center>
 </body>
 </html>
+

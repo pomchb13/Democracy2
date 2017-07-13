@@ -108,7 +108,8 @@
 <center>
     <!-- Add a Button the change to the other chart -->
     <button id="evaluation" type="submit" class="btn btn-primary"
-            onclick="window.location.href='/evaluationPieChartUI.jsp'">Kreisdiagramm
+            onclick="window.location.href='/evaluationPieChartUI.jsp'">
+        <span class="glyphicon glyphicon-retweet"></span> Kreisdiagramm
     </button>
 </center>
 </body>
