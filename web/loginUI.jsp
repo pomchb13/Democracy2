@@ -46,19 +46,14 @@
     </div>
 </nav>
 <!-- Title of the page -->
-<div class="heading">
-    <h1>Willkommen bei der Wahl</h1>
-    <br>
-    <br>
-</div>
-<!-- Button for the login -->
-<div class="loginButton">
-    <button id="showLogin" type="button" class="btn btn-primary">Login für die Wahl</button>
-</div>
-<br>
+<center>
+    <div class="heading">
+        <h1>Willkommen bei der Wahl</h1>
+    </div>
+</center>
 <br>
 <!-- Add the username, the password and submit button -->
-<div class="loginText" style="display:none;">
+<div class="loginText">
     <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
         <input id="email" type="text" class="form-control" name="email" placeholder="Username">
@@ -68,13 +63,14 @@
         <input id="password" type="password" class="form-control" name="password" placeholder="Password">
     </div>
     <br>
-    <div class="input-group">
-        <button id="evaluation" type="submit" class="btn btn-primary" onclick="window.location.href='/voteUI.jsp'">
-            Login
-        </button>
-    </div>
-
-
+    <center>
+        <div class="input-group">
+            <button id="evaluation" type="submit" class="btn btn-primary"
+                    onclick="window.location.href='/voteUI.jsp'">
+                Login
+            </button>
+        </div>
+    </center>
 </div>
 </center>
 </body>
