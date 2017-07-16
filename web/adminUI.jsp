@@ -16,6 +16,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import login js -->
+    <script lang="JavaScript" type="text/javascript" src="js/Login.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
@@ -64,7 +66,7 @@
         <br>
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="window.location.href='/adminSettingsUI.jsp'"><span class="glyphicon glyphicon-log-in"></span> Login
+                    onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login
             </button>
         </div>
     </div>
