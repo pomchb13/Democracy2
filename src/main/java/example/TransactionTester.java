@@ -17,7 +17,7 @@ import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Patri on 18.07.2017.
+ * Created by Patrick Windegger on 18.07.2017.
  */
 public class TransactionTester {
     public static void main(String[] args) {
