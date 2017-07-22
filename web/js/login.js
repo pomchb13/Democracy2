@@ -18,5 +18,4 @@ function login() {
             document.location.replace('/adminSettingsUI.jsp')
         }
     }
-
 }
