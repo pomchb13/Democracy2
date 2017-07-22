@@ -27,7 +27,8 @@ body {
     margin-right: 150px;
     margin-left: 150px;
 }
-.candDiv{
+
+.candDiv {
 
 }
 
@@ -58,10 +59,19 @@ input[type=date]::-webkit-outer-spin-button {
     margin-left: 200px;
     font-size: 16px;
 }
+
 #error {
     margin-top: 50px;
     margin-bottom: 50px;
     margin-right: 200px;
     margin-left: 200px;
     font-size: 16px;
+}
+
+.newPollDiv {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 200px;
+    margin-left: 200px;
+
 }

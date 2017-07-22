@@ -17,7 +17,7 @@
     <!-- Import the JavaScript for the login
     <script language="javascript" type="text/javascript" src="js/loginJS.js"></script> -->
     <!-- Import login js -->
-    <script lang="JavaScript" type="text/javascript" src="js/Login.js"></script>
+    <script lang="JavaScript" type="text/javascript" src="js/login.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->

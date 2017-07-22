@@ -17,7 +17,7 @@
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Import login js -->
-    <script lang="JavaScript" type="text/javascript" src="js/Login.js"></script>
+    <script lang="JavaScript" type="text/javascript" src="js/login.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
