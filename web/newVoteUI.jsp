@@ -16,6 +16,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import toggleNewVote -->
+    <script type="text/javascript" src="js/toggleNewVote.js"></script>
+    <!-- Import addAnswersNewVote -->
+    <script type="text/javascript" src="js/addAnswersNewVote.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
@@ -81,28 +85,27 @@
         <span class="input-group-addon">*</span>
     </div>
     <br>
-
-    <table width="100%">
-        <tr>
-            <td>
-                <div class="input-group">
-                    <span class="input-group-addon">Antwort #1</span>
-                    <textarea id="antwort1" type="text" class="form-control" rows="3"
-                              placeholder="Antwort 1 eingeben"> </textarea>
-                    <span class="input-group-addon">*</span>
-                </div>
-            </td>
-            <td>
-                <div class="input-group">
-                    <span class="input-group-addon">Antwort #2</span>
-                    <textarea id="antwort2" type="text" class="form-control" rows="3"
-                              placeholder="Antwort 2 eingeben"> </textarea>
-                    <span class="input-group-addon">*</span>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <center>
+        <button type="button" class="add_form_field btn btn-primary">Neue Antwort hinzufügen <span
+                class="glyphicon glyphicon-plus"></span>
+        </button>
+    </center>
     <br>
+
+    <div class="answerDiv">
+        <div class="input-group">
+            <span class="input-group-addon">Antwort #1</span>
+            <textarea id="antwort1" type="text" class="form-control" rows="3"> </textarea>
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Antwort #2</span>
+            <textarea id="antwort2" type="text" class="form-control" rows="3"> </textarea>
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+    </div>
     <!-- Add a submit button -->
     <center>
         <div class="submitButton">
@@ -113,84 +116,85 @@
     </center>
 </div>
 <center>
-<div class="newVote" id="vote">
-    <!-- Field to add a titel -->
-    <div class="input-group">
-        <span class="input-group-addon">Title</span>
-        <input id="titelVote" type="text" class="form-control farm-control-sm" placeholder="Titel einfügen">
-        <span class="input-group-addon">*</span>
-    </div>
-    <br>
-    <!-- Field to add the startdate -->
-    <div class="input-group">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
-        <input id="startVote" type="date" class="form-control farm-control-sm" placeholder="Startdatum einfügen">
-        <span class="input-group-addon">*</span>
-    </div>
-    <br>
-    <!-- Field to add the enddate -->
-    <div class="input-group">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
-        <input id="endVote" type="date" class="form-control farm-control-sm" placeholder="Enddatum einfügen">
-        <span class="input-group-addon">*</span>
-    </div>
-    <br>
-    <div class="addedCand">
-        <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p>Dr. Dr. Dr. Dr. Gerhard Guggerbauer</p>
-    </div>
-    <div class="candDiv">
+    <div class="newVote" id="vote">
+        <!-- Field to add a titel -->
         <div class="input-group">
-            <span class="input-group-addon">Titel</span>
-            <input id="inputTitle" type="text" class="form-control" placeholder="Titel">
+            <span class="input-group-addon">Title</span>
+            <input id="titelVote" type="text" class="form-control farm-control-sm" placeholder="Titel einfügen">
             <span class="input-group-addon">*</span>
         </div>
         <br>
+        <!-- Field to add the startdate -->
         <div class="input-group">
-            <span class="input-group-addon">Vorname</span>
-            <input id="inputVorname" type="text" class="form-control" placeholder="Vorname">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
+            <input id="startVote" type="date" class="form-control farm-control-sm" placeholder="Startdatum einfügen">
             <span class="input-group-addon">*</span>
         </div>
         <br>
+        <!-- Field to add the enddate -->
         <div class="input-group">
-            <span class="input-group-addon">Nachname</span>
-            <input id="inputNachname" type="text" class="form-control" placeholder="Nachname">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
+            <input id="endVote" type="date" class="form-control farm-control-sm" placeholder="Enddatum einfügen">
             <span class="input-group-addon">*</span>
         </div>
         <br>
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Geburtsdatum</span></span>
-            <input id="inputBirthday" type="date" class="form-control" placeholder="tt.mm.jjjj">
-            <span class="input-group-addon">*</span>
+        <div class="addedCand">
+            <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p> Bereits hinzugefügt Dr. Dr. Dr. Dr. Gerhard
+            Guggerbauer</p>
         </div>
-        <br>
-        <div class="input-group">
-            <span class="input-group-addon">Partei</span>
-            <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
-            <span class="input-group-addon">*</span>
+        <div class="candDiv">
+            <div class="input-group">
+                <span class="input-group-addon">Titel</span>
+                <input id="inputTitle" type="text" class="form-control" placeholder="Titel">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon">Vorname</span>
+                <input id="inputVorname" type="text" class="form-control" placeholder="Vorname">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon">Nachname</span>
+                <input id="inputNachname" type="text" class="form-control" placeholder="Nachname">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Geburtsdatum</span></span>
+                <input id="inputBirthday" type="date" class="form-control" placeholder="tt.mm.jjjj">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon">Partei</span>
+                <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon">Motto</span>
+                <input id="inputMotto" type="text" class="form-control" placeholder="Motto">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <div class="submitButton">
+                <button id="addCand" type="button" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                </button>
+            </div>
+            <br>
+
         </div>
-        <br>
-        <div class="input-group">
-            <span class="input-group-addon">Motto</span>
-            <input id="inputMotto" type="text" class="form-control" placeholder="Motto">
-            <span class="input-group-addon">*</span>
-        </div>
-        <br>
+
         <div class="submitButton">
-            <button id="addCand" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+            <button id="saveVote" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
             </button>
         </div>
-        <br>
 
     </div>
-
-    <div class="submitButton">
-        <button id="saveVote" type="button" class="btn btn-primary"><span
-                class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
-        </button>
-    </div>
-
-</div>
 </center>
 
 </body>

@@ -58,13 +58,9 @@
     <div class="newVoteTitle">
         <h1>Neue Abstimmung erstellen</h1>
     </div>
-    <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-primary active">
-            <input type="radio" checked autocomplete="off" class="pollRB" id="pollRBID"> Abstimmung
-        </label>
-        <label class="btn btn-primary">
-            <input type="radio" autocomplete="off" class="voteRB" id="voteRBID"> Wahl
-        </label>
+    <div class="btn-group" role="group">
+        <button type="button" checked autocomplete="off" class="btn btn-primary" id="pollRBID"> Abstimmung</button>
+        <button type="button" autocomplete="off" class="btn btn-primary" id="voteRBID"> Wahl</button>
     </div>
 </center>
 <hr>
@@ -98,9 +94,9 @@
         <br>
         <br>
         <div class="container1">
-            <div><input type="text" name="mytext[]" placeholder="Antwort"> <a href="#" class="delete"><span
+            <div><input type="text" name="mytext[]" placeholder="Antwort"><a href="#" class="delete"><span
                     class="glyphicon glyphicon-remove"></span></a></div>
-            <div><input type="text" name="mytext[]" placeholder="Antwort"> <a href="#" class="delete"><span
+            <div><input type="text" name="mytext[]" placeholder="Antwort"><a href="#" class="delete"><span
                     class="glyphicon glyphicon-remove"></span></a></div>
         </div>
     </div>

@@ -29,6 +29,16 @@ body {
 }
 
 .candDiv {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+
+    border: 1px solid black; /* Border muss noch angepasst werden*/
 
 }
 
@@ -36,6 +46,9 @@ input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+.refTable{
+    width: 100%;
 }
 
 .voteDiv {
