@@ -53,7 +53,7 @@
 <center>
     <div class="heading">
         <br>
-        <h1>Willkommen bei der Wahl</h1>
+        <h1>Willkommen bei Democracy 2.0</h1>
     </div>
 </center>
 <!-- Add the username, the password and submit button -->

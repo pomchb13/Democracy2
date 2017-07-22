@@ -14,13 +14,12 @@ function login()
     {
         alert(document.location);
         //Herausfinden, wie es mit einer Wildcardmask funktionieren könnte
-        if(document.location == 'http://localhost:8080/loginUI.jsp');
+        if(document.location == 'http://localhost/loginUI.jsp')
         {
             document.location.replace('/voteUI.jsp')
-        }
-        if(document.location = 'http://localhost:8080/adminUI.jsp')
+        }else if(document.location = 'http://localhost/adminUI.jsp')
         {
-            document.location.replace('adminSettingsUI.jsp')
+            document.location.replace('/adminSettingsUI.jsp')
         }
     }
 

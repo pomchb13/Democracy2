@@ -48,37 +48,60 @@
 <center>
     <!-- Title of the page -->
     <div class="newVoteTitle">
-        <h1>Neue Wahl erstellen</h1>
+        <h1>Neue Abstimmung erstellen</h1>
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" checked autocomplete="off"> Abstimmung
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" autocomplete="off"> Wahl
+        </label>
     </div>
 </center>
-<div class="newVote">
+<div class="newVote" id="referendum">
     <!-- Field to add a titel -->
     <div class="input-group">
         <span class="input-group-addon">Title</span>
-        <input id="titel" type="text" class="form-control" name="titel" placeholder="Titel einfügen">
+        <input id="titelRef" type="text" class="form-control" placeholder="Titel einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
     <!-- Field to add the startdate -->
     <div class="input-group">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-        <input id="start" type="date" class="form-control" name="start" placeholder="Startdatum einfügen">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
+        <input id="startRef" type="date" class="form-control" placeholder="Startdatum einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
     <!-- Field to add the enddate -->
     <div class="input-group">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-        <input id="end" type="date" class="form-control" name="end" placeholder="Enddatum einfügen">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
+        <input id="endRef" type="date" class="form-control" placeholder="Enddatum einfügen">
         <span class="input-group-addon">*</span>
     </div>
     <br>
-    <!-- Field to add a description -->
-    <div class="input-group">
-        <span class="input-group-addon">Beschreibung</span>
-        <textarea id="description" type="text" class="form-control" name="description"
-                  placeholder="Beschreibung einfügen" rows="5"></textarea>
-    </div>
+
+    <table width="100%">
+        <tr>
+            <td>
+                <div class="input-group">
+                    <span class="input-group-addon">Antwort #1</span>
+                    <textarea id="antwort1" type="text" class="form-control" rows="3"
+                              placeholder="Antwort 1 eingeben"> </textarea>
+                    <span class="input-group-addon">*</span>
+                </div>
+            </td>
+            <td>
+                <div class="input-group">
+                    <span class="input-group-addon">Antwort #2</span>
+                    <textarea id="antwort2" type="text" class="form-control" rows="3"
+                              placeholder="Antwort 2 eingeben"> </textarea>
+                    <span class="input-group-addon">*</span>
+                </div>
+            </td>
+        </tr>
+    </table>
     <br>
     <!-- Add a submit button -->
     <center>
@@ -89,6 +112,86 @@
         </div>
     </center>
 </div>
+<center>
+<div class="newVote" id="vote">
+    <!-- Field to add a titel -->
+    <div class="input-group">
+        <span class="input-group-addon">Title</span>
+        <input id="titelVote" type="text" class="form-control farm-control-sm" placeholder="Titel einfügen">
+        <span class="input-group-addon">*</span>
+    </div>
+    <br>
+    <!-- Field to add the startdate -->
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
+        <input id="startVote" type="date" class="form-control farm-control-sm" placeholder="Startdatum einfügen">
+        <span class="input-group-addon">*</span>
+    </div>
+    <br>
+    <!-- Field to add the enddate -->
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
+        <input id="endVote" type="date" class="form-control farm-control-sm" placeholder="Enddatum einfügen">
+        <span class="input-group-addon">*</span>
+    </div>
+    <br>
+    <div class="addedCand">
+        <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p>Dr. Dr. Dr. Dr. Gerhard Guggerbauer</p>
+    </div>
+    <div class="candDiv">
+        <div class="input-group">
+            <span class="input-group-addon">Titel</span>
+            <input id="inputTitle" type="text" class="form-control" placeholder="Titel">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Vorname</span>
+            <input id="inputVorname" type="text" class="form-control" placeholder="Vorname">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Nachname</span>
+            <input id="inputNachname" type="text" class="form-control" placeholder="Nachname">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Geburtsdatum</span></span>
+            <input id="inputBirthday" type="date" class="form-control" placeholder="tt.mm.jjjj">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Partei</span>
+            <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Motto</span>
+            <input id="inputMotto" type="text" class="form-control" placeholder="Motto">
+            <span class="input-group-addon">*</span>
+        </div>
+        <br>
+        <div class="submitButton">
+            <button id="addCand" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+            </button>
+        </div>
+        <br>
+
+    </div>
+
+    <div class="submitButton">
+        <button id="saveVote" type="button" class="btn btn-primary"><span
+                class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
+        </button>
+    </div>
+
+</div>
+</center>
 
 </body>
 </html>
