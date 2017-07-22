@@ -12,9 +12,9 @@ function login() {
     if (password == Blockpassword) {
         alert(document.location);
         //Herausfinden, wie es mit einer Wildcardmask funktionieren könnte
-        if (document.location == 'http://localhost/loginUI.jsp') {
+        if (document.location == 'http://localhost:8080/loginUI.jsp') {
             document.location.replace('/voteUI.jsp')
-        } else if (document.location = 'http://localhost/adminUI.jsp') {
+        } else if (document.location = 'http://localhost:8080/adminUI.jsp') {
             document.location.replace('/adminSettingsUI.jsp')
         }
     }
