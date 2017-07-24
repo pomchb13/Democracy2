@@ -77,7 +77,7 @@
         <!-- Field to add the startdate -->
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
-            <input id="startRef" type="date" class="form-control" placeholder="Startdatum einfügen">
+            <input id="startRef" type="date" class="form-control" required onkeydown="return false" onmousewheel="return false" >
             <span class="input-group-addon">*</span>
         </div>
         <br>
@@ -113,6 +113,7 @@
             </button>
         </div>
     </center>
+
 
 </div>
 </body>

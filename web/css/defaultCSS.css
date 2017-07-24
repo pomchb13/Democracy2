@@ -22,7 +22,14 @@ body {
 }
 
 .newVote {
-    margin-top: 130px;
+    margin-top: 40px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 150px;
+}
+
+.newRef{
+    margin-top: 40px;
     margin-bottom: 100px;
     margin-right: 150px;
     margin-left: 150px;
@@ -47,7 +54,8 @@ input[type=date]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-.refTable{
+
+.refTable {
     width: 100%;
 }
 
@@ -79,12 +87,4 @@ input[type=date]::-webkit-outer-spin-button {
     margin-right: 200px;
     margin-left: 200px;
     font-size: 16px;
-}
-
-.newPollDiv {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
-
 }

@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Wahl</a></li>
+                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Volksabstimmung / Wahl</a></li>
                 <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

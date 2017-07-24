@@ -2,16 +2,13 @@
  * Created by Ewald on 22.07.2017.
  */
 $(document).ready(function(){
-    alert('hallo');
-    $("#pollRBID").click(function(){
-        alert('poll');
+    $("#pollID").click(function(){
         $("#newVoteDivID").hide();
-        $("#newPollDivID").show();
+        $("#newRefDivID").show();
 
     });
-    $("#voteRBID").click(function(){
-        alert('vote');
-        $("#newPollDivID").hide();
+    $("#voteID").click(function(){
+        $("#newRefDivID").hide();
         $("#newVoteDivID").show();
     });
 });
