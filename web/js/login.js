@@ -3,11 +3,12 @@
  */
 
 $(document).ready(function () {
-    //Logindata: User=admin; Password: 1234
+    // Logindata: User=admin; Password: 1234
     alert("login");
-    $("#evaluation").click()(function () {
+    // $("#evaluation").click()(function () {
+        $("#evaluation").click(function(){
         alert("hallo");
-        if ("#email".val() == 'admin' && ("#password").val() == '1234') {
+        if ($("#email").val() == 'admin' && $("#password").val() == '1234') {
             if (window.location.href == 'http://localhost:8080/adminUI.jsp') {
                 window.location.replace("http://localhost:8080/adminSettingsUI.jsp");
             }
@@ -19,5 +20,5 @@ $(document).ready(function () {
             alert("Please try again!!");
         }
     })
-})
-;
+});
+
