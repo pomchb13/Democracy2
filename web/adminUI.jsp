@@ -65,8 +65,8 @@
         </div>
         <br>
         <div class="input-group">
-            <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="login()"><span class="glyphicon glyphicon-log-in"></span> Login
+            <button id="evaluation" type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-log-in"></span> Login
             </button>
         </div>
     </div>
