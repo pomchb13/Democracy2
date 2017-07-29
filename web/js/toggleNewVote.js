@@ -5,7 +5,6 @@ $(document).ready(function(){
     $("#pollID").click(function(){
         $("#newVoteDivID").hide();
         $("#newRefDivID").show();
-
     });
     $("#voteID").click(function(){
         $("#newRefDivID").hide();

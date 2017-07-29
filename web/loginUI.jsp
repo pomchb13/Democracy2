@@ -14,16 +14,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Import the JavaScript for the login
-    <script language="javascript" type="text/javascript" src="js/loginJS.js"></script> -->
     <!-- Import login js -->
     <script lang="JavaScript" type="text/javascript" src="js/login.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
-
-
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->

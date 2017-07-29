@@ -16,6 +16,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import the CSS of  Bootstrap Datepicker -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css"/>
+    <!-- Import the CSS of  Bootstrap Datepicker 3-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
+    <!-- Import the JavaScript of  Bootstrap Datepicker -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <!-- Import toggleNewVote -->
     <script type="text/javascript" src="js/toggleNewVote.js"></script>
     <!-- Import addAnswersNewVote -->
@@ -26,20 +32,9 @@
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
-    <script type="text/javascript">
-        $(function () {
-            $('#startdate').datetimepicker();
-            $('#enddate').datetimepicker({
-                useCurrent: false //Important! See issue #1075
-            });
-            $("#startdate").on("dp.change", function (e) {
-                $('#enddate').data("DateTimePicker").minDate(e.date);
-            });
-            $("#enddate").on("dp.change", function (e) {
-                $('#startdate').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    </script>
+    <!-- Import datepicker -->
+    <script type="text/javascript" src="js/datepicker.js"></script>
+
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
@@ -68,7 +63,7 @@
 <center>
     <!-- Title of the page -->
     <div class="newVoteTitle">
-        <h1>Neue Abstimmung erstellen</h1>
+        <h1 id="voteTitle">Neue Abstimmung / Wahl erstellen</h1>
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn-primary" id="pollID">Abstimmung</button>
@@ -85,39 +80,27 @@
         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
     </div>
     <br>
-    <!-- Field to add the startdate -->
-    <div class="form-group">
-        <div class='input-group date' id='startdate'>
-            <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-            <input type='text' class="form-control"/>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-asterisk"></span>
-            </span>
-        </div>
-    </div>
-    <br>
-    <!-- Field to add the enddate -->
-    <div class="form-group">
-        <div class='input-group date' id='enddate'>
-            <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-            <input type='text' class="form-control"/>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-asterisk"></span>
-            </span>
-        </div>
-    </div>
-    <br>
-    <!-- Button to add a new Answerfield -->
     <center>
+
+        <!-- Field to add the startdate and enddate -->
+        <div class="container">
+            <div class="input-daterange" id="datepicker1">
+                <span class="label label-default">von</span>
+                <input type="text" class="input" name="start"/>
+                <span class="label label-default">bis</span>
+                <input type="text" class="input" name="end"/>
+            </div>
+        </div>
+        <br>
+
+        <!-- Button to add a new Answerfield -->
+
         <button type="button" class="add_form_field btn btn-primary">Neue Antwort hinzufügen <span
                 class="glyphicon glyphicon-plus"></span>
         </button>
     </center>
     <br>
+
     <!-- Answerfields -->
     <div class="answerDiv">
         <div class="input-group">
@@ -133,6 +116,7 @@
         </div>
         <br>
     </div>
+
     <!-- Add a Dropdown Menu for the evaluation Picker-->
     <div class="evaluationPicker">
         <select class="form-control">
@@ -143,7 +127,6 @@
         </select>
     </div>
     <br>
-
 
     <!-- Add a submit button -->
     <center>
@@ -158,6 +141,7 @@
 <!-- Add a new Vote-->
 <div class="newVote" id="newVoteDivID" style="display:none;">
     <center>
+
         <!-- Field to add a titel -->
         <div class="input-group">
             <span class="input-group-addon">Title</span>
@@ -165,40 +149,27 @@
             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
         <br>
-        <!-- Field to add the startdate -->
-        <div class="form-group">
-            <div class='input-group date' id='startdateVote'>
 
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-                <input type='text' class="form-control"/>
-                <span class="input-group-addon">
-                     <span class="glyphicon glyphicon-asterisk"></span>
-                </span>
+        <!-- Field to add the startdate -->
+        <div class="container">
+            <div class="input-daterange" id="datepicker2">
+                <span class="label label-default">von</span>
+                <input type="text" class="input" name="start"/>
+                <span class="label label-default">bis</span>
+                <input type="text" class="input" name="end"/>
             </div>
         </div>
         <br>
-        <!-- Field to add the enddate -->
-        <div class="form-group">
-            <div class='input-group date' id='enddateVote'>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-                <input type='text' class="form-control"/>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-asterisk"></span>
-                </span>
-            </div>
-        </div>
-        <br>
+
         <!-- Show added Candidates -->
         <div class="addedCand">
             <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p> Bereits hinzugefügt Dr. Dr. Dr. Dr. Gerhard
             Guggerbauer</p>
         </div>
+
         <!-- Add a new Candidate -->
         <div class="candDiv">
+
             <!-- Field to add his/her titel -->
             <div class="input-group">
                 <span class="input-group-addon">Titel</span>
@@ -206,6 +177,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add his/her forename -->
             <div class="input-group">
                 <span class="input-group-addon">Vorname</span>
@@ -213,6 +185,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add his/her last name -->
             <div class="input-group">
                 <span class="input-group-addon">Nachname</span>
@@ -220,6 +193,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add his/her birthday -->
             <div class="input-group">
                 <span class="input-group-addon">Geburtsdatum</span>
@@ -227,6 +201,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add his/her party -->
             <div class="input-group">
                 <span class="input-group-addon">Partei</span>
@@ -234,6 +209,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add his/her slogan -->
             <div class="input-group">
                 <span class="input-group-addon">Motto</span>
@@ -241,6 +217,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Field to add a foto from him/her-->
             <div class="input-group">
                 <span class="input-group-addon">Foto</span>
@@ -248,6 +225,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+
             <!-- Button to add the Candidate -->
             <div class="submitButton">
                 <button id="addCand" type="button" class="btn btn-primary"><span
@@ -266,6 +244,7 @@
             </select>
         </div>
         <br>
+
         <!-- Button to publish the vote -->
         <div class="submitButton">
             <button id="saveVote" type="button" class="btn btn-primary"><span
