@@ -20,15 +20,16 @@ public class SmartContractTester {
         try {
             Web3j web3 = Web3j.build(new HttpService());
 
-            Credentials credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-07-11T14-18-36.244202600Z--53f9e575980cfa1bd10b5b547e3c4311e8270b93");
+            Credentials credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-07-31T09-23-09.749158100Z--fd8d9bdb0e2c1951a428126761c3dfdf13bf28fb");
 
 
            // SimpleStorage contract = SimpleStorage.deploy(web3, credentials, BigInteger.ZERO).get();
            // contract.setUint(new Uint256(15));
            // System.out.println(contract.getUint().get().toString());
 
-            SimpleStorage2 contract2 = SimpleStorage2.deploy(web3, credentials, new BigInteger("0"), new BigInteger("300000"), BigInteger.ZERO).get();
-            contract2.set(new Uint256(new BigInteger("10")));
+            SimpleStorage2 contract = SimpleStorage2.deploy(web3, credentials, new BigInteger("0"), new BigInteger("300000"), BigInteger.ZERO).get();
+            System.out.println(contract.getContractBinary());
+            System.out.println(contract.isValid());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,4 +41,5 @@ public class SmartContractTester {
             e.printStackTrace();
         }
     }
-}
+    }
+

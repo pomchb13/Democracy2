@@ -23,61 +23,57 @@ public class Main {
 
     private Web3j web3;
 
-    public Main()
-    {
+    public Main() {
         web3 = Web3j.build(new HttpService());
 
-        try
-        {
+        try {
             firstRequest();
             sendTransaction();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-   public void firstRequest() throws ExecutionException, InterruptedException {
+    public void firstRequest() throws ExecutionException, InterruptedException {
 
-       Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
-       String clientVersion = web3ClientVersion.getWeb3ClientVersion();
-       print(clientVersion);
-   }
-
-
-   public void print(String str)
-   {
-       System.out.println(str);
-   }
+        Web3ClientVersion web3ClientVersion = web3.web3ClientVersion().sendAsync().get();
+        String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+        print(clientVersion);
+    }
 
 
-   public void sendTransaction() throws IOException, CipherException, ExecutionException, InterruptedException {
-     Credentials credentials = WalletUtils.loadCredentials("1234","D:/Blockchain/geth/geth_data/keystore/UTC--2017-07-14T08-57-20.373735900Z--39f7373999930b3385d241f27aff6c6d21b273d7");
+    public void print(String str) {
+        System.out.println(str);
+    }
 
-       EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x39f7373999930b3385D241F27AFf6C6d21b273d7", DefaultBlockParameterName.LATEST).sendAsync().get();
-       BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
-       RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce,null,null,"0x6205EF7Ea17795F4DBC8494D669B265f7E51a9cd",new BigInteger("10"));
+    public void sendTransaction() throws IOException, CipherException, ExecutionException, InterruptedException {
+        //Credentials credentials = WalletUtils.loadCredentials("1234","D:/Blockchain/geth/geth_data/keystore/UTC--2017-07-14T08-57-20.373735900Z--39f7373999930b3385d241f27aff6c6d21b273d7");
+        Credentials credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-07-11T14-18-36.244202600Z--53f9e575980cfa1bd10b5b547e3c4311e8270b93");
+        //EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x39f7373999930b3385D241F27AFf6C6d21b273d7", DefaultBlockParameterName.LATEST).sendAsync().get();
+        EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount("0x53f9e575980cfa1bd10b5b547e3c4311e8270b93", DefaultBlockParameterName.LATEST).sendAsync().get();
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
-       byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction,credentials);
-       String hexValue = Numeric.toHexString(signedMessage);
-       EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).sendAsync().get();
+        //RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce,null,null,"0x6205EF7Ea17795F4DBC8494D669B265f7E51a9cd",new BigInteger("10"));
+        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, new BigInteger("0"), new BigInteger("300000"), "0x9cd0B405Dd30f35B7e4d9BE10832038b4Ff52383", new BigInteger("10"));
 
-       print(ethSendTransaction.getError().toString());
+        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        String hexValue = Numeric.toHexString(signedMessage);
+        EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).sendAsync().get();
 
-   }
+        if (ethGetTransactionCount.hasError()) {
+            print(ethSendTransaction.getError().getMessage().toString());
+        } else {
+            System.out.println("Transaction successful!");
+        }
+
+
+    }
 
 
     public static void main(String[] args) {
         Main main = new Main();
     }
-
-
-
-
-
-
 
 
 }
