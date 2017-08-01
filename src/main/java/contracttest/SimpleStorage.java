@@ -22,7 +22,6 @@ import org.web3j.tx.TransactionManager;
  * super-constructor in SimpleStorage --> gasPrice and gasLimit added
  * removed <> from Function(...) in getUint and setUint
  * added gasPrice and gasLimit to deployAsync method in deploy
- * changed binarx bytecode to the contract bytecode of the online compiler
  * Please use {@link org.web3j.codegen.SolidityFunctionWrapperGenerator} to update.</p>
  */
 public final class SimpleStorage extends Contract {

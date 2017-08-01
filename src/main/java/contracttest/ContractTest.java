@@ -13,7 +13,8 @@ import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Patri on 01.08.2017.
+ * Created by Patrick on 01.08.2017.
+ * working correctly
  */
 public class ContractTest {
 
@@ -22,10 +23,14 @@ public class ContractTest {
     private SimpleStorage simpleStorage;
 
     public ContractTest() throws IOException, CipherException {
+        // creates the interface to the blockchain and initialize path to the wallet
         web3 = Web3j.build(new HttpService());
         credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-07-31T09-23-09.749158100Z--fd8d9bdb0e2c1951a428126761c3dfdf13bf28fb");
     }
 
+    /***
+     * Method responsible for creating a new smart contract
+     */
     public void createContract() {
         try {
             simpleStorage = SimpleStorage.deploy(web3, credentials, BigInteger.ZERO).get();
@@ -39,11 +44,18 @@ public class ContractTest {
     }
 
 
+    /***
+     * Method responsible for loading an existing contract with a specific adress
+     * @param adress
+     */
     public void loadSmartContract(String adress) {
         simpleStorage = SimpleStorage.load(adress, web3, credentials);
         System.out.println(simpleStorage.getContractAddress());
     }
 
+    /***
+     * Method responsible for setting a value in the contract
+     */
     public void set() {
         if (simpleStorage != null) {
             try {
@@ -56,6 +68,9 @@ public class ContractTest {
         }
     }
 
+    /***
+     * Method responsible getting the value of the contract
+     */
     public void get() {
         if (simpleStorage != null) {
             try {
