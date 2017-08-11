@@ -240,7 +240,7 @@
                 <option>Balkendiagramm anzeigen</option>
                 <option>Kreisdiagramm anzeigen</option>
                 <option>Beide Auswertungen anzeigen</option>
-                <option>keine verzeitige Auswertung anzeigen</option>
+                <option>keine vorzeitige Auswertung anzeigen</option>
             </select>
         </div>
         <br>
