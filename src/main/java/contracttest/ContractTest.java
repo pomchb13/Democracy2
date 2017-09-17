@@ -6,7 +6,6 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.Contract;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -25,7 +24,7 @@ public class ContractTest {
     public ContractTest() throws IOException, CipherException {
         // creates the interface to the blockchain and initialize path to the wallet
         web3 = Web3j.build(new HttpService());
-        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-07-31T09-23-09.749158100Z--fd8d9bdb0e2c1951a428126761c3dfdf13bf28fb");
+        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-09-17T15-16-20.800696700Z--2f9f430557f022a3217ee94191adca1d648706b5");
     }
 
     /***
@@ -56,10 +55,10 @@ public class ContractTest {
     /***
      * Method responsible for setting a value in the contract
      */
-    public void set() {
+    public void set(long val) {
         if (simpleStorage != null) {
             try {
-                simpleStorage.setUint(new Uint256(150)).get();
+                simpleStorage.setUint(new Uint256(val)).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -85,10 +84,11 @@ public class ContractTest {
 
     public static void main(String[] args) {
         try {
-            String adress = "0x2a9e0977428e82e1bc6a0b987398ea2baec67a11";
+            String adress = "0x21862fd04c5ad1631fa840e5daa0af51efba7b9c";
             ContractTest tester = new ContractTest();
-            tester.createContract();
-            tester.set();
+            //tester.createContract();
+            tester.loadSmartContract(adress);
+            //tester.set(500);
             tester.get();
         } catch (IOException e) {
             e.printStackTrace();

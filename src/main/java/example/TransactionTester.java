@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Patrick Windegger on 18.07.2017.
  */
+@Deprecated
 public class TransactionTester {
     public static void main(String[] args) {
         try {
