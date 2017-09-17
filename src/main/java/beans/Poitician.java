@@ -16,7 +16,7 @@ public class Poitician{
     /* birthday of the politican */
     private LocalDate birthday;
     /* party of the politican */
-    private Party party;
+    private String party;
     /* Solgen of the politican */
     private String slogan;
     /* Picture of the politican */
