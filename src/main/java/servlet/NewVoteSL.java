@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Ewald on 17.08.2017.
  */
-public class newVoteSL extends HttpServlet {
+public class NewVoteSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
 
