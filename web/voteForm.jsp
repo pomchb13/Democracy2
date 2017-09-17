@@ -20,10 +20,14 @@
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
+    <!-- Import the JavaScript of  Navbar -->
+    <script src="js/navbarAdmin.js"></script>
 
     <title>Neue Wahl</title>
 </head>
 <body>
+<!-- Implements the navigation bar in the webseite -->
+<div id="navbar"></div>
 <center>
     <h1>Wahl Form</h1>
 </center>

@@ -26,32 +26,12 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
     <!-- Import the JavaScript for C3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
-    <!-- <script language="javascript" type="text/javascript" src="js/CloseWin.js"></script> -->
+    <!-- Import the JavaScript of  Navbar -->
+    <script src="js/navbarUser.js"></script>
 </head>
 <body onload="loaded()">
 <!-- Implements the navigation bar in the webseite -->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">Democracy 2.0</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Volksabstimmung / Wahl</a></li>
-                <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div id="navbar"></div>
 <center>
     <!-- Title of the page -->
     <div class="titleEvaluation">

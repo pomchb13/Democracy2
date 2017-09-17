@@ -20,32 +20,12 @@
     <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
+    <!-- Import the JavaScript of  Navbar -->
+    <script src="js/navbarUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">Democracy 2.0</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Volksabstimmung / Wahl</a>
-                </li>
-                <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-in"></span> Login für Admins</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div id="navbar"></div>
 <!-- Title of the page -->
 <center>
     <div class="heading">
