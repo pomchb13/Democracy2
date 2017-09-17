@@ -8,5 +8,7 @@ package beans;
 public class Party {
 
     private String partyName;
-    private String partySymbol;
+    private String partyShortcut;
+
+
 }

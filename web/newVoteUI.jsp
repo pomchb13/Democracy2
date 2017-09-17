@@ -34,7 +34,6 @@
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import datepicker -->
     <script type="text/javascript" src="js/datepicker.js"></script>
-
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
@@ -74,164 +73,48 @@
 <!-- Add a new Referendum-->
 <div class="newRef" id="newRefDivID">
     <!-- Field to add a titel -->
-    <div class="input-group">
-        <span class="input-group-addon">Title</span>
-        <input id="titelRef" type="text" class="form-control" placeholder="Titel einfügen">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-    </div>
-    <br>
-    <center>
-
-        <!-- Field to add the startdate and enddate -->
-        <div class="container">
-            <div class="input-daterange" id="datepicker1">
-                <span class="label label-default">von</span>
-                <input type="text" class="input" name="start"/>
-                <span class="label label-default">bis</span>
-                <input type="text" class="input" name="end"/>
-            </div>
-        </div>
-        <br>
-
-        <!-- Button to add a new Answerfield -->
-
-        <button type="button" class="add_form_field btn btn-primary">Neue Antwort hinzufügen <span
-                class="glyphicon glyphicon-plus"></span>
-        </button>
-    </center>
-    <br>
-
-    <!-- Answerfields -->
-    <div class="answerDiv">
-        <div class="input-group">
-            <span class="input-group-addon">Antwort #1</span>
-            <textarea id="antwort1" type="text" class="form-control" rows="3"> </textarea>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-        </div>
-        <br>
-        <div class="input-group">
-            <span class="input-group-addon">Antwort #2</span>
-            <textarea id="antwort2" type="text" class="form-control" rows="3"> </textarea>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-        </div>
-        <br>
-    </div>
-
-    <!-- Add a Dropdown Menu for the evaluation Picker-->
-    <div class="evaluationPicker">
-        <select class="form-control">
-            <option>Balkendiagramm anzeigen</option>
-            <option>Kreisdiagramm anzeigen</option>
-            <option>Beide Auswertungen anzeigen</option>
-            <option>keine verzeitige Auswertung anzeigen</option>
-        </select>
-    </div>
-    <br>
-
-    <!-- Add a submit button -->
-    <center>
-        <div class="submitButton">
-            <button id="submitButton" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
-            </button>
-        </div>
-    </center>
-</div>
-
-<!-- Add a new Vote-->
-<div class="newVote" id="newVoteDivID" style="display:none;">
-    <center>
-
-        <!-- Field to add a titel -->
+    <form action="newVoteSL.java" method="get" id="newRef">
         <div class="input-group">
             <span class="input-group-addon">Title</span>
-            <input id="titelVote" type="text" class="form-control farm-control-sm" placeholder="Titel einfügen">
+            <input id="titelRef" type="text" class="form-control" placeholder="Titel einfügen">
             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
         </div>
         <br>
+        <center>
 
-        <!-- Field to add the startdate -->
-        <div class="container">
-            <div class="input-daterange" id="datepicker2">
-                <span class="label label-default">von</span>
-                <input type="text" class="input" name="start"/>
-                <span class="label label-default">bis</span>
-                <input type="text" class="input" name="end"/>
+            <!-- Field to add the startdate and enddate -->
+            <div class="container">
+                <div class="input-daterange" id="datepicker1">
+                    <span class="label label-default">von</span>
+                    <input type="text" class="input" name="start"/>
+                    <span class="label label-default">bis</span>
+                    <input type="text" class="input" name="end"/>
+                </div>
             </div>
-        </div>
+            <br>
+
+            <!-- Button to add a new Answerfield -->
+
+            <button type="button" class="add_form_field btn btn-primary">Neue Antwort hinzufügen <span
+                    class="glyphicon glyphicon-plus"></span>
+            </button>
+        </center>
         <br>
 
-        <!-- Show added Candidates -->
-        <div class="addedCand">
-            <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p> Bereits hinzugefügt Dr. Dr. Dr. Dr. Gerhard
-            Guggerbauer</p>
-        </div>
-
-        <!-- Add a new Candidate -->
-        <div class="candDiv">
-
-            <!-- Field to add his/her titel -->
+        <!-- Answerfields -->
+        <div class="answerDiv">
             <div class="input-group">
-                <span class="input-group-addon">Titel</span>
-                <input id="inputTitle" type="text" class="form-control" placeholder="Titel">
+                <span class="input-group-addon">Antwort #1</span>
+                <textarea id="antwort1" type="text" class="form-control" rows="3"> </textarea>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
-
-            <!-- Field to add his/her forename -->
             <div class="input-group">
-                <span class="input-group-addon">Vorname</span>
-                <input id="inputVorname" type="text" class="form-control" placeholder="Vorname">
+                <span class="input-group-addon">Antwort #2</span>
+                <textarea id="antwort2" type="text" class="form-control" rows="3"> </textarea>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
-
-            <!-- Field to add his/her last name -->
-            <div class="input-group">
-                <span class="input-group-addon">Nachname</span>
-                <input id="inputNachname" type="text" class="form-control" placeholder="Nachname">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Field to add his/her birthday -->
-            <div class="input-group">
-                <span class="input-group-addon">Geburtsdatum</span>
-                <input id="inputBirthday" type="date" class="form-control" onkeydown="return false">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Field to add his/her party -->
-            <div class="input-group">
-                <span class="input-group-addon">Partei</span>
-                <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Field to add his/her slogan -->
-            <div class="input-group">
-                <span class="input-group-addon">Motto</span>
-                <input id="inputMotto" type="text" class="form-control" placeholder="Motto">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Field to add a foto from him/her-->
-            <div class="input-group">
-                <span class="input-group-addon">Foto</span>
-                <input id="inputFoto" type="file" class="form-control"></span>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Button to add the Candidate -->
-            <div class="submitButton">
-                <button id="addCand" type="button" class="btn btn-primary"><span
-                        class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
-                </button>
-            </div>
         </div>
 
         <!-- Add a Dropdown Menu for the evaluation Picker-->
@@ -240,17 +123,138 @@
                 <option>Balkendiagramm anzeigen</option>
                 <option>Kreisdiagramm anzeigen</option>
                 <option>Beide Auswertungen anzeigen</option>
-                <option>keine vorzeitige Auswertung anzeigen</option>
+                <option>keine verzeitige Auswertung anzeigen</option>
             </select>
         </div>
         <br>
 
-        <!-- Button to publish the vote -->
-        <div class="submitButton">
-            <button id="saveVote" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
-            </button>
-        </div>
+        <!-- Add a submit button -->
+        <center>
+            <div class="submitButton">
+                <button id="submitButton" type="button" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
+                </button>
+            </div>
+        </center>
+    </form>
+</div>
+
+<!-- Add a new Vote-->
+<div class="newVote" id="newVoteDivID" style="display:none;">
+    <center>
+        <form action="newVoteSL.java" method="get" id="newVote">
+            <!-- Field to add a titel -->
+            <div class="input-group">
+                <span class="input-group-addon">Title</span>
+                <input id="titelVote" type="text" class="form-control farm-control-sm" placeholder="Titel einfügen">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+            </div>
+            <br>
+
+            <!-- Field to add the startdate -->
+            <div class="container">
+                <div class="input-daterange" id="datepicker2">
+                    <span class="label label-default">von</span>
+                    <input type="text" class="input" name="start"/>
+                    <span class="label label-default">bis</span>
+                    <input type="text" class="input" name="end"/>
+                </div>
+            </div>
+            <br>
+
+            <!-- Show added Candidates -->
+            <div class="addedCand">
+                <!-- Muss mit dem JSP Java Gedöns eingedönscht werden --> <p> Bereits hinzugefügt Dr. Dr. Dr. Dr.
+                Gerhard
+                Guggerbauer</p>
+            </div>
+
+            <!-- Add a new Candidate -->
+            <div class="candDiv">
+                <form action="newVoteSL" method="post" id="newCand">
+                    <!-- Field to add his/her titel -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Titel</span>
+                        <input id="inputTitle" type="text" class="form-control" placeholder="Titel">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her forename -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Vorname</span>
+                        <input id="inputVorname" type="text" class="form-control" placeholder="Vorname">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her last name -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Nachname</span>
+                        <input id="inputNachname" type="text" class="form-control" placeholder="Nachname">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her birthday -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Geburtsdatum</span>
+                        <input id="inputBirthday" type="date" class="form-control" onkeydown="return false">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her party -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Partei</span>
+                        <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her slogan -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Motto</span>
+                        <input id="inputMotto" type="text" class="form-control" placeholder="Motto">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add a foto from him/her-->
+                    <div class="input-group">
+                        <span class="input-group-addon">Foto</span>
+                        <input id="inputFoto" type="file" class="form-control"></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Button to add the Candidate -->
+                    <div class="submitButton">
+                        <button id="addCand" type="button" class="btn btn-primary"><span
+                                class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Add a Dropdown Menu for the evaluation Picker-->
+            <div class="evaluationPicker">
+                <select class="form-control">
+                    <option>Balkendiagramm anzeigen</option>
+                    <option>Kreisdiagramm anzeigen</option>
+                    <option>Beide Auswertungen anzeigen</option>
+                    <option>keine vorzeitige Auswertung anzeigen</option>
+                </select>
+            </div>
+            <br>
+
+            <!-- Button to publish the vote -->
+            <div class="submitButton">
+                <button id="saveVote" type="button" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
+                </button>
+            </div>
+        </form>
     </center>
 </div>
 </body>
