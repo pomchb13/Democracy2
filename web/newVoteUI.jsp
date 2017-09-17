@@ -116,20 +116,20 @@
             </div>
             <br>
         </div>
-
-        <!-- Add a Dropdown Menu for the evaluation Picker-->
-        <div class="evaluationPicker">
-            <select class="form-control">
-                <option>Balkendiagramm anzeigen</option>
-                <option>Kreisdiagramm anzeigen</option>
-                <option>Beide Auswertungen anzeigen</option>
-                <option>keine verzeitige Auswertung anzeigen</option>
-            </select>
-        </div>
-        <br>
-
-        <!-- Add a submit button -->
         <center>
+            <!-- Add a Dropdown Menu for the evaluation Picker-->
+            <div class="evaluationPicker">
+                <div class="radio">
+                    <label><input type="radio" name="optradio" checked>Diagramm anzeigen</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">keine Diagramme anzeigen</label>
+                </div>
+            </div>
+            <br>
+
+            <!-- Add a submit button -->
+
             <div class="submitButton">
                 <button id="submitButton" type="button" class="btn btn-primary"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
@@ -208,7 +208,7 @@
                     <div class="input-group">
                         <span class="input-group-addon">Partei</span>
                         <input id="inputPartei" type="text" class="form-control" placeholder="Partei">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+
                     </div>
                     <br>
 
@@ -223,7 +223,7 @@
                     <!-- Field to add a foto from him/her-->
                     <div class="input-group">
                         <span class="input-group-addon">Foto</span>
-                        <input id="inputFoto" type="file" class="form-control"></span>
+                        <input id="inputFoto" type="file" class="form-control" accept="image/*"></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                     <br>
@@ -236,18 +236,18 @@
                     </div>
                 </form>
             </div>
-
             <!-- Add a Dropdown Menu for the evaluation Picker-->
             <div class="evaluationPicker">
-                <select class="form-control">
-                    <option>Balkendiagramm anzeigen</option>
-                    <option>Kreisdiagramm anzeigen</option>
-                    <option>Beide Auswertungen anzeigen</option>
-                    <option>keine vorzeitige Auswertung anzeigen</option>
-                </select>
+                <div class="evaluationPicker">
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" checked>Diagramm anzeigen</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio">keine Diagramme anzeigen</label>
+                    </div>
+                </div>
             </div>
             <br>
-
             <!-- Button to publish the vote -->
             <div class="submitButton">
                 <button id="saveVote" type="button" class="btn btn-primary"><span

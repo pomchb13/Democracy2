@@ -15,7 +15,7 @@ public class Poll {
     private LocalDate date_from;
     /* Enddate of the Poll */
     private LocalDate date_due;
-    /*  */
+    /* Anwsers of the Poll */
     private LinkedList<String> pollOptions;
 
     public Poll(String title, LocalDate date_from, LocalDate date_due, LinkedList<String> pollOptions) {

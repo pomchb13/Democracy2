@@ -22,7 +22,7 @@ public class Poitician{
     /* Picture of the politican */
     private File portrait;
 
-    public Poitician(String forename, String surname, LocalDate birthday, Party party, String slogan, File portrait) {
+    public Poitician(String forename, String surname, LocalDate birthday, String party, String slogan, File portrait) {
         this.forename = forename;
         this.surname = surname;
         this.birthday = birthday;
@@ -67,11 +67,11 @@ public class Poitician{
         this.birthday = birthday;
     }
 
-    public Party getParty() {
+    public String getParty() {
         return party;
     }
 
-    public void setParty(Party party) {
+    public void setParty(String party) {
         this.party = party;
     }
 
