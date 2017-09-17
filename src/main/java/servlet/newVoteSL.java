@@ -1,5 +1,7 @@
 package servlet;
 
+import util.servletUtil;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,13 +16,14 @@ import java.io.IOException;
 public class newVoteSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
+
         super.init(config);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("newVoteUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/newVoteUI.jsp");
         rd.forward(request, response);
     }
 
@@ -31,6 +34,10 @@ public class newVoteSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("hallo");
+        System.out.println(servletUtil.filter(req.getParameter("createReferendum")));
+
+
 
     }
 }
