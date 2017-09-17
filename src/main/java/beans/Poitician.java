@@ -9,17 +9,17 @@ import java.time.LocalDate;
  */
 public class Poitician{
 
-    /* The Startdate of the Poll */
+    /* Forename of the politican */
     private String forename;
-    /* The Startdate of the Poll */
+    /* surename of the politican */
     private String surname;
-    /* The Startdate of the Poll */
+    /* birthday of the politican */
     private LocalDate birthday;
-    /* The Startdate of the Poll */
+    /* party of the politican */
     private Party party;
-    /* The Startdate of the Poll */
+    /* Solgen of the politican */
     private String slogan;
-    /*  of the Poll */
+    /* Picture of the politican */
     private File portrait;
 
     public Poitician(String forename, String surname, LocalDate birthday, Party party, String slogan, File portrait) {

@@ -9,11 +9,11 @@ import java.time.LocalDate;
  */
 public class Vote {
 
-    /* The Title of the Poll */
+    /* Title of the Vote */
     private String title;
-    /* The Startdate of the Poll */
+    /* Startdate of the Vote */
     private LocalDate date_from;
-    /* The Enddate of the Poll */
+    /* Enddate of the Vote */
     private LocalDate date_due;
 
 }

@@ -9,11 +9,11 @@ import java.util.LinkedList;
  */
 public class Poll {
 
-    /* The Tite of the Poll */
+    /* Tite of the Poll */
     private String title;
-    /* The Startdate of the Poll */
+    /* Startdate of the Poll */
     private LocalDate date_from;
-    /* The Enddate of the Poll */
+    /* Enddate of the Poll */
     private LocalDate date_due;
     /*  */
     private LinkedList<String> pollOptions;
