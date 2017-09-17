@@ -73,7 +73,7 @@
 <!-- Add a new Referendum-->
 <div class="newRef" id="newRefDivID">
     <!-- Field to add a titel -->
-    <form action="newVoteSL.java" method="get" id="newRef">
+    <form action="newVoteSL.java" method="GET" id="newRef">
         <div class="input-group">
             <span class="input-group-addon">Title</span>
             <input id="titelRef" type="text" class="form-control" placeholder="Titel einfügen">
@@ -131,7 +131,7 @@
             <!-- Add a submit button -->
 
             <div class="submitButton">
-                <button id="submitButton" type="button" class="btn btn-primary"><span
+                <button id="submitButton" type="button" name="createReferendum" class="btn btn-primary"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
                 </button>
             </div>
@@ -250,7 +250,7 @@
             <br>
             <!-- Button to publish the vote -->
             <div class="submitButton">
-                <button id="saveVote" type="button" class="btn btn-primary"><span
+                <button id="saveVote" type="button" name="createReferendum" class="btn btn-primary"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
                 </button>
             </div>
