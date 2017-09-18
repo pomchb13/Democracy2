@@ -38,6 +38,7 @@ public class NewVoteSL extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("hallo");
         System.out.println(servletUtil.filter(req.getParameter("createReferendum")));
+        processRequest(req, resp);
 
 
 
