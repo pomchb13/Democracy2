@@ -9,13 +9,13 @@ import java.util.LinkedList;
  */
 public class Poll {
 
-    /* Tite of the Poll */
+    /* Tite of the PollContract */
     private String title;
-    /* Startdate of the Poll */
+    /* Startdate of the PollContract */
     private LocalDate date_from;
-    /* Enddate of the Poll */
+    /* Enddate of the PollContract */
     private LocalDate date_due;
-    /* Anwsers of the Poll */
+    /* Anwsers of the PollContract */
     private LinkedList<String> pollOptions;
 
     public Poll(String title, LocalDate date_from, LocalDate date_due, LinkedList<String> pollOptions) {
@@ -27,7 +27,7 @@ public class Poll {
 
     @Override
     public String toString() {
-        return "Poll{" +
+        return "PollContract{" +
                 "title='" + title + '\'' +
                 ", date_from=" + date_from +
                 ", date_due=" + date_due +
