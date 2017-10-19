@@ -56,19 +56,19 @@ public class PollTesterMain {
         return null;
     }
 
-    public void loadSmartContract(String adress) {
+    public void loadSmartContract(String adress) throws IOException {
         pollContract = PollCon.load(adress, web3, credentials);
         System.out.println(pollContract.getContractAddress());
     }
 
     public static void main(String[] args) {
         try {
-            String adress = "0xbb165f4E6153Cc69923748f98341b177f5CbA5f4";
+            String adress = "0x1029a0a958a63d1294dcdfbaf91b3e1f94f3f4db";
             PollTesterMain pollTest = new PollTesterMain();
             //pollTest.createContract();
-
+            //System.out.println("\"x\"");
             pollTest.loadSmartContract(adress);
-            pollTest.setTitle("Testtitle");
+            pollTest.setTitle("\"y\"");
 
 
             System.out.println(pollTest.getTitle());
