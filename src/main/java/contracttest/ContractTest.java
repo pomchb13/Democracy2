@@ -24,7 +24,7 @@ public class ContractTest {
     public ContractTest() throws IOException, CipherException {
         // creates the interface to the blockchain and initialize path to the wallet
         web3 = Web3j.build(new HttpService());
-        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-09-17T15-16-20.800696700Z--2f9f430557f022a3217ee94191adca1d648706b5");
+        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-10-19T14-38-48.526096700Z--dcc97f1bd80b47137480d2a3d9a54a0af6aa92be");
     }
 
     /***
@@ -84,12 +84,12 @@ public class ContractTest {
 
     public static void main(String[] args) {
         try {
-            String adress = "0x21862fd04c5ad1631fa840e5daa0af51efba7b9c";
+            String adress = "0xbb165f4E6153Cc69923748f98341b177f5CbA5f4";
             ContractTest tester = new ContractTest();
-            //tester.createContract();
-            tester.loadSmartContract(adress);
+            tester.createContract();
+            //tester.loadSmartContract(adress);
             //tester.set(500);
-            tester.get();
+            //tester.get();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CipherException e) {
