@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.LinkedList" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -73,7 +73,6 @@
 <!-- Add a new Referendum-->
 <div class="newRef" id="newRefDivID">
     <!-- Field to add a titel -->
-    <form action="newVoteSL.java" method="GET" id="newRef">
         <div class="input-group">
             <span class="input-group-addon">Title</span>
             <input id="titelRef" type="text" class="form-control" placeholder="Titel einfügen">
@@ -101,21 +100,42 @@
         </center>
         <br>
 
+        <div class="candDiv">
         <!-- Answerfields -->
+            <p>Hinzugefügte Antworten:
+                <%  LinkedList<String> liAnswers = (LinkedList<String>) this.getServletConfig().getServletContext().getAttribute("answers");
+                    if (liAnswers != null)
+                    {
+                        for (String s: liAnswers) {
+                            out.print(s + ", ");
+                        }
+                    }%>
+                    </p>
+            <form action="NewVoteSL" method="POST" id="newAnswer">
         <div class="answerDiv">
             <div class="input-group">
-                <span class="input-group-addon">Antwort #1</span>
-                <textarea id="antwort1" type="text" class="form-control" rows="3"> </textarea>
+                <span class="input-group-addon">Antwort</span>
+                <textarea id="answer" type="text" class="form-control" name="answer" rows="3"> </textarea>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
-            <br>
-            <div class="input-group">
-                <span class="input-group-addon">Antwort #2</span>
-                <textarea id="antwort2" type="text" class="form-control" rows="3"> </textarea>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
         </div>
+            <br>
+            <center>
+
+                <!-- Button to add the Candidate -->
+                <div class="submitButton">
+                    <button type="button" class="btn btn-primary" name="actionButton" value="addAnswer"><span
+                            class="glyphicon glyphicon-floppy-disk"  ></span> Antwort hinzufügen
+                    </button>
+                </div>
+
+            </center>
+            </form>
+        </div>
+
+
+
+
         <center>
             <!-- Add a Dropdown Menu for the evaluation Picker-->
             <div class="evaluationPicker">
@@ -129,20 +149,21 @@
             <br>
 
             <!-- Add a submit button -->
-
+            <form action="NewVoteSL" method="POST" id="newRef">
             <div class="submitButton">
-                <button id="submitButton" type="button" name="createReferendum" class="btn btn-primary"><span
+                <button id="submitButton" type="submit" name="actionButton" value="createReferendum" class="btn btn-primary"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
                 </button>
             </div>
+            </form>
         </center>
-    </form>
+
 </div>
 
 <!-- Add a new Vote-->
 <div class="newVote" id="newVoteDivID" style="display:none;">
     <center>
-        <form action="newVoteSL.java" method="get" id="newVote">
+
             <!-- Field to add a titel -->
             <div class="input-group">
                 <span class="input-group-addon">Title</span>
@@ -171,7 +192,7 @@
 
             <!-- Add a new Candidate -->
             <div class="candDiv">
-                <form action="newVoteSL" method="post" id="newCand">
+
                     <!-- Field to add his/her titel -->
                     <div class="input-group">
                         <span class="input-group-addon">Titel</span>
@@ -227,11 +248,11 @@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
                     <br>
-
+                <form action="NewVoteSL" method="POST" id="newCand">
                     <!-- Button to add the Candidate -->
                     <div class="submitButton">
-                        <button id="addCand" type="button" class="btn btn-primary"><span
-                                class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                        <button id="addCand" type="submit" class="btn btn-primary" name="actionButton" value="addPolitician"><span
+                                class="glyphicon glyphicon-floppy-disk"  ></span> Kandidaten/Partei hinzufügen
                         </button>
                     </div>
                 </form>
@@ -249,8 +270,9 @@
             </div>
             <br>
             <!-- Button to publish the vote -->
+        <form action="NewVoteSL" method="POST" id="newVote">
             <div class="submitButton">
-                <button id="saveVote" type="button" name="createReferendum" class="btn btn-primary"><span
+                <button id="saveVote" type="submit" name="actionButton" value="createVote" class="btn btn-primary"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
                 </button>
             </div>

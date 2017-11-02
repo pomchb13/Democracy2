@@ -3,7 +3,7 @@ package util;
 /**
  * Created by Leonhard on 17.09.2017.
  */
-public class servletUtil {
+public class ServletUtil {
     public static String filter(String inputText) {
         if (inputText == null)
             return "";
