@@ -23,7 +23,7 @@ public class activeVoteSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/newVoteUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/newPollUI.jsp");
         rd.forward(request, response);
     }
 

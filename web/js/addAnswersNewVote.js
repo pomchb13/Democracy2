@@ -14,8 +14,8 @@ $(document).ready(function () {
             anzAnswers++;
             $(wrapper).append('' +
                 '<div class="input-group">' +
-                    '<span class="input-group-addon">Antwort #' + (answerCount++) + ' </span>' +
-                    '<textarea id="antwort2" type="text" class="form-control" rows="3"> </textarea>' +
+                    '<span class="input-group-addon">Antwort #' + (answerCount) + ' </span>' +
+                    '<textarea id="antwort' +answerCount++ + '" type="text" class="form-control" rows="3"> </textarea>' +
                     '<span class="input-group-addon">' +
                         '<span class="glyphicon glyphicon-asterisk"></span>' +
                     '</span>' +
