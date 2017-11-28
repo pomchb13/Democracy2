@@ -63,7 +63,7 @@
     </div>
 </nav>
 
-<div class="newVote" id="newVoteDivID" style="display:none;">
+<div class="newVote" id="newVoteDivID">
     <center>
 
         <form id="form1" method="post">
@@ -80,9 +80,9 @@
             <div class="container">
                 <div class="input-daterange" id="datepicker2">
                     <span class="label label-default">von</span>
-                    <input type="text" name="input_Start" class="input" name="start"/>
+                    <input type="text" name="input_Start" class="input"/>
                     <span class="label label-default">bis</span>
-                    <input type="text" name="input_End" class="input" name="end"/>
+                    <input type="text" name="input_End" class="input"/>
                 </div>
             </div>
             <br>
@@ -101,7 +101,7 @@
 
             <!-- Show added Candidates -->
             <div class="addedCand">
-                <p name="input_Cands"></p>
+                <p name="input_Cands"> .</p>
             </div>
         </form>
 
@@ -153,7 +153,7 @@
             <!-- Field to add his/her slogan -->
             <div class="input-group">
                 <span class="input-group-addon">Motto</span>
-                <input id="inputMotto" type="text" name="input_cand_slogan" class="form-control" placeholder="Motto">
+                <input id="inputMotto" type="text" name="input_cand_Slogan" class="form-control" placeholder="Motto">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
@@ -169,7 +169,7 @@
 
             <!-- Button to add the Candidate -->
             <div class="submitButton">
-                <button id="addCand" type="submit" class="btn btn-primary" name="actionButton"
+                <button id="addCand" class="btn btn-primary" name="actionButton"
                         value="addPolitician" onclick="addCand()"><span
                         class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
                 </button>
