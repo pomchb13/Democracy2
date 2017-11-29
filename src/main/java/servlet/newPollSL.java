@@ -15,11 +15,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
+
 /**
  * Created by Ewald on 17.08.2017.
  */
-@WebServlet(urlPatterns = {"/NewPollSL"})
-public class NewPollSL extends HttpServlet {
+@WebServlet(urlPatterns = {"/newPollSL"})
+public class newPollSL extends HttpServlet {
 
 
     @Override

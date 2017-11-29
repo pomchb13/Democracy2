@@ -12,8 +12,8 @@ import java.io.IOException;
 /**
  * Created by Leonhard on 28.11.2017.
  */
-@WebServlet(urlPatterns = {"/NewVoteSL"})
-public class NewVoteSL extends HttpServlet {
+@WebServlet(urlPatterns = {"/newVoteSL"})
+public class newVoteSL extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {

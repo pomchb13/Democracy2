@@ -40,7 +40,7 @@
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -53,8 +53,11 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>
-                <li><a href="newPollUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>
+                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen/Abstimmung</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-plus"></span> Neue Wahl/Abstimmung erstellen</a><ul class="dropdown-menu">
+                    <li><a href="newPollUI.jsp">Neue Abstimmung</a></li>
+                    <li><a href="newVoteUI.jsp">Neue Wahl</a></li>
+                </ul></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -62,10 +65,13 @@
         </div>
     </div>
 </nav>
-
+<br>
+<br>
+<br>
 <div class="newVote" id="newVoteDivID">
     <center>
-
+<h1>Neue Wahl erstllen</h1>
+        <br><br>
         <form id="form1" method="post">
             <!-- Field to add a title -->
             <div class="input-group">
@@ -105,8 +111,12 @@
             </div>
         </form>
 
+        <br>
+        <hr>
+        <br>
+
         <!-- Add a new Candidate -->
-        <div class="candDiv">
+        <div class="candDiv1">
 
             <!-- Field to add his/her titel -->
             <div class="input-group">
