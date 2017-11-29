@@ -101,7 +101,7 @@
 
             <!-- Show added Candidates -->
             <div class="addedCand">
-                <p name="input_Cands"> .</p>
+                <p name="input_Cands"> </p>
             </div>
         </form>
 

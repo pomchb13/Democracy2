@@ -13,9 +13,18 @@ function addCand() {
     var candPicture = 'TestPicture';
     // var candPicture = document.getElementsByName('input_cand_Picture')[0];
 
-    var test = document.getElementsByName("input_Cands")[0].value;
-    var all = test + "; <br>" + candTitle + ", " + candFirstname + ", " + candLastname + ", " + candBirthday + ", " +
-        candParty + ", " + candSlogan + ", " + candPicture ;
+    var test = document.getElementsByName("input_Cands")[0].innerHTML;
+    alert(test);
+    if(test.trim().length == 0)
+    {
+        all = candTitle + ', ' + candFirstname + ', ' + candLastname + ', ' + candBirthday + ', ' +
+            candParty + ', ' + candSlogan + ', ' + candPicture;
+    }
+    else{
+        var all = test + '; <br>' + candTitle + ', ' + candFirstname + ', ' + candLastname + ', ' + candBirthday + ', ' +
+            candParty + ', ' + candSlogan + ', ' + candPicture ;
+    }
+
     alert(all);
     document.getElementsByName("input_Cands")[0].innerHTML = all;
 }
