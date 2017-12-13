@@ -1,6 +1,5 @@
 package poll;
 
-import contracttest.SimpleStorage;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.abi.datatypes.generated.Uint8;
@@ -12,7 +11,7 @@ import org.web3j.protocol.http.HttpService;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -36,42 +35,51 @@ public class PollTester {
      */
     public void createContract(int numProps) {
         try {
-            poll = Poll.deploy(web3, credentials, BigInteger.ZERO,new Uint8(numProps)).get();
+            poll = Poll.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + "")).send();
             System.out.println(poll.getContractAddress());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    public void giveRightToVote(Address voter) throws ExecutionException, InterruptedException {
+    public void giveRightToVote(Address voter) throws Exception {
         if(poll != null)
         {
-            poll.giveRightToVote(voter).get();
+            poll.giveRightToVote(voter.toString()).send();
         }
     }
 
-    public void vote(Uint8 proposal, Address address) throws ExecutionException, InterruptedException {
+    public void vote(Uint8 proposal, Address address) throws Exception {
         if(poll != null)
         {
-            poll.vote(proposal, address).get();
+            poll.vote(proposal.getValue(), address.toString()).send();
         }
     }
 
-    public int[] getProposal(int num) throws ExecutionException, InterruptedException {
+    public int winningProp() throws Exception {
         if(poll != null)
         {
-            Uint256 count = poll.getProposalVoteCount(new Uint256(num)).get();
+            return poll.winningProposal().send().intValue();
+        }
+        return -1;
+    }
 
+    /*public int[] getProposal(int num) throws Exception {
+        if(poll != null)
+        {
+            BigInteger count = poll.getProposalVoteCount(new BigInteger(num + "")).send();
             return new int[]{num, Integer.parseInt(count.toString())};
 
         }
         return null;
-    }
+    }*/
 
-    public int winner() throws ExecutionException, InterruptedException {
+ /*   public int winner() throws ExecutionException, InterruptedException {
         int winner = -1;
         int count = 0;
         for(int i = 0; i < 3; i++)
@@ -84,16 +92,11 @@ public class PollTester {
             }
         }
         return winner;
-    }
+    }*/
 
 
-    public void reset() throws ExecutionException, InterruptedException {
-        if(poll != null)
-        {
-            poll.reset().get();
-        }
 
-    }
+
 
 
     /***
@@ -101,7 +104,7 @@ public class PollTester {
      * @param adress
      */
     public void loadSmartContract(String adress) {
-        poll = Poll.load(adress, web3, credentials);
+        poll = Poll.load(adress, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(poll.getContractAddress());
     }
 
@@ -109,7 +112,7 @@ public class PollTester {
 
     public static void main(String[] args) {
         try {
-            String address = "0xbe025bcc10999ecc4626ba8162a1670bf632f2b9";
+            String address = "0x0797bb1a50e26c76d5615220581c01feaef59b89";
 
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
@@ -117,18 +120,21 @@ public class PollTester {
                     "0x44D6e503b8028Ab6B6a4f5bB8959e1258Cd9a584"};
 
             PollTester tester = new PollTester();
-           // tester.createContract(3);
-             tester.loadSmartContract(address);
-          /*  tester.giveRightToVote(new Address(users[0]));
+            tester.createContract(3);
+            // tester.loadSmartContract(address);
+            tester.giveRightToVote(new Address(users[0]));
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
-            tester.giveRightToVote(new Address(users[3]));*/
-            tester.vote(new Uint8(1), new Address(users[0]));
+            tester.giveRightToVote(new Address(users[3]));
+            tester.vote(new Uint8(0), new Address(users[0]));
+            tester.vote(new Uint8(1), new Address(users[1]));
+            tester.vote(new Uint8(1), new Address(users[3]));
+            tester.vote(new Uint8(2), new Address(users[2]));
 
-            System.out.println(tester.winner());
+            System.out.println(tester.winningProp());
 
 
-           // tester.reset();
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,66 +1,79 @@
 package poll;
 
-import java.lang.String;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.concurrent.Future;
-import org.web3j.tx.Contract;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 
 /**
- * <p>Auto generated code.<br>
- * <strong>Do not modifiy!</strong><br>
- * Please use {@link org.web3j.codegen.SolidityFunctionWrapperGenerator} to update.</p>
+ * <p>Auto generated code.
+ * <p><strong>Do not modify!</strong>
+ * <p>Please use the <a href="https://docs.web3j.io/command_line.html">web3j command line tools</a>,
+ * or the org.web3j.codegen.SolidityFunctionWrapperGenerator in the 
+ * <a href="https://github.com/web3j/web3j/tree/master/codegen">codegen module</a> to update.
+ *
+ * <p>Generated with web3j version 3.1.1.
  */
 public final class Poll extends Contract {
-    private static final String BINARY = "6060604052341561000f57600080fd5b6040516020806105888339810160405280805190602001909190505060006100356100e1565b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550600091505b8260ff168210156100d95760206040519081016040528060008152509050600280548060010182816100ac91906100f5565b9160005260206000209001600083909190915060008201518160000155505050818060010192505061007a565b505050610148565b602060405190810160405280600081525090565b81548183558181151161011c5781836000526020600020918201910161011b9190610121565b5b505050565b61014591905b808211156101415760008082016000905550600101610127565b5090565b90565b610431806101576000396000f300606060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630645b8db146100675780639e7b8d611461009e578063b81c6453146100d7578063d826f88f1461011c575b600080fd5b341561007257600080fd5b6100886004808035906020019091905050610131565b6040518082815260200191505060405180910390f35b34156100a957600080fd5b6100d5600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610158565b005b34156100e257600080fd5b61011a600480803560ff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610269565b005b341561012757600080fd5b61012f6103bf565b005b600060028281548110151561014257fe5b9060005260206000209001600001549050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415806102005750600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160009054906101000a900460ff165b1561020a57610266565b60018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160026101000a81548160ff021916908360ff1602179055505b50565b600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160009054906101000a900460ff16806102cc57506002805490508260ff1610155b156102d6576103bb565b60018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160006101000a81548160ff02191690831515021790555081600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160016101000a81548160ff021916908360ff160217905550600160028360ff1681548110151561039f57fe5b9060005260206000209001600001600082825401925050819055505b5050565b60008090505b6002805490508110156104025760006002828154811015156103e357fe5b90600052602060002090016000018190555080806001019150506103c5565b505600a165627a7a723058200d8b26c8f56d3ddec702f98bff45bd32ae6ffc4df660e439f9be0acd6f1c5e330029";
+    private static final String BINARY = "6060604052341561000f57600080fd5b6040516020806104f683398101604052808051906020019091905050336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508060ff1660028161007c9190610083565b50506100d6565b8154818355818115116100aa578183600052602060002091820191016100a991906100af565b5b505050565b6100d391905b808211156100cf57600080820160009055506001016100b5565b5090565b90565b610411806100e56000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063609ff1bd1461005c5780639e7b8d6114610085578063b81c6453146100be575b600080fd5b341561006757600080fd5b61006f610103565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100bc600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061017e565b005b34156100c957600080fd5b610101600480803560ff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061028f565b005b60008060008060009250600090505b600280549050811015610175578260028281548110151561012f57fe5b90600052602060002090016000015411156101685760028181548110151561015357fe5b90600052602060002090016000015492508091505b8080600101915050610112565b81935050505090565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415806102265750600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160009054906101000a900460ff165b156102305761028c565b60018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160026101000a81548160ff021916908360ff1602179055505b50565b600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160009054906101000a900460ff16806102f257506002805490508260ff1610155b156102fc576103e1565b60018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160006101000a81548160ff02191690831515021790555081600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060000160016101000a81548160ff021916908360ff160217905550600160028360ff168154811015156103c557fe5b9060005260206000209001600001600082825401925050819055505b50505600a165627a7a723058205277a641f3329528094f7b24aec73d1afc28feb1c44a35f40cd9ea0b6c6b128c0029";
 
-    public Poll(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
+    private Poll(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
     }
 
-    public Poll(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(contractAddress, web3j, credentials, gasPrice, gasLimit);
+    private Poll(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
-    public Future<Uint256> getProposalVoteCount(Uint256 num) {
-        Function function = new Function("getProposalVoteCount",
-                Arrays.asList(num), 
-                Arrays.asList(new TypeReference<Uint256>() {}));
-        return executeCallSingleValueReturnAsync(function);
+    public RemoteCall<BigInteger> winningProposal() {
+        Function function = new Function("winningProposal", 
+                Arrays.<Type>asList(), 
+                Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
+        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
     }
 
-    public Future<TransactionReceipt> giveRightToVote(Address voter) {
-        Function function = new Function("giveRightToVote", Arrays.asList(voter), Collections.emptyList());
-        return executeTransactionAsync(function);
+    public RemoteCall<TransactionReceipt> giveRightToVote(String voter) {
+        Function function = new Function(
+                "giveRightToVote", 
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(voter)), 
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
     }
 
-    public Future<TransactionReceipt> vote(Uint8 proposal, Address a) {
-        Function function = new Function("vote", Arrays.asList(proposal, a), Collections.emptyList());
-        return executeTransactionAsync(function);
+    public RemoteCall<TransactionReceipt> vote(BigInteger proposal, String a) {
+        Function function = new Function(
+                "vote", 
+                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint8(proposal), 
+                new org.web3j.abi.datatypes.Address(a)), 
+                Collections.<TypeReference<?>>emptyList());
+        return executeRemoteCallTransaction(function);
     }
 
-    public Future<TransactionReceipt> reset() {
-        Function function = new Function("reset", Arrays.asList(), Collections.emptyList());
-        return executeTransactionAsync(function);
+    public static RemoteCall<Poll> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, BigInteger _numProposals) {
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint8(_numProposals)));
+        return deployRemoteCall(Poll.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 
-    public static Future<Poll> deploy(Web3j web3j, Credentials credentials, BigInteger initialValue, Uint8 _numProposals) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.asList(_numProposals));
-        return deployAsync(Poll.class,web3j, credentials, new BigInteger("0"), new BigInteger("300000"), BINARY, encodedConstructor, initialValue);
+    public static RemoteCall<Poll> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, BigInteger _numProposals) {
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint8(_numProposals)));
+        return deployRemoteCall(Poll.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 
-    public static Poll load(String contractAddress, Web3j web3j, Credentials credentials) {
-        return new Poll(contractAddress, web3j, credentials, new BigInteger("0"), new BigInteger("4700000"));
+    public static Poll load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Poll(contractAddress, web3j, credentials, gasPrice, gasLimit);
+    }
+
+    public static Poll load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
+        return new Poll(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 }
