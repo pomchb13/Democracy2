@@ -27,6 +27,6 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.0.M22" level="application_server_libraries" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
-    <orderEntry type="library" name="web3j-3.1" level="project" />
+    <orderEntry type="library" exported="" name="web3j-3.1" level="project" />
   </component>
 </module>
