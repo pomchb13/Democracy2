@@ -10,10 +10,10 @@ function addCand() {
     var candBirthday = document.getElementsByName('input_cand_Birthday')[0].value;
     var candParty = document.getElementsByName('input_cand_Party')[0].value;
     var candSlogan = document.getElementsByName('input_cand_Slogan')[0].value;
-    var candPicture = 'TestPicture';
-    // var candPicture = document.getElementsByName('input_cand_Picture')[0];
+    //var candPicture = 'TestPicture';
+    var candPicture = document.getElementsByName("cand_input_Picture")[0];
 
-    var test = document.getElementsByName("input_Cands")[0].innerHTML;
+    var test = document.getElementsByName("input_Cands")[0];
     alert(test);
     if(test.trim().length == 0)
     {

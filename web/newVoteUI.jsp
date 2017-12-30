@@ -53,11 +53,15 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen/Abstimmung</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-plus"></span> Neue Wahl/Abstimmung erstellen</a><ul class="dropdown-menu">
-                    <li><a href="newPollUI.jsp">Neue Abstimmung</a></li>
-                    <li><a href="newVoteUI.jsp">Neue Wahl</a></li>
-                </ul></li>
+                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive
+                    Wahlen/Abstimmung</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span
+                        class="glyphicon glyphicon-plus"></span> Neue Wahl/Abstimmung erstellen</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="newPollUI.jsp">Neue Abstimmung</a></li>
+                        <li><a href="newVoteUI.jsp">Neue Wahl</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -70,7 +74,7 @@
 <br>
 <div class="newVote" id="newVoteDivID">
     <center>
-<h1>Neue Wahl erstllen</h1>
+        <h1>Neue Wahl erstllen</h1>
         <br><br>
         <form id="form1" method="post">
             <!-- Field to add a title -->
@@ -105,11 +109,18 @@
                 </div>
             </div>
 
-            <!-- Show added Candidates -->
-            <div class="addedCand">
-                <p name="input_Cands"> </p>
+
+            <!-- Button to publish the vote -->
+            <div class="submitButton">
+                <button id="saveVote" type="submit" name="actionButton" value="createVote" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
+                </button>
             </div>
         </form>
+        <!-- Show added Candidates -->
+        <div class="addedCand">
+            <p name="input_Cands"></p>
+        </div>
 
         <br>
         <hr>
@@ -117,7 +128,6 @@
 
         <!-- Add a new Candidate -->
         <div class="candDiv1">
-
             <!-- Field to add his/her titel -->
             <div class="input-group">
                 <span class="input-group-addon">Titel</span>
@@ -168,11 +178,11 @@
             </div>
             <br>
 
-            <!-- Field to add a foto from him/her-->
+            <!-- Field to add a picture from him/her-->
             <div class="input-group">
                 <span class="input-group-addon">Foto</span>
                 <input id="inputFoto" type="file" name="input_cand_Picture" class="form-control"
-                       accept="image/*"></span>
+                       accept="image/*" enctype="multipart/form-data"></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
@@ -188,12 +198,7 @@
         </div>
 
         <br>
-        <!-- Button to publish the vote -->
-        <div class="submitButton">
-            <button id="saveVote" type="submit" name="actionButton" value="createVote" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
-            </button>
-        </div>
+
     </center>
 </div>
 
