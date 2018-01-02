@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="beans.Vote" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 28.11.2017
@@ -14,6 +15,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Import the JavaScript of AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Import the JAvascript to use DropDownMenus in Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Import the CSS of  Bootstrap Datepicker -->
@@ -36,6 +39,8 @@
     <script type="text/javascript" src="js/datepicker.js"></script>
     <!-- Import Javascript function to add Candidates -->
     <script type="text/javascript" src="js/addCandidate.js"></script>
+    <!-- Import JavaScript to view the selected DropDownMenuItem -->
+    <script type="text/javascript" src="js/viewDropdownItem.js"></script>
 
 </head>
 <body>
@@ -117,17 +122,45 @@
                 </button>
             </div>
         </form>
-        <!-- Show added Candidates -->
+        <!-- Show added Candidates
         <div class="addedCand">
             <p name="input_Cands"></p>
-        </div>
+        </div> -->
 
         <br>
         <hr>
         <br>
 
+        <!-- Default dropup button -->
+        <div id="tableDiv" class="dropdown">
+            <button id="tableButton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Table
+                <span class="caret"></span>
+            </button>
+            <ul id="tableMenu" class="dropdown-menu">
+                <li><a href="#">Att1</a></li>
+                <li><a href="#">Att2</a></li>
+                <li><a href="#">Att3</a></li>
+            </ul>
+        </div>
         <!-- Add a new Candidate -->
         <div class="candDiv1">
+
+            <!-- Show votes to whom the candidate should be added -->
+
+            <%
+                /*LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
+                if (liListe != null)
+                {
+                    for (Vote v:liListe) {
+                        out.print("<li><a href='#'>"+v.getTitle()+"</a></li>");
+                    }
+                }*/
+            %>
+
+
+
+
             <!-- Field to add his/her titel -->
             <div class="input-group">
                 <span class="input-group-addon">Titel</span>
