@@ -60,7 +60,7 @@
             <th>Titel</th>
             <th>Startdatum</th>
             <th>Enddatum</th>
-            <th>Zweck</th>
+            <th>Antworten</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -81,6 +81,8 @@
         </tr>
         </tbody>
     </table>
+
+
 </div>
 </div>
 </body>

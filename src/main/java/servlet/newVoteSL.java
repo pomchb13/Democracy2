@@ -1,5 +1,6 @@
 package servlet;
 
+import beans.Politician;
 import beans.Vote;
 import util.ServletUtil;
 
@@ -41,26 +42,33 @@ public class newVoteSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       String error = null;
+        try {
+            String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
+            String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
+            String dueDate = ServletUtil.filter(req.getParameter("input_End"));
 
-        String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
-        String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
-        String dueDate = ServletUtil.filter(req.getParameter("input_End"));
-
-        boolean voteDiagrams;
-        if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
-            voteDiagrams = true;
-        else
-            voteDiagrams = false;
+            boolean voteDiagrams;
+            if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
+                voteDiagrams = true;
+            else
+                voteDiagrams = false;
 
 
-        LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-        Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
-        //Testing Statement --> Delete After not needed
-        System.out.println(newVote.toString());
-        voteList.add(newVote);
-        this.getServletContext().setAttribute("voteList", voteList);
+            Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
+            //Testing Statement --> Delete After not needed
+            System.out.println(newVote.toString());
+            voteList.add(newVote);
+            this.getServletContext().setAttribute("voteList", voteList);
+        }
+        catch (Exception ex)
+        {
+            error = "Bitte überprüfen Sie Ihre Eingaben!";
+            req.setAttribute("errorVot", error);
+        }
         processRequest(req, resp);
     }
 }

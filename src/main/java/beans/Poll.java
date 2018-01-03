@@ -1,6 +1,7 @@
 package beans;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 /**
  * Created by Leonhard on 16.08.2017.
@@ -14,17 +15,17 @@ public class Poll {
     private LocalDate date_from;
     /* Enddate of the PollContract */
     private LocalDate date_due;
-    /* Anwsers of the PollContract */
-    private String[] pollOptions;
     /* Option to show or not to show diagrams */
     private boolean diagramOption;
+    /* List of all Answers */
+    private LinkedList<PollAnswer> answerList;
 
-    public Poll(String title, LocalDate date_from, LocalDate date_due, String[] pollOptions, boolean diagramOption) {
+    public Poll(String title, LocalDate date_from, LocalDate date_due, boolean diagramOption) {
         this.title = title;
         this.date_from = date_from;
         this.date_due = date_due;
-        this.pollOptions = pollOptions;
         this.diagramOption = diagramOption;
+        this.answerList = new LinkedList<>();
     }
 
     @Override
@@ -33,8 +34,8 @@ public class Poll {
                 "title='" + title + '\'' +
                 ", date_from=" + date_from +
                 ", date_due=" + date_due +
-                ", pollOptions=" + pollOptions +
                 ", diagramOption=" +diagramOption +
+                ", answerList="+answerList +
                 '}';
     }
 
@@ -70,11 +71,11 @@ public class Poll {
         this.date_due = date_due;
     }
 
-    public String[] getPollOptions() {
-        return pollOptions;
+    public LinkedList<PollAnswer> getAnswerList() {
+        return answerList;
     }
 
-    public void setPollOptions(String[] pollOptions) {
-        this.pollOptions = pollOptions;
+    public void setAnswerList(LinkedList<PollAnswer> answerList) {
+        this.answerList = answerList;
     }
 }

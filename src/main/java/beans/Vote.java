@@ -1,6 +1,7 @@
 package beans;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 /**
  * Created by Leonhard on 13.08.2017.
@@ -17,12 +18,15 @@ public class Vote {
     private LocalDate date_due;
 
     private boolean show_diagrams;
+    /* List where all Candidates where saved */
+    private LinkedList<Politician> liCandidates;
 
     public Vote(String title, LocalDate date_from, LocalDate date_due, boolean show_diagrams) {
         this.title = title;
         this.date_from = date_from;
         this.date_due = date_due;
         this.show_diagrams = show_diagrams;
+        this.liCandidates = new LinkedList<>();
     }
 
     @Override
@@ -32,6 +36,7 @@ public class Vote {
                 ", date_from=" + date_from +
                 ", date_due=" + date_due +
                 ", show_diagrams=" + show_diagrams +
+                ", liCandidates=" + liCandidates +
                 '}';
     }
 
@@ -65,5 +70,13 @@ public class Vote {
 
     public void setShow_diagrams(boolean show_diagrams) {
         this.show_diagrams = show_diagrams;
+    }
+
+    public LinkedList<Politician> getLiCandidates() {
+        return liCandidates;
+    }
+
+    public void setLiCandidates(LinkedList<Politician> liCandidates) {
+        this.liCandidates = liCandidates;
     }
 }

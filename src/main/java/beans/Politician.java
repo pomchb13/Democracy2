@@ -7,8 +7,10 @@ import java.time.LocalDate;
  * Created by Leonhard on 16.08.2017.
  * Not finished --> Only a suggestion
  */
-public class Poitician{
+public class Politician {
 
+    /* academic title of the politician */
+    private String title;
     /* Forename of the politican */
     private String forename;
     /* surename of the politican */
@@ -22,7 +24,8 @@ public class Poitician{
     /* Picture of the politican */
     private File portrait;
 
-    public Poitician(String forename, String surname, LocalDate birthday, String party, String slogan, File portrait) {
+    public Politician(String title, String forename, String surname, LocalDate birthday, String party, String slogan, File portrait) {
+        this.title = title;
         this.forename = forename;
         this.surname = surname;
         this.birthday = birthday;
@@ -33,14 +36,23 @@ public class Poitician{
 
     @Override
     public String toString() {
-        return "Poitician{" +
-                "forename='" + forename + '\'' +
+        return "Politician{" +
+                "title='" + title + '\'' +
+                ", forename='" + forename + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthday=" + birthday +
-                ", party=" + party +
+                ", party='" + party + '\'' +
                 ", slogan='" + slogan + '\'' +
                 ", portrait=" + portrait +
                 '}';
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getForename() {

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 @WebServlet(urlPatterns = {"/newPollSL"})
 public class newPollSL extends HttpServlet {
 
+    private LinkedList<Poll> liPollList = new LinkedList<>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -39,27 +40,27 @@ public class newPollSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("POST");
-        String action = ServletUtil.filter(req.getParameter("actionButton"));
-        System.out.println(action);
-
+        System.out.println("Post");
+        String error = null;
+        try {
         String title = req.getParameter("input_Title");
         String date_from = req.getParameter("input_Start");
         String date_due = req.getParameter("input_End");
         String diaOption = req.getParameter("input_DiaOption");
-        String answers = req.getParameter("input_Answers");
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        System.out.println(date_from);
-        System.out.println(date_due);
-        System.out.println(answers);
-        String[] sFeld = answers.split(";");
-        Poll poll = new Poll(title, LocalDate.parse(date_from, dtf), LocalDate.parse(date_due, dtf), sFeld,
+        Poll poll = new Poll(title, LocalDate.parse(date_from, dtf), LocalDate.parse(date_due, dtf),
                 diaOption=="1" ? false : true);
 
         System.out.println(poll.toString());
-
+        liPollList.add(poll);
+        }
+        catch (Exception ex)
+        {
+            error = "Bitte überprüfen Sie Ihre Eingabe!";
+            req.setAttribute("PollError", error);
+        }
+        this.getServletContext().setAttribute("pollList", liPollList);
 
         processRequest(req, resp);
     }
