@@ -16,8 +16,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
-import java.util.concurrent.ExecutionException;
-
 /**
  * Created by Patrick on 01.08.2017.
  * working correctly
@@ -37,22 +35,12 @@ public class ElectionTester {
     /***
      * Method responsible for creating a new smart contract
      */
-    public void createContract(int numProps, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) {
+    public void createContract(int numProps, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
 
-
-        try {
-            election = Election.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
-            System.out.println(election.getContractAddress());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        election = Election.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        System.out.println(election.getContractAddress());
     }
 
     public void giveRightToVote(Address voter) throws Exception {
@@ -82,7 +70,7 @@ public class ElectionTester {
         election.storeProposalData(new BigInteger(prop + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
     }
 
-    public ElectionData getPollData() throws Exception {
+    public ElectionData getElectionData() throws Exception {
         String title = election.getElectionData().send().getValue1();
         BigInteger dateFrom = election.getElectionData().send().getValue2();
         BigInteger dateDue = election.getElectionData().send().getValue3();
@@ -104,28 +92,6 @@ public class ElectionTester {
         LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
         return new ProposalData(title, firstname, lastname, ldBirthday, party, slogan);
     }
-
-
-
-
- /*   public int winner() throws ExecutionException, InterruptedException {
-        int winner = -1;
-        int count = 0;
-        for(int i = 0; i < 3; i++)
-        {
-            int[] prop = getProposal(i);
-            if(count < prop[1])
-            {
-                count = prop[1];
-                winner = prop[0];
-            }
-        }
-        return winner;
-    }*/
-
-
-
-
 
 
     /***
@@ -159,7 +125,7 @@ public class ElectionTester {
             tester.storeProposalData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
             tester.storeProposalData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
             // tester.loadSmartContract(address);
-            System.out.println(tester.getPollData());
+            System.out.println(tester.getElectionData());
             System.out.println(tester.getProposalData(0));
             System.out.println(tester.getProposalData(1));
             System.out.println(tester.getProposalData(2));

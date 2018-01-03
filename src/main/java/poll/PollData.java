@@ -1,18 +1,18 @@
-package election;
+package poll;
 
 import java.time.LocalDate;
 
 /**
  * Created by Patri on 03.01.2018.
  */
-public class ElectionData {
+public class PollData {
 
     private String title;
     private LocalDate dateFrom;
     private LocalDate dateDue;
     private boolean showDiagram;
 
-    public ElectionData(String title, LocalDate dateFrom, LocalDate dateDue, Boolean showDiagram) {
+    public PollData(String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) {
         this.title = title;
         this.dateFrom = dateFrom;
         this.dateDue = dateDue;
@@ -43,17 +43,17 @@ public class ElectionData {
         this.dateDue = dateDue;
     }
 
-    public Boolean getShowDiagram() {
+    public boolean isShowDiagram() {
         return showDiagram;
     }
 
-    public void setShowDiagram(Boolean showDiagram) {
+    public void setShowDiagram(boolean showDiagram) {
         this.showDiagram = showDiagram;
     }
 
     @Override
     public String toString() {
-        return "ElectionData{" +
+        return "PollData{" +
                 "title='" + title + '\'' +
                 ", dateFrom=" + dateFrom +
                 ", dateDue=" + dateDue +
