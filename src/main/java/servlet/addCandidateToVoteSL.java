@@ -39,6 +39,7 @@ public class addCandidateToVoteSL extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String error = null;
         try {
+            System.out.println(req.getParameter("voteTitle"));
             if (!req.getParameter("voteTitle").equals("Bitte Wahl auswählen")) {
 
                 System.out.println("Adding Politician");
@@ -53,10 +54,12 @@ public class addCandidateToVoteSL extends HttpServlet {
                 System.out.println(file);
                 Politician pot = new Politician(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, null);
                 LinkedList<Vote> liVoteList = (LinkedList) this.getServletContext().getAttribute("voteList");
+                System.out.println(liVoteList.toString());
                 int count = 0;
                 for (Vote v : liVoteList) {
                     if (v.getTitle().equals(voteTitle)) {
                         LinkedList<Politician> liPolit = v.getLiCandidates();
+                        System.out.println(liPolit.toString());
                         liPolit.add(pot);
                         v.setLiCandidates(liPolit);
                         liVoteList.set(count, v);
@@ -68,7 +71,7 @@ public class addCandidateToVoteSL extends HttpServlet {
 
             }
         } catch (Exception ex) {
-            error = "Bitte überprüfen Sie ihre Eingaben!";
+            error = "Bitte überprüfen Sie ihre Eingaben!" + ex.toString();
             req.setAttribute("errorPol", error);
         }
         processRequest(req, resp);

@@ -136,7 +136,7 @@
                 <div id="tableDiv" class="dropdown">
                     <center>
                         <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle" type="button"
-                                data-toggle="dropdown">
+                                data-toggle="dropdown" value="Bitte Wahl auswählen">
                             Bitte Wahl auswählen
                             <span class="caret"></span>
                         </button>
@@ -243,6 +243,7 @@
     $("#tableMenu a").click(function (e) {
         e.preventDefault(); // cancel the link behaviour
         var selText = $(this).text();
+        alert(selText);
         $("#tableButton").text(selText);
         $("#tableButton").value(selText);
     });
