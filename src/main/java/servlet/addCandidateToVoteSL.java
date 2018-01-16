@@ -39,11 +39,12 @@ public class addCandidateToVoteSL extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String error = null;
         try {
-            System.out.println(req.getParameter("voteTitle"));
-            if (!req.getParameter("voteTitle").equals("Bitte Wahl auswählen")) {
+
+            System.out.println(req.getParameter("hiddenVote"));
+            if (!req.getParameter("hiddenVote").equals("Bitte Wahl auswählen")) {
 
                 System.out.println("Adding Politician");
-                String voteTitle = ServletUtil.filter(req.getParameter("voteTitle"));
+                String voteTitle = ServletUtil.filter(req.getParameter("hiddenVote"));
                 String candTitle = ServletUtil.filter(req.getParameter("input_cand_Title"));
                 String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
                 String candLastname = ServletUtil.filter((req.getParameter("input_cand_Lastname")));
@@ -53,11 +54,13 @@ public class addCandidateToVoteSL extends HttpServlet {
                 String file = req.getParameter("input_cand_Picture");
                 System.out.println(file);
                 Politician pot = new Politician(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, null);
+                System.out.println(pot.toString());
                 LinkedList<Vote> liVoteList = (LinkedList) this.getServletContext().getAttribute("voteList");
                 System.out.println(liVoteList.toString());
                 int count = 0;
                 for (Vote v : liVoteList) {
                     if (v.getTitle().equals(voteTitle)) {
+                        System.out.println("seas");
                         LinkedList<Politician> liPolit = v.getLiCandidates();
                         System.out.println(liPolit.toString());
                         liPolit.add(pot);
@@ -66,11 +69,13 @@ public class addCandidateToVoteSL extends HttpServlet {
                     }
                     count++;
                 }
+                System.out.println(liVoteList.toString());
 
                 this.getServletContext().setAttribute("voteList", liVoteList);
 
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             error = "Bitte überprüfen Sie ihre Eingaben!" + ex.toString();
             req.setAttribute("errorPol", error);
         }

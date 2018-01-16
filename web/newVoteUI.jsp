@@ -136,7 +136,7 @@
                 <div id="tableDiv" class="dropdown">
                     <center>
                         <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle" type="button"
-                                data-toggle="dropdown" value="Bitte Wahl auswählen">
+                                data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
                             Bitte Wahl auswählen
                             <span class="caret"></span>
                         </button>
@@ -213,6 +213,9 @@
                            accept="image/*" enctype="multipart/form-data"></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
+
+                <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
+
                 <br>
                 <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
 
@@ -237,6 +240,8 @@
 
         </div>
 
+
+
     </center>
 </div>
 <script>
@@ -244,8 +249,8 @@
         e.preventDefault(); // cancel the link behaviour
         var selText = $(this).text();
         alert(selText);
-        $("#tableButton").text(selText);
-        $("#tableButton").value(selText);
+        document.getElementById('hiddenVote').value = selText;
+
     });
 </script>
 
