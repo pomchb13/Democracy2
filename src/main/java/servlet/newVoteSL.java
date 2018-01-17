@@ -31,7 +31,7 @@ public class newVoteSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/newVoteUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/homeUI.jsp");
         rd.forward(request, response);
     }
 
@@ -42,7 +42,7 @@ public class newVoteSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String error = null;
+        String error = null;
         try {
             String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
             String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
@@ -58,14 +58,19 @@ public class newVoteSL extends HttpServlet {
             LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
             LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-            Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
-            //Testing Statement --> Delete After not needed
-            System.out.println(newVote.toString());
-            voteList.add(newVote);
-            this.getServletContext().setAttribute("voteList", voteList);
-        }
-        catch (Exception ex)
-        {
+            if (LocalDate.now().isBefore(vote_fromDate)
+                    || LocalDate.now().isEqual(vote_fromDate)
+                    && LocalDate.now().isBefore(vote_dueDate)
+                    && vote_fromDate.isBefore(vote_dueDate)) {
+                Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
+                //Testing Statement --> Delete After not needed
+                System.out.println(newVote.toString());
+                voteList.add(newVote);
+                this.getServletContext().setAttribute("voteList", voteList);
+            } else {
+                throw new Exception("wrong Date");
+            }
+        } catch (Exception ex) {
             error = "Bitte überprüfen Sie Ihre Eingaben!";
             req.setAttribute("errorVot", error);
         }

@@ -41,7 +41,7 @@ public class addCandidateToVoteSL extends HttpServlet {
         try {
 
             System.out.println(req.getParameter("hiddenVote"));
-            if (!req.getParameter("hiddenVote").equals("Bitte Wahl auswählen")) {
+            if (!req.getParameter("hiddenVote").isEmpty()) {
 
                 System.out.println("Adding Politician");
                 String voteTitle = ServletUtil.filter(req.getParameter("hiddenVote"));
