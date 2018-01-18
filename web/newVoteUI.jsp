@@ -41,7 +41,6 @@
     <script type="text/javascript" src="js/addCandidate.js"></script>
     <!-- Import JavaScript to view the selected DropDownMenuItem -->
     <!-- <script src="js/viewDropdownItem.js"></script> -->
-
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
@@ -239,11 +238,13 @@
             </button></a>
 
         </div>
-
-
-
     </center>
 </div>
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+    </div>
+</footer>
 <script>
     $("#tableMenu a").click(function (e) {
         e.preventDefault(); // cancel the link behaviour
@@ -253,6 +254,5 @@
 
     });
 </script>
-
 </body>
 </html>

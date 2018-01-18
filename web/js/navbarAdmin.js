@@ -2,19 +2,12 @@
  * Created by Ewald on 17.09.2017.
  */
 window.onload = function adminNavbar() {
-    var string = '' +
-        '<nav class="navbar navbar-inverse">' +
+    var navbar = '' +
+        '<nav class="navbar navbar-inverse navbar-custom">' +
         '   <div class="container-fluid"> ' +
-        '       <div class="navbar-header">' +
-        '           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">' +
-        '               <span class="icon-bar"></span> ' +
-        '               <span class="icon-bar"></span>' +
-        '               <span class="icon-bar"></span> ' +
-        '           </button> ' +
-        '           <a class="navbar-brand" href="">Democracy 2.0</a> ' +
-        '       </div> ' +
-        '       <div class="collapse navbar-collapse" id="myNavbar"> ' +
+        '       <div class="collapse navbar-collapse" id="navBar"> ' +
         '           <ul class="nav navbar-nav"> ' +
+        '               <li id="titleID" class="titleID"><a href="">Democracy 2.0</a></li> ' +
         '               <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>' +
         '               <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>' +
         '               <li><a href="newVoteUI.jsp"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>' +
@@ -25,5 +18,5 @@ window.onload = function adminNavbar() {
         '       </div>' +
         '   </div>' +
         '</nav>'
-        document.getElementById('navbar').innerHTML = string;
+    document.getElementById('navbar').innerHTML = navbar;
 }

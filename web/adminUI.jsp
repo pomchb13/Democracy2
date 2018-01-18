@@ -53,6 +53,10 @@
         </div>
     </div>
 </center>
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>    </div>
+</footer>
 </body>
 </html>
 

@@ -16,20 +16,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
-    <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the C3 diagramm CSS -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
     <!-- Import the JavaScript for D3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
     <!-- Import the JavaScript for C3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
+    <!-- Import the default CSS -->
+    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <!-- Set Tab picture -->
+    <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/navbarUser.js"></script>
 </head>
-<body onload="loaded()">
+<body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <center>
@@ -45,12 +45,12 @@
     var chart = c3.generate({
         data: {
             columns: [
-                ['Max', 50],
-                ['Muster', 120],
-                ['Mann', 13],
-                ['Max1', 54],
-                ['Muster1', 150],
-                ['Mann1', 70],
+                ['MUSTERMANN Max', 50],
+                ['MUSTERFRAU Mara', 120],
+                ['KRAFT Michael', 13],
+                ['CONRAD Heike', 54],
+                ['MÜLLER Anke', 150],
+                ['AZOG Sepp', 70],
             ],
             type: 'bar',
             onclick: function (d, i) {
@@ -92,5 +92,10 @@
         <span class="glyphicon glyphicon-retweet"></span> Kreisdiagramm
     </button>
 </center>
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+    </div>
+</footer>
 </body>
 </html>
