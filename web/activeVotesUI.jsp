@@ -35,7 +35,6 @@
     <div id="navbar"></div>
 <br>
 <br>
-<br>
 <center>
     <!-- Title of the page -->
     <div class="titleActivVote">

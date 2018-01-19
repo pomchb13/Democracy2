@@ -41,204 +41,187 @@
     <script type="text/javascript" src="js/addCandidate.js"></script>
     <!-- Import JavaScript to view the selected DropDownMenuItem -->
     <!-- <script src="js/viewDropdownItem.js"></script> -->
+    <!-- Import the JavaScript of  Navbar -->
+    <script src="js/navbarAdmin.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">Democracy 2.0</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive
-                    Wahlen/Abstimmung</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span
-                        class="glyphicon glyphicon-plus"></span> Neue Wahl/Abstimmung erstellen</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="newPollUI.jsp">Neue Abstimmung</a></li>
-                        <li><a href="newVoteUI.jsp">Neue Wahl</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<br>
-<br>
-<br>
-<div class="newVote" id="newVoteDivID">
-    <center>
-        <h1>Neue Wahl erstellen</h1>
-        <br><br>
-        <form id="form1" method="post">
-            <!-- Field to add a title -->
-            <div class="input-group">
-                <span class="input-group-addon">Title</span>
-                <input id="titelVote" type="text" name="input_Title" class="form-control farm-control-sm"
-                       placeholder="Titel einfügen">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div>
-            <br>
-
-            <!-- Field to add the startdate and enddate -->
-            <div class="container">
-                <div class="input-daterange" id="datepicker2">
-                    <span class="label label-default">von</span>
-                    <input type="text" name="input_Start" class="input"/>
-                    <span class="label label-default">bis</span>
-                    <input type="text" name="input_End" class="input"/>
+<div id="navbar"></div>
+<br><br>
+<div id="container">
+    <div class="newVote" id="newVoteDivID">
+        <center>
+            <h1>Neue Wahl erstellen</h1>
+            <br><br>
+            <form id="form1" method="post">
+                <!-- Field to add a title -->
+                <div class="input-group">
+                    <span class="input-group-addon">Title</span>
+                    <input id="titelVote" type="text" name="input_Title" class="form-control farm-control-sm"
+                           placeholder="Titel einfügen">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
-            </div>
-            <br>
+                <br>
 
-            <!-- Add two Radio Buttons for the evaluation Picker-->
-            <div class="evaluationPicker">
+                <!-- Field to add the startdate and enddate -->
+                <div class="container">
+                    <div class="input-daterange" id="datepicker2">
+                        <span class="label label-default">von</span>
+                        <input type="text" name="input_Start" class="input"/>
+                        <span class="label label-default">bis</span>
+                        <input type="text" name="input_End" class="input"/>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Add two Radio Buttons for the evaluation Picker-->
                 <div class="evaluationPicker">
-                    <div class="radio">
-                        <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm anzeigen</label>
+                    <div class="evaluationPicker">
+                        <div class="radio">
+                            <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm
+                                anzeigen</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
+                        </div>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
-                    </div>
                 </div>
-            </div>
-            <p id="error"><%=  request.getAttribute("errorVot") != null ? request.getAttribute("errorVot") : ""  %></p>
+                <p id="error"><%=  request.getAttribute("errorVot") != null ? request.getAttribute("errorVot") : ""  %>
+                </p>
 
 
-            <!-- Button to publish the vote -->
-            <div class="submitButton">
-                <button id="saveVote" type="submit" name="actionButton" value="createVote" class="btn btn-primary"><span
-                        class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
-                </button>
-            </div>
-        </form>
-
-        <br>
-
-        <br>
-        <h1>Kanditaten hinzufügen</h1><hr>
-
-        <!-- Add a new Candidate -->
-        <div class="candDiv1">
-            <form action="/addCandidateToVoteSL" method="post">
-                <!-- Default dropup button -->
-                <div id="tableDiv" class="dropdown">
-                    <center>
-                        <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle" type="button"
-                                data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
-                            Bitte Wahl auswählen
-                            <span class="caret"></span>
-                        </button>
-                        <ul id="tableMenu" class="dropdown-menu">
-                            <%
-                                LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
-                                if (liListe != null) {
-                                    for (Vote v : liListe) {
-                                        out.print("<li><a href='#'>" + v.getTitle() + "</a></li>");
-                                    }
-                                }
-                            %>
-                        </ul>
-                    </center>
-                </div>
-                <br><br><br>
-                <!-- Field to add his/her titel -->
-                <div class="input-group">
-                    <span class="input-group-addon">Titel</span>
-                    <input id="inputTitle" type="text" name="input_cand_Title" class="form-control" placeholder="Titel">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-                <br>
-
-                <!-- Field to add his/her forename -->
-                <div class="input-group">
-                    <span class="input-group-addon">Vorname</span>
-                    <input id="inputVorname" type="text" name="input_cand_Firstname" class="form-control"
-                           placeholder="Vorname">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-                <br>
-
-                <!-- Field to add his/her last name -->
-                <div class="input-group">
-                    <span class="input-group-addon">Nachname</span>
-                    <input id="inputNachname" type="text" name="input_cand_Lastname" class="form-control"
-                           placeholder="Nachname">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-                <br>
-
-                <!-- Field to add his/her birthday -->
-                <div class="input-group">
-                    <span class="input-group-addon">Geburtsdatum</span>
-                    <input id="inputBirthday" type="text" name="input_cand_Birthday" class="form-control"
-                           placeholder="Geburtsdatum">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-                <br>
-
-                <!-- Field to add his/her party -->
-                <div class="input-group">
-                    <span class="input-group-addon">Partei</span>
-                    <input id="inputPartei" type="text" name="input_cand_Party" class="form-control"
-                           placeholder="Partei">
-
-                </div>
-                <br>
-
-                <!-- Field to add his/her slogan -->
-                <div class="input-group">
-                    <span class="input-group-addon">Motto</span>
-                    <input id="inputMotto" type="text" name="input_cand_Slogan" class="form-control"
-                           placeholder="Motto">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-                <br>
-
-                <!-- Field to add a picture from him/her-->
-                <div class="input-group">
-                    <span class="input-group-addon">Foto</span>
-                    <input id="inputFoto" type="file" name="input_cand_Picture" class="form-control"
-                           accept="image/*" enctype="multipart/form-data"></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                </div>
-
-                <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
-
-                <br>
-                <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
-
-                <!-- Button to add the Candidate -->
+                <!-- Button to publish the vote -->
                 <div class="submitButton">
-                    <button type="submit" id="addCand" class="btn btn-primary" name="actionButton"
-                            value="addPolitician"><span
-                            class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                    <button id="saveVote" type="submit" name="actionButton" value="createVote"
+                            class="btn btn-primary"><span
+                            class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
                     </button>
-
                 </div>
             </form>
-        </div>
 
-        <br>
-        <br>
+            <br>
 
-        <div class="submitButton">
-            <a href="adminSettingsUI.jsp"><button type="button" class="btn btn-primary" name="forwardButton"
-                    value="forward"> Weiter zur Admin Seite   <span class="glyphicon glyphicon-arrow-right"></span>
-            </button></a>
+            <br>
+            <h1>Kanditaten hinzufügen</h1>
+            <hr>
 
-        </div>
-    </center>
+            <!-- Add a new Candidate -->
+            <div class="candDiv1">
+                <form action="/addCandidateToVoteSL" method="post">
+                    <!-- Default dropup button -->
+                    <div id="tableDiv" class="dropdown">
+                        <center>
+                            <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
+                                Bitte Wahl auswählen
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="tableMenu" class="dropdown-menu">
+                                <%
+                                    LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
+                                    if (liListe != null) {
+                                        for (Vote v : liListe) {
+                                            out.print("<li><a href='#'>" + v.getTitle() + "</a></li>");
+                                        }
+                                    }
+                                %>
+                            </ul>
+                        </center>
+                    </div>
+                    <br><br><br>
+                    <!-- Field to add his/her titel -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Titel</span>
+                        <input id="inputTitle" type="text" name="input_cand_Title" class="form-control"
+                               placeholder="Titel">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her forename -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Vorname</span>
+                        <input id="inputVorname" type="text" name="input_cand_Firstname" class="form-control"
+                               placeholder="Vorname">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her last name -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Nachname</span>
+                        <input id="inputNachname" type="text" name="input_cand_Lastname" class="form-control"
+                               placeholder="Nachname">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her birthday -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Geburtsdatum</span>
+                        <input id="inputBirthday" type="text" name="input_cand_Birthday" class="form-control"
+                               placeholder="Geburtsdatum">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her party -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Partei</span>
+                        <input id="inputPartei" type="text" name="input_cand_Party" class="form-control"
+                               placeholder="Partei">
+
+                    </div>
+                    <br>
+
+                    <!-- Field to add his/her slogan -->
+                    <div class="input-group">
+                        <span class="input-group-addon">Motto</span>
+                        <input id="inputMotto" type="text" name="input_cand_Slogan" class="form-control"
+                               placeholder="Motto">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+                    <br>
+
+                    <!-- Field to add a picture from him/her-->
+                    <div class="input-group">
+                        <span class="input-group-addon">Foto</span>
+                        <input id="inputFoto" type="file" name="input_cand_Picture" class="form-control"
+                               accept="image/*" enctype="multipart/form-data"></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                    </div>
+
+                    <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
+
+                    <br>
+                    <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
+
+                    <!-- Button to add the Candidate -->
+                    <div class="submitButton">
+                        <button type="submit" id="addCand" class="btn btn-primary" name="actionButton"
+                                value="addPolitician"><span
+                                class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="submitButton">
+                <a href="adminSettingsUI.jsp">
+                    <button type="button" class="btn btn-primary" name="forwardButton"
+                            value="forward"> Weiter zur Admin Seite <span
+                            class="glyphicon glyphicon-arrow-right"></span>
+                    </button>
+                </a>
+
+            </div>
+        </center>
+    </div>
 </div>
 <footer class="footer">
     <div class="container text-center">

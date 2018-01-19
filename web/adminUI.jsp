@@ -28,34 +28,35 @@
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-
-<center>
-    <br>
-    <!-- Title of the page -->
-    <div class="adminTitle">
-        <h1>Willkommen am Admin-Interface</h1>
-    </div>
-    <!-- Add the username, the password feld and the submit button -->
-    <div class="loginText">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="email" type="text" class="form-control" name="usernameAdmin" placeholder="Username">
+<div id="container">
+    <br><br>
+    <center>
+        <!-- Title of the page -->
+        <div class="adminTitle">
+            <h1>Willkommen am Admin-Interface</h1>
         </div>
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="password" type="password" class="form-control" name="passwordAdmin" placeholder="Password">
+        <!-- Add the username, the password feld and the submit button -->
+        <div class="loginText">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="email" type="text" class="form-control" name="usernameAdmin" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="passwordAdmin" placeholder="Password">
+            </div>
+            <br>
+            <div class="input-group">
+                <button id="evaluation" type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-log-in"></span> Login
+                </button>
+            </div>
         </div>
-        <br>
-        <div class="input-group">
-            <button id="evaluation" type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-log-in"></span> Login
-            </button>
-        </div>
-    </div>
-</center>
+    </center>
+</div>
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>    </div>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p></div>
 </footer>
 </body>
 </html>

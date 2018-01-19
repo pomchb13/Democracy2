@@ -27,20 +27,21 @@
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <center>
-    <br>
-    <br>
-    <br>
-    <!-- Title of the page -->
-    <div class="thankYouTitle">
-        <h1> Ein Fehler ist aufgetreten! </h1>
-    </div>
-    <br>
-    <br>
-    <!-- Error text -->
-    <div class="alert alert-danger" id="Error">
-        <strong>Achtung!</strong> <br> Beim Eintragen Ihrer Stimme ist ein Fehler aufgetreten. <br><br> Bitte melden Sie
-        sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr
-        Verständnis!
+    <div id="container">
+        <br><br>
+        <!-- Title of the page -->
+        <div class="thankYouTitle">
+            <h1> Ein Fehler ist aufgetreten! </h1>
+        </div>
+        <br>
+        <br>
+        <!-- Error text -->
+        <div class="alert alert-danger" id="Error">
+            <strong>Achtung!</strong> <br> Beim Eintragen Ihrer Stimme ist ein Fehler aufgetreten. <br><br> Bitte melden
+            Sie
+            sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr
+            Verständnis!
+        </div>
     </div>
 </center>
 <footer class="footer">

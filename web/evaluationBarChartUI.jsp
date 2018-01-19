@@ -32,66 +32,69 @@
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-<center>
-    <!-- Title of the page -->
-    <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der Wahl</h1>
-    </div>
-</center>
-<!-- Div for the Chart -->
-<div id="chart" class="chartEvaluation"></div>
-<!-- JavaScript for the Chart -->
-<script>
-    var chart = c3.generate({
-        data: {
-            columns: [
-                ['MUSTERMANN Max', 50],
-                ['MUSTERFRAU Mara', 120],
-                ['KRAFT Michael', 13],
-                ['CONRAD Heike', 54],
-                ['MÜLLER Anke', 150],
-                ['AZOG Sepp', 70],
-            ],
-            type: 'bar',
-            onclick: function (d, i) {
-                console.log("onclick", d, i);
+<div id="container">
+    <br><br>
+    <center>
+        <!-- Title of the page -->
+        <div class="titleEvaluation">
+            <h1>Derzeitiger Stand der Wahl</h1>
+        </div>
+    </center>
+    <!-- Div for the Chart -->
+    <div id="chart" class="chartEvaluation"></div>
+    <!-- JavaScript for the Chart -->
+    <script>
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    ['MUSTERMANN Max', 50],
+                    ['MUSTERFRAU Mara', 120],
+                    ['KRAFT Michael', 13],
+                    ['CONRAD Heike', 54],
+                    ['MÜLLER Anke', 150],
+                    ['AZOG Sepp', 70],
+                ],
+                type: 'bar',
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onmouseover: function (d, i) {
+                    console.log("onmouseover", d, i);
+                },
+                onmouseout: function (d, i) {
+                    console.log("onmouseout", d, i);
+                }
             },
-            onmouseover: function (d, i) {
-                console.log("onmouseover", d, i);
+            axis: {
+                x: {
+                    label: 'Namen der Kandidaten'
+                },
+                y: {
+                    label: 'Anzahl der Stimmen'
+                },
             },
-            onmouseout: function (d, i) {
-                console.log("onmouseout", d, i);
-            }
-        },
-        axis: {
-            x: {
-                label: 'Namen der Kandidaten'
-            },
-            y: {
-                label: 'Anzahl der Stimmen'
-            },
-        },
-        /*        colors: {
-         Max: '#ffff00',
-         Muster: '#99ccff',
-         Mann: '#cc80ff',
-         Max1: '#88cc00',
-         Muster1: '#00ffff',
-         Mann1: '#008080'
-         },
-         color: function (color, d) {
-         // d will be 'id' when called for legends
-         return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-         }*/
-    });
-</script>
-<center>
-    <!-- Add a Button the change to the other chart -->
-    <button id="evaluation" type="submit" class="btn btn-primary"
-            onclick="window.location.href='/evaluationPieChartUI.jsp'">
-        <span class="glyphicon glyphicon-retweet"></span> Kreisdiagramm
-    </button>
-</center>
+            /*        colors: {
+             Max: '#ffff00',
+             Muster: '#99ccff',
+             Mann: '#cc80ff',
+             Max1: '#88cc00',
+             Muster1: '#00ffff',
+             Mann1: '#008080'
+             },
+             color: function (color, d) {
+             // d will be 'id' when called for legends
+             return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+             }*/
+        });
+    </script>
+    <center>
+        <!-- Add a Button the change to the other chart -->
+        <button id="evaluation" type="submit" class="btn btn-primary"
+                onclick="window.location.href='/evaluationPieChartUI.jsp'">
+            <span class="glyphicon glyphicon-retweet"></span> Kreisdiagramm
+        </button>
+    </center>
+</div>
 <footer class="footer">
     <div class="container text-center">
         <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>

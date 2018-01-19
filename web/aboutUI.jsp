@@ -27,7 +27,7 @@
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div class="container">
-
+    <br><br>
     <!-- Title of the page -->
     <center>
         <div class="aboutTitle">

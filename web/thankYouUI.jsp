@@ -29,27 +29,28 @@
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <center>
-    <br>
-    <br>
-    <br>
-    <!-- Title of the page -->
-    <div class="thankYouTitle">
-        <h1>Danke für Ihre Beteiligung an der Wahl!</h1>
-    </div>
-    <br>
-    <br>
-    <!-- Success Text -->
-    <div class="alert alert-success" id="Success">
-        <strong>Erfolgreich!</strong> <br> Ihre Stimme wurde in unser System aufgenommen.
-    </div>
-    <!-- Button for the evaluationpage -->
-    <div class="input-group">
-        <button id="evaluation" type="submit" class="btn btn-primary"
-                onclick="window.location.href='/evaluationBarChartUI.jsp'">
-            <span class="glyphicon glyphicon-time"></span> Derzeitiger Stand
-        </button>
+    <div id="container">
+        <br><br>
+        <!-- Title of the page -->
+        <div class="thankYouTitle">
+            <h1>Danke für Ihre Beteiligung an der Wahl!</h1>
+        </div>
+        <br>
+        <br>
+        <!-- Success Text -->
+        <div class="alert alert-success" id="Success">
+            <strong>Erfolgreich!</strong> <br> Ihre Stimme wurde in unser System aufgenommen.
+        </div>
+        <!-- Button for the evaluationpage -->
+        <div class="input-group">
+            <button id="evaluation" type="submit" class="btn btn-primary"
+                    onclick="window.location.href='/evaluationBarChartUI.jsp'">
+                <span class="glyphicon glyphicon-time"></span> Derzeitiger Stand
+            </button>
+        </div>
     </div>
 </center>
+
 <footer class="footer">
     <div class="container text-center">
         <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>

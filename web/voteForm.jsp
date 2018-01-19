@@ -28,56 +28,60 @@
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-<center>
-    <h1>Wahl Form</h1>
-</center>
-<center>
-    <div class="newVote">
-        <!-- Field to add a titel -->
-        <div class="input-group">
-            <span class="input-group-addon">Title</span>
-            <input id="titel" type="text" class="form-control" name="titel" placeholder="Titel einfügen">
-            <span class="input-group-addon">*</span>
-        </div>
-        <br>
-        <!-- Field to add the startdate -->
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
-            <input id="start" type="date" class="form-control" name="start" placeholder="Startdatum einfügen">
-            <span class="input-group-addon">*</span>
-        </div>
-        <br>
-        <!-- Field to add the enddate -->
-        <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
-            <input id="end" type="date" class="form-control" name="end" placeholder="Enddatum einfügen">
-            <span class="input-group-addon">*</span>
-        </div>
-        <br>
+<div id="container">
+    <br><br>
+    <center>
+        <h1>Wahl Form</h1>
+    </center>
+    <center>
+        <div class="newVote">
+            <!-- Field to add a titel -->
+            <div class="input-group">
+                <span class="input-group-addon">Title</span>
+                <input id="titel" type="text" class="form-control" name="titel" placeholder="Titel einfügen">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <!-- Field to add the startdate -->
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Von</span></span>
+                <input id="start" type="date" class="form-control" name="start" placeholder="Startdatum einfügen">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
+            <!-- Field to add the enddate -->
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar">  Bis</span></span>
+                <input id="end" type="date" class="form-control" name="end" placeholder="Enddatum einfügen">
+                <span class="input-group-addon">*</span>
+            </div>
+            <br>
 
-        <table width="100%">
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">Antwort #1</span>
-                        <textarea id="antwort1" type="text" class="form-control" rows="3"
-                                  placeholder="Antwort 1 eingeben"> </textarea>
-                        <span class="input-group-addon">*</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-addon">Antwort #2</span>
-                        <textarea id="antwort2" type="text" class="form-control" rows="3"
-                                  placeholder="Antwort 2 eingeben"> </textarea>
-                        <span class="input-group-addon">*</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    <br>
-        <button type="button" class="btn btn-primary">Wahl eröffnen</button>
-</center>
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">Antwort #1</span>
+                            <textarea id="antwort1" type="text" class="form-control" rows="3"
+                                      placeholder="Antwort 1 eingeben"> </textarea>
+                            <span class="input-group-addon">*</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">Antwort #2</span>
+                            <textarea id="antwort2" type="text" class="form-control" rows="3"
+                                      placeholder="Antwort 2 eingeben"> </textarea>
+                            <span class="input-group-addon">*</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button type="button" class="btn btn-primary">Wahl eröffnen</button>
+        </div>
+    </center>
+
 </div>
 <footer class="footer">
     <div class="container text-center">

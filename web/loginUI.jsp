@@ -27,37 +27,40 @@
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <!-- Title of the page -->
-<center>
-    <div class="heading">
-        <br>
-        <h1>Willkommen bei Democracy 2.0</h1>
-    </div>
-</center>
-<!-- Add the username, the password and submit button -->
-<div class="loginText">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-        <input id="email" type="text" class="form-control" name="email" placeholder="Username">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-        <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-    </div>
-    <br>
+<div id="container">
+    <br><br>
     <center>
-        <form>
-            <div class="input-group">
-                <button id="evaluation" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-log-in"></span>
-                    Login
-                </button>
-            </div>
-        </form>
+        <div class="heading">
+            <br>
+            <h1>Willkommen bei Democracy 2.0</h1>
+        </div>
     </center>
+    <!-- Add the username, the password and submit button -->
+    <div class="loginText">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="email" type="text" class="form-control" name="email" placeholder="Username">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <br>
+        <center>
+            <form>
+                <div class="input-group">
+                    <button id="evaluation" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        Login
+                    </button>
+                </div>
+            </form>
+        </center>
 
 
+    </div>
+    </center>
 </div>
-</center>
 <footer class="footer">
     <div class="container text-center">
         <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>

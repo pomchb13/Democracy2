@@ -32,59 +32,63 @@
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-<center>
-    <!-- Title of the page -->
-    <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der Wahl</h1>
-    </div>
-</center>
-<!-- Div for the Chart -->
-<div id="chart" class="chartEvaluation"></div>
-<!-- JavaScript for the Chart -->
-<script>
-    var chart = c3.generate({
-        data: {
-            columns: [
-                ['MUSTERMANN Max', 50],
-                ['MUSTERFRAU Mara', 120],
-                ['KRAFT Michael', 13],
-                ['CONRAD Heike', 54],
-                ['MÜLLER Anke', 150],
-                ['AZOG Sepp', 70],
-            ],
-            type: 'pie',
-            onclick: function (d, i) {
-                console.log("onclick", d, i);
-            },
-            onmouseover: function (d, i) {
-                console.log("onmouseover", d, i);
-            },
-            onmouseout: function (d, i) {
-                console.log("onmouseout", d, i);
-            }
-        },
-        axis: {
-
-            x: {
-                label: 'Namen der Kandidaten'
-            },
-            y: {
-                label: 'Anzahl der Stimmen'
-
-            },
-        }
-    });
-</script>
-<center>
-    <!-- Add a Button the change to the other chart -->
-    <button id="evaluation" type="submit" class="btn btn-primary"
-            onclick="window.location.href='/evaluationBarChartUI.jsp'">
-        <span class="glyphicon glyphicon-retweet"></span> Balkendiagramm
-    </button>
-    <footer class="footer">
-        <div class="container text-center">
-            <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+<div id="container">
+    <br><br>
+    <center>
+        <!-- Title of the page -->
+        <div class="titleEvaluation">
+            <h1>Derzeitiger Stand der Wahl</h1>
         </div>
-    </footer>
+    </center>
+    <!-- Div for the Chart -->
+    <div id="chart" class="chartEvaluation"></div>
+    <!-- JavaScript for the Chart -->
+    <script>
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    ['MUSTERMANN Max', 50],
+                    ['MUSTERFRAU Mara', 120],
+                    ['KRAFT Michael', 13],
+                    ['CONRAD Heike', 54],
+                    ['MÜLLER Anke', 150],
+                    ['AZOG Sepp', 70],
+                ],
+                type: 'pie',
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onmouseover: function (d, i) {
+                    console.log("onmouseover", d, i);
+                },
+                onmouseout: function (d, i) {
+                    console.log("onmouseout", d, i);
+                }
+            },
+            axis: {
+
+                x: {
+                    label: 'Namen der Kandidaten'
+                },
+                y: {
+                    label: 'Anzahl der Stimmen'
+
+                },
+            }
+        });
+    </script>
+    <center>
+        <!-- Add a Button the change to the other chart -->
+        <button id="evaluation" type="submit" class="btn btn-primary"
+                onclick="window.location.href='/evaluationBarChartUI.jsp'">
+            <span class="glyphicon glyphicon-retweet"></span> Balkendiagramm
+        </button>
+    </center>
+</div>
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+    </div>
+</footer>
 </body>
 </html>
