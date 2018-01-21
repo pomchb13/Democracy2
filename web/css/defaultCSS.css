@@ -124,9 +124,10 @@ input[type=date]::-webkit-outer-spin-button {
 .navbar {
     overflow: hidden;
     background-color: #333;
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
+    z-index: 900;
 }
 
 .navbar a {
@@ -143,3 +144,15 @@ input[type=date]::-webkit-outer-spin-button {
     background: #ddd;
     color: black;
 }
+
+.c3-axis-y-label {
+    font-size: 12px;
+    font-family: "Courier New";
+}
+
+.c3-axis-x-label {
+    font-size: 12px;
+    font-family: "Courier New";
+}
+
+

@@ -45,47 +45,61 @@
     <!-- JavaScript for the Chart -->
     <script>
         var chart = c3.generate({
-            data: {
-                columns: [
-                    ['MUSTERMANN Max', 50],
-                    ['MUSTERFRAU Mara', 120],
-                    ['KRAFT Michael', 13],
-                    ['CONRAD Heike', 54],
-                    ['MÜLLER Anke', 150],
-                    ['AZOG Sepp', 70],
-                ],
-                type: 'bar',
-                onclick: function (d, i) {
-                    console.log("onclick", d, i);
+                data: {
+                    columns: [
+                        ['MUSTERMANN Max', 50],
+                        ['MUSTERFRAU Mara', 120],
+                        ['KRAFT Michael', 13],
+                        ['CONRAD Heike', 54],
+                        ['MÜLLER Anke', 150],
+                        ['AZOG Sepp', 70],
+                    ],
+                    type: 'bar',
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onmouseover: function (d, i) {
+                        console.log("onmouseover", d, i);
+                    },
+                    onmouseout: function (d, i) {
+                        console.log("onmouseout", d, i);
+                    }
                 },
-                onmouseover: function (d, i) {
-                    console.log("onmouseover", d, i);
+                axis: {
+                    x: {
+                        label: {
+                            text: 'Namen der Kandidaten',
+                            position: 'outer-center'
+                        },
+                        tick: {
+                            count:1,
+                            format: function(){return''}
+                        }
+                    },
+                    y: {
+                        label: {
+                            text: 'Anzahl der Stimmen',
+                            position: 'outer-middle'
+                        }
+                    },
                 },
-                onmouseout: function (d, i) {
-                    console.log("onmouseout", d, i);
+                legend: {
+                    position: 'bottom'
                 }
-            },
-            axis: {
-                x: {
-                    label: 'Namen der Kandidaten'
-                },
-                y: {
-                    label: 'Anzahl der Stimmen'
-                },
-            },
-            /*        colors: {
-             Max: '#ffff00',
-             Muster: '#99ccff',
-             Mann: '#cc80ff',
-             Max1: '#88cc00',
-             Muster1: '#00ffff',
-             Mann1: '#008080'
-             },
-             color: function (color, d) {
-             // d will be 'id' when called for legends
-             return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-             }*/
-        });
+                    /*        colors: {
+                     Max: '#ffff00',
+                     Muster: '#99ccff',
+                     Mann: '#cc80ff',
+                     Max1: '#88cc00',
+                     Muster1: '#00ffff',
+                     Mann1: '#008080'
+                     },
+                     color: function (color, d) {
+                     // d will be 'id' when called for legends
+                     return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+                     }*/
+            })
+        ;
     </script>
     <center>
         <!-- Add a Button the change to the other chart -->

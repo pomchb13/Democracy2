@@ -54,7 +54,7 @@
                     ['MÜLLER Anke', 150],
                     ['AZOG Sepp', 70],
                 ],
-                type: 'pie',
+                type: 'donut',
                 onclick: function (d, i) {
                     console.log("onclick", d, i);
                 },
@@ -74,6 +74,9 @@
                     label: 'Anzahl der Stimmen'
 
                 },
+            },
+            donut: {
+                title: "Prozentverteilung"
             }
         });
     </script>
