@@ -57,17 +57,17 @@ public class ElectionTester {
         }
     }
 
-    public int winningProp() throws Exception {
+    public int winningCandidate() throws Exception {
         if(election != null)
         {
-            return election.winningProposal().send().intValue();
+            return election.winningCandidate().send().intValue();
         }
         return -1;
     }
 
-    public void storeProposalData(int prop, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
+    public void storeCandidateData(int prop, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
         BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-        election.storeProposalData(new BigInteger(prop + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
+        election.storeCandidateData(new BigInteger(prop + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
     }
 
     public ElectionData getElectionData() throws Exception {
@@ -81,16 +81,16 @@ public class ElectionTester {
         return new ElectionData(title, ldDateFrom, ldDateDue, showDiagram);
     }
 
-    public ProposalData getProposalData(int prop) throws Exception {
+    public CandidateData getCandidateData(int prop) throws Exception {
         BigInteger proposal = new BigInteger(prop + "");
-        String title = election.getProposal(proposal).send().getValue1();
-        String firstname = election.getProposal(proposal).send().getValue2();
-        String lastname = election.getProposal(proposal).send().getValue3();
-        BigInteger birthday = election.getProposal(proposal).send().getValue4();
-        String party = election.getProposal(proposal).send().getValue5();
-        String slogan = election.getProposal(proposal).send().getValue6();
+        String title = election.getCandidate(proposal).send().getValue1();
+        String firstname = election.getCandidate(proposal).send().getValue2();
+        String lastname = election.getCandidate(proposal).send().getValue3();
+        BigInteger birthday = election.getCandidate(proposal).send().getValue4();
+        String party = election.getCandidate(proposal).send().getValue5();
+        String slogan = election.getCandidate(proposal).send().getValue6();
         LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        return new ProposalData(title, firstname, lastname, ldBirthday, party, slogan);
+        return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan);
     }
 
 
@@ -107,7 +107,7 @@ public class ElectionTester {
 
     public static void main(String[] args) {
         try {
-            String address = "0x6a2897a4e49325c85b440602f92bcd236e552ae1";
+            String address = "0xf3c3fb99addb47a0f433db61e5610b71b77ee156";
 
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
@@ -121,16 +121,16 @@ public class ElectionTester {
 
             ElectionTester tester = new ElectionTester();
             tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
-            tester.storeProposalData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
-            tester.storeProposalData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
-            tester.storeProposalData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
-            // tester.loadSmartContract(address);
+            tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
+            tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
+            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
+             //tester.loadSmartContract(address);
             System.out.println(tester.getElectionData());
-            System.out.println(tester.getProposalData(0));
-            System.out.println(tester.getProposalData(1));
-            System.out.println(tester.getProposalData(2));
-            /*
-            tester.giveRightToVote(new Address(users[0]));
+            System.out.println(tester.getCandidateData(0));
+            System.out.println(tester.getCandidateData(1));
+            System.out.println(tester.getCandidateData(2));
+
+            /*tester.giveRightToVote(new Address(users[0]));
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
             tester.giveRightToVote(new Address(users[3]));
@@ -139,10 +139,9 @@ public class ElectionTester {
             tester.vote(new Uint8(1), new Address(users[3]));
             tester.vote(new Uint8(2), new Address(users[2]));
 
-            */
 
-      //      System.out.println(tester.winningProp());
-
+            int winner = tester.winningCandidate();
+            System.out.println("\nWinner: "+tester.getCandidateData(winner));*/
 
 
 

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Created by Patri on 03.01.2018.
  */
-public class ProposalData {
+public class CandidateData {
 
     private String title;
     private String firstname;
@@ -14,7 +14,7 @@ public class ProposalData {
     private String party;
     private String slogan;
 
-    public ProposalData(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) {
+    public CandidateData(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) {
         this.title = title;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -73,7 +73,7 @@ public class ProposalData {
 
     @Override
     public String toString() {
-        return "ProposalData{" +
+        return "CandidateData{" +
                 "title='" + title + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
