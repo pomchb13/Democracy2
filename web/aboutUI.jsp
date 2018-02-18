@@ -35,13 +35,15 @@
         </div>
     </center>
     <!-- Over text of the page -->
-    <p>There can be our Text</p>
+    <p>Im folgenden Abschnitt wird die Diplomarbeitsgruppe vorgestellt, die diese Wahlplatform erstellt haben.
+        <br> Der Auftraggeber für diese Wahlplatform ist die Firmer BearingPoint.
+    </p>
     <br>
     <!-- Info about the teammembers-->
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/avatar.png" class="media-object" style="width:60px">
+            <img src="res/Windegger.jpg" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
@@ -54,7 +56,7 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/avatar.png" class="media-object" style="width:60px">
+            <img src="res/Pommer.jpg" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
@@ -67,7 +69,7 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/avatar.png" class="media-object" style="width:60px">
+            <img src="res/Hartmann.jpg" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
@@ -80,7 +82,7 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/avatar.png" class="media-object" style="width:60px">
+            <img src="res/Gangl.jpg" class="media-object" style="width:60px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
