@@ -7,18 +7,19 @@ public class PollAnswer {
     /* Description of the answer */
     private String description;
 
+    private int voteCount;
+
     public PollAnswer(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "PollAnswer{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public PollAnswer(String title, String description, int voteCount) {
+        this.title = title;
+        this.description = description;
+        this.voteCount = voteCount;
     }
+
 
     public String getTitle() {
         return title;
@@ -34,5 +35,23 @@ public class PollAnswer {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+
+    @Override
+    public String toString() {
+        return "PollAnswer{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", voteCount=" + voteCount +
+                '}';
     }
 }

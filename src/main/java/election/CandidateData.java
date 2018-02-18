@@ -13,14 +13,16 @@ public class CandidateData {
     private LocalDate birthday;
     private String party;
     private String slogan;
+    private int voteCount;
 
-    public CandidateData(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) {
+    public CandidateData(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, int voteCount) {
         this.title = title;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthday = birthday;
         this.party = party;
         this.slogan = slogan;
+        this.voteCount = voteCount;
     }
 
     public String getTitle() {
@@ -71,6 +73,14 @@ public class CandidateData {
         this.slogan = slogan;
     }
 
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
     @Override
     public String toString() {
         return "CandidateData{" +
@@ -80,6 +90,7 @@ public class CandidateData {
                 ", birthday=" + birthday +
                 ", party='" + party + '\'' +
                 ", slogan='" + slogan + '\'' +
+                ", voteCount=" + voteCount +
                 '}';
     }
 }

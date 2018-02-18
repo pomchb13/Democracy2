@@ -90,7 +90,8 @@ public class ElectionTester {
         String party = election.getCandidate(proposal).send().getValue5();
         String slogan = election.getCandidate(proposal).send().getValue6();
         LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan);
+        BigInteger voteCount = election.getCandidate(proposal).send().getValue7();
+        return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
     }
 
 
@@ -120,17 +121,17 @@ public class ElectionTester {
 
 
             ElectionTester tester = new ElectionTester();
-            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
+           /* tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
             tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
-            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
-             //tester.loadSmartContract(address);
+            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());*/
+            tester.loadSmartContract(address);
             System.out.println(tester.getElectionData());
             System.out.println(tester.getCandidateData(0));
             System.out.println(tester.getCandidateData(1));
             System.out.println(tester.getCandidateData(2));
 
-            /*tester.giveRightToVote(new Address(users[0]));
+            tester.giveRightToVote(new Address(users[0]));
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
             tester.giveRightToVote(new Address(users[3]));
@@ -141,7 +142,7 @@ public class ElectionTester {
 
 
             int winner = tester.winningCandidate();
-            System.out.println("\nWinner: "+tester.getCandidateData(winner));*/
+            System.out.println("\nWinner: "+tester.getCandidateData(winner));
 
 
 

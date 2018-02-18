@@ -52,7 +52,7 @@ public class PollTester {
         }
     }
 
-    public int winningProp() throws Exception {
+    public int winningAnswer() throws Exception {
         if(poll != null)
         {
             return poll.winningAnswer().send().intValue();
@@ -69,7 +69,8 @@ public class PollTester {
         BigInteger answerBigInt = new BigInteger(answer + "");
         String title = poll.getAnswerData(answerBigInt).send().getValue1();
         String description = poll.getAnswerData(answerBigInt).send().getValue2();
-        return new PollAnswer(title, description);
+        BigInteger voteCount = poll.getAnswerData(answerBigInt).send().getValue3();
+        return new PollAnswer(title, description, voteCount.intValue());
     }
 
     public PollData getPollData() throws Exception {
@@ -95,7 +96,7 @@ public class PollTester {
     public static void main(String[] args) {
         try
         {
-            String address = "";
+            String address = "0x708cb1b2b695338d799b03e7a2fdcf2974a19ce8";
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
                     "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
@@ -106,15 +107,30 @@ public class PollTester {
             PollAnswer a3 = new PollAnswer("A3", "B3");
 
             PollTester tester = new PollTester();
-            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
+          /*  tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeAnswerData(0, a1.getTitle(), a1.getDescription());
             tester.storeAnswerData(1, a2.getTitle(), a2.getDescription());
-            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());
+            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());*/
+
+            tester.loadSmartContract(address);
 
             System.out.println(tester.getPollData());
             System.out.println(tester.getAnswerData(0));
             System.out.println(tester.getAnswerData(1));
             System.out.println(tester.getAnswerData(2));
+
+
+            tester.giveRightToVote(new Address(users[0]));
+            tester.giveRightToVote(new Address(users[1]));
+            tester.giveRightToVote(new Address(users[2]));
+            tester.giveRightToVote(new Address(users[3]));
+            tester.vote(new Uint8(0), new Address(users[1]));
+            tester.vote(new Uint8(1), new Address(users[1]));
+            tester.vote(new Uint8(1), new Address(users[3]));
+            tester.vote(new Uint8(2), new Address(users[2]));
+
+            int winner = tester.winningAnswer();
+            System.out.println("\nWinner: " + tester.getAnswerData(winner));
         }
         catch(Exception ex)
         {
