@@ -31,6 +31,7 @@ public class PollTester {
         credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }
 
+
     public PollTester(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;

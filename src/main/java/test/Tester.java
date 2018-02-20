@@ -19,9 +19,8 @@ public class Tester{
     private JButton login;
     private JPanel paMain;
     private Credentials cr;
-    private static final String PATH = "D:\\Ethereum\\geth_data\\keystore\\";
+    private static final String PATH = "F:\\Geth\\geth_data\\keystore\\";
 
-    private File adminFile;
 
     private PollTester pt;
     private ElectionTester et;
@@ -29,11 +28,11 @@ public class Tester{
     public Tester()
     {
 
-
+        //0x5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String address = PATH + File.separator + BlockchainUtil.getFileName(tf_user.getText());
+               String address = BlockchainUtil.getFileName(tf_user.getText());
                String passwd = tf_password.getText();
                cr = BlockchainUtil.loginToBlockhain(address,passwd);
                if(cr==null)
@@ -44,7 +43,7 @@ public class Tester{
                {
                    Boolean admin = true;
                    try {
-                       admin = ExcelHandler.proofIfAdmin(adminFile,tf_user.getText());
+                       //admin = ExcelHandler.proofIfAdmin(adminFile,tf_user.getText());
                    } catch (Exception e1) {
                        e1.printStackTrace();
                    }
@@ -72,7 +71,7 @@ public class Tester{
 
     private void openAdmin()
     {
-        AdminDialog dialog = new AdminDialog();
+        AdminDialog dialog = new AdminDialog(cr);
         dialog.pack();
         dialog.setVisible(true);
         if(dialog.isOk())

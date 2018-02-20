@@ -16,16 +16,12 @@ import java.time.ZoneId;
 
 public class BlockchainUtil {
 
-    private static final String PATH = "D:\\Ethereum\\geth_data\\keystore\\";
+    private static final String PATH = "F:\\Geth\\geth_data\\keystore\\";
 
     public static Credentials loginToBlockhain(String address, String passwd)
     {
         Credentials cr = null;
         try {
-            File f = new File(PATH + getFileName(address));
-            System.out.println(f.exists());
-            System.out.println(f.canRead());
-            System.out.println(f.canWrite());
             cr = WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,7 +56,7 @@ public class BlockchainUtil {
 
 
     public static void main(String[] args) {
-        System.out.println(PATH+BlockchainUtil.getFileName("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be"));
+        System.out.println(PATH+BlockchainUtil.getFileName("0x5365a53ffbeadb2bd0d02a16d2f73c50a6999b78"));
     }
 
 

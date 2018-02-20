@@ -2,6 +2,7 @@ package test;
 
 import election.ElectionTester;
 import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
 import poll.PollTester;
 
 import javax.swing.*;
@@ -18,10 +19,12 @@ public class AdminDialog extends JDialog {
 
     private PollTester pt;
     private ElectionTester et;
+    private Credentials cr;
 
     private boolean ok = false;
 
-    public AdminDialog() {
+    public AdminDialog(Credentials cr) {
+        this.cr = cr;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -56,7 +59,7 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    pt = new PollTester();
+                    pt = new PollTester(cr);
                     pt.createContract(2, "Gangl is schiach", LocalDate.now(), LocalDate.now().plusDays(10), false);
                     ok = true;
                 } catch (CipherException ex) {
@@ -72,7 +75,7 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    et = new ElectionTester();
+                    et = new ElectionTester(cr);
                     et.createContract(2, "Pommer is a schiach", LocalDate.now(), LocalDate.now().plusDays(20), false);
                     ok = true;
                 } catch (IOException e1) {
@@ -109,7 +112,7 @@ public class AdminDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        AdminDialog dialog = new AdminDialog();
+        AdminDialog dialog = new AdminDialog(null);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
