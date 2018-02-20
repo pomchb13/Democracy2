@@ -9,7 +9,6 @@ window.onload = function userNavbar() {
         '           <ul class="nav navbar-nav"> ' +
         '               <li id="titleID" class="titleID"><a href="">Democracy 2.0</a></li> ' +
         '               <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li> ' +
-        '               <li><a href="loginUI.jsp"><span class="glyphicon glyphicon-list-alt"></span> Volksabstimmung / Wahl</a></li> ' +
         '               <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
