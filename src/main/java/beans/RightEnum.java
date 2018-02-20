@@ -1,6 +1,6 @@
 package beans;
 
-public enum rightEnum {
+public enum RightEnum {
     ADMIN,
     USER;
 }

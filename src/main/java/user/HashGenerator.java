@@ -1,21 +1,20 @@
 package user;
 
-import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class hashGenerator {
+public class HashGenerator {
 
-    private static hashGenerator theInstance;
+    private static HashGenerator theInstance;
 
-    private hashGenerator() {
+    private HashGenerator() {
 
     }
 
-    public static hashGenerator getTheInstance() {
+    public static HashGenerator getTheInstance() {
         if (theInstance == null) {
-            theInstance = new hashGenerator();
+            theInstance = new HashGenerator();
         }
 
         return theInstance;
