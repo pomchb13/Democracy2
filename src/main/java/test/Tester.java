@@ -2,15 +2,16 @@ package test;
 
 
 
+import election.ElectionTester;
 import org.web3j.crypto.Credentials;
+import poll.PollTester;
+import util.BlockchainUtil;
 import util.ExcelHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 
 public class Tester{
     private JTextField tf_user;
@@ -18,28 +19,30 @@ public class Tester{
     private JButton login;
     private JPanel paMain;
     private Credentials cr;
-    private static final String PATH = choosePath();
-    private BlockchainUtil bu;
+    private static final String PATH = "D:\\Ethereum\\geth_data\\keystore\\";
+
     private File adminFile;
 
+    private PollTester pt;
+    private ElectionTester et;
 
     public Tester()
     {
-        bu = new BlockchainUtil();
+
 
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String address = PATH+File.separator+getFileName(tf_user.getText());
+               String address = PATH + File.separator + BlockchainUtil.getFileName(tf_user.getText());
                String passwd = tf_password.getText();
-               cr = bu.loginToBlockhain(address,passwd);
+               cr = BlockchainUtil.loginToBlockhain(address,passwd);
                if(cr==null)
                {
                    JOptionPane.showMessageDialog(null,"login fehlgeschlagen");
                }
                else
                {
-                   Boolean admin = false;
+                   Boolean admin = true;
                    try {
                        admin = ExcelHandler.proofIfAdmin(adminFile,tf_user.getText());
                    } catch (Exception e1) {
@@ -48,13 +51,13 @@ public class Tester{
                    if(admin)
                    {
                        int butt = (JOptionPane.showConfirmDialog(null,"Admin interface öffnen=?","asdf",JOptionPane.YES_NO_OPTION));
-                      if(butt!=JOptionPane.NO_OPTION)
+                      if(butt==JOptionPane.YES_OPTION)
                       {
                           openAdmin();
                       }
                       else
                       {
-                          openUser();
+                          //openUser();
                       }
                    }
                    else
@@ -62,15 +65,23 @@ public class Tester{
                     openUser();
                    }
                }
-                System.out.println("adf");
-                System.out.println(getFileName(tf_user.getText()));
+
             }
         });
     }
 
     private void openAdmin()
     {
-
+        AdminDialog dialog = new AdminDialog();
+        dialog.pack();
+        dialog.setVisible(true);
+        if(dialog.isOk())
+        {
+            pt = dialog.getPt();
+            et = dialog.getEt();
+            System.out.println(pt.getContractAddress());
+            System.out.println(et.getContractAddress());
+        }
     }
 
     private void openUser()
@@ -78,29 +89,7 @@ public class Tester{
 
     }
 
-    private static String choosePath() {
-      return "F:\\Geth\\geth_data\\keystore";
-    }
 
-    public String getFileName(String adress)
-    {
-
-        //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
-        String name="";
-        File file = new File(PATH);
-        if(file.exists() && file.isDirectory())
-        {
-            String[] files = file.list();
-           for(String fileName : files)
-           {
-               if(fileName.contains(adress))
-               {
-                   name = fileName;
-               }
-           }
-        }
-        return name;
-    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("scheiß orsch designer");

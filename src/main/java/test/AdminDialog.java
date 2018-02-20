@@ -16,6 +16,11 @@ public class AdminDialog extends JDialog {
     private JButton volksabstimmungButton;
     private JButton wahlButton;
 
+    private PollTester pt;
+    private ElectionTester et;
+
+    private boolean ok = false;
+
     public AdminDialog() {
         setContentPane(contentPane);
         setModal(true);
@@ -51,9 +56,9 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    PollTester pt = new PollTester();
+                    pt = new PollTester();
                     pt.createContract(2, "Gangl is schiach", LocalDate.now(), LocalDate.now().plusDays(10), false);
-
+                    ok = true;
                 } catch (CipherException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
@@ -67,8 +72,9 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ElectionTester et = new ElectionTester();
+                    et = new ElectionTester();
                     et.createContract(2, "Pommer is a schiach", LocalDate.now(), LocalDate.now().plusDays(20), false);
+                    ok = true;
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (CipherException e1) {
@@ -88,6 +94,18 @@ public class AdminDialog extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
+    }
+
+    public PollTester getPt() {
+        return pt;
+    }
+
+    public ElectionTester getEt() {
+        return et;
+    }
+
+    public boolean isOk() {
+        return ok;
     }
 
     public static void main(String[] args) {

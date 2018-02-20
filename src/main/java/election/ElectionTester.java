@@ -8,6 +8,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
+import util.BlockchainUtil;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -26,11 +27,16 @@ public class ElectionTester {
     private Credentials credentials;
     private Election election;
 
-    public ElectionTester() throws IOException, CipherException {
-        // creates the interface to the blockchain and initialize path to the wallet
+    public ElectionTester() {
         web3 = Web3j.build(new HttpService());
-        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-10-19T14-38-48.526096700Z--dcc97f1bd80b47137480d2a3d9a54a0af6aa92be");
+        credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }
+
+    public ElectionTester(Credentials credentials) {
+        web3 = Web3j.build(new HttpService());
+        this.credentials = credentials;
+    }
+
 
     /***
      * Method responsible for creating a new smart contract
@@ -97,11 +103,16 @@ public class ElectionTester {
 
     /***
      * Method responsible for loading an existing contract with a specific adress
-     * @param adress
+     * @param address
      */
-    public void loadSmartContract(String adress) {
-        election = Election.load(adress, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+    public void loadSmartContract(String address) {
+        election = Election.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(election.getContractAddress());
+    }
+
+    public String getContractAddress()
+    {
+        return election.getContractAddress();
     }
 
 

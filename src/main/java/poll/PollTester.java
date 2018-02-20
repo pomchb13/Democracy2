@@ -8,6 +8,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
+import util.BlockchainUtil;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -25,10 +26,16 @@ public class PollTester {
     private Credentials credentials;
     private Poll poll;
 
-    public PollTester() throws CipherException, IOException {
+    public PollTester() {
         web3 = Web3j.build(new HttpService());
-        credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-10-19T14-38-48.526096700Z--dcc97f1bd80b47137480d2a3d9a54a0af6aa92be");
+        credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }
+
+    public PollTester(Credentials credentials) {
+        web3 = Web3j.build(new HttpService());
+        this.credentials = credentials;
+    }
+
 
     public void createContract(int numAnswers, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
@@ -86,9 +93,14 @@ public class PollTester {
 
 
 
-    public void loadSmartContract(String adress) {
-        poll = Poll.load(adress, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+    public void loadSmartContract(String address) {
+        poll = Poll.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(poll.getContractAddress());
+    }
+
+    public String getContractAddress()
+    {
+        return poll.getContractAddress();
     }
 
 
