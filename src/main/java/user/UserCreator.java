@@ -1,16 +1,21 @@
 package user;
 
+import beans.User;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
+import util.ExcelHandler;
+import util.PasswordGenerator;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Patrick Windegger on 10.12.2017.
@@ -38,19 +43,36 @@ public class UserCreator {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public String createNewUser(String password, String destinationPath) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
+    public String createNewUserAddress(String password, String destinationPath) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         String filename = WalletUtils.generateFullNewWalletFile(password, new File(destinationPath));
         Credentials credentials = WalletUtils.loadCredentials(password, destinationPath + filename);
         
         return credentials.getAddress();
     }
 
+
+
+    public void createNewUsers(String uploadedFilePath,String newPath, String walletPath) throws Exception {
+        TreeMap<Integer, User> map =ExcelHandler.readExcelFile(new File(uploadedFilePath));
+        for(Map.Entry<Integer,User> entry : map.entrySet())
+        {
+           User user = entry.getValue();
+           String passwd = PasswordGenerator.createPassword(15);
+           user.setUsername(createNewUserAddress(passwd,walletPath));
+           user.setPassword(passwd);
+           entry.setValue(user);
+        }
+
+        ExcelHandler.updateExcelFile(new File(uploadedFilePath),map,newPath);
+    }
+
+
     /**
      * Main-method for testing purposes
      * @param args
      */
     public static void main(String[] args) {
-        String keyStore = "D:\\Ethereum\\geth_data\\keystore\\";
+   /*     String keyStore = "D:\\Ethereum\\geth_data\\keystore\\";
         String password = "1234";
         UserCreator creator = new UserCreator();
         try {
@@ -66,6 +88,6 @@ public class UserCreator {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
