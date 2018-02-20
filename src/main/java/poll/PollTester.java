@@ -25,7 +25,7 @@ public class PollTester {
     private Credentials credentials;
     private Poll poll;
 
-    public PollTester() throws IOException, CipherException {
+    public PollTester() throws CipherException, IOException {
         web3 = Web3j.build(new HttpService());
         credentials = WalletUtils.loadCredentials("1234", "D:\\Ethereum\\geth_data\\keystore\\UTC--2017-10-19T14-38-48.526096700Z--dcc97f1bd80b47137480d2a3d9a54a0af6aa92be");
     }

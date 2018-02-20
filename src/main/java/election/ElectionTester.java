@@ -81,16 +81,16 @@ public class ElectionTester {
         return new ElectionData(title, ldDateFrom, ldDateDue, showDiagram);
     }
 
-    public CandidateData getCandidateData(int prop) throws Exception {
-        BigInteger proposal = new BigInteger(prop + "");
-        String title = election.getCandidate(proposal).send().getValue1();
-        String firstname = election.getCandidate(proposal).send().getValue2();
-        String lastname = election.getCandidate(proposal).send().getValue3();
-        BigInteger birthday = election.getCandidate(proposal).send().getValue4();
-        String party = election.getCandidate(proposal).send().getValue5();
-        String slogan = election.getCandidate(proposal).send().getValue6();
+    public CandidateData getCandidateData(int can) throws Exception {
+        BigInteger candidate = new BigInteger(can + "");
+        String title = election.getCandidate(candidate).send().getValue1();
+        String firstname = election.getCandidate(candidate).send().getValue2();
+        String lastname = election.getCandidate(candidate).send().getValue3();
+        BigInteger birthday = election.getCandidate(candidate).send().getValue4();
+        String party = election.getCandidate(candidate).send().getValue5();
+        String slogan = election.getCandidate(candidate).send().getValue6();
         LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        BigInteger voteCount = election.getCandidate(proposal).send().getValue7();
+        BigInteger voteCount = election.getCandidate(candidate).send().getValue7();
         return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
     }
 
