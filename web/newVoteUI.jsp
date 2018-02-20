@@ -53,7 +53,7 @@
         <center>
             <h1>Neue Wahl erstellen</h1>
             <br><br>
-            <form id="form1" method="post">
+            <form action="/newVoteSL" id="form1" method="post">
                 <!-- Field to add a title -->
                 <div class="input-group">
                     <span class="input-group-addon">Title</span>
@@ -192,7 +192,7 @@
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
 
-                    <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
+                    <input id="hiddenVote" type="hidden" name="hiddenVote" class="form-control" hidden>
 
                     <br>
                     <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
@@ -234,6 +234,7 @@
         var selText = $(this).text();
         alert(selText);
         document.getElementById('hiddenVote').value = selText;
+        document.getElementById('tableButton').innerHTML = selText;
 
     });
 </script>

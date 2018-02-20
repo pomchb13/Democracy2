@@ -35,31 +35,33 @@
             <h1>Willkommen bei Democracy 2.0</h1>
         </div>
     </center>
-    <!-- Add the username, the password and submit button -->
-    <div class="loginText">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="email" type="text" class="form-control" name="email" placeholder="Username">
+
+    <form action="loginSL" method="post">
+        <!-- Add the username, the password and submit button -->
+        <div class="loginText">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="username" type="text" class="form-control" name="username" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <br>
+            <center>
+                <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
+                    <div class="submitButton">
+                        <button type="submit" id="evaluation" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                            Login
+                        </button>
+                    </div>
+            </center>
+
+
         </div>
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-        </div>
-        <br>
-        <center>
-            <form>
-                <div class="input-group">
-                    <button id="evaluation" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-log-in"></span>
-                        Login
-                    </button>
-                </div>
-            </form>
         </center>
-
-
-    </div>
-    </center>
+    </form>
 </div>
 <footer class="footer">
     <div class="container text-center">
