@@ -104,12 +104,20 @@ public class PollTester {
         return poll.getContractAddress();
     }
 
+    public String getAdminAddress() throws Exception {
+        return poll.getAdminAddress().send();
+    }
+
+    public boolean getAlreadyVotedForVoter(String address) throws Exception {
+        return poll.getAlreadyVotedForVoter(address).send();
+    }
+
 
 
     public static void main(String[] args) {
         try
         {
-            String address = "0x708cb1b2b695338d799b03e7a2fdcf2974a19ce8";
+            String address = "0x31f8a4c3e67a15757b8a6c734a5480576c0b9410";
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
                     "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
@@ -140,10 +148,16 @@ public class PollTester {
             tester.vote(new Uint8(0), new Address(users[1]));
             tester.vote(new Uint8(1), new Address(users[1]));
             tester.vote(new Uint8(1), new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[2]));
+           // tester.vote(new Uint8(2), new Address(users[2]));
 
             int winner = tester.winningAnswer();
             System.out.println("\nWinner: " + tester.getAnswerData(winner));
+
+            System.out.println("Admin: " + tester.getAdminAddress());
+            System.out.println(users[0] + " --> " + tester.getAlreadyVotedForVoter(users[0]));
+            System.out.println(users[1] + " --> " + tester.getAlreadyVotedForVoter(users[1]));
+            System.out.println(users[2] + " --> " + tester.getAlreadyVotedForVoter(users[2]));
+            System.out.println(users[3] + " --> " + tester.getAlreadyVotedForVoter(users[3]));
         }
         catch(Exception ex)
         {
