@@ -11,7 +11,14 @@ import java.util.TreeMap;
 
 public class ExcelHandler {
 
-    public static TreeMap<Integer,User> readExcelFile(File file) throws FileNotFoundException, IOException
+    /**
+     *
+     * @param file
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static TreeMap<Integer,User> readExcelFile(File file) throws IOException
     {
         TreeMap<Integer, User> map = new TreeMap<>();
 
@@ -91,7 +98,7 @@ public class ExcelHandler {
             c2.setCellValue(map.get(key).getPassword());
             cellIndex=0;
         }
-        FileOutputStream out = new FileOutputStream(new File(path+"nmappe.xlsx"));
+        FileOutputStream out = new FileOutputStream(new File(path));
         w.write(out);
         out.close();
 
