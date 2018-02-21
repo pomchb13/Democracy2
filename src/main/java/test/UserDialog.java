@@ -1,7 +1,6 @@
 package test;
 
 
-import election.Election;
 import election.ElectionTester;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
@@ -159,7 +158,7 @@ public class UserDialog extends JDialog {
         if(vt.equals(VoteType.ELECTION))
         {
             try {
-                System.out.println(et.winningCandidate());
+              //  System.out.println(et.winningCandidate());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -167,7 +166,7 @@ public class UserDialog extends JDialog {
         else
         {
             try {
-                System.out.println(pt.winningAnswer());
+              //  System.out.println(pt.winningAnswer());
             } catch (Exception e) {
                 e.printStackTrace();
             }

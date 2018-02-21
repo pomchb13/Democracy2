@@ -1,7 +1,6 @@
 package user;
 
 import beans.User;
-import election.Election;
 import election.ElectionTester;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;

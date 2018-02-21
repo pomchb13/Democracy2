@@ -3,20 +3,19 @@ package poll;
 import beans.PollAnswer;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import util.BlockchainUtil;
-import util.Utilorschloader;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Patri on 03.01.2018.
@@ -62,12 +61,27 @@ public class PollTester {
         }
     }
 
-    public int winningAnswer() throws Exception {
-        if(poll != null)
+    public List<PollAnswer> getWinners(List<PollAnswer> allAnswers)
+    {
+        List<PollAnswer> winners = new ArrayList<>();
+        int winningVoteCount = 0;
+        for (int i = 0; i < allAnswers.size(); i++)
         {
-            return poll.winningAnswer().send().intValue();
+            if(allAnswers.get(i).getVoteCount() > winningVoteCount)
+            {
+                winningVoteCount = allAnswers.get(i).getVoteCount();
+            }
         }
-        return -1;
+
+        for (int i = 0; i < allAnswers.size(); i++)
+        {
+            if(allAnswers.get(i).getVoteCount() == winningVoteCount)
+            {
+                winners.add(allAnswers.get(i));
+            }
+        }
+
+        return winners;
     }
 
     public void storeAnswerData(int answer, String title, String description) throws Exception
@@ -130,12 +144,12 @@ public class PollTester {
             PollAnswer a3 = new PollAnswer("A3", "B3");
 
             PollTester tester = new PollTester();
-          /*  tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
+            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeAnswerData(0, a1.getTitle(), a1.getDescription());
             tester.storeAnswerData(1, a2.getTitle(), a2.getDescription());
-            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());*/
+            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());
 
-            tester.loadSmartContract(address);
+          //  tester.loadSmartContract(address);
 
             System.out.println(tester.getPollData());
             System.out.println(tester.getAnswerData(0));
@@ -147,19 +161,22 @@ public class PollTester {
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
             tester.giveRightToVote(new Address(users[3]));
-            tester.vote(new Uint8(0), new Address(users[1]));
+            tester.vote(new Uint8(2), new Address(users[0]));
             tester.vote(new Uint8(1), new Address(users[1]));
             tester.vote(new Uint8(1), new Address(users[3]));
-           // tester.vote(new Uint8(2), new Address(users[2]));
+            tester.vote(new Uint8(2), new Address(users[2]));
 
-            int winner = tester.winningAnswer();
-            System.out.println("\nWinner: " + tester.getAnswerData(winner));
+            PollAnswer pa1 = tester.getAnswerData(0);
+            PollAnswer pa2 = tester.getAnswerData(1);
+            PollAnswer pa3 = tester.getAnswerData(2);
+            List<PollAnswer> pollAnswerList = new ArrayList<>();
+            pollAnswerList.add(pa1);
+            pollAnswerList.add(pa2);
+            pollAnswerList.add(pa3);
+            System.out.println(Arrays.toString(tester.getWinners(pollAnswerList).toArray()));
 
-            System.out.println("Admin: " + tester.getAdminAddress());
-            System.out.println(users[0] + " --> " + tester.getAlreadyVotedForVoter(users[0]));
-            System.out.println(users[1] + " --> " + tester.getAlreadyVotedForVoter(users[1]));
-            System.out.println(users[2] + " --> " + tester.getAlreadyVotedForVoter(users[2]));
-            System.out.println(users[3] + " --> " + tester.getAlreadyVotedForVoter(users[3]));
+
+
         }
         catch(Exception ex)
         {
