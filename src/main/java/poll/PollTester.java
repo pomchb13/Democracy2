@@ -9,6 +9,7 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import util.BlockchainUtil;
+import util.Utilorschloader;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -44,6 +45,7 @@ public class PollTester {
 
         poll = Poll.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numAnswers + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
         System.out.println(poll.getContractAddress());
+
     }
 
     public void giveRightToVote(Address voter) throws Exception {
