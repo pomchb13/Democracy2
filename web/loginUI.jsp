@@ -21,20 +21,21 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarNotLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-<!-- Title of the page -->
+
 <div id="container">
     <br><br>
-    <center>
+
+        <!-- Title of the page -->
         <div class="heading">
             <br>
             <h1>Willkommen bei Democracy 2.0</h1>
         </div>
-    </center>
+
 
     <form action="/loginSL" method="post">
         <!-- Add the username, the password and submit button -->
@@ -50,12 +51,12 @@
             <br>
             <center>
                 <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
-                    <div class="submitButton">
-                        <button type="submit" id="evaluation" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-log-in"></span>
-                            Login
-                        </button>
-                    </div>
+                <div class="submitButton">
+                    <button type="submit" id="evaluation" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        Login
+                    </button>
+                </div>
             </center>
 
 

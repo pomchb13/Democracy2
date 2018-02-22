@@ -38,37 +38,9 @@
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
-<!-- Implements the navigation bar in the webseite -->
+
 <div id="navbar"></div>
-<!--<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">Democracy 2.0</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>
-                <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive
-                    Wahlen/Abstimmung</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href=""><span
-                        class="glyphicon glyphicon-plus"></span> Neue Wahl/Abstimmung erstellen</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="newPollUI.jsp">Neue Abstimmung</a></li>
-                        <li><a href="newVoteUI.jsp">Neue Wahl</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="adminUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
+
 <div id="container">
     <br><br>
     <!-- Add a new Referendum-->
@@ -83,7 +55,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
-            <center>
+
 
                 <!-- Field to add the startdate and enddate -->
                 <div class="container">
@@ -115,7 +87,7 @@
                         <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
                     </div>
                 </div>
-            </center>
+
             <br>
             <br>
             <center>

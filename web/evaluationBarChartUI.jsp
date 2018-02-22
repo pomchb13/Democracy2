@@ -27,19 +27,19 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div id="container">
     <br><br>
-    <center>
+
         <!-- Title of the page -->
         <div class="titleEvaluation">
             <h1>Derzeitiger Stand der Wahl</h1>
         </div>
-    </center>
+
     <!-- Div for the Chart -->
     <div id="chart" class="chartEvaluation"></div>
     <!-- JavaScript for the Chart -->

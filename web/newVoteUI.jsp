@@ -50,7 +50,7 @@
 <br><br>
 <div id="container">
     <div class="newVote" id="newVoteDivID">
-        <center>
+
             <h1>Neue Wahl erstellen</h1>
             <br><br>
             <form action="/newVoteSL" id="form1" method="post">
@@ -119,7 +119,7 @@
                 <form action="/addCandidateToVoteSL" method="post">
                     <!-- Default dropup button -->
                     <div id="tableDiv" class="dropdown">
-                        <center>
+
                             <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle"
                                     type="button"
                                     data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
@@ -136,7 +136,7 @@
                                     }
                                 %>
                             </ul>
-                        </center>
+
                     </div>
                     <br><br><br>
                     <!-- Field to add his/her titel -->
@@ -229,7 +229,7 @@
                 </a>
 
             </div>
-        </center>
+
     </div>
 </div>
 <footer class="footer">

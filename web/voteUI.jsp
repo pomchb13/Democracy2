@@ -21,7 +21,7 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
@@ -65,7 +65,7 @@
             </ul>
         </form>
     </div>
-    <center>
+
         <!-- Adds a button the submit the choise -->
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
@@ -73,7 +73,7 @@
                 <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
             </button>
         </div>
-    </center>
+
     <!-- Implements the Infodialog -->
     <div class="modal fade" id="infoModal" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -104,10 +104,10 @@
             </div>
         </div>
     </div>
-    <center>
+
         <br>
         <p>Für alle Angaben ist der Ersteller der Abstimmung / Wahl verantwortlich</p>
-    </center>
+
 </div>
 <footer class="footer">
     <div class="container text-center">

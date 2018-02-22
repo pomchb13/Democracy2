@@ -6,14 +6,22 @@ body {
     background-size: cover;
     zoom: 130%;*/
     background-color: #ffffff;
-
 }
-
-.loginText {
+.container {
     margin-top: 130px;
     margin-bottom: 100px;
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 500px;
+    margin-left: 500px;
+}
+
+#container{
+    margin-top: 130px;
+    margin-bottom: 100px;
+    margin-right: 500px;
+    margin-left: 500px;
+}
+/*.loginText {
+
 }
 
 .activeVotes {
@@ -36,31 +44,6 @@ body {
     margin-right: 150px;
     margin-left: 150px;
 }
-
-.candDiv {
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    padding-top: 25px;
-
-    border: 1px solid black; /* Border muss noch angepasst werden*/
-
-}
-
-input[type=date]::-webkit-inner-spin-button,
-input[type=date]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.refTable {
-    width: 100%;
-}
-
 .voteDiv {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -91,6 +74,32 @@ input[type=date]::-webkit-outer-spin-button {
     font-size: 16px;
     color: red;
 }
+*/
+.candDiv {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+
+    border: 1px solid black; /* Border muss noch angepasst werden*/
+
+}
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.refTable {
+    width: 100%;
+}
+
+
 
 .navbar-custom {
     color: #000000;
@@ -114,7 +123,7 @@ input[type=date]::-webkit-outer-spin-button {
     position: fixed;
     bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
+    z-index: 900;
     height: 50px;
     background-color: #ffffff;
     font-size: 110%;

@@ -27,19 +27,19 @@
     <!-- Import the JavaScript for C3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div id="container">
     <br><br>
-    <center>
+
         <!-- Title of the page -->
         <div class="titleEvaluation">
             <h1>Derzeitiger Stand der Wahl</h1>
         </div>
-    </center>
+
     <!-- Div for the Chart -->
     <div id="chart" class="chartEvaluation"></div>
     <!-- JavaScript for the Chart -->

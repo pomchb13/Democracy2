@@ -21,19 +21,19 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarNotLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div class="container">
-    <br><br>
+    <br>
+    <br>
     <!-- Title of the page -->
-    <center>
-        <div class="aboutTitle">
-            <h1>Über uns</h1>
-        </div>
-    </center>
+    <div class="aboutTitle">
+        <h1>Über uns</h1>
+    </div>
+
     <!-- Over text of the page -->
     <p>Im folgenden Abschnitt wird die Diplomarbeitsgruppe vorgestellt, die diese Wahlplatform erstellt haben.
         <br> Der Auftraggeber für diese Wahlplatform ist die Firmer BearingPoint.

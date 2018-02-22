@@ -23,14 +23,13 @@
     <!-- Import login js -->
     <script lang="JavaScript" type="text/javascript" src="js/login.js"></script>
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarNotLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div id="container">
     <br><br>
-    <center>
         <!-- Title of the page -->
         <div class="adminTitle">
             <h1>Willkommen am Admin-Interface</h1>
@@ -52,7 +51,6 @@
                 </button>
             </div>
         </div>
-    </center>
 </div>
 <footer class="footer">
     <div class="container text-center">

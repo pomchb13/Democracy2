@@ -1,8 +1,7 @@
 package servlet;
 
-import beans.Politician;
+import beans.RightEnum;
 import beans.Vote;
-import beans.rightEnum;
 import user.loggedUsers;
 import util.ServletUtil;
 
@@ -17,8 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -48,18 +45,9 @@ public class newVoteSL extends HttpServlet {
         HttpSession session = req.getSession();
 
         String hash = (String) session.getAttribute("hash");
-        rightEnum right = (rightEnum) session.getAttribute("right");
+        RightEnum right = (RightEnum) session.getAttribute("right");
 
-        Map<String, rightEnum> loggedIn = lU.getTokenList();
-        boolean isNotLoggedIn = true;
-        for (Map.Entry<String, rightEnum> e : loggedIn.entrySet()) {
-            if (e.getKey().equals(hash) && e.getValue().equals(right)) {
-                if (right == rightEnum.ADMIN) {
-                    isNotLoggedIn = false;
-                }
-            }
-        }
-        if (isNotLoggedIn) {
+        if (lU.compareRights(hash,right)) {
             resp.sendRedirect("/loginSL");
         } else {
             processRequest(req, resp);

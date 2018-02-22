@@ -21,12 +21,12 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarNotLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
-<center>
+
     <div id="container">
         <br><br>
         <!-- Title of the page -->
@@ -43,7 +43,7 @@
             Verständnis!
         </div>
     </div>
-</center>
+
 <footer class="footer">
     <div class="container text-center">
         <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>

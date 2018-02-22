@@ -1,9 +1,8 @@
 package servlet;
 
 import beans.Poll;
-import beans.rightEnum;
+import beans.RightEnum;
 import user.loggedUsers;
-import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -48,20 +47,18 @@ public class NewPollSL extends HttpServlet {
         System.out.println("Post");
         String error = null;
         try {
-        String title = req.getParameter("input_Title");
-        String date_from = req.getParameter("input_Start");
-        String date_due = req.getParameter("input_End");
-        String diaOption = req.getParameter("input_DiaOption");
+            String title = req.getParameter("input_Title");
+            String date_from = req.getParameter("input_Start");
+            String date_due = req.getParameter("input_End");
+            String diaOption = req.getParameter("input_DiaOption");
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        Poll poll = new Poll(title, LocalDate.parse(date_from, dtf), LocalDate.parse(date_due, dtf),
-                diaOption=="1" ? false : true);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            Poll poll = new Poll(title, LocalDate.parse(date_from, dtf), LocalDate.parse(date_due, dtf),
+                    diaOption == "1" ? false : true);
 
-        System.out.println(poll.toString());
-        liPollList.add(poll);
-        }
-        catch (Exception ex)
-        {
+            System.out.println(poll.toString());
+            liPollList.add(poll);
+        } catch (Exception ex) {
             error = "Bitte überprüfen Sie Ihre Eingabe!";
             req.setAttribute("PollError", error);
         }
@@ -76,18 +73,9 @@ public class NewPollSL extends HttpServlet {
         HttpSession session = req.getSession();
 
         String hash = (String) session.getAttribute("hash");
-        rightEnum right = (rightEnum) session.getAttribute("right");
+        RightEnum right = (RightEnum) session.getAttribute("right");
 
-        Map<String, rightEnum> loggedIn = lU.getTokenList();
-        boolean isNotLoggedIn = true;
-        for (Map.Entry<String, rightEnum> e : loggedIn.entrySet()) {
-            if (e.getKey().equals(hash) && e.getValue().equals(right)) {
-                if (right == rightEnum.ADMIN) {
-                    isNotLoggedIn = false;
-                }
-            }
-        }
-        if (isNotLoggedIn) {
+        if (lU.compareRights(hash, right)) {
             resp.sendRedirect("/loginSL");
         } else {
             processRequest(req, resp);

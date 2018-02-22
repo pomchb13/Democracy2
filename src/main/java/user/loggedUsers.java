@@ -28,6 +28,10 @@ public class loggedUsers {
         }
     }
 
+    public void logout(String hash) {
+        tokenList.remove(hash);
+    }
+
     public boolean compareRights(String hash, RightEnum neededRight) {
         if (tokenList.containsKey(hash)) {
             if (tokenList.get(hash).equals(neededRight)) {
@@ -46,17 +50,15 @@ public class loggedUsers {
         }
     }
 
-    public Map<String, rightEnum> getTokenList() {
+    public Map<String, RightEnum> getTokenList() {
         return tokenList;
     }
 
-    public void setTokenList(Map<String, rightEnum> tokenList) {
+    public void setTokenList(Map<String, RightEnum> tokenList) {
         this.tokenList = tokenList;
     }
 
-    public void logout(String hash) {
-        tokenList.remove(hash);
-    }
+
 
 
 }

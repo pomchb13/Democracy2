@@ -26,16 +26,15 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/avatar.png">
     <!-- Import the JavaScript of Navbar -->
-    <script src="js/navbarUser.js"></script>
+    <script src="js/navbarAdmin.js"></script>
 
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
+<div id="navbar"></div>
 <div class="container">
-    <div id="navbar"></div>
     <br>
     <br>
-    <center>
         <!-- Title of the page -->
         <div class="titleActivVote">
             <h1>Alle beendeten und aktiven Wahlen auf einem Blick</h1>
@@ -159,7 +158,6 @@
                 }
             %>
         </div>
-    </center>
     <!-- Implement the footer -->
     <footer class="footer">
         <div class="container text-center">

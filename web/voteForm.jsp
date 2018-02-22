@@ -30,10 +30,9 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
-    <center>
+
         <h1>Wahl Form</h1>
-    </center>
-    <center>
+
         <div class="newVote">
             <!-- Field to add a titel -->
             <div class="input-group">
@@ -80,7 +79,7 @@
             <br>
             <button type="button" class="btn btn-primary">Wahl eröffnen</button>
         </div>
-    </center>
+
 
 </div>
 <footer class="footer">
