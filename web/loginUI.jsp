@@ -36,7 +36,7 @@
         </div>
     </center>
 
-    <form method="post">
+    <form action="/loginSL" method="post">
         <!-- Add the username, the password and submit button -->
         <div class="loginText">
             <div class="input-group">

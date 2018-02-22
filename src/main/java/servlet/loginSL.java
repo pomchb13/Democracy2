@@ -38,7 +38,8 @@ public class loginSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+       // super.doGet(req, resp);
+        processRequest(req, resp);
     }
 
     @Override
@@ -69,15 +70,23 @@ public class loginSL extends HttpServlet {
         if (right == rightEnum.USER)
         {
             //toDo: Abfrage auf Wahlrecht
+            HttpSession session = req.getSession();
+            session.setAttribute("hash", hash);
+            session.setAttribute("right", right);
+            session.setMaxInactiveInterval(15*60);
+            resp.sendRedirect("adminSettingsUI.jsp");
         }
         else if(right == rightEnum.ADMIN)
         {
             HttpSession session = req.getSession();
-            session.setAttribute(hash, right);
+            session.setAttribute("hash", hash);
+            session.setAttribute("right", right);
+            session.setMaxInactiveInterval(15*60);
             resp.sendRedirect("adminSettingsUI.jsp");
         }
 
 
-        super.doPost(req, resp);
+        //405 Method not allowed
+        //super.doPost(req, resp);
     }
 }

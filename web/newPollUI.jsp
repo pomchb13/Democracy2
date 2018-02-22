@@ -87,12 +87,22 @@
 
                 <!-- Field to add the startdate and enddate -->
                 <div class="container">
-                    <div class="input-daterange" id="datepicker1">
-                        <span class="label label-default">von</span>
-                        <input type="text" name="input_Start" class="input" name="start"/>
-                        <span class="label label-default">bis</span>
-                        <input type="text" name="input_End" class="input" name="end"/>
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon">Von</span>
+                        <input type="text" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
                     </div>
+                    <br>
+                    <div class="input-group date" data-provide="datepicker">
+                        <span class="input-group-addon">Bis</span>
+                        <input type="text" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+
                 </div>
                 <br>
 

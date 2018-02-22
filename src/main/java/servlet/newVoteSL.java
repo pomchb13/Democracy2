@@ -2,6 +2,8 @@ package servlet;
 
 import beans.Politician;
 import beans.Vote;
+import beans.rightEnum;
+import user.loggedUsers;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -11,10 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by Leonhard on 28.11.2017.
@@ -22,6 +28,7 @@ import java.util.LinkedList;
 @WebServlet(urlPatterns = {"/newVoteSL"})
 public class newVoteSL extends HttpServlet {
     public LinkedList<Vote> voteList = new LinkedList<>();
+    private loggedUsers lU = loggedUsers.getInstance();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,7 +44,28 @@ public class newVoteSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+        System.out.println("hallo i bims ein spasst!! ");
+        HttpSession session = req.getSession();
+
+        String hash = (String) session.getAttribute("hash");
+        rightEnum right = (rightEnum) session.getAttribute("right");
+
+        Map<String, rightEnum> loggedIn = lU.getTokenList();
+        boolean isNotLoggedIn = true;
+        for (Map.Entry<String, rightEnum> e : loggedIn.entrySet()) {
+            if (e.getKey().equals(hash) && e.getValue().equals(right)) {
+                if (right == rightEnum.ADMIN) {
+                    isNotLoggedIn = false;
+                }
+            }
+        }
+        if (isNotLoggedIn) {
+            resp.sendRedirect("/loginSL");
+        } else {
+            processRequest(req, resp);
+        }
+
+
     }
 
     @Override

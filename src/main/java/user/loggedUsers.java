@@ -46,6 +46,14 @@ public class loggedUsers {
         }
     }
 
+    public Map<String, rightEnum> getTokenList() {
+        return tokenList;
+    }
+
+    public void setTokenList(Map<String, rightEnum> tokenList) {
+        this.tokenList = tokenList;
+    }
+
     public void logout(String hash) {
         tokenList.remove(hash);
     }

@@ -6,6 +6,7 @@ body {
     background-size: cover;
     zoom: 130%;*/
     background-color: #ffffff;
+
 }
 
 .loginText {
@@ -124,7 +125,7 @@ input[type=date]::-webkit-outer-spin-button {
 .navbar {
     overflow: hidden;
     background-color: #333;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 900;
