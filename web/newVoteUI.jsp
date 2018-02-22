@@ -1,5 +1,7 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.Vote" %><%--
+<%@ page import="beans.Vote" %>
+<%@ page import="beans.RightEnum" %>
+<%@ page import="user.loggedUsers" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 28.11.2017
@@ -45,6 +47,18 @@
     <script src="js/navbarAdmin.js"></script>
 </head>
 <body>
+<%
+    HttpSession ses = request.getSession();
+    loggedUsers lU = loggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
+    RightEnum right = (RightEnum) ses.getAttribute("right");
+
+    if (!lU.compareRights(hash, right)) {
+        response.sendRedirect("/loginSL");
+    }
+
+%>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <br><br>
@@ -67,14 +81,14 @@
                 <div class="container">
                     <div class="input-group date" data-provide="datepicker">
                         <span class="input-group-addon">Von</span>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="input_Start">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div><br>
                     <div class="input-group date" data-provide="datepicker">
                         <span class="input-group-addon">Bis </span>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="input_End">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -116,7 +130,7 @@
 
             <!-- Add a new Candidate -->
             <div class="candDiv1">
-                <form action="/addCandidateToVoteSL" method="post">
+                <form action="/addCandidateToVoteSL" method="post" enctype="multipart/form-data">
                     <!-- Default dropup button -->
                     <div id="tableDiv" class="dropdown">
 
@@ -197,11 +211,11 @@
                     <div class="input-group">
                         <span class="input-group-addon">Foto</span>
                         <input id="inputFoto" type="file" name="input_cand_Picture" class="form-control"
-                               accept="image/*" enctype="multipart/form-data"></span>
+                               accept="image/png" enctype="multipart/form-data"></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                     </div>
 
-                    <input id="hiddenVote" type="hidden" name="hiddenVote" class="form-control" hidden>
+                    <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" >
 
                     <br>
                     <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>

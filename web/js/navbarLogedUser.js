@@ -12,7 +12,7 @@ window.onload = function userNavbar() {
         '               <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/logoutSL"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li> ' +
+        '               <li><a href="/logoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
         '           </ul> ' +
         '       </div> ' +
         '   </div> ' +

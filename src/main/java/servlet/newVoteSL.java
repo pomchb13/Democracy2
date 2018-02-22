@@ -47,7 +47,7 @@ public class newVoteSL extends HttpServlet {
         String hash = (String) session.getAttribute("hash");
         RightEnum right = (RightEnum) session.getAttribute("right");
 
-        if (lU.compareRights(hash,right)) {
+        if (!lU.compareRights(hash,right)) {
             resp.sendRedirect("/loginSL");
         } else {
             processRequest(req, resp);
@@ -71,8 +71,8 @@ public class newVoteSL extends HttpServlet {
                 voteDiagrams = false;
 
 
-            LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
             if (LocalDate.now().isBefore(vote_fromDate)
                     || LocalDate.now().isEqual(vote_fromDate)

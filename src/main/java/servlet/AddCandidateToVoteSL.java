@@ -2,21 +2,30 @@ package servlet;
 
 import beans.Politician;
 import beans.Vote;
+
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/addCandidateToVoteSL"})
+@MultipartConfig(location = "../java/images")
 public class AddCandidateToVoteSL extends HttpServlet {
+    private String filePath;
 
     @Override
     public void init() throws ServletException {
@@ -41,7 +50,7 @@ public class AddCandidateToVoteSL extends HttpServlet {
         try {
 
             System.out.println(req.getParameter("hiddenVote"));
-            if (!req.getParameter("hiddenVote").isEmpty()) {
+            if (!req.getParameter("hiddenVote").equals("null")) {
 
                 System.out.println("Adding Politician");
                 String voteTitle = ServletUtil.filter(req.getParameter("hiddenVote"));
@@ -51,8 +60,20 @@ public class AddCandidateToVoteSL extends HttpServlet {
                 LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                 String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                 String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
-                String file = req.getParameter("input_cand_Picture");
-                System.out.println(file);
+                //Uploading File to Server
+                Part filePart = req.getPart("input_cand_Picture");
+                String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                InputStream fileContent = filePart.getInputStream();
+                String Path = this.getServletContext().getRealPath("/res/");
+
+                System.out.println(filePart);
+                System.out.println(filename);
+                System.out.println(fileContent);
+
+
+                filePart.write("image");
+
+
                 Politician pot = new Politician(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, null);
                 System.out.println(pot.toString());
                 LinkedList<Vote> liVoteList = (LinkedList) this.getServletContext().getAttribute("voteList");

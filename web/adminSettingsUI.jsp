@@ -1,4 +1,5 @@
-<%--
+<%@ page import="user.loggedUsers" %>
+<%@ page import="beans.RightEnum" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -24,6 +25,18 @@
     <script src="js/navbarAdmin.js"></script>
 </head>
 <body>
+<%
+    HttpSession ses = request.getSession();
+    loggedUsers lU = loggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
+    RightEnum right = (RightEnum) ses.getAttribute("right");
+
+    if (!lU.compareRights(hash, right)) {
+        response.sendRedirect("/loginSL");
+    }
+
+%>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div class="container">

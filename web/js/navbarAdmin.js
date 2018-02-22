@@ -14,7 +14,7 @@ window.onload = function adminNavbar() {
         '               <li><a href="/newPollSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Abstimmung erstellen</a></li>' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="../homeUI.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> ' +
+        '               <li><a href="/logoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> ADMIN | Logout</a></li> ' +
         '           </ul>' +
         '       </div>' +
         '   </div>' +

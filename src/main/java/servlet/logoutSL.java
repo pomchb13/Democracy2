@@ -39,12 +39,13 @@ public class logoutSL extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String hash = (String) req.getSession().getAttribute("hash");
         lU.logout(hash);
+        lU.outPutUserList();
         resp.sendRedirect("/loginSL");
-        processRequest(req, resp);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        processRequest(req, resp);
     }
 }

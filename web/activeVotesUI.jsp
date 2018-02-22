@@ -1,9 +1,7 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.Vote" %>
-<%@ page import="beans.Poll" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="beans.Politician" %>
-<%@ page import="beans.PollAnswer" %><%--
+<%@ page import="user.loggedUsers" %>
+<%@ page import="beans.*" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -30,6 +28,18 @@
 
 </head>
 <body>
+<%
+    HttpSession ses = request.getSession();
+    loggedUsers lU = loggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
+    RightEnum right = (RightEnum) ses.getAttribute("right");
+
+    if (!lU.compareRights(hash, right)) {
+        response.sendRedirect("/loginSL");
+    }
+
+%>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div class="container">
