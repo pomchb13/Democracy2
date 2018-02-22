@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 @WebServlet(urlPatterns = {"/addCandidateToVoteSL"})
-public class addCandidateToVoteSL extends HttpServlet {
+public class AddCandidateToVoteSL extends HttpServlet {
 
     @Override
     public void init() throws ServletException {

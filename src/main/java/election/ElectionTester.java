@@ -1,21 +1,22 @@
 package election;
 
 import beans.Politician;
+import com.fasterxml.jackson.databind.ser.std.StdJdkSerializers;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import util.BlockchainUtil;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Patrick on 01.08.2017.
@@ -63,17 +64,34 @@ public class ElectionTester {
         }
     }
 
-    public int winningCandidate() throws Exception {
-        if(election != null)
+
+    public List<CandidateData> getWinners(List<CandidateData> allCandidates)
+    {
+        List<CandidateData> winners = new ArrayList<>();
+        int winningVoteCount = 0;
+        for (int i = 0; i < allCandidates.size(); i++)
         {
-            return election.winningCandidate().send().intValue();
+            if(allCandidates.get(i).getVoteCount() > winningVoteCount)
+            {
+                winningVoteCount = allCandidates.get(i).getVoteCount();
+            }
         }
-        return -1;
+
+        for (int i = 0; i < allCandidates.size(); i++)
+        {
+            if(allCandidates.get(i).getVoteCount() == winningVoteCount)
+            {
+                winners.add(allCandidates.get(i));
+            }
+        }
+
+        return winners;
     }
 
-    public void storeCandidateData(int prop, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
+
+    public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
         BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-        election.storeCandidateData(new BigInteger(prop + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
+        election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
     }
 
     public ElectionData getElectionData() throws Exception {
@@ -119,7 +137,7 @@ public class ElectionTester {
 
     public static void main(String[] args) {
         try {
-            String address = "0xf3c3fb99addb47a0f433db61e5610b71b77ee156";
+            String address = "0x39ed290931679c83e1f96ba6ce2181ae0989854a";
 
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
@@ -132,11 +150,11 @@ public class ElectionTester {
 
 
             ElectionTester tester = new ElectionTester();
-           /* tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
+            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
             tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
-            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());*/
-            tester.loadSmartContract(address);
+            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
+         //   tester.loadSmartContract(address);
             System.out.println(tester.getElectionData());
             System.out.println(tester.getCandidateData(0));
             System.out.println(tester.getCandidateData(1));
@@ -146,14 +164,22 @@ public class ElectionTester {
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
             tester.giveRightToVote(new Address(users[3]));
-            tester.vote(new Uint8(0), new Address(users[0]));
+            tester.vote(new Uint8(2), new Address(users[0]));
             tester.vote(new Uint8(1), new Address(users[1]));
             tester.vote(new Uint8(1), new Address(users[3]));
             tester.vote(new Uint8(2), new Address(users[2]));
 
 
-            int winner = tester.winningCandidate();
-            System.out.println("\nWinner: "+tester.getCandidateData(winner));
+            CandidateData c1 = tester.getCandidateData(0);
+            CandidateData c2 = tester.getCandidateData(1);
+            CandidateData c3 = tester.getCandidateData(2);
+            List<CandidateData> candidateDataList = new ArrayList<>();
+            candidateDataList.add(c1);
+            candidateDataList.add(c2);
+            candidateDataList.add(c3);
+            System.out.println(Arrays.toString(tester.getWinners(candidateDataList).toArray()));
+
+
 
 
 

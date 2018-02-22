@@ -1,12 +1,11 @@
 package servlet;
 
-import beans.rightEnum;
-import user.hashGenerator;
+import beans.RightEnum;
+import user.HashGenerator;
 import user.loggedUsers;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/loginSL"})
 public class loginSL extends HttpServlet {
 
-    private hashGenerator hashInstance;
+    private HashGenerator hashInstance;
     private loggedUsers userInstance;
 
     @Override
@@ -52,9 +51,9 @@ public class loginSL extends HttpServlet {
 
 
         //Generation of MD5 Hash
-        hashInstance = hashGenerator.getTheInstance();
+        hashInstance = HashGenerator.getTheInstance();
         String hash = hashInstance.get_SHA_256_SecurePassword(username+password);
-        rightEnum right = rightEnum.USER;
+        RightEnum right = RightEnum.USER;
 
         //log User in List
 
@@ -67,7 +66,7 @@ public class loginSL extends HttpServlet {
 
         userInstance.outPutUserList();
 
-        if (right == rightEnum.USER)
+        if (right == RightEnum.USER)
         {
             //toDo: Abfrage auf Wahlrecht
             HttpSession session = req.getSession();
@@ -76,7 +75,7 @@ public class loginSL extends HttpServlet {
             session.setMaxInactiveInterval(15*60);
             resp.sendRedirect("adminSettingsUI.jsp");
         }
-        else if(right == rightEnum.ADMIN)
+        else if(right == RightEnum.ADMIN)
         {
             HttpSession session = req.getSession();
             session.setAttribute("hash", hash);

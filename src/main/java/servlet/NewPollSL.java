@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Ewald on 17.08.2017.
  */
 @WebServlet(urlPatterns = {"/newPollSL"})
-public class newPollSL extends HttpServlet {
+public class NewPollSL extends HttpServlet {
 
     private LinkedList<Poll> liPollList = new LinkedList<>();
     private loggedUsers lU = loggedUsers.getInstance();

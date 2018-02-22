@@ -1,12 +1,12 @@
 package user;
 
-import beans.rightEnum;
+import beans.RightEnum;
 
 import java.util.*;
 
 public class loggedUsers {
 
-    private Map<String, rightEnum> tokenList = new HashMap<>();
+    private Map<String, RightEnum> tokenList = new HashMap<>();
     private static loggedUsers theInstance;
 
     private loggedUsers() {
@@ -20,7 +20,7 @@ public class loggedUsers {
         return theInstance;
     }
 
-    public void login(String hash, rightEnum right) throws Exception {
+    public void login(String hash, RightEnum right) throws Exception {
         if (!tokenList.containsKey(hash)) {
             tokenList.put(hash, right);
         } else {
@@ -28,7 +28,7 @@ public class loggedUsers {
         }
     }
 
-    public boolean compareRights(String hash, rightEnum neededRight) {
+    public boolean compareRights(String hash, RightEnum neededRight) {
         if (tokenList.containsKey(hash)) {
             if (tokenList.get(hash).equals(neededRight)) {
                 return true;
@@ -41,7 +41,7 @@ public class loggedUsers {
     public void outPutUserList()
     {
         System.out.println("----------loggedUsers------------");
-        for (Map.Entry<String, rightEnum> e  :tokenList.entrySet()) {
+        for (Map.Entry<String, RightEnum> e  :tokenList.entrySet()) {
             System.out.println(e.getKey() +"|"+e.getValue());
         }
     }

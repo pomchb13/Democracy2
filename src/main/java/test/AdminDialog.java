@@ -4,6 +4,7 @@ import election.ElectionTester;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import poll.PollTester;
+import util.Utilorschloader;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -20,11 +21,14 @@ public class AdminDialog extends JDialog {
     private PollTester pt;
     private ElectionTester et;
     private Credentials cr;
+    private int election;
+    private Tester tester;
 
     private boolean ok = false;
 
-    public AdminDialog(Credentials cr) {
+    public AdminDialog(Credentials cr,Tester tester) {
         this.cr = cr;
+        this.tester = tester;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -61,7 +65,9 @@ public class AdminDialog extends JDialog {
                 try {
                     pt = new PollTester(cr);
                     pt.createContract(2, "Gangl is schiach", LocalDate.now(), LocalDate.now().plusDays(10), false);
+                    Utilorschloader.saveContractAddress(pt.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
+                    election=1;
                 } catch (CipherException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
@@ -77,7 +83,9 @@ public class AdminDialog extends JDialog {
                 try {
                     et = new ElectionTester(cr);
                     et.createContract(2, "Pommer is a schiach", LocalDate.now(), LocalDate.now().plusDays(20), false);
+                    Utilorschloader.saveContractAddress(et.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
+                    election=2;
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (CipherException e1) {
@@ -99,6 +107,8 @@ public class AdminDialog extends JDialog {
         dispose();
     }
 
+    public int getElection(){return election;}
+
     public PollTester getPt() {
         return pt;
     }
@@ -112,9 +122,9 @@ public class AdminDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        AdminDialog dialog = new AdminDialog(null);
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+        //AdminDialog dialog = new AdminDialog(null);
+        //dialog.pack();
+        //dialog.setVisible(true);
+        //System.exit(0);
     }
 }

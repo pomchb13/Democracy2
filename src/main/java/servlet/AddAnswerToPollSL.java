@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 @WebServlet(urlPatterns = {"/addAnswerToPollSL"})
-public class addAnswerToPollSL extends HttpServlet {
+public class AddAnswerToPollSL extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
