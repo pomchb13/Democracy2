@@ -52,9 +52,8 @@
     loggedUsers lU = loggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
-    RightEnum right = (RightEnum) ses.getAttribute("right");
 
-    if (!lU.compareRights(hash, right)) {
+    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/loginSL");
     }
 
@@ -70,7 +69,7 @@
             <form action="/newVoteSL" id="form1" method="post">
                 <!-- Field to add a title -->
                 <div class="input-group">
-                    <span class="input-group-addon">Title</span>
+                    <span class="input-group-addon">Titel</span>
                     <input id="titelVote" type="text" name="input_Title" class="form-control farm-control-sm"
                            placeholder="Titel einfügen">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
@@ -78,7 +77,7 @@
                 <br>
 
                 <!-- Field to add the startdate and enddate -->
-                <div class="container">
+                <div class="date">
                     <div class="input-group date" data-provide="datepicker">
                         <span class="input-group-addon">Von</span>
                         <input type="text" class="form-control" name="input_Start">
@@ -130,7 +129,7 @@
 
             <!-- Add a new Candidate -->
             <div class="candDiv1">
-                <form action="/addCandidateToVoteSL" method="post" enctype="multipart/form-data">
+                <form action="/newVoteSL" id="form2" method="post">
                     <!-- Default dropup button -->
                     <div id="tableDiv" class="dropdown">
 

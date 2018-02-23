@@ -33,9 +33,8 @@
     loggedUsers lU = loggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
-    RightEnum right = (RightEnum) ses.getAttribute("right");
 
-    if (!lU.compareRights(hash, right)) {
+    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/loginSL");
     }
 

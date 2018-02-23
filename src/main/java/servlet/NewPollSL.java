@@ -73,9 +73,8 @@ public class NewPollSL extends HttpServlet {
         HttpSession session = req.getSession();
 
         String hash = (String) session.getAttribute("hash");
-        RightEnum right = (RightEnum) session.getAttribute("right");
 
-        if (!lU.compareRights(hash, right)) {
+        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
             resp.sendRedirect("/loginSL");
         } else {
             processRequest(req, resp);
