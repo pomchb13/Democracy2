@@ -1,5 +1,6 @@
 package beans;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDate;
 
@@ -22,9 +23,9 @@ public class Politician {
     /* Solgen of the politican */
     private String slogan;
     /* Picture of the politican */
-    private File portrait;
+    private BufferedImage portrait;
 
-    public Politician(String title, String forename, String surname, LocalDate birthday, String party, String slogan, File portrait) {
+    public Politician(String title, String forename, String surname, LocalDate birthday, String party, String slogan, BufferedImage portrait) {
         this.title = title;
         this.forename = forename;
         this.surname = surname;
@@ -95,11 +96,11 @@ public class Politician {
         this.slogan = slogan;
     }
 
-    public File getPortrait() {
+    public BufferedImage getPortrait() {
         return portrait;
     }
 
-    public void setPortrait(File portrait) {
+    public void setPortrait(BufferedImage portrait) {
         this.portrait = portrait;
     }
 }

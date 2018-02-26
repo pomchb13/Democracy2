@@ -8,7 +8,6 @@ import org.web3j.crypto.Credentials;
 import poll.PollTester;
 import user.UserCreator;
 import util.BlockchainUtil;
-import util.ExcelHandler;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,7 +30,7 @@ public class Tester{
 
     private PollTester pt;
     private ElectionTester et;
-    private String contractAddressPath = System.getProperty("user.dir")+File.separator+"src"+File.separator+"res"+File.separator+"ContractAdresses.txt";
+    private String contractAddressPath = System.getProperty("user.dir")+File.separator+"src"+File.separator+ "images" +File.separator+"ContractAdresses.txt";
 
 
     public Tester()

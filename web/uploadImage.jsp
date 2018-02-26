@@ -44,55 +44,39 @@
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/navbarAdmin.js"></script>
 
+    <?php include 'php/dateiupload.php'; ?>
 
-    <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
 
-    <link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/bootstrap-3.min.css">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
 </head>
 <body>
 <%
-    /*
-        HttpSession ses = request.getSession();
-        loggedUsers lU = loggedUsers.getInstance();
 
-        String hash = (String) ses.getAttribute("hash");
+    HttpSession ses = request.getSession();
+    loggedUsers lU = loggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
 
 
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-            response.sendRedirect("/loginSL");
-        }
-    */
+    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        response.sendRedirect("/loginSL");
+    }
+
 %>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <br><br>
 <div id="container">
+    <br>
     <h1>Upload von Dateien</h1>
-    <p>Dateityp: PNG</p>
-    <p>Dateigrö&szlige: 10 MB</p>
-    <p>Dateiformat: 35*45</p>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h2>PHP - Multiple Image upload using dropzone.js</h2>
-            <form action="/upload.php" enctype="multipart/form-data" class="dropzone" id="image-upload">
-                <div>
-                    <h3>Upload Multiple Image By Click On Box</h3>
-                </div>
-            </form>
-        </div>
-    </div>
+    <p>bevorzugestes Dateiformat: 35*45</p>
+    <center>
+        <form method="POST" action="/UploadImageSL" enctype="multipart/form-data">
+            <input type="file" name="file" id="file"/> <br/>
+            <input type="submit" value="Upload" name="upload" id="upload"/>
+        </form>
+        <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
+    </center>
 </div>
-<script type="text/javascript">
-    Dropzone.options.imageUpload = {
-        maxFilesize: 1,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif"
-    };
-</script>
 
 </body>
 </html>

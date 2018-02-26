@@ -1,5 +1,5 @@
 body {
-    /*background: url(../res/background.jpg) no-repeat center center fixed;
+    /*background: url(../images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -8,17 +8,25 @@ body {
     background-color: #ffffff;
 }
 .container {
-    margin-top: 130px;
-    margin-bottom: 100px;
-    margin-right: 500px;
-    margin-left: 500px;
+    height: 90%;
+    width: 80%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
 #container{
-    margin-top: 130px;
-    margin-bottom: 100px;
-    margin-right: 500px;
-    margin-left: 500px;
+    height: 90%;
+    width: 80%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 /*.loginText {
 

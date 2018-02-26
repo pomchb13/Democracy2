@@ -1,20 +1,30 @@
 package servlet;
 
+import beans.RightEnum;
+import user.loggedUsers;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.*;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(urlPatterns = {"/UploadImageSL"})
-@MultipartConfig(location = "../java/images")
+@MultipartConfig
 public class UploadImageSL extends HttpServlet {
+
+    private LinkedList<String> liFilenames = new LinkedList<>();
+    private loggedUsers lU = loggedUsers.getInstance();
+    private final static Logger LOGGER =
+            Logger.getLogger(UploadImageSL.class.getCanonicalName());
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -24,44 +34,79 @@ public class UploadImageSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        System.out.println("pR");
         RequestDispatcher rd = request.getRequestDispatcher("/uploadImage.jsp");
         rd.forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        System.out.println("Uplaoding image");
-        // gets absolute path of the web application
-        String appPath = req.getServletContext().getRealPath("/");
-        // constructs path of the directory to save uploaded file
-        String savePath = "C:/Users/Leonhard/IdeaProjects/Democracy2/src/main/java/images/";
-
-        // creates the save directory if it does not exists
-        File fileSaveDir = new File(savePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
-        }
-
-        for (Part part : req.getParts()) {
-            String fileName = extractFileName(part);
-            // refines the fileName in case it is an absolute path
-            fileName = new File(fileName).getName();
-            part.write(savePath + File.separator + fileName);
-        }
-    }
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length()-1);
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
             }
         }
-        return "";
+        return null;
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doPost");
+        String status = null;
+        final String path = this.getServletContext().getRealPath("/") + "images";
+        final Part filePart = req.getPart("file");
+        String[] fileField = getFileName(filePart).split("\\.");
+        final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
+        liFilenames.add(fileName);
+        this.getServletContext().setAttribute("liFilenames", liFilenames);
+
+        OutputStream out = null;
+        InputStream filecontent = null;
+        final PrintWriter writer = resp.getWriter();
+
+        try {
+            out = new FileOutputStream(new File(path + File.separator
+                    + fileName));
+            filecontent = filePart.getInputStream();
+
+
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            status = "Bild wurde erfolgreich hochgeladen!";
+
+        } catch (FileNotFoundException fne) {
+            status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+            if (filecontent != null) {
+                filecontent.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+        }
+        req.setAttribute("status", status);
+
+        System.out.println("End doPost");
+        processRequest(req, resp);
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        HttpSession session = req.getSession();
+        String hash = (String) session.getAttribute("hash");
+        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+            resp.sendRedirect("/loginSL");
+        } else {
+            processRequest(req, resp);
+        }
     }
 }
