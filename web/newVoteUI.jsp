@@ -64,184 +64,201 @@
 <div id="container">
     <div class="newVote" id="newVoteDivID">
 
-            <h1>Neue Wahl erstellen</h1>
-            <br><br>
-            <form action="/newVoteSL" id="form1" method="post">
-                <!-- Field to add a title -->
+        <h1>Neue Wahl erstellen</h1>
+        <br><br>
+        <form action="/newVoteSL" id="form1" method="post">
+            <!-- Field to add a title -->
+            <div class="input-group">
+                <span class="input-group-addon">Titel</span>
+                <input id="titelVote" type="text" name="input_Title" class="form-control farm-control-sm"
+                       placeholder="Titel einfügen">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+            </div>
+            <br>
+
+            <!-- Field to add the startdate and enddate -->
+            <div class="date">
+                <div class="input-group date" data-provide="datepicker">
+                    <span class="input-group-addon">Von</span>
+                    <input type="text" class="form-control" name="input_Start">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group date" data-provide="datepicker">
+                    <span class="input-group-addon">Bis </span>
+                    <input type="text" class="form-control" name="input_End">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+
+            <!-- Add two Radio Buttons for the evaluation Picker-->
+            <div class="evaluationPicker">
+                <div class="evaluationPicker">
+                    <div class="radio">
+                        <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm
+                            anzeigen</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
+                    </div>
+                </div>
+            </div>
+            <p id="error"><%=  request.getAttribute("errorVot") != null ? request.getAttribute("errorVot") : ""  %>
+            </p>
+
+
+            <!-- Button to publish the vote -->
+            <div class="submitButton">
+                <button id="saveVote" type="submit" name="actionButton" value="createVote"
+                        class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
+                </button>
+            </div>
+        </form>
+
+        <br>
+
+        <br>
+        <h1>Kanditaten hinzufügen</h1>
+        <hr>
+
+        <!-- Add a new Candidate -->
+        <div class="candDiv1">
+            <form action="/newVoteSL" id="form2" method="post">
+                <!-- Default dropup button -->
+                <div id="tableDiv" class="dropdown">
+
+                    <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
+                        Bitte Wahl auswählen
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="tableMenu" class="dropdown-menu">
+                        <%
+                            LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
+                            if (liListe != null) {
+                                for (Vote v : liListe) {
+                                    out.print("<li><a href='#'>" + v.getTitle() + "</a></li>");
+                                }
+                            }
+                        %>
+                    </ul>
+
+                </div>
+                <br><br><br>
+                <!-- Field to add his/her titel -->
                 <div class="input-group">
                     <span class="input-group-addon">Titel</span>
-                    <input id="titelVote" type="text" name="input_Title" class="form-control farm-control-sm"
-                           placeholder="Titel einfügen">
+                    <input id="inputTitle" type="text" name="input_cand_Title" class="form-control"
+                           placeholder="Titel">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
                 <br>
 
-                <!-- Field to add the startdate and enddate -->
-                <div class="date">
-                    <div class="input-group date" data-provide="datepicker">
-                        <span class="input-group-addon">Von</span>
-                        <input type="text" class="form-control" name="input_Start">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div><br>
-                    <div class="input-group date" data-provide="datepicker">
-                        <span class="input-group-addon">Bis </span>
-                        <input type="text" class="form-control" name="input_End">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
+                <!-- Field to add his/her forename -->
+                <div class="input-group">
+                    <span class="input-group-addon">Vorname</span>
+                    <input id="inputVorname" type="text" name="input_cand_Firstname" class="form-control"
+                           placeholder="Vorname">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                </div>
+                <br>
+
+                <!-- Field to add his/her last name -->
+                <div class="input-group">
+                    <span class="input-group-addon">Nachname</span>
+                    <input id="inputNachname" type="text" name="input_cand_Lastname" class="form-control"
+                           placeholder="Nachname">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                </div>
+                <br>
+
+                <!-- Field to add his/her birthday -->
+                <div class="input-group">
+                    <span class="input-group-addon">Geburtsdatum</span>
+                    <input id="inputBirthday" type="text" name="input_cand_Birthday" class="form-control"
+                           placeholder="Geburtsdatum">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                </div>
+                <br>
+
+                <!-- Field to add his/her party -->
+                <div class="input-group">
+                    <span class="input-group-addon">Partei</span>
+                    <input id="inputPartei" type="text" name="input_cand_Party" class="form-control"
+                           placeholder="Partei">
 
                 </div>
                 <br>
 
-                <!-- Add two Radio Buttons for the evaluation Picker-->
-                <div class="evaluationPicker">
-                    <div class="evaluationPicker">
-                        <div class="radio">
-                            <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm
-                                anzeigen</label>
-                        </div>
-                        <div class="radio">
-                            <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
-                        </div>
-                    </div>
+                <!-- Field to add his/her slogan -->
+                <div class="input-group">
+                    <span class="input-group-addon">Motto</span>
+                    <input id="inputMotto" type="text" name="input_cand_Slogan" class="form-control"
+                           placeholder="Motto">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
-                <p id="error"><%=  request.getAttribute("errorVot") != null ? request.getAttribute("errorVot") : ""  %>
-                </p>
+                <br>
 
+                <!-- Field to add a picture from him/her-->
+                <div class="input-group">
+                    <span class="input-group-addon">Foto</span>
+                    <div id="photoDropDiv" class="dropdown" style="width: 100% ">
+                        <button id="photoDropButton" name="photoButton" class="btn btn-default dropdown-toggle"
+                                type="button" value="Bitte wählen Sie ein Foto aus"
+                                data-toggle="dropdown" onclick="<% %>" style="width: 100%">Bitte wählen Sie ein Foto aus
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="photoDropList" class="dropdown-menu">
+                            <%
+                                LinkedList<String> liFilenames = (LinkedList<String>) this.getServletConfig().getServletContext().getAttribute("liFilenames");
+                                if (liFilenames != null) {
+                                    for (String filename : liFilenames) {
+                                        out.print("<li><a href='#'>" + filename + "</a></li>");
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                </div>
+                <br>
+                <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
+                <input id="inputFoto" type="text" name="input_cand_Picture" class="form-control" hidden>
 
-                <!-- Button to publish the vote -->
+                <br>
+                <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
+
+                <!-- Button to add the Candidate -->
                 <div class="submitButton">
-                    <button id="saveVote" type="submit" name="actionButton" value="createVote"
-                            class="btn btn-primary"><span
-                            class="glyphicon glyphicon-floppy-disk"></span> Wahl eröffnen
+                    <button type="submit" id="addCand" class="btn btn-primary" name="actionButton"
+                            value="addPolitician"><span
+                            class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
                     </button>
+
                 </div>
             </form>
+        </div>
 
-            <br>
+        <br>
+        <br>
 
-            <br>
-            <h1>Kanditaten hinzufügen</h1>
-            <hr>
+        <div class="submitButton">
+            <a href="adminSettingsUI.jsp">
+                <button type="button" class="btn btn-primary" name="forwardButton"
+                        value="forward"> Weiter zur Admin Seite <span
+                        class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </a>
 
-            <!-- Add a new Candidate -->
-            <div class="candDiv1">
-                <form action="/newVoteSL" id="form2" method="post">
-                    <!-- Default dropup button -->
-                    <div id="tableDiv" class="dropdown">
-
-                            <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle"
-                                    type="button"
-                                    data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
-                                Bitte Wahl auswählen
-                                <span class="caret"></span>
-                            </button>
-                            <ul id="tableMenu" class="dropdown-menu">
-                                <%
-                                    LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
-                                    if (liListe != null) {
-                                        for (Vote v : liListe) {
-                                            out.print("<li><a href='#'>" + v.getTitle() + "</a></li>");
-                                        }
-                                    }
-                                %>
-                            </ul>
-
-                    </div>
-                    <br><br><br>
-                    <!-- Field to add his/her titel -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Titel</span>
-                        <input id="inputTitle" type="text" name="input_cand_Title" class="form-control"
-                               placeholder="Titel">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br>
-
-                    <!-- Field to add his/her forename -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Vorname</span>
-                        <input id="inputVorname" type="text" name="input_cand_Firstname" class="form-control"
-                               placeholder="Vorname">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br>
-
-                    <!-- Field to add his/her last name -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Nachname</span>
-                        <input id="inputNachname" type="text" name="input_cand_Lastname" class="form-control"
-                               placeholder="Nachname">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br>
-
-                    <!-- Field to add his/her birthday -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Geburtsdatum</span>
-                        <input id="inputBirthday" type="text" name="input_cand_Birthday" class="form-control"
-                               placeholder="Geburtsdatum">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br>
-
-                    <!-- Field to add his/her party -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Partei</span>
-                        <input id="inputPartei" type="text" name="input_cand_Party" class="form-control"
-                               placeholder="Partei">
-
-                    </div>
-                    <br>
-
-                    <!-- Field to add his/her slogan -->
-                    <div class="input-group">
-                        <span class="input-group-addon">Motto</span>
-                        <input id="inputMotto" type="text" name="input_cand_Slogan" class="form-control"
-                               placeholder="Motto">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br>
-
-                    <!-- Field to add a picture from him/her-->
-                    <div class="input-group">
-                        <span class="input-group-addon">Foto</span>
-                        <input id="inputFoto" type="file" name="input_cand_Picture" class="form-control"
-                               accept="image/png" enctype="multipart/form-data"></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-
-                    <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" >
-
-                    <br>
-                    <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
-
-                    <!-- Button to add the Candidate -->
-                    <div class="submitButton">
-                        <button type="submit" id="addCand" class="btn btn-primary" name="actionButton"
-                                value="addPolitician"><span
-                                class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
-                        </button>
-
-                    </div>
-                </form>
-            </div>
-
-            <br>
-            <br>
-
-            <div class="submitButton">
-                <a href="adminSettingsUI.jsp">
-                    <button type="button" class="btn btn-primary" name="forwardButton"
-                            value="forward"> Weiter zur Admin Seite <span
-                            class="glyphicon glyphicon-arrow-right"></span>
-                    </button>
-                </a>
-
-            </div>
+        </div>
 
     </div>
 </div>
@@ -258,6 +275,14 @@
         document.getElementById('hiddenVote').value = selText;
         document.getElementById('tableButton').innerHTML = selText;
 
+    });
+
+    $("#photoDropList a").click(function (e) {
+        e.preventDefault();
+        var selText = $(this).text();
+        alert(selText);
+        document.getElementById('inputFoto').value = selText;
+        document.getElementById('photoDropButton').innerHTML = selText;
     });
 </script>
 </body>

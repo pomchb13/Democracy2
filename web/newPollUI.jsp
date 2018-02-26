@@ -68,10 +68,8 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
-
-
                 <!-- Field to add the startdate and enddate -->
-                <div class="container">
+                <div class="data">
                     <div class="input-group date" data-provide="datepicker">
                         <span class="input-group-addon">Von</span>
                         <input type="text" class="form-control">
@@ -87,10 +85,8 @@
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div>
-
                 </div>
                 <br>
-
                 <!-- Add two Radio Buttons for the evaluation Picker-->
                 <div class="evaluationPicker">
                     <div class="radio">
@@ -100,10 +96,8 @@
                         <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
                     </div>
                 </div>
-
             <br>
             <br>
-            <center>
                 <!-- If an error occurs it will be shown over the button -->
                 <%=  request.getAttribute("PollError") != null ? request.getAttribute("PollError") : ""  %>
 
@@ -115,18 +109,13 @@
                             class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
                     </button>
                 </div>
-            </center>
         </form>
-
         <br>
         <hr>
         <br>
-
         <h1>Antworten hinzufügen</h1>
         <form action="/addAnswerToPollSL" method="post">
-
             <div id="tableDiv" class="dropdown">
-                <center>
                     <button id="tableButton" name="pollTitle" class="btn btn-primary dropdown-toggle" type="button"
                             data-toggle="dropdown">
                         Bitte Abstimmung auswählen
@@ -142,11 +131,9 @@
                             }
                         %>
                     </ul>
-                </center>
             </div>
             <br>
             <br>
-            <center>
                 <div class="answerDiv">
                     <div class="input-group">
                         <span class="input-group-addon">Antworttitel</span>
@@ -170,10 +157,7 @@
                             class="glyphicon glyphicon-floppy-disk"></span> Antwort hinzufügen
                     </button>
                 </div>
-
-            </center>
         </form>
-        <center>
             <div class="submitButton">
                 <a href="adminSettingsUI.jsp">
                     <button type="button" class="btn btn-primary" name="forwardButton"
@@ -183,8 +167,6 @@
                 </a>
 
             </div>
-        </center>
-
     </div>
 </div>
 <footer class="footer">
