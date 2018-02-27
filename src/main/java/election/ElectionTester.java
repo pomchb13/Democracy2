@@ -128,6 +128,10 @@ public class ElectionTester {
         System.out.println(election.getContractAddress());
     }
 
+    public String getAdminAddress() throws Exception {
+        return election.getAdminAddress().send();
+    }
+
     public String getContractAddress()
     {
         return election.getContractAddress();
