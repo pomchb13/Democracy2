@@ -60,7 +60,7 @@
     <div class="newRef" id="newRefDivID">
         <h1>Neue Abstimmung erstellen</h1>
         <br><br>
-        <form id="newRef" action="/newPollSL" method="post">
+        <form id="form1" action="/newPollSL" method="post">
             <!-- Field to add a titel -->
             <div class="input-group">
                 <span class="input-group-addon">Title</span>
@@ -68,105 +68,107 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
-                <!-- Field to add the startdate and enddate -->
-                <div class="data">
-                    <div class="input-group date" data-provide="datepicker">
-                        <span class="input-group-addon">Von</span>
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="input-group date" data-provide="datepicker">
-                        <span class="input-group-addon">Bis</span>
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
+            <!-- Field to add the startdate and enddate -->
+            <div class="data">
+                <div class="input-group date" data-provide="datepicker">
+                    <span class="input-group-addon">Von</span>
+                    <input type="text" class="form-control" name="input_Start">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
                 <br>
-                <!-- Add two Radio Buttons for the evaluation Picker-->
-                <div class="evaluationPicker">
-                    <div class="radio">
-                        <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm anzeigen</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
+                <div class="input-group date" data-provide="datepicker">
+                    <span class="input-group-addon">Bis</span>
+                    <input type="text" class="form-control" name="input_End">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
+            </div>
+            <br>
+            <!-- Add two Radio Buttons for the evaluation Picker-->
+            <div class="evaluationPicker">
+                <div class="radio">
+                    <label><input type="radio" name="input_DiaOption" value="1" checked>Diagramm anzeigen</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="input_DiaOption" value="2">keine Diagramme anzeigen</label>
+                </div>
+            </div>
             <br>
             <br>
-                <!-- If an error occurs it will be shown over the button -->
-                <%=  request.getAttribute("PollError") != null ? request.getAttribute("PollError") : ""  %>
+            <!-- If an error occurs it will be shown over the button -->
+            <%=  request.getAttribute("PollError") != null ? request.getAttribute("PollError") : ""  %>
 
-                <!-- Add a submit button -->
-                <!-- SUBMIT OF KING -->
-                <div class="submitButton">
-                    <button id="submitButton" type="submit" form="newRef" name="actionButton" value="createReferendum"
-                            class="btn btn-primary"><span
-                            class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
-                    </button>
-                </div>
+            <!-- Add a submit button -->
+            <!-- SUBMIT OF KING -->
+            <div class="submitButton">
+                <button id="submitButton" type="submit" form="form1" name="actionButton" value="createReferendum"
+                        class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Abstimmung eröffnen
+                </button>
+            </div>
         </form>
         <br>
         <hr>
         <br>
         <h1>Antworten hinzufügen</h1>
-        <form action="/addAnswerToPollSL" method="post">
+        <form id="form2" action="/newPollSL" method="post">
             <div id="tableDiv" class="dropdown">
-                    <button id="tableButton" name="pollTitle" class="btn btn-primary dropdown-toggle" type="button"
-                            data-toggle="dropdown">
-                        Bitte Abstimmung auswählen
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="tableMenu" class="dropdown-menu">
-                        <%
-                            LinkedList<Poll> liListe = (LinkedList<Poll>) this.getServletConfig().getServletContext().getAttribute("pollList");
-                            if (liListe != null) {
-                                for (Poll p : liListe) {
-                                    out.print("<li><a href='#'>" + p.getTitle() + "</a></li>");
-                                }
+                <button id="tableButton" name="pollTitle" class="btn btn-primary dropdown-toggle" type="button"
+                        data-toggle="dropdown">
+                    Bitte Abstimmung auswählen
+                    <span class="caret"></span>
+                </button>
+                <ul id="tableMenu" class="dropdown-menu">
+                    <%
+                        LinkedList<Poll> liListe = (LinkedList<Poll>) this.getServletConfig().getServletContext().getAttribute("pollList");
+                        if (liListe != null) {
+                            for (Poll p : liListe) {
+                                out.print("<li><a href='#'>" + p.getTitle() + "</a></li>");
                             }
-                        %>
-                    </ul>
+                        }
+                    %>
+                </ul>
             </div>
             <br>
             <br>
-                <div class="answerDiv">
-                    <div class="input-group">
-                        <span class="input-group-addon">Antworttitel</span>
-                        <input id="answerTitle" type="text" class="form-control" name="input_AnswerTitle"
-                               placeholder="Titel"> </input>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
-                    <br> <br>
-                    <div class="input-group">
-                        <span class="input-group-addon">Antwortbeschreibung</span>
-                        <textarea id="answer" type="text" class="form-control" name="input_Answer" rows="6"
-                                  placeholder="Beschreibung"> </textarea>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                    </div>
+            <div class="answerDiv">
+                <div class="input-group">
+                    <span class="input-group-addon">Antworttitel</span>
+                    <input id="answerTitle" type="text" class="form-control" name="input_AnswerTitle"
+                           placeholder="Titel"> </input>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
-                <%=  request.getAttribute("pollAnswerError") != null ? request.getAttribute("pollAnswerError") : ""  %>
-                <br>
-                <div class="submitButton">
-                    <button id="addAnswerButton" type="submit" form="newRef" name="actionButton" value="addAnswer"
-                            class="btn btn-primary"><span
-                            class="glyphicon glyphicon-floppy-disk"></span> Antwort hinzufügen
-                    </button>
+                <br> <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Antwortbeschreibung</span>
+                    <textarea id="answer" type="text" class="form-control" name="input_Answer" rows="6"
+                              placeholder="Beschreibung"> </textarea>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
-        </form>
+            </div>
+            <%=  request.getAttribute("pollAnswerError") != null ? request.getAttribute("pollAnswerError") : ""  %>
+            <br>
+            <input id="hiddenPoll" type="text" name="hiddenPoll" class="form-control">
             <div class="submitButton">
-                <a href="adminSettingsUI.jsp">
-                    <button type="button" class="btn btn-primary" name="forwardButton"
-                            value="forward"> Weiter zur Admin Seite <span
-                            class="glyphicon glyphicon-arrow-right"></span>
-                    </button>
-                </a>
-
+                <button id="addAnswerButton" type="submit" form="form2" name="actionButton" value="addAnswer"
+                        class="btn btn-primary"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Antwort hinzufügen
+                </button>
             </div>
+        </form>
+        <div class="submitButton">
+            <a href="adminSettingsUI.jsp">
+                <button type="button" class="btn btn-primary" name="actionButton"
+                        value="forward"> Weiter zur Admin Seite <span
+                        class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </a>
+
+        </div>
+        <br><br><br>
     </div>
 </div>
 <footer class="footer">
@@ -180,8 +182,10 @@
     $("#tableMenu a").click(function (e) {
         e.preventDefault(); // cancel the link behaviour
         var selText = $(this).text();
-        $("#tableButton").text(selText);
-        $("#tableButton").value(selText);
+        alert(selText);
+        document.getElementById('hiddenPoll').value = selText;
+        document.getElementById('tableButton').innerHTML = selText;
+
     });
 </script>
 </html>

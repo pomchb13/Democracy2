@@ -231,7 +231,7 @@
                 </div>
                 <br>
                 <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
-                <input id="inputFoto" type="text" name="input_cand_Picture" class="form-control" hidden>
+                <input id="hiddenFoto" type="text" name="input_cand_Picture" class="form-control" hidden>
 
                 <br>
                 <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
@@ -259,6 +259,7 @@
             </a>
 
         </div>
+        <br><br><br>
 
     </div>
 </div>

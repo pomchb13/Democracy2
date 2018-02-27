@@ -172,5 +172,20 @@ input[type=date]::-webkit-outer-spin-button {
     font-size: 12px;
     font-family: "Courier New";
 }
+#inputPicture{
+    height: 3%;
+}
+
+#hiddenPoll {
+    visibility: hidden;
+}
+#hiddenVote {
+    visibility: hidden;
+}
+#hiddenFoto {
+    visibility: hidden;
+}
+
+
 
 

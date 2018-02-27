@@ -71,8 +71,18 @@
     <p>bevorzugestes Dateiformat: 35*45</p>
     <center>
         <form method="POST" action="/UploadImageSL" enctype="multipart/form-data">
-            <input type="file" name="file" id="file"/> <br/>
-            <input type="submit" value="Upload" name="upload" id="upload"/>
+            <div class="input-group">
+                <span class="input-group-addon">Portrait</span>
+                <input id="inputPicture" type="file" name="input_Picture" class="form-control"
+                       placeholder="Bild">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+            </div><br>
+            <div class="submitButton">
+                <button type="submit" id="upload" class="btn btn-primary" name="Upload"
+                        value="uploadPicture"><span
+                        class="glyphicon glyphicon-floppy-disk"></span> Bild hochladen
+                </button>
+            </div>
         </form>
         <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
     </center>
