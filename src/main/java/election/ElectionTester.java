@@ -141,7 +141,9 @@ public class ElectionTester {
         return election.getContractAddress();
     }
 
-
+    public String getVoteAddressForVoter(String address) throws Exception {
+        return election.getVoteAddressForVoter(address).send();
+    }
 
     public static void main(String[] args) {
         try {

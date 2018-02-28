@@ -132,6 +132,9 @@ public class PollTester {
         return poll.getAlreadyVotedForVoter(address).send();
     }
 
+    public String getVoteAddressForVoter(String address) throws Exception {
+        return poll.getVoteAddressForVoter(address).send();
+    }
 
 
     public static void main(String[] args) {
@@ -178,6 +181,8 @@ public class PollTester {
             pollAnswerList.add(pa2);
             pollAnswerList.add(pa3);
             System.out.println(Arrays.toString(tester.getWinners(pollAnswerList).toArray()));
+
+            System.out.println(tester.getVoteAddressForVoter("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be"));
 
 
 

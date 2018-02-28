@@ -87,8 +87,8 @@ public class UserDialog extends JDialog {
         this.et = et;
         try {
             lbTitle.setText(et.getElectionData().getTitle());
-            lbwhal1.setText(et.getCandidateData(0).getFirstname());
-            lbwahl2.setText(et.getCandidateData(1).getFirstname());
+            lbwhal1.setText(et.getCandidateData(0).getForename());
+            lbwahl2.setText(et.getCandidateData(1).getForename());
         } catch (Exception e) {
             e.printStackTrace();
         }
