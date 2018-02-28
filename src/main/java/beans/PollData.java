@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * Created by Leonhard on 16.08.2017.
  * Not finished --> Only a suggestion
  */
-public class Poll {
+public class PollData {
 
     /* Tite of the PollContract */
     private String title;
@@ -20,7 +20,7 @@ public class Poll {
     /* List of all Answers */
     private LinkedList<PollAnswer> answerList;
 
-    public Poll(String title, LocalDate date_from, LocalDate date_due, boolean diagramOption) {
+    public PollData(String title, LocalDate date_from, LocalDate date_due, boolean diagramOption) {
         this.title = title;
         this.date_from = date_from;
         this.date_due = date_due;

@@ -1,22 +1,15 @@
 package util;
 
-import election.ElectionData;
 import election.ElectionTester;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
 import poll.PollTester;
 import test.VoteType;
 
 import java.io.*;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 public class BlockchainUtil {
 
@@ -48,6 +41,7 @@ public class BlockchainUtil {
     }
 
 
+    //TODO: umschreiben wenn Admin contract
     public static boolean checkIfAdmin(String adminAddress, String contractAddress, VoteType type, Credentials cr) throws Exception {
         if(type.equals(VoteType.ELECTION))
         {

@@ -1,7 +1,8 @@
 package servlet;
 
 import beans.RightEnum;
-import user.loggedUsers;
+import user.LoggedUsers;
+import user.LoggedUsers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 public class UploadImageSL extends HttpServlet {
 
     private LinkedList<String> liFilenames = new LinkedList<>();
-    private loggedUsers lU = loggedUsers.getInstance();
+    private LoggedUsers lU = LoggedUsers.getInstance();
     private final static Logger LOGGER =
             Logger.getLogger(UploadImageSL.class.getCanonicalName());
 

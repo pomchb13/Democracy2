@@ -1,7 +1,8 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.Poll" %>
+<%@ page import="beans.PollData" %>
 <%@ page import="beans.RightEnum" %>
-<%@ page import="user.loggedUsers" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -41,7 +42,7 @@
 <body>
 <%
     HttpSession ses = request.getSession();
-    loggedUsers lU = loggedUsers.getInstance();
+    LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
 
@@ -114,8 +115,8 @@
         <hr>
         <br>
         <div>
-            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("pollList") != null ?
-                    ((Poll) this.getServletConfig().getServletContext().getAttribute("pollList")).getTitle() : ""%>
+            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("pollDataList") != null ?
+                    ((PollData) this.getServletConfig().getServletContext().getAttribute("pollDataList")).getTitle() : ""%>
                 hinzufügen</h1></div>
         <form id="form2" action="/newPollSL" method="post">
             <br>

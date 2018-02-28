@@ -1,10 +1,13 @@
 package servlet;
 
 import beans.RightEnum;
+import election.ElectionTester;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
+import poll.PollTester;
 import user.HashGenerator;
-import user.loggedUsers;
+import user.LoggedUsers;
+import user.LoggedUsers;
 import util.BlockchainUtil;
 import util.ServletUtil;
 
@@ -23,7 +26,7 @@ import java.io.IOException;
 public class LoginSL extends HttpServlet {
 
     private HashGenerator hashInstance;
-    private loggedUsers userInstance;
+    private LoggedUsers userInstance;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -54,6 +57,7 @@ public class LoginSL extends HttpServlet {
         try {
             Credentials cr = BlockchainUtil.loginToBlockhain(username,password);
             req.getSession().setAttribute("credentials", cr);
+
         } catch (CipherException e) {
             e.printStackTrace();
         }
@@ -65,7 +69,7 @@ public class LoginSL extends HttpServlet {
 
         //log User in List
 
-        userInstance = loggedUsers.getInstance();
+        userInstance = LoggedUsers.getInstance();
         try {
             userInstance.login(hash, right);
         } catch (Exception e) {

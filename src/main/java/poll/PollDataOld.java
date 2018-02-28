@@ -5,14 +5,15 @@ import java.time.LocalDate;
 /**
  * Created by Patri on 03.01.2018.
  */
-public class PollData {
+@Deprecated
+public class PollDataOld {
 
     private String title;
     private LocalDate dateFrom;
     private LocalDate dateDue;
     private boolean showDiagram;
 
-    public PollData(String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) {
+    public PollDataOld(String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) {
         this.title = title;
         this.dateFrom = dateFrom;
         this.dateDue = dateDue;

@@ -1,5 +1,6 @@
-<%@ page import="user.loggedUsers" %>
-<%@ page import="beans.RightEnum" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.RightEnum" %>
+<%@ page import="user.LoggedUsers" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 23.02.2018
@@ -52,7 +53,7 @@
 <%
 
     HttpSession ses = request.getSession();
-    loggedUsers lU = loggedUsers.getInstance();
+    LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
 

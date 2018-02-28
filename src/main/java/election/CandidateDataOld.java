@@ -3,9 +3,10 @@ package election;
 import java.time.LocalDate;
 
 /**
- * Created by Patri on 03.01.2018.
+ * Created by Patrick on 03.01.2018.
  */
-public class CandidateData {
+@Deprecated
+public class CandidateDataOld {
 
     private String title;
     private String firstname;
@@ -15,7 +16,7 @@ public class CandidateData {
     private String slogan;
     private int voteCount;
 
-    public CandidateData(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, int voteCount) {
+    public CandidateDataOld(String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, int voteCount) {
         this.title = title;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -83,7 +84,7 @@ public class CandidateData {
 
     @Override
     public String toString() {
-        return "CandidateData{" +
+        return "CandidateDataOld{" +
                 "title='" + title + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +

@@ -1,11 +1,11 @@
 package servlet;
 
-import beans.Politician;
+import beans.CandidateData;
+import beans.ElectionData;
 import beans.RightEnum;
-import beans.Vote;
 import election.ElectionTester;
 import org.web3j.crypto.Credentials;
-import user.loggedUsers;
+import user.LoggedUsers;
 import util.ServletUtil;
 
 import javax.imageio.ImageIO;
@@ -17,21 +17,17 @@ import javax.servlet.http.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Leonhard on 28.11.2017.
  */
 @WebServlet(urlPatterns = {"/NewElectionSL"})
 public class NewElectionSL extends HttpServlet {
-    private loggedUsers lU = loggedUsers.getInstance();
+    private LoggedUsers lU = LoggedUsers.getInstance();
     private ElectionTester election;
 
     @Override
@@ -83,10 +79,10 @@ public class NewElectionSL extends HttpServlet {
                         || LocalDate.now().isEqual(vote_fromDate)
                         && LocalDate.now().isBefore(vote_dueDate)
                         && vote_fromDate.isBefore(vote_dueDate)) {
-                    Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
+                    ElectionData newElectionData = new ElectionData(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
                     //Testing Statement --> Delete After not needed
-                    System.out.println(newVote.toString());
-                    this.getServletContext().setAttribute("newElection", newVote);
+                    System.out.println(newElectionData.toString());
+                    this.getServletContext().setAttribute("newElection", newElectionData);
                 } else {
                     throw new Exception("wrong Date");
                 }
@@ -100,7 +96,7 @@ public class NewElectionSL extends HttpServlet {
 
                 if (this.getServletContext().getAttribute("newElection") != null) {
 
-                    System.out.println("Adding Politician");
+                    System.out.println("Adding CandidateData");
                     String candTitle = ServletUtil.filter(req.getParameter("input_cand_Title"));
                     String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
                     String candLastname = ServletUtil.filter((req.getParameter("input_cand_Lastname")));
@@ -116,18 +112,18 @@ public class NewElectionSL extends HttpServlet {
                     } catch (IOException ex) {
                         img = null;
                     }
-                    Politician pot = new Politician(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, img);
+                    CandidateData pot = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, img);
                     System.out.println(pot.toString());
                     int count = 0;
 
-                    Vote newVote = (Vote) this.getServletContext().getAttribute("newElection");
-                    LinkedList<Politician> liPolit = newVote.getLiCandidates();
+                    ElectionData newElectionData = (ElectionData) this.getServletContext().getAttribute("newElection");
+                    LinkedList<CandidateData> liPolit = newElectionData.getLiCandidates();
                     System.out.println(liPolit.toString());
                     liPolit.add(pot);
-                    newVote.setLiCandidates(liPolit);
+                    newElectionData.setLiCandidates(liPolit);
 
-                    System.out.println(newVote.toString());
-                    this.getServletContext().setAttribute("newElection", newVote);
+                    System.out.println(newElectionData.toString());
+                    this.getServletContext().setAttribute("newElection", newElectionData);
 
 
                 }
@@ -137,18 +133,18 @@ public class NewElectionSL extends HttpServlet {
                 req.setAttribute("errorPol", error);
             }
         } else {
-            //TODO:Save complete Election in Blockchain --> DONE
+            //TODO:Save complete ElectionContract in Blockchain --> DONE
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             election = new ElectionTester(cr);
-            Vote liVoteList = (Vote) this.getServletContext().getAttribute("newElection");
+            ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
             try {
-                election.createContract(liVoteList.getLiCandidates().size(), liVoteList.getTitle(), liVoteList.getDate_from(),
-                        liVoteList.getDate_due(), liVoteList.isShow_diagrams());
+                election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),
+                        liElectionDataList.getDate_due(), liElectionDataList.isShow_diagrams());
             } catch (Exception e) {
                 //TODO: Exception handling
                 e.printStackTrace();
             }
-            List<Politician> liPolit = (List<Politician>) this.getServletContext().getAttribute("politList");
+            List<CandidateData> liPolit = (List<CandidateData>) this.getServletContext().getAttribute("politList");
             for (int i = 0; i < liPolit.size(); i++) {
                 try {
                     election.storeCandidateData(i, liPolit.get(i).getTitle(), liPolit.get(i).getForename(), liPolit.get(i).getSurname(),

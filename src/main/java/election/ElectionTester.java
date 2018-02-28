@@ -1,7 +1,8 @@
 package election;
 
-import beans.Politician;
-import com.fasterxml.jackson.databind.ser.std.StdJdkSerializers;
+import beans.CandidateData;
+import beans.ElectionData;
+import contracts.ElectionContract;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.CipherException;
@@ -24,11 +25,12 @@ import java.util.List;
  * Created by Patrick on 01.08.2017.
  * working correctly
  */
+
 public class ElectionTester {
 
     private Web3j web3;
     private Credentials credentials;
-    private Election election;
+    private ElectionContract election;
 
     public ElectionTester() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
@@ -48,7 +50,7 @@ public class ElectionTester {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
 
-        election = Election.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        election = ElectionContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
         System.out.println(election.getContractAddress());
     }
 
@@ -122,11 +124,11 @@ public class ElectionTester {
 
 
     /***
-     * Method responsible for loading an existing contract with a specific adress
+     * Method responsible for loading an existing contract with a specific address
      * @param address
      */
     public void loadSmartContract(String address) {
-        election = Election.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+        election = ElectionContract.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(election.getContractAddress());
     }
 
@@ -150,9 +152,9 @@ public class ElectionTester {
                     "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
                     "0x44D6e503b8028Ab6B6a4f5bB8959e1258Cd9a584"};
 
-            Politician p1 = new Politician("Dr", "F1", "L1", LocalDate.of(1999,9,3), "ÖVP", "S1", null);
-            Politician p2 = new Politician("Mag", "F2", "L2", LocalDate.of(1980,9,3), "FPÖ", "S2", null);
-            Politician p3 = new Politician("DI", "F3", "L3", LocalDate.of(1970,9,3), "SPÖ", "S3", null);
+            CandidateData p1 = new CandidateData("Dr", "F1", "L1", LocalDate.of(1999,9,3), "ÖVP", "S1", null);
+            CandidateData p2 = new CandidateData("Mag", "F2", "L2", LocalDate.of(1980,9,3), "FPÖ", "S2", null);
+            CandidateData p3 = new CandidateData("DI", "F3", "L3", LocalDate.of(1970,9,3), "SPÖ", "S3", null);
 
 
             ElectionTester tester = new ElectionTester();

@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * Created by Leonhard on 16.08.2017.
  * Not finished --> Only a suggestion
  */
-public class Politician {
+public class CandidateData {
 
     /* academic title of the politician */
     private String title;
@@ -25,7 +25,9 @@ public class Politician {
     /* Picture of the politican */
     private BufferedImage portrait;
 
-    public Politician(String title, String forename, String surname, LocalDate birthday, String party, String slogan, BufferedImage portrait) {
+    private int voteCount;
+
+    public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, BufferedImage portrait) {
         this.title = title;
         this.forename = forename;
         this.surname = surname;
@@ -35,9 +37,19 @@ public class Politician {
         this.portrait = portrait;
     }
 
+    public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, int voteCount) {
+        this.title = title;
+        this.forename = forename;
+        this.surname = surname;
+        this.birthday = birthday;
+        this.party = party;
+        this.slogan = slogan;
+        this.voteCount = voteCount;
+    }
+
     @Override
     public String toString() {
-        return "Politician{" +
+        return "CandidateData{" +
                 "title='" + title + '\'' +
                 ", forename='" + forename + '\'' +
                 ", surname='" + surname + '\'' +
@@ -45,6 +57,7 @@ public class Politician {
                 ", party='" + party + '\'' +
                 ", slogan='" + slogan + '\'' +
                 ", portrait=" + portrait +
+                ", voteCount=" + voteCount +
                 '}';
     }
 
@@ -102,5 +115,13 @@ public class Politician {
 
     public void setPortrait(BufferedImage portrait) {
         this.portrait = portrait;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 }

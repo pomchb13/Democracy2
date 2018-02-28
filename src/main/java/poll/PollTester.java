@@ -1,6 +1,8 @@
 package poll;
 
 import beans.PollAnswer;
+import beans.PollData;
+import contracts.PollContract;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.CipherException;
@@ -26,7 +28,7 @@ public class PollTester {
 
     private Web3j web3;
     private Credentials credentials;
-    private Poll poll;
+    private PollContract poll;
 
     public PollTester() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
@@ -44,7 +46,7 @@ public class PollTester {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
 
-        poll = Poll.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numAnswers + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        poll = PollContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numAnswers + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
         System.out.println(poll.getContractAddress());
 
     }
@@ -113,7 +115,7 @@ public class PollTester {
 
 
     public void loadSmartContract(String address) {
-        poll = Poll.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+        poll = PollContract.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(poll.getContractAddress());
     }
 

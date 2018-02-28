@@ -1,7 +1,7 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.Vote" %>
+<%@ page import="beans.ElectionData" %>
 <%@ page import="beans.RightEnum" %>
-<%@ page import="user.loggedUsers" %><%--
+<%@ page import="user.LoggedUsers" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 28.11.2017
@@ -49,7 +49,7 @@
 <body>
 <%
     HttpSession ses = request.getSession();
-    loggedUsers lU = loggedUsers.getInstance();
+    LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
 
@@ -62,7 +62,7 @@
 <div id="navbar"></div>
 <br><br>
 <div id="container">
-    <div class="newVote" id="newVoteDivID">
+    <div class="newElectionData" id="newVoteDivID">
 
         <h1>Neue Wahl erstellen</h1>
         <br><br>
@@ -128,14 +128,14 @@
 
         <div>
             <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("newElection") != null ?
-                    ((Vote) this.getServletConfig().getServletContext().getAttribute("newElection")).getTitle() : ""%>
+                    ((ElectionData) this.getServletConfig().getServletContext().getAttribute("newElection")).getTitle() : ""%>
                 hinzufügen</h1></div>
 
         <!-- Add a new Candidate -->
         <div class="candDiv1">
             <form action="/NewElectionSL" id="form2" method="post">
                 <!-- Default dropup button -->
-                <!--<input id="Vote" type="text" name="hiddenVote" class="form-control" hidden>-->
+                <!--<input id="ElectionDataOld" type="text" name="hiddenVote" class="form-control" hidden>-->
                 <br><br>
                 <!-- Field to add his/her titel -->
                 <div class="input-group">

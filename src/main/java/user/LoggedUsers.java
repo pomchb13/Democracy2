@@ -4,18 +4,18 @@ import beans.RightEnum;
 
 import java.util.*;
 
-public class loggedUsers {
+public class LoggedUsers {
 
     private Map<String, RightEnum> tokenList = new HashMap<>();
-    private static loggedUsers theInstance;
+    private static LoggedUsers theInstance;
 
-    private loggedUsers() {
+    private LoggedUsers() {
 
     }
 
-    public static loggedUsers getInstance() {
+    public static LoggedUsers getInstance() {
         if (theInstance == null) {
-            theInstance = new loggedUsers();
+            theInstance = new LoggedUsers();
         }
         return theInstance;
     }
@@ -44,7 +44,7 @@ public class loggedUsers {
 
     public void outPutUserList()
     {
-        System.out.println("----------loggedUsers------------");
+        System.out.println("----------LoggedUsers------------");
         for (Map.Entry<String, RightEnum> e  :tokenList.entrySet()) {
             System.out.println(e.getKey() +"|"+e.getValue());
         }

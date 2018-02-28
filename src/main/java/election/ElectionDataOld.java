@@ -5,14 +5,15 @@ import java.time.LocalDate;
 /**
  * Created by Patri on 03.01.2018.
  */
-public class ElectionData {
+@Deprecated
+public class ElectionDataOld {
 
     private String title;
     private LocalDate dateFrom;
     private LocalDate dateDue;
     private boolean showDiagram;
 
-    public ElectionData(String title, LocalDate dateFrom, LocalDate dateDue, Boolean showDiagram) {
+    public ElectionDataOld(String title, LocalDate dateFrom, LocalDate dateDue, Boolean showDiagram) {
         this.title = title;
         this.dateFrom = dateFrom;
         this.dateDue = dateDue;

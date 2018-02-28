@@ -8,20 +8,20 @@ import java.util.LinkedList;
  * Not finished --> Only a suggestion
  * Not sure how to handle the party, politician conflict
  */
-public class Vote {
+public class ElectionData {
 
-    /* Title of the Vote */
+    /* Title of the ElectionDataOld */
     private String title;
-    /* Startdate of the Vote */
+    /* Startdate of the ElectionDataOld */
     private LocalDate date_from;
-    /* Enddate of the Vote */
+    /* Enddate of the ElectionDataOld */
     private LocalDate date_due;
 
     private boolean show_diagrams;
     /* List where all Candidates where saved */
-    private LinkedList<Politician> liCandidates;
+    private LinkedList<CandidateData> liCandidates;
 
-    public Vote(String title, LocalDate date_from, LocalDate date_due, boolean show_diagrams) {
+    public ElectionData(String title, LocalDate date_from, LocalDate date_due, boolean show_diagrams) {
         this.title = title;
         this.date_from = date_from;
         this.date_due = date_due;
@@ -31,7 +31,7 @@ public class Vote {
 
     @Override
     public String toString() {
-        return "Vote{" +
+        return "ElectionDataOld{" +
                 "title='" + title + '\'' +
                 ", date_from=" + date_from +
                 ", date_due=" + date_due +
@@ -72,11 +72,11 @@ public class Vote {
         this.show_diagrams = show_diagrams;
     }
 
-    public LinkedList<Politician> getLiCandidates() {
+    public LinkedList<CandidateData> getLiCandidates() {
         return liCandidates;
     }
 
-    public void setLiCandidates(LinkedList<Politician> liCandidates) {
+    public void setLiCandidates(LinkedList<CandidateData> liCandidates) {
         this.liCandidates = liCandidates;
     }
 }

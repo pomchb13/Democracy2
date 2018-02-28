@@ -2,7 +2,8 @@ package servlet;
 
 import beans.RightEnum;
 import user.HashGenerator;
-import user.loggedUsers;
+import user.LoggedUsers;
+import user.LoggedUsers;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -20,7 +21,7 @@ import java.io.IOException;
  */
 @WebServlet(urlPatterns = {"/LogoutSL"})
 public class LogoutSL extends HttpServlet {
-    private loggedUsers lU = loggedUsers.getInstance();
+    private LoggedUsers lU = LoggedUsers.getInstance();
 
 
     @Override

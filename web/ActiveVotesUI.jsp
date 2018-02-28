@@ -1,7 +1,8 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="user.loggedUsers" %>
-<%@ page import="beans.*" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.*" %>
+<%@ page import="user.LoggedUsers" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -30,7 +31,7 @@
 <body>
 <%
     HttpSession ses = request.getSession();
-    loggedUsers lU = loggedUsers.getInstance();
+    LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
 
@@ -48,9 +49,9 @@
         <div class="titleActivVote">
             <h1>Alle beendeten und aktiven Wahlen auf einem Blick</h1>
             <%
-                LinkedList<Vote> voteList = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
-                LinkedList<Poll> pollList = (LinkedList<Poll>) this.getServletConfig().getServletContext().getAttribute("pollList");
-                if (voteList != null && voteList.size() != 0) {
+                LinkedList<ElectionData> electionDataList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("electionDataList");
+                LinkedList<PollData> pollDataList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("pollDataList");
+                if (electionDataList != null && electionDataList.size() != 0) {
                     out.println("<h3> Alle Wahlen </h3>");
                     out.print("<table class=\"table table-hover\">\n" +
                             "    <thead>\n" +
@@ -64,7 +65,7 @@
                             "    </thead>\n" +
                             "    <tbody>");
 
-                    for (Vote v : voteList) {
+                    for (ElectionData v : electionDataList) {
                         if ((LocalDate.now().isEqual(v.getDate_due()) || LocalDate.now().equals(v.getDate_from())) ||
                                 (LocalDate.now().isBefore(v.getDate_due()) && LocalDate.now().isAfter(v.getDate_from()))) {
                             out.print("<tr class='active'>");
@@ -72,7 +73,7 @@
                                     "<td>" + v.getDate_from() + "</td>\n" +
                                     "<td>" + v.getDate_due() + "</td>\n" +
                                     "<td>");
-                            for (Politician p : v.getLiCandidates()) {
+                            for (CandidateData p : v.getLiCandidates()) {
                                 out.print(p.getForename() + " " + p.getSurname() + " | ");
                             }
                             out.print("</td>" +
@@ -84,7 +85,7 @@
                                     "<td>" + v.getDate_from() + "</td>\n" +
                                     "<td>" + v.getDate_due() + "</td>\n" +
                                     "<td>");
-                            for (Politician p : v.getLiCandidates()) {
+                            for (CandidateData p : v.getLiCandidates()) {
                                 out.print(p.getForename() + " " + p.getSurname() + " | ");
                             }
                             out.print("</td>" +
@@ -96,7 +97,7 @@
                                     "<td>" + v.getDate_from() + "</td>\n" +
                                     "<td>" + v.getDate_due() + "</td>\n" +
                                     "<td>");
-                            for (Politician p : v.getLiCandidates()) {
+                            for (CandidateData p : v.getLiCandidates()) {
                                 out.print(p.getForename() + " " + p.getSurname() + " | ");
                             }
                             out.print("</td>" +
@@ -107,7 +108,7 @@
                     }
                 }
 
-                if (pollList != null && pollList.size() != 0) {
+                if (pollDataList != null && pollDataList.size() != 0) {
                     out.println("<h3> Alle Abstimmungen </h3>");
                     out.print("<table class=\"table table-hover\">\n" +
                             "    <thead>\n" +
@@ -121,7 +122,7 @@
                             "    </thead>\n" +
                             "    <tbody>");
 
-                    for (Poll v : pollList) {
+                    for (PollData v : pollDataList) {
                         if ((LocalDate.now().isEqual(v.getDate_due()) || LocalDate.now().equals(v.getDate_from())) ||
                                 (LocalDate.now().isBefore(v.getDate_due()) && LocalDate.now().isAfter(v.getDate_from()))) {
                             out.print("<tr class='active'>");
