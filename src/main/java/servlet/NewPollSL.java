@@ -2,7 +2,7 @@ package servlet;
 
 import beans.*;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
+import handler.PollHandler;
 import user.LoggedUsers;
 import util.ServletUtil;
 
@@ -27,7 +27,7 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/newPollSL"})
 public class NewPollSL extends HttpServlet {
     private LoggedUsers lU = LoggedUsers.getInstance();
-    private PollTester pollTester;
+    private PollHandler pollTester;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -86,7 +86,7 @@ public class NewPollSL extends HttpServlet {
         } else {
             //TODO:Save complete ElectionContract in Blockchain --> DONE
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
-            pollTester = new PollTester(cr);
+            pollTester = new PollHandler(cr);
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
                 pollTester.createContract(pollData.getAnswerList().size(),

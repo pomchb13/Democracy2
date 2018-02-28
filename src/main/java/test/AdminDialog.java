@@ -1,9 +1,9 @@
 package test;
 
-import election.ElectionTester;
+import handler.ElectionHandler;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
+import handler.PollHandler;
 import util.BlockchainUtil;
 
 import javax.swing.*;
@@ -19,8 +19,8 @@ public class AdminDialog extends JDialog {
     private JButton volksabstimmungButton;
     private JButton wahlButton;
 
-    private PollTester pt;
-    private ElectionTester et;
+    private PollHandler pt;
+    private ElectionHandler et;
     private Credentials cr;
     private int election;
     private Tester tester;
@@ -64,7 +64,7 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    pt = new PollTester(cr);
+                    pt = new PollHandler(cr);
                     pt.createContract(2, "Gangl is schiach", LocalDate.now(), LocalDate.now().plusDays(10), false);
                     BlockchainUtil.saveContractAddress(pt.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
@@ -82,7 +82,7 @@ public class AdminDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    et = new ElectionTester(cr);
+                    et = new ElectionHandler(cr);
                     et.createContract(2, "Pommer is a schiach", LocalDate.now(), LocalDate.now().plusDays(20), false);
                     BlockchainUtil.saveContractAddress(et.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
@@ -110,11 +110,11 @@ public class AdminDialog extends JDialog {
 
     public int getElection(){return election;}
 
-    public PollTester getPt() {
+    public PollHandler getPt() {
         return pt;
     }
 
-    public ElectionTester getEt() {
+    public ElectionHandler getEt() {
         return et;
     }
 

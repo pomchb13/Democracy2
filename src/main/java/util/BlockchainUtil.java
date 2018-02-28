@@ -1,10 +1,11 @@
 package util;
 
-import election.ElectionTester;
+import handler.ElectionHandler;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
-import poll.PollTester;
+import handler.PollHandler;
 import test.VoteType;
 
 import java.io.*;
@@ -21,9 +22,7 @@ public class BlockchainUtil {
 
     public static String getFileName(String address)
     {
-
         //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
-
         address = address.substring(2);
         File file = new File(PATH);
         if(file.exists() && file.isDirectory())
@@ -45,9 +44,9 @@ public class BlockchainUtil {
     public static boolean checkIfAdmin(String adminAddress, String contractAddress, VoteType type, Credentials cr) throws Exception {
         if(type.equals(VoteType.ELECTION))
         {
-            ElectionTester et = new ElectionTester(cr);
-            et.loadSmartContract(contractAddress);
-            String realAdminAddress = et.getAdminAddress();
+            ElectionHandler handler = new ElectionHandler(cr);
+            handler.loadSmartContract(new Address(contractAddress));
+            String realAdminAddress = handler.getAdminAddress();
             if(adminAddress.equals(realAdminAddress))
             {
                 return true;
@@ -55,9 +54,9 @@ public class BlockchainUtil {
         }
         else if(type.equals(VoteType.POLL))
         {
-            PollTester pt = new PollTester(cr);
-            pt.loadSmartContract(contractAddress);
-            String realAdminAddress = pt.getAdminAddress();
+            PollHandler handler = new PollHandler(cr);
+            handler.loadSmartContract(new Address(contractAddress));
+            String realAdminAddress = handler.getAdminAddress();
             if(adminAddress.equals(realAdminAddress))
             {
                 return true;

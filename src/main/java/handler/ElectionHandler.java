@@ -1,4 +1,4 @@
-package election;
+package handler;
 
 import beans.CandidateData;
 import beans.ElectionData;
@@ -23,21 +23,21 @@ import java.util.List;
 
 /**
  * Created by Patrick on 01.08.2017.
- * working correctly
  */
 
-public class ElectionTester {
+public class ElectionHandler {
 
     private Web3j web3;
     private Credentials credentials;
     private ElectionContract election;
 
-    public ElectionTester() throws IOException, CipherException {
+    // for testing purpose only
+    public ElectionHandler() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
         credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }
 
-    public ElectionTester(Credentials credentials) {
+    public ElectionHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
     }
@@ -46,12 +46,12 @@ public class ElectionTester {
     /***
      * Method responsible for creating a new smart contract
      */
-    public void createContract(int numProps, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
+    public String createContract(int numProps, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
 
         election = ElectionContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
-        System.out.println(election.getContractAddress());
+        return election.getContractAddress();
     }
 
     public void giveRightToVote(Address voter) throws Exception {
@@ -59,12 +59,20 @@ public class ElectionTester {
         {
             election.giveRightToVote(voter.toString()).send();
         }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public void vote(Uint8 proposal, Address address) throws Exception {
         if(election != null)
         {
             election.vote(proposal.getValue(), address.toString()).send();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
         }
     }
 
@@ -94,32 +102,50 @@ public class ElectionTester {
 
 
     public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
-        BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-        election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
+        if(election != null) {
+            BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
+            election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public ElectionData getElectionData() throws Exception {
-        String title = election.getElectionData().send().getValue1();
-        BigInteger dateFrom = election.getElectionData().send().getValue2();
-        BigInteger dateDue = election.getElectionData().send().getValue3();
-        Boolean showDiagram = election.getElectionData().send().getValue4();
+        if(election != null) {
+            String title = election.getElectionData().send().getValue1();
+            BigInteger dateFrom = election.getElectionData().send().getValue2();
+            BigInteger dateDue = election.getElectionData().send().getValue3();
+            Boolean showDiagram = election.getElectionData().send().getValue4();
 
-        LocalDate ldDateFrom = Instant.ofEpochMilli(dateFrom.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate ldDateDue = Instant.ofEpochMilli(dateDue.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        return new ElectionData(title, ldDateFrom, ldDateDue, showDiagram);
+            LocalDate ldDateFrom = Instant.ofEpochMilli(dateFrom.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate ldDateDue = Instant.ofEpochMilli(dateDue.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            return new ElectionData(title, ldDateFrom, ldDateDue, showDiagram);
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public CandidateData getCandidateData(int can) throws Exception {
-        BigInteger candidate = new BigInteger(can + "");
-        String title = election.getCandidate(candidate).send().getValue1();
-        String firstname = election.getCandidate(candidate).send().getValue2();
-        String lastname = election.getCandidate(candidate).send().getValue3();
-        BigInteger birthday = election.getCandidate(candidate).send().getValue4();
-        String party = election.getCandidate(candidate).send().getValue5();
-        String slogan = election.getCandidate(candidate).send().getValue6();
-        LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        BigInteger voteCount = election.getCandidate(candidate).send().getValue7();
-        return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
+        if(election != null) {
+            BigInteger candidate = new BigInteger(can + "");
+            String title = election.getCandidate(candidate).send().getValue1();
+            String firstname = election.getCandidate(candidate).send().getValue2();
+            String lastname = election.getCandidate(candidate).send().getValue3();
+            BigInteger birthday = election.getCandidate(candidate).send().getValue4();
+            String party = election.getCandidate(candidate).send().getValue5();
+            String slogan = election.getCandidate(candidate).send().getValue6();
+            LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            BigInteger voteCount = election.getCandidate(candidate).send().getValue7();
+            return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
 
@@ -127,28 +153,58 @@ public class ElectionTester {
      * Method responsible for loading an existing contract with a specific address
      * @param address
      */
-    public void loadSmartContract(Address address) {
-        election = ElectionContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
-        System.out.println(election.getContractAddress());
+    public void loadSmartContract(Address address) throws Exception {
+        if(election != null) {
+            election = ElectionContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+            System.out.println(election.getContractAddress());
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public String getAdminAddress() throws Exception {
-        return election.getAdminAddress().send();
+        if(election != null) {
+            return election.getAdminAddress().send();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
-    public String getContractAddress()
-    {
-        return election.getContractAddress();
+    public String getContractAddress() throws Exception {
+        if(election != null) {
+            return election.getContractAddress();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public boolean getAlreadyVotedForVoter(Address address) throws Exception {
-        return election.getAlreadyVotedForVoter(address.toString()).send();
+        if(election != null) {
+            return election.getAlreadyVotedForVoter(address.toString()).send();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
     public String getVoteAddressForVoter(Address address) throws Exception {
-        return election.getVoteAddressForVoter(address.toString()).send();
+        if(election != null) {
+            return election.getVoteAddressForVoter(address.toString()).send();
+        }
+        else
+        {
+            throw new Exception("election object is null!");
+        }
     }
 
+    // for testing purpose only
     public static void main(String[] args) {
         try {
             String address = "0x39ed290931679c83e1f96ba6ce2181ae0989854a";
@@ -163,7 +219,7 @@ public class ElectionTester {
             CandidateData p3 = new CandidateData("DI", "F3", "L3", LocalDate.of(1970,9,3), "SPÖ", "S3", null);
 
 
-            ElectionTester tester = new ElectionTester();
+            ElectionHandler tester = new ElectionHandler();
             tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
             tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
@@ -183,7 +239,6 @@ public class ElectionTester {
             tester.vote(new Uint8(1), new Address(users[3]));
             tester.vote(new Uint8(2), new Address(users[2]));
 
-
             CandidateData c1 = tester.getCandidateData(0);
             CandidateData c2 = tester.getCandidateData(1);
             CandidateData c3 = tester.getCandidateData(2);
@@ -192,10 +247,6 @@ public class ElectionTester {
             candidateDataList.add(c2);
             candidateDataList.add(c3);
             System.out.println(Arrays.toString(tester.getWinners(candidateDataList).toArray()));
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

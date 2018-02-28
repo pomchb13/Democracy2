@@ -1,12 +1,11 @@
 package servlet;
 
 import beans.*;
-import election.ElectionTester;
+import handler.ElectionHandler;
+import handler.PollHandler;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
 import user.HashGenerator;
-import user.LoggedUsers;
 import user.LoggedUsers;
 import util.BlockchainUtil;
 import util.ServletUtil;
@@ -83,15 +82,15 @@ public class LoginSL extends HttpServlet {
 
                     //toDo: Abfrage welche Wahl !!!
                     if (art == ArtOfVote.Election) {
-                        ElectionTester et = new ElectionTester(cr);
-                        ElectionData ed = et.getElectionData();
+                        ElectionHandler handler = new ElectionHandler(cr);
+                        ElectionData ed = handler.getElectionData();
                         HttpSession ses = req.getSession();
                         ses.setAttribute("election", ed);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("ElectionUI.jsp");
                     } else {
-                        PollTester pt = new PollTester(cr);
-                        PollData pa = pt.getPollData();
+                        PollHandler handler = new PollHandler(cr);
+                        PollData pa = handler.getPollData();
                         HttpSession ses = req.getSession();
                         ses.setAttribute("poll", pa);
                         ses.setMaxInactiveInterval(15 * 60);

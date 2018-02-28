@@ -2,10 +2,10 @@ package test;
 
 
 
-import election.ElectionTester;
+import handler.ElectionHandler;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
+import handler.PollHandler;
 import user.UserCreator;
 import util.BlockchainUtil;
 
@@ -28,8 +28,8 @@ public class Tester{
     private static final String PATH = "F:\\Geth\\geth_data\\keystore\\";
     private AdminDialog dialog;
 
-    private PollTester pt;
-    private ElectionTester et;
+    private PollHandler pt;
+    private ElectionHandler et;
     private String contractAddressPath = System.getProperty("user.dir")+File.separator+"src"+File.separator+ "images" +File.separator+"ContractAdresses.txt";
 
 
@@ -66,7 +66,11 @@ public class Tester{
                        int butt = (JOptionPane.showConfirmDialog(null,"Admin interface öffnen=?","asdf",JOptionPane.YES_NO_OPTION));
                       if(butt==JOptionPane.YES_OPTION)
                       {
-                          openAdmin();
+                          try {
+                              openAdmin();
+                          } catch (Exception e1) {
+                              e1.printStackTrace();
+                          }
                           admin=false;
                       }
                       else
@@ -111,8 +115,7 @@ public class Tester{
      * 0x4fb52a51258209ed3d794e0660a09e21617cd925
      */
 
-    private void openAdmin()
-    {
+    private void openAdmin() throws Exception {
         dialog = new AdminDialog(cr,this);
         dialog.pack();
         dialog.setVisible(true);

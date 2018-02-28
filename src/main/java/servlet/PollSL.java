@@ -1,11 +1,10 @@
 package servlet;
 
-import beans.ElectionData;
 import beans.PollData;
+import handler.PollHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
 import user.LoggedUsers;
 
 import javax.servlet.RequestDispatcher;
@@ -40,13 +39,13 @@ public class PollSL extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int val = (int) Integer.parseInt(req.getParameter("optradio"));
         //ToDo: Stimmer vergeben und dann Wahlrecht enziehen
-        PollTester pollTester = new PollTester((Credentials) req.getSession().getAttribute("credentials"));
+        PollHandler handler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
         if (!address.isEmpty()) {
             try {
-                pollTester.giveRightToVote(new Address(address));
-                pollTester.vote(new Uint8(val),new Address(address));
+                handler.giveRightToVote(new Address(address));
+                handler.vote(new Uint8(val),new Address(address));
             } catch (Exception e) {
                 //ToDo: Catch them all!
             }

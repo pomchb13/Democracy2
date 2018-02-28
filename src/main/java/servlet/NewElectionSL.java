@@ -3,7 +3,7 @@ package servlet;
 import beans.CandidateData;
 import beans.ElectionData;
 import beans.RightEnum;
-import election.ElectionTester;
+import handler.ElectionHandler;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
 import util.ServletUtil;
@@ -28,7 +28,7 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/NewElectionSL"})
 public class NewElectionSL extends HttpServlet {
     private LoggedUsers lU = LoggedUsers.getInstance();
-    private ElectionTester election;
+    private ElectionHandler election;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -135,7 +135,7 @@ public class NewElectionSL extends HttpServlet {
         } else {
             //TODO:Save complete ElectionContract in Blockchain --> DONE
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
-            election = new ElectionTester(cr);
+            election = new ElectionHandler(cr);
             ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
             try {
                 election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),

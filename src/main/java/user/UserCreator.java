@@ -1,16 +1,16 @@
 package user;
 
 import beans.User;
-import election.ElectionTester;
+import handler.ElectionHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
-import poll.PollTester;
+import handler.PollHandler;
 import test.VoteType;
-import util.ExcelHandler;
+import handler.ExcelHandler;
 import util.PasswordGenerator;
 
 import java.io.File;
@@ -58,17 +58,17 @@ public class UserCreator {
 
     public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt) throws Exception {
         TreeMap<Integer, User> map =ExcelHandler.readExcelFile(new File(uploadedFilePath));
-        ElectionTester el = null;
-        PollTester pl=null;
+        ElectionHandler el = null;
+        PollHandler pl=null;
         if(vt.equals(VoteType.ELECTION))
         {
-            el= new ElectionTester();
-            el.loadSmartContract(contractAddress);
+            el= new ElectionHandler();
+            el.loadSmartContract(new Address(contractAddress));
         }
         else
         {
-            pl = new PollTester();
-            pl.loadSmartContract(contractAddress);
+            pl = new PollHandler();
+            pl.loadSmartContract(new Address(contractAddress));
         }
         for(Map.Entry<Integer,User> entry : map.entrySet())
         {

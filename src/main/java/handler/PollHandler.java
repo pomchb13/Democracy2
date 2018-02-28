@@ -1,4 +1,4 @@
-package poll;
+package handler;
 
 import beans.PollAnswer;
 import beans.PollData;
@@ -18,25 +18,25 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Patri on 03.01.2018.
+ * Created by Patrick on 03.01.2018.
  */
-public class PollTester {
+public class PollHandler {
 
     private Web3j web3;
     private Credentials credentials;
     private PollContract poll;
 
-    public PollTester() throws IOException, CipherException {
+    // for testing purpose only
+    public PollHandler() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
         credentials = BlockchainUtil.loginToBlockhain("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be", "1234");
     }
 
 
-    public PollTester(Credentials credentials) {
+    public PollHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
     }
@@ -96,53 +96,98 @@ public class PollTester {
 
     public void storeAnswerData(int answer, String title, String description) throws Exception
     {
-        poll.storeAnswerData(new BigInteger(answer + ""), title, description).send();
+        if(poll != null)
+        {
+            poll.storeAnswerData(new BigInteger(answer + ""), title, description).send();
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
     }
 
     public PollAnswer getAnswerData(int answer) throws Exception {
-        BigInteger answerBigInt = new BigInteger(answer + "");
-        String title = poll.getAnswerData(answerBigInt).send().getValue1();
-        String description = poll.getAnswerData(answerBigInt).send().getValue2();
-        BigInteger voteCount = poll.getAnswerData(answerBigInt).send().getValue3();
-        return new PollAnswer(title, description, voteCount.intValue());
+        if(poll != null) {
+            BigInteger answerBigInt = new BigInteger(answer + "");
+            String title = poll.getAnswerData(answerBigInt).send().getValue1();
+            String description = poll.getAnswerData(answerBigInt).send().getValue2();
+            BigInteger voteCount = poll.getAnswerData(answerBigInt).send().getValue3();
+            return new PollAnswer(title, description, voteCount.intValue());
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
     }
 
     public PollData getPollData() throws Exception {
-        String title = poll.getPollData().send().getValue1();
-        BigInteger dateFrom = poll.getPollData().send().getValue2();
-        BigInteger dateDue = poll.getPollData().send().getValue3();
-        Boolean showDiagram = poll.getPollData().send().getValue4();
+        if(poll != null) {
+            String title = poll.getPollData().send().getValue1();
+            BigInteger dateFrom = poll.getPollData().send().getValue2();
+            BigInteger dateDue = poll.getPollData().send().getValue3();
+            Boolean showDiagram = poll.getPollData().send().getValue4();
 
-        LocalDate ldDateFrom = Instant.ofEpochMilli(dateFrom.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate ldDateDue = Instant.ofEpochMilli(dateDue.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        return new PollData(title, ldDateFrom, ldDateDue, showDiagram);
+            LocalDate ldDateFrom = Instant.ofEpochMilli(dateFrom.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate ldDateDue = Instant.ofEpochMilli(dateDue.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            return new PollData(title, ldDateFrom, ldDateDue, showDiagram);
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
     }
 
 
 
-    public void loadSmartContract(Address address) {
+    public String loadSmartContract(Address address) {
         poll = PollContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
-        System.out.println(poll.getContractAddress());
-    }
-
-    public String getContractAddress()
-    {
         return poll.getContractAddress();
     }
 
+    public String getContractAddress() throws Exception {
+        if(poll != null) {
+            return poll.getContractAddress();
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
+    }
+
     public String getAdminAddress() throws Exception {
-        return poll.getAdminAddress().send();
+        if(poll != null)
+        {
+            return poll.getAdminAddress().send();
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
+
     }
 
     public boolean getAlreadyVotedForVoter(Address address) throws Exception {
-        return poll.getAlreadyVotedForVoter(address.toString()).send();
+        if(poll != null)
+        {
+            return poll.getAlreadyVotedForVoter(address.toString()).send();
+        }
+        else {
+            throw new Exception("poll object is null!");
+        }
     }
 
     public String getVoteAddressForVoter(Address address) throws Exception {
-        return poll.getVoteAddressForVoter(address.toString()).send();
+        if(poll != null) {
+            return poll.getVoteAddressForVoter(address.toString()).send();
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
     }
 
 
+    // for testing purpose only
     public static void main(String[] args) {
         try
         {
@@ -156,7 +201,7 @@ public class PollTester {
             PollAnswer a2 = new PollAnswer("A2", "B2");
             PollAnswer a3 = new PollAnswer("A3", "B3");
 
-            PollTester tester = new PollTester();
+            PollHandler tester = new PollHandler();
           /*  tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeAnswerData(0, a1.getTitle(), a1.getDescription());
             tester.storeAnswerData(1, a2.getTitle(), a2.getDescription());

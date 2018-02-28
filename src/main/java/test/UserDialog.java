@@ -1,11 +1,11 @@
 package test;
 
 
-import election.ElectionTester;
+import handler.ElectionHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
-import poll.PollTester;
+import handler.PollHandler;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -21,8 +21,8 @@ public class UserDialog extends JDialog {
     private JLabel lbwahl2;
     private Credentials cr;
     private VoteType vt;
-    private ElectionTester et;
-    private PollTester pt;
+    private ElectionHandler et;
+    private PollHandler pt;
     public UserDialog() {
         initComponents();
 
@@ -76,14 +76,14 @@ public class UserDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public UserDialog(Credentials cr, ElectionTester et)
+    public UserDialog(Credentials cr, ElectionHandler et)
     {
         initComponents();
         this.cr = cr;
         initElection(et);
     }
 
-    private void initElection(ElectionTester et) {
+    private void initElection(ElectionHandler et) {
         this.et = et;
         try {
             lbTitle.setText(et.getElectionData().getTitle());
@@ -95,7 +95,7 @@ public class UserDialog extends JDialog {
         vt=VoteType.ELECTION;
     }
 
-    public UserDialog(Credentials cr, PollTester pt)
+    public UserDialog(Credentials cr, PollHandler pt)
     {
         initComponents();
         this.cr=cr;
@@ -103,7 +103,7 @@ public class UserDialog extends JDialog {
 
     }
 
-    private void initPoll(PollTester pt) {
+    private void initPoll(PollHandler pt) {
         this.pt=pt;
         try {
             lbTitle.setText(pt.getPollData().getTitle());
