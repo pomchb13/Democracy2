@@ -84,7 +84,6 @@ public class NewPollSL extends HttpServlet {
             }
 
         } else {
-            //TODO:Save complete ElectionContract in Blockchain --> DONE
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             pollTester = new PollHandler(cr);
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
@@ -95,16 +94,14 @@ public class NewPollSL extends HttpServlet {
                         pollData.getDate_due(),
                         pollData.isDiagramOption());
             } catch (Exception e) {
-                //TODO: Exception handling
-                e.printStackTrace();
+                req.setAttribute("PollError", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> liAnswers = pollData.getAnswerList();
             for (int i = 0; i < liAnswers.size(); i++) {
                 try {
                     pollTester.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
                 } catch (Exception e) {
-                    //TODO: Exception handling
-                    e.printStackTrace();
+                    req.setAttribute("PollError", "Fehler beim Hinzufügen der Antworten");
                 }
             }
         }

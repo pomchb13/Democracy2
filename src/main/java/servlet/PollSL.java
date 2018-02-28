@@ -37,8 +37,7 @@ public class PollSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int val = (int) Integer.parseInt(req.getParameter("optradio"));
-        //ToDo: Stimmer vergeben und dann Wahlrecht enziehen
+        int val = Integer.parseInt(req.getParameter("optradio"));
         PollHandler handler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));

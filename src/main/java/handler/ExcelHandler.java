@@ -58,19 +58,12 @@ public class ExcelHandler {
             row++;
 
             map.put(x, new User(str[0],str[1]));
-
         }
         return map;
     }
 
-
-
-
-
-
     public static void updateExcelFile(File file, TreeMap<Integer,User> map,String path) throws IOException, InvalidFormatException
     {
-
         Workbook w = new XSSFWorkbook(file);
 
         Sheet sheet = w.getSheetAt(0);
@@ -102,8 +95,6 @@ public class ExcelHandler {
         FileOutputStream out = new FileOutputStream(new File(path));
         w.write(out);
         out.close();
-
-
     }
 
     public static Boolean proofIfAdmin(File adminFile,String address) throws Exception {
@@ -126,9 +117,7 @@ public class ExcelHandler {
                 {
                     adminList.add(currCell.getStringCellValue());
                 }
-
             }
-
         }
         if(adminList.contains(address)) return true;
         else return false;

@@ -38,7 +38,7 @@ public class NewElectionSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/NewVoteUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/NewElectionUI.jsp");
         rd.forward(request, response);
     }
 
@@ -88,7 +88,7 @@ public class NewElectionSL extends HttpServlet {
                 }
             } catch (Exception ex) {
                 error = "Bitte überprüfen Sie Ihre Eingaben!";
-                req.setAttribute("errorVot", error);
+                req.setAttribute("errorVote", error);
             }
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
             String error = null;
@@ -130,10 +130,9 @@ public class NewElectionSL extends HttpServlet {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 error = "Bitte überprüfen Sie ihre Eingaben!" + ex.toString();
-                req.setAttribute("errorPol", error);
+                req.setAttribute("errorVote", error);
             }
         } else {
-            //TODO:Save complete ElectionContract in Blockchain --> DONE
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             election = new ElectionHandler(cr);
             ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
@@ -141,8 +140,7 @@ public class NewElectionSL extends HttpServlet {
                 election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),
                         liElectionDataList.getDate_due(), liElectionDataList.isShow_diagrams());
             } catch (Exception e) {
-                //TODO: Exception handling
-                e.printStackTrace();
+                req.setAttribute("errorVote", "Fehler beim Erstellen der Wahl");
             }
             List<CandidateData> liPolit = (List<CandidateData>) this.getServletContext().getAttribute("politList");
             for (int i = 0; i < liPolit.size(); i++) {
@@ -150,8 +148,7 @@ public class NewElectionSL extends HttpServlet {
                     election.storeCandidateData(i, liPolit.get(i).getTitle(), liPolit.get(i).getForename(), liPolit.get(i).getSurname(),
                             liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan());
                 } catch (Exception e) {
-                    //TODO: Exception handling
-                    e.printStackTrace();
+                    req.setAttribute("errorVote", "Fehler beim Einfügen der Kanditaten");
                 }
             }
         }

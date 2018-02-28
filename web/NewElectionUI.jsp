@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <p id="error"><%=  request.getAttribute("errorVot") != null ? request.getAttribute("errorVot") : ""  %>
+            <p id="error"><%=  request.getAttribute("errorVote") != null ? request.getAttribute("errorVote") : ""  %>
             </p>
 
 

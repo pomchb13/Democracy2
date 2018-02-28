@@ -38,8 +38,7 @@
         <!-- Error text -->
         <div class="alert alert-danger" id="Error">
             <strong>Achtung!</strong> <br> Beim Eintragen Ihrer Stimme ist ein Fehler aufgetreten. <br><br> Bitte melden
-            Sie
-            sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr
+            Sie sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr
             Verständnis!
         </div>
     </div>

@@ -1,6 +1,12 @@
 package servlet;
 
 import beans.PollData;
+import handler.ElectionHandler;
+import handler.PollHandler;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.generated.Uint8;
+import org.web3j.crypto.Credentials;
+import user.LoggedUsers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -36,8 +42,18 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int val = (int) Integer.parseInt(req.getParameter("optradio"));
-        //ToDo: Stimmer vergeben und dann Wahlrecht enziehen
+        int val = Integer.parseInt(req.getParameter("optradio"));
+        ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
+        LoggedUsers lu = LoggedUsers.getInstance();
+        String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
+        if (!address.isEmpty()) {
+            try {
+                electionHandler.giveRightToVote(new Address(address));
+                electionHandler.vote(new Uint8(val),new Address(address));
+            } catch (Exception e) {
+                //ToDo: Catch them all!
+            }
+        }
 
 
         PollData pollData = (PollData) req.getSession().getAttribute("election");

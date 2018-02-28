@@ -62,7 +62,7 @@ public class LoginSL extends HttpServlet {
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 RightEnum right = RightEnum.ADMIN;
-                ArtOfVote art = ArtOfVote.Election;
+                TypeOfVote art = TypeOfVote.Election;
 
                 //log User in List
                 userInstance = LoggedUsers.getInstance();
@@ -73,15 +73,15 @@ public class LoginSL extends HttpServlet {
                 }
 
                 if (right == RightEnum.USER) {
-                    //toDo: Abfrage auf Wahlrecht
+                    //ToDo: Abfrage auf Wahlrecht
 
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
                     session.setMaxInactiveInterval(15 * 60);
 
-                    //toDo: Abfrage welche Wahl !!!
-                    if (art == ArtOfVote.Election) {
+                    //ToDo: Abfrage welche Wahl !!!
+                    if (art == TypeOfVote.Election) {
                         ElectionHandler handler = new ElectionHandler(cr);
                         ElectionData ed = handler.getElectionData();
                         HttpSession ses = req.getSession();

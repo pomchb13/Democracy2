@@ -71,8 +71,7 @@
         </div>
         <!-- Adds a button the submit the choise -->
         <div class="input-group">
-            <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="window.location.href='/ThankYouUI.jsp'">
+            <button id="evaluation" type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
             </button>
         </div>
@@ -112,14 +111,6 @@
     <input id="hiddenId" type="text" name="hiddenId" class="form-control" hidden>
     <br>
     <p>Für alle Angaben ist der Ersteller der Wahl verantwortlich</p>
-
-    <script>
-        function reply_click(id) {
-            document.getElementById('hiddenId').value = id;
-        }
-
-    </script>
-
 </div>
 <footer class="footer">
     <div class="container text-center">
