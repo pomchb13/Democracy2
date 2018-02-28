@@ -186,6 +186,10 @@ input[type=date]::-webkit-outer-spin-button {
     visibility: hidden;
 }
 
+#hiddenId {
+    visibility: hidden;
+}
+
 
 
 

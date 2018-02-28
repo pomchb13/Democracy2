@@ -7,6 +7,7 @@ import java.util.*;
 public class LoggedUsers {
 
     private Map<String, RightEnum> tokenList = new HashMap<>();
+    private Map<String, String> addressList = new HashMap<>();
     private static LoggedUsers theInstance;
 
     private LoggedUsers() {
@@ -20,9 +21,10 @@ public class LoggedUsers {
         return theInstance;
     }
 
-    public void login(String hash, RightEnum right) throws Exception {
-        if (!tokenList.containsKey(hash)) {
+    public void login(String hash, RightEnum right, String address) throws Exception {
+        if (!tokenList.containsKey(hash) && !addressList.containsKey(hash) && !addressList.containsValue(address)) {
             tokenList.put(hash, right);
+            addressList.put(hash, address);
         } else {
             throw new Exception("Already logged in");
         }
@@ -42,12 +44,20 @@ public class LoggedUsers {
 
     }
 
-    public void outPutUserList()
-    {
+    public void outPutUserList() {
         System.out.println("----------LoggedUsers------------");
-        for (Map.Entry<String, RightEnum> e  :tokenList.entrySet()) {
-            System.out.println(e.getKey() +"|"+e.getValue());
+        for (Map.Entry<String, RightEnum> e : tokenList.entrySet()) {
+            System.out.println(e.getKey() + "|" + e.getValue());
         }
+    }
+
+    public String getAddessOfHash(String hash) {
+        for (Map.Entry<String, String> e : addressList.entrySet()) {
+            if (e.getKey().equals(hash)) {
+                return e.getValue();
+            }
+        }
+        return "";
     }
 
     public Map<String, RightEnum> getTokenList() {
@@ -57,8 +67,6 @@ public class LoggedUsers {
     public void setTokenList(Map<String, RightEnum> tokenList) {
         this.tokenList = tokenList;
     }
-
-
 
 
 }

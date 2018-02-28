@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="beans.ElectionData" %>
+<%@ page import="beans.CandidateData" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -28,44 +30,45 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
-    <center>
-        <!--  Shows the title of the page -->
-        <div class="voteTitle">
-            <h1>Titel der Wahl</h1>
-        </div>
-        <br>
-        <!--  Shows the question of the vote -->
-        <div class="voteQuestion">
-            <h3>Frage der Wahl</h3>
-        </div>
-        <br>
-    </center>
-    <!--  Adds the answer options of the vote -->
-    <div class="voteDiv">
-        <form>
-            <ul class="list-group">
-                <!--  Answer options with the name and a short info about the option -->
-                <li class="list-group-item">
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">Max Mustermann</label>
-                        <button id="info1" type="button" class="btn btn-link"><span
-                                class="glyphicon glyphicon-info-sign" data-toggle="modal"
-                                data-target="#infoModal"></span></button>
-                    </div>
-                </li>
-                <!--  Answer options with the name and a short info about the option -->
-                <li class="list-group-item">
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">Max Mustermann</label>
-                        <button id="info2" type="button" class="btn btn-link"><span
-                                class="glyphicon glyphicon-info-sign" data-toggle="modal"
-                                data-target="#infoModal"></span></button>
-                    </div>
-                </li>
-            </ul>
-        </form>
+    <!--  Shows the title of the page -->
+    <div class="voteTitle">
+        <h1>
+            <%
+                ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
+                out.print(ed.getTitle());
+            %>
+        </h1>
     </div>
+    <br>
+    <!--  Shows the question of the vote -->
+    <div class="voteQuestion">
+        <h3>Bitte wählen Sie einen der folgenedn Kanditaten aus. </h3>
+    </div>
+    <br>
+    <form method="post" action="ElectionSL">
+        <!--  Adds the answer options of the vote -->
+        <div class="voteDiv">
+            <%
+                LinkedList<CandidateData> canDat = ed.getLiCandidates();
+                int count = 0;
+                for (CandidateData cd : canDat) {
+                    out.println("<ul class=\"list-group\">");
+                    out.println("    <li class=\"list-group-item\">");
+                    out.println("        <div class=\"radio\">");
+                    out.println("            <label><input type=\"radio\" name=\"optradio\">"
+                            + cd.getTitle() + " "
+                            + cd.getSurname().toUpperCase() + " "
+                            + cd.getForename() + "</label>");
+                    out.println("            <button id=\"info" + count++ + "\" type=\"button\" class=\"btn btn-link\"><span");
+                    out.println("                    class=\"glyphicon glyphicon-info-sign\" data-toggle=\"modal\"");
+                    out.println("                    data-target=\"#infoModal\"  onClick=\"reply_click(this.id)\"></span></button>");
+                    out.println("        </div>");
+                    out.println("    </li>");
+                    out.println("</ul>");
+                }
+            %>
 
+        </div>
         <!-- Adds a button the submit the choise -->
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
@@ -74,6 +77,7 @@
             </button>
         </div>
 
+    </form>
     <!-- Implements the Infodialog -->
     <div class="modal fade" id="infoModal" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -81,7 +85,8 @@
                 <!-- The head of the Infodialog -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Max Mustermann</h4>
+                    <h4 class="modal-title"><%= out.print("hallo") //ToDo: I was net wie i das machen soll ;( %>
+                    </h4>
                 </div>
                 <!-- The Body of the Infodialog -->
                 <div class="modal-footer">
@@ -104,9 +109,16 @@
             </div>
         </div>
     </div>
+    <input id="hiddenId" type="text" name="hiddenId" class="form-control" hidden>
+    <br>
+    <p>Für alle Angaben ist der Ersteller der Wahl verantwortlich</p>
 
-        <br>
-        <p>Für alle Angaben ist der Ersteller der Abstimmung / Wahl verantwortlich</p>
+    <script>
+        function reply_click(id) {
+            document.getElementById('hiddenId').value = id;
+        }
+
+    </script>
 
 </div>
 <footer class="footer">

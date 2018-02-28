@@ -1,4 +1,6 @@
-<%--
+<%@ page import="beans.PollAnswer" %>
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="beans.CandidateData" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -35,10 +37,10 @@
 <div id="container">
     <br><br>
 
-        <!-- Title of the page -->
-        <div class="titleEvaluation">
-            <h1>Derzeitiger Stand der Wahl</h1>
-        </div>
+    <!-- Title of the page -->
+    <div class="titleEvaluation">
+        <h1>Derzeitiger Stand der Wahl</h1>
+    </div>
 
     <!-- Div for the Chart -->
     <div id="chart" class="chartEvaluation"></div>
@@ -47,12 +49,28 @@
         var chart = c3.generate({
                 data: {
                     columns: [
-                        ['MUSTERMANN Max', 50],
-                        ['MUSTERFRAU Mara', 120],
-                        ['KRAFT Michael', 13],
-                        ['CONRAD Heike', 54],
-                        ['MÜLLER Anke', 150],
-                        ['AZOG Sepp', 70],
+                        <%
+                            if(this.getServletConfig().getServletContext().getAttribute("Chart") instanceof PollAnswer) {
+
+                                LinkedList<PollAnswer> liPollList = (LinkedList<PollAnswer>) request.getSession()
+                                        .getAttribute("Chart");
+                                for (PollAnswer pa: liPollList) {
+                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                }
+                            } else {
+                                LinkedList<CandidateData> liCanList = (LinkedList<CandidateData>) request.getSession()
+                                        .getAttribute("Chart");
+                                for (CandidateData cd: liCanList) {
+                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                }
+                            }
+%>
+                        /* ['asdf', 50],
+                         ['MUSTERFRAU Mara', 120],
+                         ['KRAFT Michael', 13],
+                         ['CONRAD Heike', 54],
+                         ['MÜLLER Anke', 150],
+                         ['AZOG Sepp', 70], */
                     ],
                     type: 'bar',
                     onclick: function (d, i) {
@@ -72,8 +90,10 @@
                             position: 'outer-center'
                         },
                         tick: {
-                            count:1,
-                            format: function(){return''}
+                            count: 1,
+                            format: function () {
+                                return ''
+                            }
                         }
                     },
                     y: {

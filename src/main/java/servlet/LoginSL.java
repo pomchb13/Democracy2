@@ -1,6 +1,6 @@
 package servlet;
 
-import beans.RightEnum;
+import beans.*;
 import election.ElectionTester;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -42,55 +42,81 @@ public class LoginSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("tries") != null) {
+            req.getSession().setAttribute("tries", 4);
+        }
         processRequest(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("hallo");
-
         String username = ServletUtil.filter((String) req.getAttribute("username"));
         String password = ServletUtil.filter((String) req.getAttribute("password"));
 
-        //Blockchain request return Boolean loggedIn AND Berechtigung user,admin
+        // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
+        if ((int) req.getSession().getAttribute("tries") > 0) {
+            try {
+                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
+                req.getSession().setAttribute("credentials", cr);
 
-        try {
-            Credentials cr = BlockchainUtil.loginToBlockhain(username,password);
-            req.getSession().setAttribute("credentials", cr);
+                //Generation of MD5 Hash
+                hashInstance = HashGenerator.getTheInstance();
+                String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
+                RightEnum right = RightEnum.ADMIN;
+                ArtOfVote art = ArtOfVote.Election;
 
-        } catch (CipherException e) {
-            e.printStackTrace();
+                //log User in List
+                userInstance = LoggedUsers.getInstance();
+                try {
+                    userInstance.login(hash, right, username);
+                } catch (Exception e) {
+                    req.setAttribute("error", "User bereits eingeloggt");
+                }
+
+                if (right == RightEnum.USER) {
+                    //toDo: Abfrage auf Wahlrecht
+
+                    HttpSession session = req.getSession();
+                    session.setAttribute("hash", hash);
+                    session.setAttribute("right", right);
+                    session.setMaxInactiveInterval(15 * 60);
+
+                    //toDo: Abfrage welche Wahl !!!
+                    if (art == ArtOfVote.Election) {
+                        ElectionTester et = new ElectionTester(cr);
+                        ElectionData ed = et.getElectionData();
+                        HttpSession ses = req.getSession();
+                        ses.setAttribute("election", ed);
+                        ses.setMaxInactiveInterval(15 * 60);
+                        resp.sendRedirect("ElectionUI.jsp");
+                    } else {
+                        PollTester pt = new PollTester(cr);
+                        PollData pa = pt.getPollData();
+                        HttpSession ses = req.getSession();
+                        ses.setAttribute("poll", pa);
+                        ses.setMaxInactiveInterval(15 * 60);
+                        resp.sendRedirect("PollUI.jsp");
+                    }
+                } else if (right == RightEnum.ADMIN) {
+                    HttpSession session = req.getSession();
+                    session.setAttribute("hash", hash);
+                    session.setAttribute("right", right);
+                    session.setMaxInactiveInterval(15 * 60);
+                    resp.sendRedirect("AdminSettingsUI.jsp");
+                    System.out.println("forwarded");
+                }
+            } catch (CipherException e) {
+                int tries = (int) req.getSession().getAttribute("tries");
+                if (tries > 1) {
+                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
+                } else {
+                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
+                }
+                req.getSession().setAttribute("tries", tries);
+            } catch (Exception e) {
+                req.setAttribute("error", "Fehler beim laden der Datein");
+            }
         }
-
-        //Generation of MD5 Hash
-        hashInstance = HashGenerator.getTheInstance();
-        String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
-        RightEnum right = RightEnum.ADMIN;
-
-        //log User in List
-
-        userInstance = LoggedUsers.getInstance();
-        try {
-            userInstance.login(hash, right);
-        } catch (Exception e) {
-            req.setAttribute("error", "User bereits eingeloggt");
-        }
-
-        userInstance.outPutUserList();
-
-        if (right == RightEnum.USER) {
-            //toDo: Abfrage auf Wahlrecht
-            processRequest(req, resp);
-
-        } else if (right == RightEnum.ADMIN) {
-            HttpSession session = req.getSession();
-            session.setAttribute("hash", hash);
-            session.setAttribute("right", right);
-            session.setMaxInactiveInterval(15 * 60);
-            resp.sendRedirect("AdminSettingsUI.jsp");
-            System.out.println("forwarded");
-        }
-
 
         //405 Method not allowed
         //super.doPost(req, resp);
