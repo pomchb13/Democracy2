@@ -3,7 +3,7 @@
  */
 window.onload = function userNavbar() {
     var navbar = '' +
-        '<nav class="navbar navbar-inverse"> ' +
+        '<nav class="navbar navbar-inverse navbar-custom"> ' +
         '   <div class="container-fluid"> ' +
         '    <div class="navbar-header">' +
         ' <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navBar">' +
@@ -15,11 +15,11 @@ window.onload = function userNavbar() {
         '</div>' +
         '       <div class="collapse navbar-collapse" id="navBar"> ' +
         '           <ul class="nav navbar-nav"> ' +
-        '               <li><a href="homeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li> ' +
-        '               <li><a href="aboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
+        '               <li><a href="HomeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li> ' +
+        '               <li><a href="AboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/loginSL" accesskey="1"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> ' +
+        '               <li><a href="/logoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
         '           </ul> ' +
         '       </div> ' +
         '   </div> ' +

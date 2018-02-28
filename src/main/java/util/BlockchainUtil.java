@@ -22,19 +22,8 @@ public class BlockchainUtil {
 
     private static final String PATH = "D:\\Ethereum\\geth_data\\keystore\\";
 
-    public static Credentials loginToBlockhain(String address, String passwd)
-    {
-        Credentials cr = null;
-        try {
-            cr = WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (CipherException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return cr;
+    public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {
+        return WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
     }
 
     public static String getFileName(String address)

@@ -1,8 +1,11 @@
 package servlet;
 
 import beans.RightEnum;
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
 import user.HashGenerator;
 import user.loggedUsers;
+import util.BlockchainUtil;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -16,8 +19,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {"/loginSL"})
-public class loginSL extends HttpServlet {
+@WebServlet(urlPatterns = {"/LoginSL"})
+public class LoginSL extends HttpServlet {
 
     private HashGenerator hashInstance;
     private loggedUsers userInstance;
@@ -30,7 +33,7 @@ public class loginSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/loginUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/LoginUI.jsp");
         rd.forward(request, response);
     }
 
@@ -48,6 +51,12 @@ public class loginSL extends HttpServlet {
 
         //Blockchain request return Boolean loggedIn AND Berechtigung user,admin
 
+        try {
+            Credentials cr = BlockchainUtil.loginToBlockhain(username,password);
+            req.getSession().setAttribute("credentials", cr);
+        } catch (CipherException e) {
+            e.printStackTrace();
+        }
 
         //Generation of MD5 Hash
         hashInstance = HashGenerator.getTheInstance();
@@ -74,7 +83,7 @@ public class loginSL extends HttpServlet {
             session.setAttribute("hash", hash);
             session.setAttribute("right", right);
             session.setMaxInactiveInterval(15 * 60);
-            resp.sendRedirect("adminSettingsUI.jsp");
+            resp.sendRedirect("AdminSettingsUI.jsp");
             System.out.println("forwarded");
         }
 

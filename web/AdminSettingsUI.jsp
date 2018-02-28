@@ -18,11 +18,11 @@
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarAdmin.js"></script>
+    <script src="js/NavbarAdmin.js"></script>
 </head>
 <body>
 <%
@@ -32,7 +32,7 @@
     String hash = (String) ses.getAttribute("hash");
 
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-        response.sendRedirect("/loginSL");
+        response.sendRedirect("/LoginSL");
     }
 
 %>

@@ -1,8 +1,9 @@
 package servlet;
 
-import beans.Poll;
-import beans.PollAnswer;
-import beans.RightEnum;
+import beans.*;
+import election.ElectionTester;
+import org.web3j.crypto.Credentials;
+import poll.PollTester;
 import user.loggedUsers;
 import util.ServletUtil;
 
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,27 +29,23 @@ import java.util.Map;
  */
 @WebServlet(urlPatterns = {"/newPollSL"})
 public class NewPollSL extends HttpServlet {
-
-    private LinkedList<Poll> liPollList = new LinkedList<>();
     private loggedUsers lU = loggedUsers.getInstance();
+    private PollTester pollTester;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-
-
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/newPollUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/NewPollUI.jsp");
         rd.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Post");
         String error = null;
         if (req.getParameter("actionButton").equals("createReferendum")) {
             try {
@@ -70,51 +68,51 @@ public class NewPollSL extends HttpServlet {
                         && vote_fromDate.isBefore(vote_dueDate)) {
 
                     Poll poll = new Poll(title, vote_fromDate, vote_dueDate, voteDiagrams);
-                    System.out.println(poll.toString());
-                    //TODO: Save in Blockchain
-                    liPollList.add(poll);
-                    this.getServletContext().setAttribute("pollList", liPollList);
+                    this.getServletContext().setAttribute("poll", poll);
                 }
             } catch (Exception ex) {
                 error = "Bitte überprüfen Sie Ihre Eingabe!";
                 req.setAttribute("PollError", error);
             }
         } else if (req.getParameter("actionButton").equals("addAnswer")) {
-            System.out.println("AddAnswer");
-            System.out.println(req.getParameter("hiddenPoll"));
-
-            Enumeration<String> eNames = req.getParameterNames();
-            while (eNames.hasMoreElements() != false) {
-                System.out.println(eNames.nextElement().toString());
-            }
-            System.out.println(eNames.toString());
-            System.out.println("Nach der Ausgabe");
-
-
-            if (!ServletUtil.filter(req.getParameter("hiddenPoll")).isEmpty()) {
-                System.out.println("AddAnswer to Poll");
-                String pollTitle = ServletUtil.filter(req.getParameter("hiddenPoll"));
+            if (this.getServletContext().getAttribute("poll") != null) {
                 String answerTitle = ServletUtil.filter(req.getParameter("input_AnswerTitle"));
                 String answerDescription = ServletUtil.filter((req.getParameter("input_Answer")));
                 PollAnswer pAnswer = new PollAnswer(answerTitle, answerDescription);
-                LinkedList<Poll> liListe = (LinkedList<Poll>) this.getServletContext().getAttribute("pollList");
-                System.out.println(pAnswer.toString());
-                int count = 0;
-                for (Poll p : liListe) {
-                    if (p.getTitle().equals(pollTitle)) {
-                        LinkedList<PollAnswer> answerList = p.getAnswerList();
-                        answerList.add(pAnswer);
-                        p.setAnswerList(answerList);
-                        liListe.set(count, p);
-                        System.out.println(p.toString());
-                    }
-                    count++;
+                Poll poll = (Poll) this.getServletContext().getAttribute("poll");
+                LinkedList<PollAnswer> answerList = poll.getAnswerList();
+                answerList.add(pAnswer);
+                poll.setAnswerList(answerList);
+                this.getServletContext().setAttribute("poll", poll);
+            }
+
+        } else {
+            //TODO:Save complete Election in Blockchain --> DONE
+            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+            pollTester = new PollTester(cr);
+            Poll poll = (Poll) this.getServletContext().getAttribute("poll");
+            try {
+                pollTester.createContract(poll.getAnswerList().size(),
+                        poll.getTitle(),
+                        poll.getDate_from(),
+                        poll.getDate_due(),
+                        poll.isDiagramOption());
+            } catch (Exception e) {
+                //TODO: Exception handling
+                e.printStackTrace();
+            }
+            List<PollAnswer> liAnswers = poll.getAnswerList();
+            for (int i = 0; i < liAnswers.size(); i++) {
+                try {
+                    pollTester.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
+                } catch (Exception e) {
+                    //TODO: Exception handling
+                    e.printStackTrace();
                 }
-                this.getServletContext().setAttribute("pollList", liListe);
             }
         }
-
         processRequest(req, resp);
+
     }
 
 
@@ -123,7 +121,7 @@ public class NewPollSL extends HttpServlet {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
         if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-            resp.sendRedirect("/loginSL");
+            resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);
         }

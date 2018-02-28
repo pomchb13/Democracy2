@@ -35,7 +35,7 @@ public class UploadImageSL extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println("pR");
-        RequestDispatcher rd = request.getRequestDispatcher("/uploadImage.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/UploadImage.jsp");
         rd.forward(request, response);
     }
 
@@ -104,7 +104,7 @@ public class UploadImageSL extends HttpServlet {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
         if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-            resp.sendRedirect("/loginSL");
+            resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);
         }

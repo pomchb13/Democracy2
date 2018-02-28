@@ -3,11 +3,13 @@ package poll;
 import beans.PollAnswer;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
+import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import util.BlockchainUtil;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,7 +28,7 @@ public class PollTester {
     private Credentials credentials;
     private Poll poll;
 
-    public PollTester() {
+    public PollTester() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
         credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }

@@ -18,8 +18,8 @@ import java.io.IOException;
 /**
  * Created by Ewald on 22.02.2018.
  */
-@WebServlet(urlPatterns = {"/logoutSL"})
-public class logoutSL extends HttpServlet {
+@WebServlet(urlPatterns = {"/LogoutSL"})
+public class LogoutSL extends HttpServlet {
     private loggedUsers lU = loggedUsers.getInstance();
 
 
@@ -31,7 +31,7 @@ public class logoutSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/loginUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/LoginUI.jsp");
         rd.forward(request, response);
     }
 
@@ -40,7 +40,7 @@ public class logoutSL extends HttpServlet {
         String hash = (String) req.getSession().getAttribute("hash");
         lU.logout(hash);
         lU.outPutUserList();
-        resp.sendRedirect("/loginSL");
+        resp.sendRedirect("/LoginSL");
 
     }
 

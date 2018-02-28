@@ -28,15 +28,15 @@
     <!-- Import toggleNewVote -->
     <script type="text/javascript" src="js/toggleNewVote.js"></script>
     <!-- Import addAnswersNewVote -->
-    <script type="text/javascript" src="js/addAnswersNewVote.js"></script>
+    <script type="text/javascript" src="js/AddAnswersNewVote.js"></script>
     <!-- Import defaultDate -->
     <script type="text/javascript" src="js/defaultDate.js"></script>
     <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarAdmin.js"></script>
+    <script src="js/NavbarAdmin.js"></script>
 </head>
 <body>
 <%
@@ -46,7 +46,7 @@
     String hash = (String) ses.getAttribute("hash");
 
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-        response.sendRedirect("/loginSL");
+        response.sendRedirect("/LoginSL");
     }
 
 %>
@@ -113,25 +113,11 @@
         <br>
         <hr>
         <br>
-        <h1>Antworten hinzufügen</h1>
+        <div>
+            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("pollList") != null ?
+                    ((Poll) this.getServletConfig().getServletContext().getAttribute("pollList")).getTitle() : ""%>
+                hinzufügen</h1></div>
         <form id="form2" action="/newPollSL" method="post">
-            <div id="tableDiv" class="dropdown">
-                <button id="tableButton" name="pollTitle" class="btn btn-primary dropdown-toggle" type="button"
-                        data-toggle="dropdown">
-                    Bitte Abstimmung auswählen
-                    <span class="caret"></span>
-                </button>
-                <ul id="tableMenu" class="dropdown-menu">
-                    <%
-                        LinkedList<Poll> liListe = (LinkedList<Poll>) this.getServletConfig().getServletContext().getAttribute("pollList");
-                        if (liListe != null) {
-                            for (Poll p : liListe) {
-                                out.print("<li><a href='#'>" + p.getTitle() + "</a></li>");
-                            }
-                        }
-                    %>
-                </ul>
-            </div>
             <br>
             <br>
             <div class="answerDiv">
@@ -151,7 +137,6 @@
             </div>
             <%=  request.getAttribute("pollAnswerError") != null ? request.getAttribute("pollAnswerError") : ""  %>
             <br>
-            <input id="hiddenPoll" type="text" name="hiddenPoll" class="form-control">
             <div class="submitButton">
                 <button id="addAnswerButton" type="submit" form="form2" name="actionButton" value="addAnswer"
                         class="btn btn-primary"><span
@@ -160,7 +145,7 @@
             </div>
         </form>
         <div class="submitButton">
-            <a href="adminSettingsUI.jsp">
+            <a href="AdminSettingsUI.jsp">
                 <button type="button" class="btn btn-primary" name="actionButton"
                         value="forward"> Weiter zur Admin Seite <span
                         class="glyphicon glyphicon-arrow-right"></span>
@@ -177,7 +162,7 @@
     </div>
 </footer>
 </body>
-
+<!--
 <script>
     $("#tableMenu a").click(function (e) {
         e.preventDefault(); // cancel the link behaviour
@@ -187,5 +172,5 @@
         document.getElementById('tableButton').innerHTML = selText;
 
     });
-</script>
+</script>-->
 </html>

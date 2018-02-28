@@ -30,13 +30,13 @@
     <!-- Import toggleNewVote -->
     <script type="text/javascript" src="js/toggleNewVote.js"></script>
     <!-- Import addAnswersNewVote -->
-    <script type="text/javascript" src="js/addAnswersNewVote.js"></script>
+    <script type="text/javascript" src="js/AddAnswersNewVote.js"></script>
     <!-- Import defaultDate -->
     <script type="text/javascript" src="js/defaultDate.js"></script>
     <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import datepicker -->
     <script type="text/javascript" src="js/datepicker.js"></script>
     <!-- Import Javascript function to add Candidates -->
@@ -44,7 +44,7 @@
     <!-- Import JavaScript to view the selected DropDownMenuItem -->
     <!-- <script src="js/viewDropdownItem.js"></script> -->
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarAdmin.js"></script>
+    <script src="js/NavbarAdmin.js"></script>
 </head>
 <body>
 <%
@@ -54,7 +54,7 @@
     String hash = (String) ses.getAttribute("hash");
 
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-        response.sendRedirect("/loginSL");
+        response.sendRedirect("/LoginSL");
     }
 
 %>
@@ -66,7 +66,7 @@
 
         <h1>Neue Wahl erstellen</h1>
         <br><br>
-        <form action="/newVoteSL" id="form1" method="post">
+        <form action="/NewElectionSL" id="form1" method="post">
             <!-- Field to add a title -->
             <div class="input-group">
                 <span class="input-group-addon">Titel</span>
@@ -123,36 +123,20 @@
         </form>
 
         <br>
-
-        <br>
-        <h1>Kanditaten hinzufügen</h1>
         <hr>
+        <br>
+
+        <div>
+            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("newElection") != null ?
+                    ((Vote) this.getServletConfig().getServletContext().getAttribute("newElection")).getTitle() : ""%>
+                hinzufügen</h1></div>
 
         <!-- Add a new Candidate -->
         <div class="candDiv1">
-            <form action="/newVoteSL" id="form2" method="post">
+            <form action="/NewElectionSL" id="form2" method="post">
                 <!-- Default dropup button -->
-                <div id="tableDiv" class="dropdown">
-
-                    <button id="tableButton" name="voteTitle" class="btn btn-primary dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown" value="Bitte Wahl auswählen" onclick="<% %>">
-                        Bitte Wahl auswählen
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="tableMenu" class="dropdown-menu">
-                        <%
-                            LinkedList<Vote> liListe = (LinkedList<Vote>) this.getServletConfig().getServletContext().getAttribute("voteList");
-                            if (liListe != null) {
-                                for (Vote v : liListe) {
-                                    out.print("<li><a href='#'>" + v.getTitle() + "</a></li>");
-                                }
-                            }
-                        %>
-                    </ul>
-
-                </div>
-                <br><br><br>
+                <!--<input id="Vote" type="text" name="hiddenVote" class="form-control" hidden>-->
+                <br><br>
                 <!-- Field to add his/her titel -->
                 <div class="input-group">
                     <span class="input-group-addon">Titel</span>
@@ -230,7 +214,6 @@
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
                 <br>
-                <input id="hiddenVote" type="text" name="hiddenVote" class="form-control" hidden>
                 <input id="hiddenFoto" type="text" name="input_cand_Picture" class="form-control" hidden>
 
                 <br>
@@ -251,7 +234,7 @@
         <br>
 
         <div class="submitButton">
-            <a href="adminSettingsUI.jsp">
+            <a href="AdminSettingsUI.jsp">
                 <button type="button" class="btn btn-primary" name="forwardButton"
                         value="forward"> Weiter zur Admin Seite <span
                         class="glyphicon glyphicon-arrow-right"></span>
@@ -269,15 +252,6 @@
     </div>
 </footer>
 <script>
-    $("#tableMenu a").click(function (e) {
-        e.preventDefault(); // cancel the link behaviour
-        var selText = $(this).text();
-        alert(selText);
-        document.getElementById('hiddenVote').value = selText;
-        document.getElementById('tableButton').innerHTML = selText;
-
-    });
-
     $("#photoDropList a").click(function (e) {
         e.preventDefault();
         var selText = $(this).text();

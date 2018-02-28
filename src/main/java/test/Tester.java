@@ -42,8 +42,14 @@ public class Tester{
             public void actionPerformed(ActionEvent e) {
                String address = BlockchainUtil.getFileName(tf_user.getText());
                String passwd = tf_password.getText();
-               cr = BlockchainUtil.loginToBlockhain(address,passwd);
-               if(cr==null)
+                try {
+                    cr = BlockchainUtil.loginToBlockhain(address,passwd);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (CipherException e1) {
+                    e1.printStackTrace();
+                }
+                if(cr==null)
                {
                    JOptionPane.showMessageDialog(null,"login fehlgeschlagen");
                }

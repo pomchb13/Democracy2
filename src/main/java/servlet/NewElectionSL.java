@@ -3,6 +3,8 @@ package servlet;
 import beans.Politician;
 import beans.RightEnum;
 import beans.Vote;
+import election.ElectionTester;
+import org.web3j.crypto.Credentials;
 import user.loggedUsers;
 import util.ServletUtil;
 
@@ -21,15 +23,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Leonhard on 28.11.2017.
  */
-@WebServlet(urlPatterns = {"/newVoteSL"})
-public class newVoteSL extends HttpServlet {
-    public LinkedList<Vote> voteList = new LinkedList<>();
+@WebServlet(urlPatterns = {"/NewElectionSL"})
+public class NewElectionSL extends HttpServlet {
     private loggedUsers lU = loggedUsers.getInstance();
+    private ElectionTester election;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -39,7 +42,7 @@ public class newVoteSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/newVoteUI.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/NewVoteUI.jsp");
         rd.forward(request, response);
     }
 
@@ -48,7 +51,7 @@ public class newVoteSL extends HttpServlet {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
         if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-            resp.sendRedirect("/loginSL");
+            resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);
         }
@@ -83,9 +86,7 @@ public class newVoteSL extends HttpServlet {
                     Vote newVote = new Vote(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
                     //Testing Statement --> Delete After not needed
                     System.out.println(newVote.toString());
-                    //ToDo: Save in Blockchain
-                    voteList.add(newVote);
-                    this.getServletContext().setAttribute("voteList", voteList);
+                    this.getServletContext().setAttribute("newElection", newVote);
                 } else {
                     throw new Exception("wrong Date");
                 }
@@ -96,18 +97,10 @@ public class newVoteSL extends HttpServlet {
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
             String error = null;
             try {
-                System.out.println(req.getParameter("input_cand_Title"));
-                Enumeration<String> eNames = req.getParameterNames();
-                while (eNames.hasMoreElements() != false) {
-                    System.out.println(eNames.nextElement().toString());
-                }
-                System.out.println(eNames.toString());
-                System.out.println("Nach der Ausgabe");
 
-                if (!req.getParameter("hiddenVote").equals("null")) {
+                if (this.getServletContext().getAttribute("newElection") != null) {
 
                     System.out.println("Adding Politician");
-                    String voteTitle = ServletUtil.filter(req.getParameter("hiddenVote"));
                     String candTitle = ServletUtil.filter(req.getParameter("input_cand_Title"));
                     String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
                     String candLastname = ServletUtil.filter((req.getParameter("input_cand_Lastname")));
@@ -125,30 +118,45 @@ public class newVoteSL extends HttpServlet {
                     }
                     Politician pot = new Politician(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, img);
                     System.out.println(pot.toString());
-                    LinkedList<Vote> liVoteList = (LinkedList) this.getServletContext().getAttribute("voteList");
-                    System.out.println(liVoteList.toString());
                     int count = 0;
-                    for (Vote v : liVoteList) {
-                        if (v.getTitle().equals(voteTitle)) {
-                            System.out.println("seas");
-                            LinkedList<Politician> liPolit = v.getLiCandidates();
-                            System.out.println(liPolit.toString());
-                            liPolit.add(pot);
-                            v.setLiCandidates(liPolit);
-                            liVoteList.set(count, v);
-                            break;
-                        }
-                        count++;
-                    }
-                    System.out.println(liVoteList.toString());
 
-                    this.getServletContext().setAttribute("voteList", liVoteList);
+                    Vote newVote = (Vote) this.getServletContext().getAttribute("newElection");
+                    LinkedList<Politician> liPolit = newVote.getLiCandidates();
+                    System.out.println(liPolit.toString());
+                    liPolit.add(pot);
+                    newVote.setLiCandidates(liPolit);
+
+                    System.out.println(newVote.toString());
+                    this.getServletContext().setAttribute("newElection", newVote);
+
 
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
                 error = "Bitte überprüfen Sie ihre Eingaben!" + ex.toString();
                 req.setAttribute("errorPol", error);
+            }
+        } else {
+            //TODO:Save complete Election in Blockchain --> DONE
+            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+            election = new ElectionTester(cr);
+            Vote liVoteList = (Vote) this.getServletContext().getAttribute("newElection");
+            try {
+                election.createContract(liVoteList.getLiCandidates().size(), liVoteList.getTitle(), liVoteList.getDate_from(),
+                        liVoteList.getDate_due(), liVoteList.isShow_diagrams());
+            } catch (Exception e) {
+                //TODO: Exception handling
+                e.printStackTrace();
+            }
+            List<Politician> liPolit = (List<Politician>) this.getServletContext().getAttribute("politList");
+            for (int i = 0; i < liPolit.size(); i++) {
+                try {
+                    election.storeCandidateData(i, liPolit.get(i).getTitle(), liPolit.get(i).getForename(), liPolit.get(i).getSurname(),
+                            liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan());
+                } catch (Exception e) {
+                    //TODO: Exception handling
+                    e.printStackTrace();
+                }
             }
         }
 

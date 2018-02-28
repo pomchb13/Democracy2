@@ -15,9 +15,9 @@ window.onload = function adminNavbar() {
         '</div>' +
         '       <div class="collapse navbar-collapse" id="navBar"> ' +
         '           <ul class="nav navbar-nav"> ' +
-        '               <li><a href="adminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>' +
-        '               <li><a href="activeVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>' +
-        '               <li><a href="/newVoteSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>' +
+        '               <li><a href="AdminSettingsUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li>' +
+        '               <li><a href="ActiveVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>' +
+        '               <li><a href="/NewElectionSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>' +
         '               <li><a href="/newPollSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Abstimmung erstellen</a></li>' +
         '               <li><a href="/UploadImageSL" accesskey="1"><span class="glyphicon glyphicon-upload"></span> Bild hochladen</a></li>' +
         '           </ul>' +

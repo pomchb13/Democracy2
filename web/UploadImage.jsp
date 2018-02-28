@@ -28,13 +28,13 @@
     <!-- Import toggleNewVote -->
     <script type="text/javascript" src="js/toggleNewVote.js"></script>
     <!-- Import addAnswersNewVote -->
-    <script type="text/javascript" src="js/addAnswersNewVote.js"></script>
+    <script type="text/javascript" src="js/AddAnswersNewVote.js"></script>
     <!-- Import defaultDate -->
     <script type="text/javascript" src="js/defaultDate.js"></script>
     <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import datepicker -->
     <script type="text/javascript" src="js/datepicker.js"></script>
     <!-- Import Javascript function to add Candidates -->
@@ -42,7 +42,7 @@
     <!-- Import JavaScript to view the selected DropDownMenuItem -->
     <!-- <script src="js/viewDropdownItem.js"></script> -->
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarAdmin.js"></script>
+    <script src="js/NavbarAdmin.js"></script>
 
     <?php include 'php/dateiupload.php'; ?>
 
@@ -58,7 +58,7 @@
 
 
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-        response.sendRedirect("/loginSL");
+        response.sendRedirect("/LoginSL");
     }
 
 %>

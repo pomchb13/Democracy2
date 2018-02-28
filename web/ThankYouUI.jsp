@@ -19,11 +19,11 @@
     <!-- Import the JavaScript for the login -->
     <script language="javascript" type="text/javascript" src="js/loginJS.js"></script>
     <!-- Import the default CSS -->
-    <link rel="stylesheet" type="text/css" href="css/defaultCSS.css">
+    <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/avatar.png">
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script src="js/navbarLogedUser.js"></script>
+    <script src="js/NavbarLogedUser.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->
@@ -44,7 +44,7 @@
         <!-- Button for the evaluationpage -->
         <div class="input-group">
             <button id="evaluation" type="submit" class="btn btn-primary"
-                    onclick="window.location.href='/evaluationBarChartUI.jsp'">
+                    onclick="window.location.href='/EvaluationBarChartUI.jsp'">
                 <span class="glyphicon glyphicon-time"></span> Derzeitiger Stand
             </button>
         </div>
