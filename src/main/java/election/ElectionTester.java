@@ -127,8 +127,8 @@ public class ElectionTester {
      * Method responsible for loading an existing contract with a specific address
      * @param address
      */
-    public void loadSmartContract(String address) {
-        election = ElectionContract.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+    public void loadSmartContract(Address address) {
+        election = ElectionContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(election.getContractAddress());
     }
 
@@ -141,8 +141,12 @@ public class ElectionTester {
         return election.getContractAddress();
     }
 
-    public String getVoteAddressForVoter(String address) throws Exception {
-        return election.getVoteAddressForVoter(address).send();
+    public boolean getAlreadyVotedForVoter(Address address) throws Exception {
+        return election.getAlreadyVotedForVoter(address.toString()).send();
+    }
+
+    public String getVoteAddressForVoter(Address address) throws Exception {
+        return election.getVoteAddressForVoter(address.toString()).send();
     }
 
     public static void main(String[] args) {

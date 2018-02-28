@@ -32,7 +32,7 @@ public class PollTester {
 
     public PollTester() throws IOException, CipherException {
         web3 = Web3j.build(new HttpService());
-        credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
+        credentials = BlockchainUtil.loginToBlockhain("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be", "1234");
     }
 
 
@@ -42,13 +42,11 @@ public class PollTester {
     }
 
 
-    public void createContract(int numAnswers, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
+    public String createContract(int numAnswers, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-
         poll = PollContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numAnswers + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
-        System.out.println(poll.getContractAddress());
-
+        return poll.getContractAddress();
     }
 
     public void giveRightToVote(Address voter) throws Exception {
@@ -56,12 +54,20 @@ public class PollTester {
         {
             poll.giveRightToVote(voter.toString()).send();
         }
+        else
+        {
+            throw new Exception("poll object is null!");
+        }
     }
 
     public void vote(Uint8 proposal, Address address) throws Exception {
         if(poll != null)
         {
             poll.vote(proposal.getValue(), address.toString()).send();
+        }
+        else
+        {
+            throw new Exception("poll object is null!");
         }
     }
 
@@ -114,8 +120,8 @@ public class PollTester {
 
 
 
-    public void loadSmartContract(String address) {
-        poll = PollContract.load(address, web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+    public void loadSmartContract(Address address) {
+        poll = PollContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         System.out.println(poll.getContractAddress());
     }
 
@@ -128,19 +134,19 @@ public class PollTester {
         return poll.getAdminAddress().send();
     }
 
-    public boolean getAlreadyVotedForVoter(String address) throws Exception {
-        return poll.getAlreadyVotedForVoter(address).send();
+    public boolean getAlreadyVotedForVoter(Address address) throws Exception {
+        return poll.getAlreadyVotedForVoter(address.toString()).send();
     }
 
-    public String getVoteAddressForVoter(String address) throws Exception {
-        return poll.getVoteAddressForVoter(address).send();
+    public String getVoteAddressForVoter(Address address) throws Exception {
+        return poll.getVoteAddressForVoter(address.toString()).send();
     }
 
 
     public static void main(String[] args) {
         try
         {
-            String address = "0x31f8a4c3e67a15757b8a6c734a5480576c0b9410";
+            String address = "0x36b158126df76110aa16e29b76172d8b3ed82dbf";
             String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
                     "0x1fA240651d34b5abc091F1CF3387fd278e714098",
                     "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
@@ -151,12 +157,12 @@ public class PollTester {
             PollAnswer a3 = new PollAnswer("A3", "B3");
 
             PollTester tester = new PollTester();
-            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
+          /*  tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeAnswerData(0, a1.getTitle(), a1.getDescription());
             tester.storeAnswerData(1, a2.getTitle(), a2.getDescription());
-            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());
+            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());*/
 
-          //  tester.loadSmartContract(address);
+            tester.loadSmartContract(new Address(address));
 
             System.out.println(tester.getPollData());
             System.out.println(tester.getAnswerData(0));
@@ -164,25 +170,25 @@ public class PollTester {
             System.out.println(tester.getAnswerData(2));
 
 
-            tester.giveRightToVote(new Address(users[0]));
+            /*tester.giveRightToVote(new Address(users[0]));
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));
             tester.giveRightToVote(new Address(users[3]));
             tester.vote(new Uint8(2), new Address(users[0]));
             tester.vote(new Uint8(1), new Address(users[1]));
             tester.vote(new Uint8(1), new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[2]));
+            tester.vote(new Uint8(2), new Address(users[2]));*/
 
-            PollAnswer pa1 = tester.getAnswerData(0);
+           /* PollAnswer pa1 = tester.getAnswerData(0);
             PollAnswer pa2 = tester.getAnswerData(1);
             PollAnswer pa3 = tester.getAnswerData(2);
             List<PollAnswer> pollAnswerList = new ArrayList<>();
             pollAnswerList.add(pa1);
             pollAnswerList.add(pa2);
             pollAnswerList.add(pa3);
-            System.out.println(Arrays.toString(tester.getWinners(pollAnswerList).toArray()));
+            System.out.println(Arrays.toString(tester.getWinners(pollAnswerList).toArray()));*/
 
-            System.out.println(tester.getVoteAddressForVoter("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be"));
+           // System.out.println(tester.getVoteAddressForVoter("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be"));
 
 
 
