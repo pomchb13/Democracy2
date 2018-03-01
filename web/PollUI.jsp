@@ -1,6 +1,8 @@
 <%@ page import="beans.PollData" %>
 <%@ page import="beans.PollAnswer" %>
-<%@ page import="java.util.LinkedList" %><%--
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.RightEnum" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 28.02.2018
@@ -26,6 +28,17 @@
     <script src="js/NavbarLogedUser.js"></script>
 </head>
 <body>
+<%
+    HttpSession ses = request.getSession();
+    LoggedUsers lU = LoggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
+
+    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        response.sendRedirect("/LoginSL");
+    }
+
+%>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div id="container">

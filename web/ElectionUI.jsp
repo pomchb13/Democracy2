@@ -1,6 +1,8 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="beans.ElectionData" %>
-<%@ page import="beans.CandidateData" %><%--
+<%@ page import="beans.CandidateData" %>
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.RightEnum" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -26,17 +28,28 @@
     <script src="js/NavbarLogedUser.js"></script>
 </head>
 <body>
+<%
+    HttpSession ses = request.getSession();
+    LoggedUsers lU = LoggedUsers.getInstance();
+
+    String hash = (String) ses.getAttribute("hash");
+
+    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        response.sendRedirect("/LoginSL");
+    }
+
+%>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 <div id="container">
     <br><br>
     <!--  Shows the title of the page -->
     <div class="voteTitle">
+        <%
+            ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
+        %>
         <h1>
-            <%
-                ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
-                out.print(ed.getTitle());
-            %>
+            <%= ed.getTitle()%>
         </h1>
     </div>
     <br>
@@ -45,7 +58,7 @@
         <h3>Bitte wählen Sie einen der folgenedn Kanditaten aus. </h3>
     </div>
     <br>
-    <form method="post" action="ElectionSL">
+    <form method="post" action="/ElectionSL">
         <!--  Adds the answer options of the vote -->
         <div class="voteDiv">
             <%
@@ -59,14 +72,20 @@
                             + cd.getTitle() + " "
                             + cd.getSurname().toUpperCase() + " "
                             + cd.getForename() + "</label>");
-                    out.println("            <button id=\"info" + count++ + "\" type=\"button\" class=\"btn btn-link\"><span");
+                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" name=\" "+ count++ +" \"><span");
                     out.println("                    class=\"glyphicon glyphicon-info-sign\" data-toggle=\"modal\"");
-                    out.println("                    data-target=\"#infoModal\"  onClick=\"reply_click(this.id)\"></span></button>");
+                    out.println("                    data-target=\"#infoModal\"  onClick=\"reply_click(this.name)\"></span></button>");
                     out.println("        </div>");
                     out.println("    </li>");
                     out.println("</ul>");
                 }
+
+                /*
+                JS mit Übergabe von Index
+                AJAX request
+                 */
             %>
+
 
         </div>
         <!-- Adds a button the submit the choise -->
@@ -77,6 +96,7 @@
         </div>
 
     </form>
+
     <!-- Implements the Infodialog -->
     <div class="modal fade" id="infoModal" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -84,23 +104,22 @@
                 <!-- The head of the Infodialog -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><%= out.print("hallo") //ToDo: I was net wie i das machen soll ;( %>
-                    </h4>
+                    <h4 class="modal-title" id="cand_titleName"></h4>
                 </div>
                 <!-- The Body of the Infodialog -->
                 <div class="modal-footer">
                     <div class="infoDiv">
                         <div class="col-sm-2">
-                            <img src="res/Avatar.png" class="img-responsive" alt="Max Mustermann" width="150"
+                            <img src="res/Avatar.png" id="cand_pic" class="img-responsive" alt="" width="150"
                                  height="300">
                         </div>
                         <div class="col-sm-10">
                             <ul class="list-group">
-                                <li class="list-group-item"><span>Vorname: </span> Max</li>
-                                <li class="list-group-item"><span>Nachname: </span> Mustermann</li>
-                                <li class="list-group-item"><span>Geburtsdatum: </span> 01.01.1980</li>
-                                <li class="list-group-item"><span>Partei: </span> keine Partei angebenen</li>
-                                <li class="list-group-item"><span>Wahlmotto: </span> Für Österreich!</li>
+                                <li class="list-group-item" id="cand_forename"><span>Vorname: </span> Max</li>
+                                <li class="list-group-item" id="cand_surname"><span>Nachname: </span> Mustermann</li>
+                                <li class="list-group-item" id="cand_birthday"><span>Geburtsdatum: </span> 01.01.1980</li>
+                                <li class="list-group-item" id="cand_party"><span>Partei: </span> keine Partei angebenen</li>
+                                <li class="list-group-item" id="cand_slogan"><span>Wahlmotto: </span> Für Österreich!</li>
                             </ul>
                         </div>
                     </div>
@@ -108,7 +127,6 @@
             </div>
         </div>
     </div>
-    <input id="hiddenId" type="text" name="hiddenId" class="form-control" hidden>
     <br>
     <p>Für alle Angaben ist der Ersteller der Wahl verantwortlich</p>
 </div>

@@ -103,16 +103,10 @@ public class NewElectionSL extends HttpServlet {
                     LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                     String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                     String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
-                    BufferedImage img = null;
-                    try {
-                        img = ImageIO.read(new File(this.getServletContext().getRealPath("/")
-                                + "images"
-                                + File.separator
-                                + ServletUtil.filter(req.getParameter("input_cand_Picture"))));
-                    } catch (IOException ex) {
-                        img = null;
-                    }
-                    CandidateData pot = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, img);
+                    String portraitPath = this.getServletContext().getRealPath("/")+ "images"
+                            + File.separator
+                            + ServletUtil.filter(req.getParameter("input_cand_Picture"));
+                    CandidateData pot = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, portraitPath);
                     System.out.println(pot.toString());
                     int count = 0;
 

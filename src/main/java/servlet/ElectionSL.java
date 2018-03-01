@@ -1,5 +1,7 @@
 package servlet;
 
+import beans.CandidateData;
+import beans.ElectionData;
 import beans.PollData;
 import handler.ElectionHandler;
 import handler.PollHandler;
@@ -15,7 +17,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by Ewald on 28.02.2018.
@@ -31,8 +35,15 @@ public class ElectionSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/ElectionUI.jsp");
-        rd.forward(request, response);
+        int id = Integer.parseInt(request.getQueryString().split("/?")[1]);
+        ElectionData ed = (ElectionData) request.getAttribute("election");
+        CandidateData cd = ed.getLiCandidates().get(id);
+
+        try (PrintWriter out = response.getWriter()){
+            out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
+                    cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
+
+        }
     }
 
     @Override
@@ -52,6 +63,7 @@ public class ElectionSL extends HttpServlet {
                 electionHandler.vote(new Uint8(val),new Address(address));
             } catch (Exception e) {
                 //ToDo: Catch them all!
+                //ToDo: Echt jetzz?
             }
         }
 

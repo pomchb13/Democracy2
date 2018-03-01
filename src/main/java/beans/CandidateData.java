@@ -23,18 +23,18 @@ public class CandidateData {
     /* Solgen of the politican */
     private String slogan;
     /* Picture of the politican */
-    private BufferedImage portrait;
+    private String portraitPath;
 
     private int voteCount;
 
-    public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, BufferedImage portrait) {
+    public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, String portraitPath) {
         this.title = title;
         this.forename = forename;
         this.surname = surname;
         this.birthday = birthday;
         this.party = party;
         this.slogan = slogan;
-        this.portrait = portrait;
+        this.portraitPath = portraitPath;
     }
 
     public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, int voteCount) {
@@ -56,7 +56,7 @@ public class CandidateData {
                 ", birthday=" + birthday +
                 ", party='" + party + '\'' +
                 ", slogan='" + slogan + '\'' +
-                ", portrait=" + portrait +
+                ", portraitPath=" + portraitPath +
                 ", voteCount=" + voteCount +
                 '}';
     }
@@ -109,12 +109,12 @@ public class CandidateData {
         this.slogan = slogan;
     }
 
-    public BufferedImage getPortrait() {
-        return portrait;
+    public String getPortraitPath() {
+        return portraitPath;
     }
 
-    public void setPortrait(BufferedImage portrait) {
-        this.portrait = portrait;
+    public void setPortraitPath(String portraitPath) {
+        this.portraitPath = portraitPath;
     }
 
     public int getVoteCount() {
