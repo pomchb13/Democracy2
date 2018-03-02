@@ -35,20 +35,22 @@
     </div>
 
     <!-- Over text of the page -->
-    <p>Im folgenden Abschnitt wird die Diplomarbeitsgruppe vorgestellt, die diese Wahlplatform erstellt haben.
-        <br> Der Auftraggeber für diese Wahlplatform ist die Firmer BearingPoint.
+    <p>Im folgenden Abschnitt wird die Diplomarbeitsgruppe vorgestellt, die diese Wahlplattform erstellt haben.
+        <br> Der Auftraggeber für diese Wahlplattform ist die Firma BearingPoint.
     </p>
     <br>
     <!-- Info about the teammembers-->
     <div class="media">
-        <div class="media-left media-middle">
+        <div class="media-left">
             <!-- Add a picture -->
-            <img src="res/Windegger.jpg" class="media-object" style="width:60px">
+            <img src="res/Windegger.jpg" class="media-object" style="width:150px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Windegger</b> Patrick </h4>
-            <p>Fun</p>
+            <p>90BHIF</p><br>
+            <p>Projektleiter</p>
+            <p>Blockchain/Backend</p>
         </div>
     </div>
     <hr>
@@ -56,12 +58,13 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/Pommer.jpg" class="media-object" style="width:60px">
+            <img src="res/Pommer.jpg" class="media-object" style="width:150px">
         </div>
-        <div class="media-body">
+        <div class="media-body" >
             <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Pommer</b> Christoph</h4>
-            <p>Fun</p>
+            <p>90BHIF</p><br>
+            <p>Blockchain/Backend</p>
         </div>
     </div>
     <hr>
@@ -69,12 +72,13 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/Hartmann.jpg" class="media-object" style="width:60px">
+            <img src="res/Hartmann.jpg" class="media-object" style="width:150px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Hartmann</b> Ewald</h4>
-            <p>Fun</p>
+            <p>90BHIF</p><br>
+            <p>Java/Frontend</p>
         </div>
     </div>
     <hr>
@@ -82,12 +86,13 @@
     <div class="media">
         <div class="media-left media-middle">
             <!-- Add a picture -->
-            <img src="res/Gangl.jpg" class="media-object" style="width:60px">
+            <img src="res/Gangl.jpg" class="media-object" style="width:150px">
         </div>
         <div class="media-body">
             <!-- Name and description of the member  -->
             <h4 class="media-heading"><b>Gangl</b> Leonhard</h4>
-            <p>Fun</p>
+            <p>90BHIF</p><br>
+            <p>Java/Frontend</p>
         </div>
     </div>
 </div>
