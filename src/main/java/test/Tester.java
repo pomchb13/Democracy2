@@ -63,7 +63,7 @@ public class Tester{
                    }
                    if(admin)
                    {
-                       int butt = (JOptionPane.showConfirmDialog(null,"Admin interface öffnen=?","asdf",JOptionPane.YES_NO_OPTION));
+                       int butt = (JOptionPane.showConfirmDialog(null,"AdminContract interface öffnen=?","asdf",JOptionPane.YES_NO_OPTION));
                       if(butt==JOptionPane.YES_OPTION)
                       {
                           try {

@@ -46,7 +46,7 @@ public class BlockchainUtil {
     }
 
 
-    //TODO: umschreiben wenn Admin contract
+    //old method. DONT USE!!!!
     @Deprecated
     public static boolean checkIfAdmin(String adminAddress, String contractAddress, VoteType type, Credentials cr) throws Exception {
         if(type.equals(VoteType.ELECTION))
