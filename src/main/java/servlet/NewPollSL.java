@@ -4,6 +4,7 @@ import beans.*;
 import org.web3j.crypto.Credentials;
 import handler.PollHandler;
 import user.LoggedUsers;
+import util.BlockchainUtil;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -32,6 +33,7 @@ public class NewPollSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -84,7 +86,7 @@ public class NewPollSL extends HttpServlet {
             }
 
         } else {
-/*            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             pollTester = new PollHandler(cr);
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
@@ -103,7 +105,7 @@ public class NewPollSL extends HttpServlet {
                 } catch (Exception e) {
                     req.setAttribute("PollError", "Fehler beim Hinzufügen der Antworten");
                 }
-            }*/
+            }
         }
         processRequest(req, resp);
 

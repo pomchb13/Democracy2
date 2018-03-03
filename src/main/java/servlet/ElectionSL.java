@@ -9,6 +9,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
+import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -30,11 +31,12 @@ public class ElectionSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- /*       response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         int id = Integer.parseInt(request.getQueryString().split("/?")[1]);
         ElectionData ed = (ElectionData) request.getAttribute("election");
         CandidateData cd = ed.getLiCandidates().get(id);
@@ -43,7 +45,7 @@ public class ElectionSL extends HttpServlet {
             out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
                     cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
 
-        }*/
+        }
     }
 
     @Override
@@ -53,7 +55,7 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-/*        int val = Integer.parseInt(req.getParameter("optradio"));
+        int val = Integer.parseInt(req.getParameter("optradio"));
         ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
@@ -72,7 +74,7 @@ public class ElectionSL extends HttpServlet {
             resp.sendRedirect("EvaluationBarChartUI.jsp");
         } else {
             resp.sendRedirect("ThankYouUI.jsp");
-        }*/
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
+import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -26,6 +27,7 @@ public class PollSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -37,7 +39,7 @@ public class PollSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
- /*       int val = Integer.parseInt(req.getParameter("optradio"));
+        int val = Integer.parseInt(req.getParameter("optradio"));
         PollHandler handler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
@@ -54,7 +56,7 @@ public class PollSL extends HttpServlet {
             resp.sendRedirect("EvaluationBarChartUI.jsp");
         } else {
             resp.sendRedirect("ThankYouUI.jsp");
-        }*/
+        }
     }
 
     @Override

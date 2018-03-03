@@ -30,6 +30,7 @@ public class LoginSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

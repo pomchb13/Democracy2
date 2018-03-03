@@ -14,7 +14,13 @@ import java.nio.file.Paths;
 
 public class BlockchainUtil {
 
-    private static final String PATH = "D:\\Ethereum\\geth_data\\keystore\\";
+    private static String PATH;
+
+    public static void  setPATH(String newPath)
+    {
+        PATH = newPath;
+        newPath += File.separator;
+    }
 
     public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {
         return WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));

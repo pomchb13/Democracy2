@@ -4,6 +4,7 @@ import beans.RightEnum;
 import user.HashGenerator;
 import user.LoggedUsers;
 import user.LoggedUsers;
+import util.BlockchainUtil;
 import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +28,7 @@ public class LogoutSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
