@@ -44,10 +44,6 @@
     <!-- <script src="js/viewDropdownItem.js"></script> -->
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/NavbarAdmin.js"></script>
-
-    <?php include 'php/dateiupload.php'; ?>
-
-
 </head>
 <body>
 <%

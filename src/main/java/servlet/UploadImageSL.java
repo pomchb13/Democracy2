@@ -25,8 +25,6 @@ public class UploadImageSL extends HttpServlet {
 
     private LinkedList<String> liFilenames = new LinkedList<>();
     private LoggedUsers lU = LoggedUsers.getInstance();
-    private final static Logger LOGGER =
-            Logger.getLogger(UploadImageSL.class.getCanonicalName());
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -38,13 +36,13 @@ public class UploadImageSL extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println("pR");
-        RequestDispatcher rd = request.getRequestDispatcher("/UploadImage.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/UploadImageUI.jsp");
+        System.out.println("Before Forward");
         rd.forward(request, response);
+        System.out.println("After forward");
     }
 
     private String getFileName(final Part part) {
-        final String partHeader = part.getHeader("content-disposition");
-        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
                 return content.substring(
@@ -59,47 +57,52 @@ public class UploadImageSL extends HttpServlet {
         System.out.println("doPost");
         String status = null;
         final String path = this.getServletContext().getRealPath("/") + "images";
-        final Part filePart = req.getPart("file");
-        String[] fileField = getFileName(filePart).split("\\.");
-        final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
-        liFilenames.add(fileName);
-        this.getServletContext().setAttribute("liFilenames", liFilenames);
+        final Part filePart = req.getPart("input_Picture");
+        if (filePart != null) {
+            String[] fileField = getFileName(filePart).split("\\.");
+            final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
+            liFilenames.add(fileName);
+            this.getServletContext().setAttribute("liFilenames", liFilenames);
 
-        OutputStream out = null;
-        InputStream filecontent = null;
-        final PrintWriter writer = resp.getWriter();
+            OutputStream out = null;
+            InputStream filecontent = null;
+            final PrintWriter writer = resp.getWriter();
 
-        try {
-            out = new FileOutputStream(new File(path + File.separator
-                    + fileName));
-            filecontent = filePart.getInputStream();
+            try {
+                out = new FileOutputStream(new File(path + File.separator
+                        + fileName));
+                filecontent = filePart.getInputStream();
 
 
-            int read = 0;
-            final byte[] bytes = new byte[1024];
+                int read = 0;
+                final byte[] bytes = new byte[1024];
 
-            while ((read = filecontent.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+                status = "Bild wurde erfolgreich hochgeladen!";
+
+            } catch (FileNotFoundException fne) {
+                status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    filecontent.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
             }
-            status = "Bild wurde erfolgreich hochgeladen!";
-
-        } catch (FileNotFoundException fne) {
-            status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-            if (filecontent != null) {
-                filecontent.close();
-            }
-            if (writer != null) {
-                writer.close();
-            }
+        }else{
+            status = "Bitte ein Bild auswählen!";
         }
+
         req.setAttribute("status", status);
 
         System.out.println("End doPost");
-        processRequest(req, resp);
+        //processRequest(req, resp);
     }
 
     @Override

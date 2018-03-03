@@ -31,7 +31,7 @@ public class ElectionData {
 
     @Override
     public String toString() {
-        return "ElectionDataOld{" +
+        return "ElectionData{" +
                 "title='" + title + '\'' +
                 ", date_from=" + date_from +
                 ", date_due=" + date_due +

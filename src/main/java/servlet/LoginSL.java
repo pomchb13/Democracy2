@@ -87,18 +87,18 @@ public class LoginSL extends HttpServlet {
                     if (art == TypeOfVote.Election) {
                         ElectionHandler handler = new ElectionHandler(cr);
                         ElectionData ed = handler.getElectionData();
-                      HttpSession ses = req.getSession();
-                       ses.setAttribute("election", ed);
-                      ses.setMaxInactiveInterval(15 * 60);
-                      resp.sendRedirect("ElectionUI.jsp");
+                        HttpSession ses = req.getSession();
+                        ses.setAttribute("election", ed);
+                        ses.setMaxInactiveInterval(15 * 60);
+                        resp.sendRedirect("ElectionUI.jsp");
                     } else {
                         PollHandler handler = new PollHandler(cr);
                         PollData pa = handler.getPollData();
                         HttpSession ses = req.getSession();
-                    ses.setAttribute("poll", pa);
+                        ses.setAttribute("poll", pa);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("PollUI.jsp");
-                   }
+                    }
                 } else if (right == RightEnum.ADMIN) {
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
@@ -110,7 +110,7 @@ public class LoginSL extends HttpServlet {
             } catch (CipherException e) {
                 int tries = (int) req.getSession().getAttribute("tries");
                 if (tries > 1) {
-                   req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
+                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
                 } else {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
                 }
