@@ -62,8 +62,7 @@ public class ElectionSL extends HttpServlet {
                 electionHandler.giveRightToVote(new Address(address));
                 electionHandler.vote(new Uint8(val),new Address(address));
             } catch (Exception e) {
-                //ToDo: Catch them all!
-                //ToDo: Echt jetzz?
+                System.out.println(e.toString());
             }
         }
 
