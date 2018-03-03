@@ -55,8 +55,8 @@ public class LoginSL extends HttpServlet {
         // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
-//                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
-//                req.getSession().setAttribute("credentials", cr);
+                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
+                req.getSession().setAttribute("credentials", cr);
 
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
@@ -81,21 +81,21 @@ public class LoginSL extends HttpServlet {
                     session.setMaxInactiveInterval(15 * 60);
 
                     //ToDo: Abfrage welche Wahl !!!
-//                    if (art == TypeOfVote.Election) {
-//                        ElectionHandler handler = new ElectionHandler(cr);
-//                        ElectionData ed = handler.getElectionData();
-//                      HttpSession ses = req.getSession();
-//                       ses.setAttribute("election", ed);
-//                      ses.setMaxInactiveInterval(15 * 60);
-//                      resp.sendRedirect("ElectionUI.jsp");
-//                    } else {
-//                        PollHandler handler = new PollHandler(cr);
-//                        PollData pa = handler.getPollData();
-//                        HttpSession ses = req.getSession();
-//                        ses.setAttribute("poll", pa);
-//                        ses.setMaxInactiveInterval(15 * 60);
-//                    resp.sendRedirect("PollUI.jsp");
-//                   }
+                    if (art == TypeOfVote.Election) {
+                        ElectionHandler handler = new ElectionHandler(cr);
+                        ElectionData ed = handler.getElectionData();
+                      HttpSession ses = req.getSession();
+                       ses.setAttribute("election", ed);
+                      ses.setMaxInactiveInterval(15 * 60);
+                      resp.sendRedirect("ElectionUI.jsp");
+                    } else {
+                        PollHandler handler = new PollHandler(cr);
+                        PollData pa = handler.getPollData();
+                        HttpSession ses = req.getSession();
+                    ses.setAttribute("poll", pa);
+                        ses.setMaxInactiveInterval(15 * 60);
+                        resp.sendRedirect("PollUI.jsp");
+                   }
                 } else if (right == RightEnum.ADMIN) {
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
@@ -104,14 +104,14 @@ public class LoginSL extends HttpServlet {
                     resp.sendRedirect("AdminSettingsUI.jsp");
                     System.out.println("forwarded");
                 }
-//            } catch (CipherException e) {
-//                int tries = (int) req.getSession().getAttribute("tries");
-//                if (tries > 1) {
-//                   req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
-//                } else {
-//                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
-//                }
-//                req.getSession().setAttribute("tries", tries);
+            } catch (CipherException e) {
+                int tries = (int) req.getSession().getAttribute("tries");
+                if (tries > 1) {
+                   req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
+                } else {
+                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
+                }
+                req.getSession().setAttribute("tries", tries);
             } catch (Exception e) {
                 req.setAttribute("error", "Fehler beim laden der Datein");
             }
