@@ -84,7 +84,7 @@ public class NewPollSL extends HttpServlet {
             }
 
         } else {
-            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+/*            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             pollTester = new PollHandler(cr);
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
@@ -103,7 +103,7 @@ public class NewPollSL extends HttpServlet {
                 } catch (Exception e) {
                     req.setAttribute("PollError", "Fehler beim Hinzufügen der Antworten");
                 }
-            }
+            }*/
         }
         processRequest(req, resp);
 

@@ -15,7 +15,7 @@ window.onload = function userNavbar() {
         '</div>' +
         '       <div class="collapse navbar-collapse" id="navBar"> ' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/logoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
+        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
         '           </ul> ' +
         '       </div> ' +
         '   </div> ' +

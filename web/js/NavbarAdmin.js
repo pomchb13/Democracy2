@@ -17,11 +17,11 @@ window.onload = function adminNavbar() {
         '           <ul class="nav navbar-nav"> ' +
         '               <li><a href="ActiveVotesUI.jsp"><span class="glyphicon glyphicon-th-list"></span> Aktive Wahlen</a></li>' +
         '               <li><a href="/NewElectionSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Wahl erstellen</a></li>' +
-        '               <li><a href="/newPollSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Abstimmung erstellen</a></li>' +
+        '               <li><a href="/NewPollSL" accesskey="1"><span class="glyphicon glyphicon-plus"></span> Neue Abstimmung erstellen</a></li>' +
         '               <li><a href="/UploadImageSL" accesskey="1"><span class="glyphicon glyphicon-upload"></span> Bild hochladen</a></li>' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/logoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> ADMIN | Logout</a></li> ' +
+        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> ADMIN | Logout</a></li> ' +
         '           </ul>' +
         '       </div>' +
         '   </div>' +

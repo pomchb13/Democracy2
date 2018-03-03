@@ -127,15 +127,15 @@ public class NewElectionSL extends HttpServlet {
                 req.setAttribute("errorVote", error);
             }
         } else {
-            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
-            election = new ElectionHandler(cr);
-            ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
-            try {
-                election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),
-                        liElectionDataList.getDate_due(), liElectionDataList.isShow_diagrams());
-            } catch (Exception e) {
-                req.setAttribute("errorVote", "Fehler beim Erstellen der Wahl");
-            }
+//            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+//            election = new ElectionHandler(cr);
+//            ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
+//            try {
+//                election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),
+//                        liElectionDataList.getDate_due(), liElectionDataList.isShow_diagrams());
+//            } catch (Exception e) {
+//                req.setAttribute("errorVote", "Fehler beim Erstellen der Wahl");
+//            }
             List<CandidateData> liPolit = (List<CandidateData>) this.getServletContext().getAttribute("politList");
             for (int i = 0; i < liPolit.size(); i++) {
                 try {

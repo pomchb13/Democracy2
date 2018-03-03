@@ -37,7 +37,7 @@ public class PollSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int val = Integer.parseInt(req.getParameter("optradio"));
+ /*       int val = Integer.parseInt(req.getParameter("optradio"));
         PollHandler handler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
@@ -54,7 +54,7 @@ public class PollSL extends HttpServlet {
             resp.sendRedirect("EvaluationBarChartUI.jsp");
         } else {
             resp.sendRedirect("ThankYouUI.jsp");
-        }
+        }*/
     }
 
     @Override

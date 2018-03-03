@@ -19,16 +19,10 @@ window.onload = function userNavbar() {
         '               <li><a href="AboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/loginSL" accesskey="1"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> ' +
+        '               <li><a href="/LoginSL" accesskey="1"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> ' +
         '           </ul> ' +
         '       </div> ' +
         '   </div> ' +
         '</nav>';
     document.getElementById('navbar').innerHTML = navbar;
 }
-
-/* '           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">' +
- '               <span class="icon-bar"></span> ' +
- '               <span class="icon-bar"></span> ' +
- '               <span class="icon-bar"></span> ' +
- '           </button> ' +; */
