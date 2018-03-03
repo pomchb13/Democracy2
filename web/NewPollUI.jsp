@@ -61,7 +61,7 @@
     <div class="newRef" id="newRefDivID">
         <h1>Neue Abstimmung erstellen</h1>
         <br><br>
-        <form id="form1" action="/newPollSL" method="post">
+        <form id="form1" action="/NewPollSL" method="post">
             <!-- Field to add a titel -->
             <div class="input-group">
                 <span class="input-group-addon">Title</span>

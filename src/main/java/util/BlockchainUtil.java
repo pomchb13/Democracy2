@@ -19,7 +19,7 @@ public class BlockchainUtil {
     public static void  setPATH(String newPath)
     {
         PATH = newPath;
-        newPath += File.separator;
+        PATH += File.separator;
     }
 
     public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {

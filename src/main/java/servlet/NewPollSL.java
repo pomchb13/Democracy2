@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by Ewald on 17.08.2017.
  */
-@WebServlet(urlPatterns = {"/newPollSL"})
+@WebServlet(urlPatterns = {"/NewPollSL"})
 public class NewPollSL extends HttpServlet {
     private LoggedUsers lU = LoggedUsers.getInstance();
     private PollHandler pollTester;
