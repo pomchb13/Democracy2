@@ -31,7 +31,6 @@ public class ExcelHandler {
         String[] str = new String[4];
         int counter;
         boolean isString = false;
-        int row=0;
         iterator.next();
         while(iterator.hasNext())
         {
@@ -55,7 +54,7 @@ public class ExcelHandler {
                 }
                 if(isString){isString=false;counter++;}
             }
-            row++;
+
 
             map.put(x, new User(str[0],str[1]));
         }
@@ -97,31 +96,7 @@ public class ExcelHandler {
         out.close();
     }
 
-    public static Boolean proofIfAdmin(File adminFile,String address) throws Exception {
 
-        LinkedList<String> adminList = new LinkedList<>();
-        FileInputStream excelFile = new FileInputStream(adminFile);
-        Workbook w = new XSSFWorkbook(excelFile);
-        Sheet sheet = w.getSheetAt(0);
-        Iterator<Row> iterator = sheet.iterator();
-        while(iterator.hasNext())
-        {
-            Row currentRow = iterator.next();
-            Iterator<Cell> cellIterator = currentRow.iterator();
-
-            while(cellIterator.hasNext())
-            {
-                Cell currCell = cellIterator.next();
-                CellType type = currCell.getCellTypeEnum();
-                if(type==CellType.STRING)
-                {
-                    adminList.add(currCell.getStringCellValue());
-                }
-            }
-        }
-        if(adminList.contains(address)) return true;
-        else return false;
-    }
 
 
 }
