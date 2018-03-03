@@ -50,9 +50,9 @@ public class LoginSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = ServletUtil.filter((String) req.getAttribute("username"));
-        String password = ServletUtil.filter((String) req.getAttribute("password"));
-
+        String username = ServletUtil.filter((String) req.getParameter("username"));
+        String password = ServletUtil.filter((String) req.getParameter("password"));
+        System.out.println(username + " " + password);
         // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
