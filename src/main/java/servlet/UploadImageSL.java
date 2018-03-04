@@ -54,6 +54,7 @@ public class UploadImageSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         System.out.println("doPost");
         String status = null;
         final String path = this.getServletContext().getRealPath("/") + "images";
@@ -102,7 +103,9 @@ public class UploadImageSL extends HttpServlet {
         req.setAttribute("status", status);
 
         System.out.println("End doPost");
-        //processRequest(req, resp);
+
+        processRequest(req, resp);
+        super.doPost(req, resp);
     }
 
     @Override
