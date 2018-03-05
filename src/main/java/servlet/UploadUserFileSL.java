@@ -64,7 +64,7 @@ public class UploadUserFileSL extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("doPost");
         String status = null;
-        final String path = this.getServletContext().getRealPath("/") + "files";
+        final String path = this.getServletContext().getRealPath("/res/files");
         final Part filePart = req.getPart("input_Excel");
         if (filePart != null) {
             String[] fileField = getFileName(filePart).split("\\.");
@@ -83,12 +83,13 @@ public class UploadUserFileSL extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     out.write(bytes, 0, read);
                 }
+                File f = new File(fileName);
 
-                userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/")+"userLists",
+                userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/res/userLists"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
                         (String)this.getServletContext().getAttribute("newContractAdress"),
                         (VoteType) this.getServletContext().getAttribute("newTypeOfVote"), (Credentials) req.getSession().getAttribute("credentials"));
-
+                this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists")+File.separator+f.getName());
                 status = "File wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 System.out.println(fne.toString());

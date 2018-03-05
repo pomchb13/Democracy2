@@ -51,7 +51,7 @@ public class UploadImageSL extends HttpServlet {
 
         System.out.println("doPost");
         String status = null;
-        final String path = this.getServletContext().getRealPath("/") + "images";
+        final String path = this.getServletContext().getRealPath("/res/images");
         final Part filePart = req.getPart("input_Picture");
         if (filePart != null) {
             String[] fileField = getFileName(filePart).split("\\.");

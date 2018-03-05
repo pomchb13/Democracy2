@@ -1,5 +1,6 @@
 <%@ page import="user.LoggedUsers" %>
-<%@ page import="beans.RightEnum" %><%--
+<%@ page import="beans.RightEnum" %>
+<%@ page import="java.io.File" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 05.03.2018
@@ -70,10 +71,12 @@
         <form method="POST" action="/UploadUserFileSL" enctype="multipart/form-data">
             <div class="input-group">
                 <span class="input-group-addon">Wählerverzeichnis</span>
-                <input id="inputExcel" type="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                <input id="inputExcel" type="file"
+                       accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                        name="input_Excel" class="form-control" placeholder="Excel-Datei">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div><br>
+            </div>
+            <br>
             <div class="submitButton">
                 <button type="submit" id="upload" class="btn btn-primary" name="Upload"
                         value="uploadFile"><span
@@ -83,10 +86,21 @@
         </form>
         <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
 
-        <a href="<%= this.getServletConfig().getServletContext().getAttribute("newPath") != null
-        ? this.getServletConfig().getServletContext().getAttribute("newPath"):""%>" download="userList">
-            <button type="button" id="download" class="btn btn-primary" name="download">Excel-Daten herunterladen</button>
-        </a>
+        <br><br>
+        <%
+            out.print(this.getServletConfig().getServletContext().getAttribute("newPath"));
+            if (((String) this.getServletConfig().getServletContext().getAttribute("newPath")) != null) {
+                File f = new File((String) this.getServletConfig().getServletContext().getAttribute("newPath"));
+                if (f != null) {
+                    out.print(" <a href=\" " + f.getAbsolutePath() +"\" download=\" "+f.getName()+"\"> ");
+                    out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
+                            "                        value=\"downloadFile\"><span\n" +
+                            "                        class=\"glyphicon glyphicon-floppy-disk\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
+                            "                </button>");
+                    out.print("</a>");
+                }
+            }
+        %>
     </center>
 </div>
 

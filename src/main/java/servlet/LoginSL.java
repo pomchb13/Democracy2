@@ -64,16 +64,18 @@ public class LoginSL extends HttpServlet {
                 System.out.println(cr.getAddress());
 
                 req.getSession().setAttribute("credentials", cr);
+                System.out.println("After setting cr to session");
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 RightEnum right = RightEnum.ADMIN;
                 TypeOfVote art = TypeOfVote.Election;
-
+                System.out.println("after hashing");
                 //log User in List
                 userInstance = LoggedUsers.getInstance();
                 try {
                     userInstance.login(hash, right, username);
+                    System.out.println("after loggin in");
                 } catch (Exception e) {
                     req.setAttribute("error", "User bereits eingeloggt");
                 }
@@ -103,12 +105,16 @@ public class LoginSL extends HttpServlet {
                         resp.sendRedirect("PollUI.jsp");
                     }
                 } else if (right == RightEnum.ADMIN) {
+                    System.out.println("in Admin");
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
                     session.setMaxInactiveInterval(15 * 60);
+                    System.out.println("Before getting all Filenames");
                     this.getAllFiles();
+                    System.out.println("After getting all Filenames");
                     this.getServletContext().setAttribute("liFilenames", liFilenames);
+                    System.out.println("Before forward");
                     resp.sendRedirect("AdminSettingsUI.jsp");
                     System.out.println("forwarded");
                 }
@@ -130,11 +136,16 @@ public class LoginSL extends HttpServlet {
     }
 
     private void getAllFiles() {
-        File file = new File(this.getServletContext().getRealPath("/images"));
+        File file = new File(this.getServletContext().getRealPath("/res/images"));
+        System.out.println("After getting the Directory");
         File[] files = file.listFiles();
+        System.out.println("Adter reading all Files from Directory");
         for (int i = 0; i < files.length; i++) {
-            if (!files[i].isDirectory()) {
-                liFilenames.add(files[i].getName());
+            if (!files[i].getName().equals("dummy")) {
+                if (!files[i].isDirectory()) {
+                    System.out.println("Adding File to List");
+                    liFilenames.add(files[i].getName());
+                }
             }
         }
     }
