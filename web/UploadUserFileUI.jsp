@@ -82,6 +82,11 @@
             </div>
         </form>
         <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
+
+        <a href="<%= this.getServletConfig().getServletContext().getAttribute("newPath") != null
+        ? this.getServletConfig().getServletContext().getAttribute("newPath"):""%>" download="userList">
+            <button type="button" id="download" class="btn btn-primary" name="download">Excel-Daten herunterladen</button>
+        </a>
     </center>
 </div>
 

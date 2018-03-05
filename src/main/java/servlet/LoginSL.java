@@ -60,12 +60,10 @@ public class LoginSL extends HttpServlet {
         // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
-
                 Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
-                System.out.println(cr);
+                System.out.println(cr.getAddress());
 
                 req.getSession().setAttribute("credentials", cr);
-
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);

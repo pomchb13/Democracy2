@@ -232,6 +232,7 @@
 
         <br>
         <br>
+        <p>Hierbei könnte es zu etweiligen Verzögerungen kommen</p>
         <form action="/NewElectionSL" id="form3" method="post">
             <div class="submitButton">
                 <button type="submit" class="btn btn-primary" name="actionButton"
