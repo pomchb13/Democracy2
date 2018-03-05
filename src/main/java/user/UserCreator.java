@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -57,7 +59,7 @@ public class UserCreator {
 
 
     public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt) throws Exception {
-        TreeMap<Integer, User> map =ExcelHandler.readExcelFile(new File(uploadedFilePath));
+        TreeMap<Integer, User> map = ExcelHandler.readExcelFile(new File(uploadedFilePath));
         ElectionHandler el = null;
         PollHandler pl=null;
         if(vt.equals(VoteType.ELECTION))
@@ -87,6 +89,12 @@ public class UserCreator {
                pl.giveRightToVote(new Address(username));
            }
         }
+
+        File uploadedFile = new File(uploadedFilePath);
+        newPath = newPath + File.separator + uploadedFile.getName().split(".")[0] + "_" +
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy")) + "."+
+                uploadedFile.getName().split(".")[1];
+        System.out.println(newPath);
 
         ExcelHandler.updateExcelFile(new File(uploadedFilePath),map,newPath);
     }

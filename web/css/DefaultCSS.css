@@ -175,6 +175,9 @@ input[type=date]::-webkit-outer-spin-button {
 #inputPicture{
     height: 3%;
 }
+#inputExcel{
+    height: 3%;
+}
 
 #hiddenPoll {
     visibility: hidden;

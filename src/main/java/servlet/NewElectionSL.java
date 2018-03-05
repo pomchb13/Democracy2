@@ -5,6 +5,7 @@ import beans.ElectionData;
 import beans.RightEnum;
 import handler.ElectionHandler;
 import org.web3j.crypto.Credentials;
+import test.VoteType;
 import user.LoggedUsers;
 import util.BlockchainUtil;
 import util.ServletUtil;
@@ -61,7 +62,6 @@ public class NewElectionSL extends HttpServlet {
         System.out.println(req.getParameter("actionButton"));
 
         if (req.getParameter("actionButton").equals("createVote")) {
-            String error = null;
             try {
                 String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
                 String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
@@ -85,17 +85,19 @@ public class NewElectionSL extends HttpServlet {
                     //Testing Statement --> Delete After not needed
                     System.out.println(newElectionData.toString());
                     this.getServletContext().setAttribute("newElection", newElectionData);
+                    req.setAttribute("errorVote","Wahl erfolreich erstellt und zwischengespeichert!");
                 } else {
-                    throw new Exception("wrong Date");
+                    req.setAttribute("errorVote", "Wahl nicht erstellt! Bitte Datum überprüfen!");
                 }
             } catch (Exception ex) {
-                error = "Bitte überprüfen Sie Ihre Eingaben!";
-                req.setAttribute("errorVote", error);
+                req.setAttribute("errorVote","Wahl nicht erstellt! Bitte Datumsformat überprüfen \"MM/DD/YYYY\"!");
+            }
+            finally {
+                processRequest(req, resp);
             }
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
-            String error = null;
+            System.out.println("Adding Politician");
             try {
-
                 if (this.getServletContext().getAttribute("newElection") != null) {
 
                     System.out.println("Adding CandidateData");
@@ -105,12 +107,11 @@ public class NewElectionSL extends HttpServlet {
                     LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                     String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                     String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
-                    String portraitPath = this.getServletContext().getRealPath("/")+ "images"
+                    String portraitPath = this.getServletContext().getRealPath("/") + "images"
                             + File.separator
                             + ServletUtil.filter(req.getParameter("input_cand_Picture"));
                     CandidateData pot = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, portraitPath);
                     System.out.println(pot.toString());
-                    int count = 0;
 
                     ElectionData newElectionData = (ElectionData) this.getServletContext().getAttribute("newElection");
                     LinkedList<CandidateData> liPolit = newElectionData.getLiCandidates();
@@ -119,36 +120,42 @@ public class NewElectionSL extends HttpServlet {
                     newElectionData.setLiCandidates(liPolit);
 
                     System.out.println(newElectionData.toString());
+                    req.setAttribute("errorPol","Kandidat erfolgreich erstellt!");
                     this.getServletContext().setAttribute("newElection", newElectionData);
-
 
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                error = "Bitte überprüfen Sie ihre Eingaben!" + ex.toString();
-                req.setAttribute("errorVote", error);
+                req.setAttribute("errorPol","Bitte überprüfen Sie ihre Eingaben!");
+            }
+            finally {
+                processRequest(req, resp);
             }
         } else {
-            Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
-            election = new ElectionHandler(cr);
-            ElectionData liElectionDataList = (ElectionData) this.getServletContext().getAttribute("newElection");
+            System.out.println("Hallo");
             try {
-                election.createContract(liElectionDataList.getLiCandidates().size(), liElectionDataList.getTitle(), liElectionDataList.getDate_from(),
-                        liElectionDataList.getDate_due(), liElectionDataList.isShow_diagrams());
-            } catch (Exception e) {
-                req.setAttribute("errorVote", "Fehler beim Erstellen der Wahl");
-            }
-            List<CandidateData> liPolit = (List<CandidateData>) this.getServletContext().getAttribute("politList");
-            for (int i = 0; i < liPolit.size(); i++) {
-                try {
+                System.out.println("Create Vote and Forward to Excel Upload");
+                Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+                election = new ElectionHandler(cr);
+                ElectionData electionData = (ElectionData) this.getServletContext().getAttribute("newElection");
+                String newContractAdress = election.createContract(electionData.getLiCandidates().size(), electionData.getTitle(), electionData.getDate_from(),
+                        electionData.getDate_due(), electionData.isShow_diagrams());
+                System.out.println("Election saved in Blockchain");
+                List<CandidateData> liPolit = electionData.getLiCandidates();
+                for (int i = 0; i < liPolit.size(); i++) {
                     election.storeCandidateData(i, liPolit.get(i).getTitle(), liPolit.get(i).getForename(), liPolit.get(i).getSurname(),
                             liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan());
-                } catch (Exception e) {
-                    req.setAttribute("errorVote", "Fehler beim Einfügen der Kanditaten");
                 }
+                System.out.println("Candidate saved to Blockchainelection");
+
+                this.getServletContext().setAttribute("newContractAdress", newContractAdress);
+                this.getServletContext().setAttribute("newTypeOfVote", VoteType.ELECTION);
+
+                resp.sendRedirect("/UploadUserFileSL");
+            } catch (Exception e) {
+                req.setAttribute("errorComplete", "Fehler beim Speichern der kompletten Wahl auf der Blockchain");
             }
         }
 
-        processRequest(req, resp);
     }
 }

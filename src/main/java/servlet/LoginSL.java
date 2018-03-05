@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 
 @WebServlet(urlPatterns = {"/LoginSL"})
@@ -26,6 +28,7 @@ public class LoginSL extends HttpServlet {
 
     private HashGenerator hashInstance;
     private LoggedUsers userInstance;
+    private LinkedList<String> liFilenames = new LinkedList<>();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -57,9 +60,9 @@ public class LoginSL extends HttpServlet {
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
                 System.out.println("Before Login");
-                //Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
+                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
                 System.out.println("Dere");
-                //req.getSession().setAttribute("credentials", cr);
+                req.getSession().setAttribute("credentials", cr);
 
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
@@ -85,17 +88,17 @@ public class LoginSL extends HttpServlet {
 
                     //ToDo: Abfrage welche Wahl !!!
                     if (art == TypeOfVote.Election) {
-                        //ElectionHandler handler = new ElectionHandler(cr);
-                        //ElectionData ed = handler.getElectionData();
+                        ElectionHandler handler = new ElectionHandler(cr);
+                        ElectionData ed = handler.getElectionData();
                         HttpSession ses = req.getSession();
-                        //ses.setAttribute("election", ed);
+                        ses.setAttribute("election", ed);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("ElectionUI.jsp");
                     } else {
-                       // PollHandler handler = new PollHandler(cr);
-                        //PollData pa = handler.getPollData();
+                        PollHandler handler = new PollHandler(cr);
+                        PollData pa = handler.getPollData();
                         HttpSession ses = req.getSession();
-                       // ses.setAttribute("poll", pa);
+                        ses.setAttribute("poll", pa);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("PollUI.jsp");
                     }
@@ -104,6 +107,8 @@ public class LoginSL extends HttpServlet {
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
                     session.setMaxInactiveInterval(15 * 60);
+                    this.getAllFiles();
+                    this.getServletContext().setAttribute("liFilenames", liFilenames);
                     resp.sendRedirect("AdminSettingsUI.jsp");
                     System.out.println("forwarded");
                 }
@@ -122,5 +127,15 @@ public class LoginSL extends HttpServlet {
 
         //405 Method not allowed
         //super.doPost(req, resp);
+    }
+
+    private void getAllFiles() {
+        File file = new File(this.getServletContext().getRealPath("/images"));
+        File[] files = file.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            if (!files[i].isDirectory()) {
+                liFilenames.add(files[i].getName());
+            }
+        }
     }
 }

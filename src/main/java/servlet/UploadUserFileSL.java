@@ -1,7 +1,9 @@
 package servlet;
 
 import beans.RightEnum;
+import test.VoteType;
 import user.LoggedUsers;
+import user.UserCreator;
 import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -15,11 +17,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
-@WebServlet(urlPatterns = {"/UploadImageSL"})
+@WebServlet(urlPatterns = {"/UploadUserFileSL"})
 @MultipartConfig
-public class UploadImageSL extends HttpServlet {
-
+public class UploadUserFileSL extends HttpServlet {
+    private LinkedList<String> liFilenames = new LinkedList<>();
     private LoggedUsers lU = LoggedUsers.getInstance();
+    private UserCreator userCreat = new UserCreator();
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -27,13 +31,22 @@ public class UploadImageSL extends HttpServlet {
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("processRequest");
-        RequestDispatcher rd = request.getRequestDispatcher("/UploadImageUI.jsp");
-        System.out.println(request.getRequestURL());
+        RequestDispatcher rd = request.getRequestDispatcher("/UploadUserFileUI.jsp");
         rd.forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String hash = (String) session.getAttribute("hash");
+        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+            resp.sendRedirect("/LoginSL");
+        } else {
+            processRequest(req, resp);
+        }
     }
 
     private String getFileName(final Part part) {
@@ -48,28 +61,20 @@ public class UploadImageSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         System.out.println("doPost");
         String status = null;
-        final String path = this.getServletContext().getRealPath("/") + "images";
-        final Part filePart = req.getPart("input_Picture");
+        final String path = this.getServletContext().getRealPath("/") + "files";
+        final Part filePart = req.getPart("input_Excel");
         if (filePart != null) {
             String[] fileField = getFileName(filePart).split("\\.");
-            final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
-            System.out.println(fileName);
-            System.out.println(path);
-            LinkedList<String> liFilenames = (LinkedList<String>) this.getServletContext().getAttribute("liFilenames");
-            liFilenames.add(fileName);
-            this.getServletContext().setAttribute("liFilenames", liFilenames);
+            final String fileName = path + File.separator + fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
 
             OutputStream out = null;
             InputStream filecontent = null;
-
+            System.out.println(fileName);
             try {
-                out = new FileOutputStream(new File(path + File.separator
-                        + fileName));
+                out = new FileOutputStream(new File(fileName));
                 filecontent = filePart.getInputStream();
-
 
                 int read = 0;
                 final byte[] bytes = new byte[1024];
@@ -77,10 +82,18 @@ public class UploadImageSL extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     out.write(bytes, 0, read);
                 }
-                status = "Bild wurde erfolgreich hochgeladen!";
-                System.out.println("ImageUploaded");
+
+                userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/")+"userLists",
+                        this.getServletContext().getRealPath("/res/geth_data/keystore/"),
+                        (String)this.getServletContext().getAttribute("newContractAdress"),
+                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"));
+
+                status = "File wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
+                System.out.println(fne.toString());
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
+            } catch (Exception e) {
+                status = "Fehler beim erstellen der User!";
             } finally {
                 if (out != null) {
                     out.close();
@@ -89,24 +102,13 @@ public class UploadImageSL extends HttpServlet {
                     filecontent.close();
                 }
             }
-        }else{
-            status = "Bitte ein Bild auswählen!";
+        } else {
+            status = "Bitte eine Datei auswählen!";
         }
 
         req.setAttribute("status", status);
         System.out.println(status);
         System.out.println("End doPost");
         processRequest(req, resp);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String hash = (String) session.getAttribute("hash");
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
-            resp.sendRedirect("/LoginSL");
-        } else {
-            processRequest(req, resp);
-        }
     }
 }

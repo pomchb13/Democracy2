@@ -223,7 +223,7 @@
                 <div class="submitButton">
                     <button type="submit" id="addCand" class="btn btn-primary" name="actionButton"
                             value="addPolitician"><span
-                            class="glyphicon glyphicon-floppy-disk"></span> Kandidaten/Partei hinzufügen
+                            class="glyphicon glyphicon-floppy-disk"></span> Kandidat hinzufügen
                     </button>
 
                 </div>
@@ -232,17 +232,16 @@
 
         <br>
         <br>
-
-        <div class="submitButton">
-            <a href="AdminSettingsUI.jsp">
-                <button type="button" class="btn btn-primary" name="forwardButton"
-                        value="forward"> Weiter zur Admin Seite <span
+        <form action="/NewElectionSL" id="form3" method="post">
+            <div class="submitButton">
+                <button type="submit" class="btn btn-primary" name="actionButton"
+                        value="forward"> Weiter zum Upload des Wählerverzeichnisses <span
                         class="glyphicon glyphicon-arrow-right"></span>
                 </button>
-            </a>
-
-        </div>
-        <br><br><br>
+            </div>
+            <br><br><br>
+        </form>
+        <%= request.getAttribute("errorComplete") != null ? request.getAttribute("errorComplete") : ""%>
 
     </div>
 </div>
@@ -255,9 +254,8 @@
     $("#photoDropList a").click(function (e) {
         e.preventDefault();
         var selText = $(this).text();
-        alert(selText);
-        document.getElementById('inputFoto').value = selText;
-        document.getElementById('photoDropButton').innerHTML = selText;
+        document.getElementById('hiddenFoto').value = selText;
+        document.getElementById('photoDropButton').innerText = selText;
     });
 </script>
 </body>
