@@ -1,6 +1,7 @@
 package servlet;
 
 import beans.RightEnum;
+import org.web3j.crypto.Credentials;
 import test.VoteType;
 import user.LoggedUsers;
 import user.UserCreator;
@@ -86,11 +87,12 @@ public class UploadUserFileSL extends HttpServlet {
                 userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/")+"userLists",
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
                         (String)this.getServletContext().getAttribute("newContractAdress"),
-                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"));
+                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"), (Credentials) req.getSession().getAttribute("credentials"));
 
                 status = "File wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 System.out.println(fne.toString());
+                fne.printStackTrace();
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
             } catch (Exception e) {
                 e.printStackTrace();

@@ -13,75 +13,68 @@ import java.util.TreeMap;
 public class ExcelHandler {
 
     /**
-     *
      * @param file
      * @return
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static TreeMap<Integer,User> readExcelFile(File file) throws IOException
-    {
+    public static TreeMap<Integer, User> readExcelFile(File file) throws IOException {
         TreeMap<Integer, User> map = new TreeMap<>();
 
         FileInputStream excelFile = new FileInputStream(file);
         Workbook w = new XSSFWorkbook(excelFile);
         Sheet sheet = w.getSheetAt(0);
         Iterator<Row> iterator = sheet.iterator();
-        int x=0;
+        int x = 0;
         String[] str = new String[4];
         int counter;
         boolean isString = false;
         iterator.next();
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Row currentRow = iterator.next();
             Iterator<Cell> cellIterator = currentRow.iterator();
-            counter=0;
-            while(cellIterator.hasNext())
-            {
+            counter = 0;
+            while (cellIterator.hasNext()) {
                 Cell currCell = cellIterator.next();
                 CellType type = currCell.getCellTypeEnum();
 
-                if(type==CellType.NUMERIC)
-                {
-                    x= (int) currCell.getNumericCellValue();
+                if (type == CellType.NUMERIC) {
+                    x = (int) currCell.getNumericCellValue();
                 }
 
-                if(type==CellType.STRING&&counter!=3)
-                {
-                    str[counter]=currCell.getStringCellValue();
-                    isString=true;
+                if (type == CellType.STRING && counter != 3) {
+                    str[counter] = currCell.getStringCellValue();
+                    isString = true;
                 }
-                if(isString){isString=false;counter++;}
+                if (isString) {
+                    isString = false;
+                    counter++;
+                }
             }
 
 
-            map.put(x, new User(str[0],str[1]));
+            map.put(x, new User(str[0], str[1]));
         }
         return map;
     }
 
-    public static void updateExcelFile(File file, TreeMap<Integer,User> map,String path) throws IOException, InvalidFormatException
-    {
+    public static void updateExcelFile(File file, TreeMap<Integer, User> map, String path) throws IOException, InvalidFormatException {
         Workbook w = new XSSFWorkbook(file);
 
         Sheet sheet = w.getSheetAt(0);
         Iterator<Row> iterator = sheet.iterator();
         iterator.next();
-        int cellIndex=0;
+        int cellIndex = 0;
         int key = 0;
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Row currentRow = iterator.next();
             Iterator<Cell> cellIterator = currentRow.iterator();
 
-            while(cellIterator.hasNext())
-            {
+            while (cellIterator.hasNext()) {
                 Cell currCell = cellIterator.next();
                 CellType type = currCell.getCellTypeEnum();
-                if(type==CellType.NUMERIC&&cellIndex==0)
-                {
-                    key=(int)currCell.getNumericCellValue();
+                if (type == CellType.NUMERIC && cellIndex == 0) {
+                    key = (int) currCell.getNumericCellValue();
                 }
                 cellIndex++;
             }
@@ -89,14 +82,12 @@ public class ExcelHandler {
             c1.setCellValue(map.get(key).getUsername());
             Cell c2 = currentRow.createCell(4);
             c2.setCellValue(map.get(key).getPassword());
-            cellIndex=0;
+            cellIndex = 0;
         }
         FileOutputStream out = new FileOutputStream(new File(path));
         w.write(out);
         out.close();
     }
-
-
 
 
 }

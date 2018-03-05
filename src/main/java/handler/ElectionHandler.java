@@ -205,6 +205,7 @@ public class ElectionHandler {
             System.out.println(tester.getCandidateData(1));
             System.out.println(tester.getCandidateData(2));
 
+
            /* tester.giveRightToVote(new Address(users[0]));
             tester.giveRightToVote(new Address(users[1]));
             tester.giveRightToVote(new Address(users[2]));

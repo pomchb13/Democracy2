@@ -52,24 +52,23 @@ public class UserCreator {
     public String createNewUserAddress(String password, String destinationPath) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         String filename = WalletUtils.generateFullNewWalletFile(password, new File(destinationPath));
         Credentials credentials = WalletUtils.loadCredentials(password, destinationPath + filename);
-        
         return credentials.getAddress();
     }
 
 
 
-    public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt) throws Exception {
+    public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt, Credentials cr) throws Exception {
         TreeMap<Integer, User> map = ExcelHandler.readExcelFile(new File(uploadedFilePath));
         ElectionHandler el = null;
         PollHandler pl=null;
         if(vt.equals(VoteType.ELECTION))
         {
-            el= new ElectionHandler();
+            el= new ElectionHandler(cr);
             el.loadSmartContract(new Address(contractAddress));
         }
         else
         {
-            pl = new PollHandler();
+            pl = new PollHandler(cr);
             pl.loadSmartContract(new Address(contractAddress));
         }
         for(Map.Entry<Integer,User> entry : map.entrySet())
