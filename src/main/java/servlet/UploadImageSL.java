@@ -2,7 +2,6 @@ package servlet;
 
 import beans.RightEnum;
 import user.LoggedUsers;
-import user.LoggedUsers;
 import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -12,12 +11,9 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @WebServlet(urlPatterns = {"/UploadImageSL"})
 @MultipartConfig
@@ -32,14 +28,13 @@ public class UploadImageSL extends HttpServlet {
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println("pR");
+        System.out.println("processRequest");
         RequestDispatcher rd = request.getRequestDispatcher("/UploadImageUI.jsp");
-        System.out.println("Before Forward");
+        System.out.println(request.getRequestURL());
         rd.forward(request, response);
-        System.out.println("After forward");
     }
 
     private String getFileName(final Part part) {
@@ -62,12 +57,13 @@ public class UploadImageSL extends HttpServlet {
         if (filePart != null) {
             String[] fileField = getFileName(filePart).split("\\.");
             final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
+            System.out.println(fileName);
+            System.out.println(path);
             liFilenames.add(fileName);
             this.getServletContext().setAttribute("liFilenames", liFilenames);
 
             OutputStream out = null;
             InputStream filecontent = null;
-            final PrintWriter writer = resp.getWriter();
 
             try {
                 out = new FileOutputStream(new File(path + File.separator
@@ -82,7 +78,7 @@ public class UploadImageSL extends HttpServlet {
                     out.write(bytes, 0, read);
                 }
                 status = "Bild wurde erfolgreich hochgeladen!";
-
+                System.out.println("ImageUploaded");
             } catch (FileNotFoundException fne) {
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
             } finally {
@@ -92,20 +88,15 @@ public class UploadImageSL extends HttpServlet {
                 if (filecontent != null) {
                     filecontent.close();
                 }
-                if (writer != null) {
-                    writer.close();
-                }
             }
         }else{
             status = "Bitte ein Bild auswählen!";
         }
 
         req.setAttribute("status", status);
-
+        System.out.println(status);
         System.out.println("End doPost");
-
         processRequest(req, resp);
-        super.doPost(req, resp);
     }
 
     @Override

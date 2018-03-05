@@ -57,9 +57,9 @@ public class LoginSL extends HttpServlet {
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
                 System.out.println("Before Login");
-                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
+                //Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
                 System.out.println("Dere");
-                req.getSession().setAttribute("credentials", cr);
+                //req.getSession().setAttribute("credentials", cr);
 
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
@@ -85,17 +85,17 @@ public class LoginSL extends HttpServlet {
 
                     //ToDo: Abfrage welche Wahl !!!
                     if (art == TypeOfVote.Election) {
-                        ElectionHandler handler = new ElectionHandler(cr);
-                        ElectionData ed = handler.getElectionData();
+                        //ElectionHandler handler = new ElectionHandler(cr);
+                        //ElectionData ed = handler.getElectionData();
                         HttpSession ses = req.getSession();
-                        ses.setAttribute("election", ed);
+                        //ses.setAttribute("election", ed);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("ElectionUI.jsp");
                     } else {
-                        PollHandler handler = new PollHandler(cr);
-                        PollData pa = handler.getPollData();
+                       // PollHandler handler = new PollHandler(cr);
+                        //PollData pa = handler.getPollData();
                         HttpSession ses = req.getSession();
-                        ses.setAttribute("poll", pa);
+                       // ses.setAttribute("poll", pa);
                         ses.setMaxInactiveInterval(15 * 60);
                         resp.sendRedirect("PollUI.jsp");
                     }
@@ -107,7 +107,7 @@ public class LoginSL extends HttpServlet {
                     resp.sendRedirect("AdminSettingsUI.jsp");
                     System.out.println("forwarded");
                 }
-            } catch (CipherException e) {
+            } catch (Exception e) {
                 int tries = (int) req.getSession().getAttribute("tries");
                 if (tries > 1) {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
@@ -115,9 +115,9 @@ public class LoginSL extends HttpServlet {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
                 }
                 req.getSession().setAttribute("tries", tries);
-            } catch (Exception e) {
+            } /*catch (Exception e) {
                 req.setAttribute("error", "Fehler beim laden der Datein");
-            }
+            }*/
         }
 
         //405 Method not allowed

@@ -1,6 +1,7 @@
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.RightEnum" %>
-<%@ page import="user.LoggedUsers" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 23.02.2018
