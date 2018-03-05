@@ -93,6 +93,7 @@ public class UploadUserFileSL extends HttpServlet {
                 System.out.println(fne.toString());
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
             } catch (Exception e) {
+                e.printStackTrace();
                 status = "Fehler beim erstellen der User!";
             } finally {
                 if (out != null) {

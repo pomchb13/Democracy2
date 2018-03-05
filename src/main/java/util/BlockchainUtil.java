@@ -10,19 +10,25 @@ import test.VoteType;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class BlockchainUtil {
 
     private static String PATH;
 
-    public static void  setPATH(String newPath)
+    public static void setPATH(String newPath)
     {
-        PATH = newPath;
-        PATH += File.separator;
+        PATH = newPath + File.separator;
+    }
+
+    public static String getPATH()
+    {
+        return PATH;
     }
 
     public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {
+        System.out.println(PATH + getFileName(address));
         return WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
     }
 
@@ -30,6 +36,7 @@ public class BlockchainUtil {
     {
         //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
         address = address.substring(2);
+        System.out.println(PATH);
         File file = new File(PATH);
         if(file.exists() && file.isDirectory())
         {

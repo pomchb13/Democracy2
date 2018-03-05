@@ -91,9 +91,8 @@ public class UserCreator {
         }
 
         File uploadedFile = new File(uploadedFilePath);
-        newPath = newPath + File.separator + uploadedFile.getName().split(".")[0] + "_" +
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy")) + "."+
-                uploadedFile.getName().split(".")[1];
+        System.out.println(uploadedFile.getName());
+        newPath = newPath + File.separator + uploadedFile.getName();
         System.out.println(newPath);
 
         ExcelHandler.updateExcelFile(new File(uploadedFilePath),map,newPath);

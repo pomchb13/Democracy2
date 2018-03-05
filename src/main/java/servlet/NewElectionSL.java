@@ -138,8 +138,10 @@ public class NewElectionSL extends HttpServlet {
                 Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
                 election = new ElectionHandler(cr);
                 ElectionData electionData = (ElectionData) this.getServletContext().getAttribute("newElection");
+                System.out.println("Before election");
                 String newContractAdress = election.createContract(electionData.getLiCandidates().size(), electionData.getTitle(), electionData.getDate_from(),
                         electionData.getDate_due(), electionData.isShow_diagrams());
+
                 System.out.println("Election saved in Blockchain");
                 List<CandidateData> liPolit = electionData.getLiCandidates();
                 for (int i = 0; i < liPolit.size(); i++) {

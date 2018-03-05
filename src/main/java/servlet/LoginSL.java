@@ -34,6 +34,7 @@ public class LoginSL extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
+        System.out.println(BlockchainUtil.getPATH());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -59,9 +60,10 @@ public class LoginSL extends HttpServlet {
         // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
-                System.out.println("Before Login");
+
                 Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
-                System.out.println("Dere");
+                System.out.println(cr);
+
                 req.getSession().setAttribute("credentials", cr);
 
                 //Generation of MD5 Hash
@@ -69,7 +71,7 @@ public class LoginSL extends HttpServlet {
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 RightEnum right = RightEnum.ADMIN;
                 TypeOfVote art = TypeOfVote.Election;
-                System.out.println("Seas");
+
                 //log User in List
                 userInstance = LoggedUsers.getInstance();
                 try {

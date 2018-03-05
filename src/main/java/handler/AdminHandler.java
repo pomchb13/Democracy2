@@ -31,21 +31,16 @@ public class AdminHandler {
     }
 
     public String createSmartContract() throws Exception {
-        admin = AdminContract.deploy(web3, credentials,  new BigInteger("300000"), new BigInteger("4700000")).send();
+        admin = AdminContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000")).send();
         return admin.getContractAddress();
     }
 
-    public void loadSmartContract(Address address) throws Exception {
-        if(admin != null)
-        {
-            admin = AdminContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
-        }
-        throw new Exception("admin object is null!");
+    public void loadSmartContract(Address address) {
+        admin = AdminContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
     }
 
     public boolean checkIfAdmin(Address address) throws Exception {
-        if(admin != null)
-        {
+        if (admin != null) {
             return admin.checkIfAdmin(address.toString()).send();
         }
         throw new Exception("admin object is null!");
@@ -53,12 +48,10 @@ public class AdminHandler {
 
     public List<Address> getAllAdmins() throws Exception {
 
-        if(admin != null)
-        {
+        if (admin != null) {
             List<Address> admins = new ArrayList<>();
             int numAdmins = admin.getAdminCount().send().intValue();
-            for (int i = 0; i < numAdmins; i++)
-            {
+            for (int i = 0; i < numAdmins; i++) {
                 admins.add(new Address(admin.getAdmin(new BigInteger(i + "")).send()));
             }
             return admins;
@@ -67,12 +60,10 @@ public class AdminHandler {
     }
 
     public List<Address> getAllContractAddresses() throws Exception {
-        if(admin != null)
-        {
+        if (admin != null) {
             List<Address> contracts = new ArrayList<>();
             int numContracts = admin.getContractCount().send().intValue();
-            for (int i = 0; i < numContracts; i++)
-            {
+            for (int i = 0; i < numContracts; i++) {
                 contracts.add(new Address(admin.getContractAddress(new BigInteger(i + "")).send()));
             }
             return contracts;
@@ -81,22 +72,18 @@ public class AdminHandler {
     }
 
     public void addAdminAddress(Address address) throws Exception {
-        if(admin != null)
-        {
+        if (admin != null) {
             admin.addAdmin(address.toString()).send();
         }
         throw new Exception("admin object is null!");
     }
 
     public void addContractAddress(Address address) throws Exception {
-        if(admin != null)
-        {
+        if (admin != null) {
             admin.addContractAddress(address.toString()).send();
         }
         throw new Exception("admin object is null!");
     }
-
-
 
 
     public static void main(String[] args) {
