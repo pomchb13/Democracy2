@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.util.Properties;
 
 /**
  * Created by Patrick Windegger on 05.03.2018.
