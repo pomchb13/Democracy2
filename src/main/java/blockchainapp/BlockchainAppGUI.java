@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
+import java.util.Properties;
 
 /**
  * Created by Patrick Windegger on 05.03.2018.
@@ -14,6 +15,7 @@ public class BlockchainAppGUI extends JFrame {
     private String gethDirectory;
     private String dataDirectory;
     private String res;
+
 
     public BlockchainAppGUI(String title) {
         super(title);
@@ -106,6 +108,7 @@ public class BlockchainAppGUI extends JFrame {
         }
 
     }
+
 
     public static void main(String[] args) {
         new BlockchainAppGUI("Blockchain App for admins").setVisible(true);
