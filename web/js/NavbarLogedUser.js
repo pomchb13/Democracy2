@@ -1,6 +1,14 @@
 /**
  * Created by Ewald on 17.09.2017.
+ *
+ * In this class we define Navigationbar for logged in Users. With this Navigationbar the User
+ * is able to easily navigate between the sites. This bar will automatically be created in the <div id="navbar"> tag.
+ * In the first row the script checks if the site is loading and then adds the navigation bar. To create the navigation bar we
+ * use Bootstrap classes, so the design is common with the design of the whole platform. To create the navigationbar,
+ * we declare a huge String, where our bar is saved. After that we write this String to our <div> tag.
  */
+
+//This automatically called JS Function adds the Navigation bar for logged in Users
 window.onload = function userNavbar() {
     var navbar = '' +
         '<nav class="navbar navbar-inverse navbar-custom"> ' +
@@ -22,9 +30,3 @@ window.onload = function userNavbar() {
         '</nav>';
     document.getElementById('navbar').innerHTML = navbar;
 }
-
-/* '           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">' +
- '               <span class="icon-bar"></span> ' +
- '               <span class="icon-bar"></span> ' +
- '               <span class="icon-bar"></span> ' +
- '           </button> ' +; */
