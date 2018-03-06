@@ -1,8 +1,10 @@
 package servlet;
 
 import beans.*;
+import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import user.HashGenerator;
@@ -68,7 +70,11 @@ public class LoginSL extends HttpServlet {
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
-                RightEnum right = RightEnum.ADMIN;
+                AdminHandler adminHandler = new AdminHandler();
+                RightEnum right = RightEnum.USER;
+                if(adminHandler.checkIfAdmin(new Address(username))){
+                    right = RightEnum.ADMIN;
+                }
                 TypeOfVote art = TypeOfVote.Election;
                 System.out.println("after hashing");
                 //log User in List
@@ -82,12 +88,10 @@ public class LoginSL extends HttpServlet {
 
                 if (right == RightEnum.USER) {
                     //ToDo: Abfrage auf Wahlrecht
-
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
                     session.setMaxInactiveInterval(15 * 60);
-
                     //ToDo: Abfrage welche Wahl !!!
                     if (art == TypeOfVote.Election) {
                         ElectionHandler handler = new ElectionHandler(cr);
