@@ -100,7 +100,7 @@
             <br>
             <br>
             <!-- If an error occurs it will be shown over the button -->
-            <%=  request.getAttribute("PollError") != null ? request.getAttribute("PollError") : ""  %>
+            <%=  request.getAttribute("pollStatus") != null ? request.getAttribute("pollStatus") : ""  %>
 
             <!-- Add a submit button -->
             <!-- SUBMIT OF KING -->
@@ -115,10 +115,10 @@
         <hr>
         <br>
         <div>
-            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("pollDataList") != null ?
-                    ((PollData) this.getServletConfig().getServletContext().getAttribute("pollDataList")).getTitle() : ""%>
+            <h1>Antwortmöglichkeiten zur <%= this.getServletConfig().getServletContext().getAttribute("poll") != null ?
+                    ((PollData) this.getServletConfig().getServletContext().getAttribute("poll")).getTitle() : ""%>
                 hinzufügen</h1></div>
-        <form id="form2" action="/newPollSL" method="post">
+        <form id="form2" action="/NewPollSL" method="post">
             <br>
             <br>
             <div class="answerDiv">
@@ -136,7 +136,7 @@
                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                 </div>
             </div>
-            <%=  request.getAttribute("pollAnswerError") != null ? request.getAttribute("pollAnswerError") : ""  %>
+            <%=  request.getAttribute("answerStatus") != null ? request.getAttribute("answerStatus") : ""  %>
             <br>
             <div class="submitButton">
                 <button id="addAnswerButton" type="submit" form="form2" name="actionButton" value="addAnswer"
@@ -146,12 +146,12 @@
             </div>
         </form>
         <div class="submitButton">
-            <a href="AdminSettingsUI.jsp">
-                <button type="button" class="btn btn-primary" name="actionButton"
-                        value="forward"> Weiter zur Admin Seite <span
+            <form action="/NewPollSL" id="form3" method="post">
+                <button type="submit" class="btn btn-primary" name="actionButton"
+                        value="forward"> Weiter zum Upload des Wählerverzeichnisses <span
                         class="glyphicon glyphicon-arrow-right"></span>
                 </button>
-            </a>
+            </form>
 
         </div>
         <br><br><br>

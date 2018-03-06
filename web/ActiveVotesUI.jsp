@@ -2,7 +2,9 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.*" %>
-<%@ page import="user.LoggedUsers" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -18,10 +20,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Import the JavaScript of JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Import the JAvascript to use DropDownMenus in Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
+    <!-- Set Tab picture -->
+    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of Navbar -->
@@ -45,136 +51,63 @@
 <div class="container">
     <br>
     <br>
-        <!-- Title of the page -->
-        <div class="titleActivVote">
-            <h1>Alle beendeten und aktiven Wahlen auf einem Blick</h1>
-            <%
-                LinkedList<ElectionData> electionDataList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("electionDataList");
-                LinkedList<PollData> pollDataList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("pollDataList");
-                if (electionDataList != null && electionDataList.size() != 0) {
-                    out.println("<h3> Alle Wahlen </h3>");
-                    out.print("<table class=\"table table-hover\">\n" +
-                            "    <thead>\n" +
-                            "    <tr>\n" +
-                            "        <th>Titel</th>\n" +
-                            "        <th>Startdatum</th>\n" +
-                            "        <th>Enddatum</th>\n" +
-                            "        <th>Politiker</th>\n" +
-                            "        <th>Status</th>\n" +
-                            "    </tr>\n" +
-                            "    </thead>\n" +
-                            "    <tbody>");
+    <%
+        LinkedList<PollData> liPollList = new LinkedList<>();
+        LinkedList<ElectionData> liElectionList = new LinkedList<>();
 
-                    for (ElectionData v : electionDataList) {
-                        if ((LocalDate.now().isEqual(v.getDate_due()) || LocalDate.now().equals(v.getDate_from())) ||
-                                (LocalDate.now().isBefore(v.getDate_due()) && LocalDate.now().isAfter(v.getDate_from()))) {
-                            out.print("<tr class='active'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (CandidateData p : v.getLiCandidates()) {
-                                out.print(p.getForename() + " " + p.getSurname() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>aktiv</td>\n" +
-                                    "</tr>");
-                        } else if (LocalDate.now().isBefore(v.getDate_from())) {
-                            out.print("<tr class='inactive'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (CandidateData p : v.getLiCandidates()) {
-                                out.print(p.getForename() + " " + p.getSurname() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>inaktiv</td>\n" +
-                                    "</tr>");
-                        } else {
-                            out.print("<tr class='success'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (CandidateData p : v.getLiCandidates()) {
-                                out.print(p.getForename() + " " + p.getSurname() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>abgehalten</td>\n" +
-                                    "</tr>");
+
+    %>
+
+    <!-- Title of the page -->
+    <div class="titleActivVote">
+        <h1>Alle beendeten und aktiven Wahlen auf einem Blick</h1>
+    </div>
+    <div class="showTable">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Von</th>
+                    <th>Bis</th>
+                    <th>Abgegebene Stimmen</th>
+                    <th>Zum Diagramm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    for (PollData pd:liPollList) {
+                        out.println("<tr>");
+                        out.println("<td>"+pd.getTitle()+"</td>");
+                        out.println("<td>"+pd.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))+"</td>");
+                        out.println("<td>"+pd.getDate_due().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))+"</td>");
+                        int count = 0;
+                        for (PollAnswer pa:pd.getAnswerList()) {
+                            count += pa.getVoteCount();
                         }
+                        out.println("<td>"+count+"</td>");
+                        out.println("");
 
                     }
-                }
-
-                if (pollDataList != null && pollDataList.size() != 0) {
-                    out.println("<h3> Alle Abstimmungen </h3>");
-                    out.print("<table class=\"table table-hover\">\n" +
-                            "    <thead>\n" +
-                            "    <tr>\n" +
-                            "        <th>Titel</th>\n" +
-                            "        <th>Startdatum</th>\n" +
-                            "        <th>Enddatum</th>\n" +
-                            "        <th>Wahlmöglichkeiten</th>\n" +
-                            "        <th>Status</th>\n" +
-                            "    </tr>\n" +
-                            "    </thead>\n" +
-                            "    <tbody>");
-
-                    for (PollData v : pollDataList) {
-                        if ((LocalDate.now().isEqual(v.getDate_due()) || LocalDate.now().equals(v.getDate_from())) ||
-                                (LocalDate.now().isBefore(v.getDate_due()) && LocalDate.now().isAfter(v.getDate_from()))) {
-                            out.print("<tr class='active'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (PollAnswer p : v.getAnswerList()) {
-                                out.print(p.getTitle() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>aktiv</td>\n" +
-                                    "</tr>");
-                        } else if (LocalDate.now().isBefore(v.getDate_from())) {
-                            out.print("<tr class='inactive'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (PollAnswer p : v.getAnswerList()) {
-                                out.print(p.getTitle() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>inaktiv</td>\n" +
-                                    "</tr>");
-                        } else {
-                            out.print("<tr class='success'>");
-                            out.print("<td>" + v.getTitle() + "</td>\n" +
-                                    "<td>" + v.getDate_from() + "</td>\n" +
-                                    "<td>" + v.getDate_due() + "</td>\n" +
-                                    "<td>");
-                            for (PollAnswer p : v.getAnswerList()) {
-                                out.print(p.getTitle() + " | ");
-                            }
-                            out.print("</td>" +
-                                    "<td>abgehalten</td>\n" +
-                                    "</tr>");
-                        }
-
-                    }
+                %>
 
 
-                }
-            %>
+                </tbody>
+            </table>
         </div>
-    <!-- Implement the footer -->
-    <footer class="footer">
-        <div class="container text-center">
-            <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
-        </div>
-    </footer>
+    </div>
+
+
 </div>
+
+<br><br>
+<!-- Implement the footer -->
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+    </div>
+</footer>
+
 </body>
 </html>
 
