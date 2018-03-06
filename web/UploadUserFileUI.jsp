@@ -88,19 +88,27 @@
 
         <br><br>
         <%
-            out.print(this.getServletConfig().getServletContext().getAttribute("newPath"));
             if (((String) this.getServletConfig().getServletContext().getAttribute("newPath")) != null) {
                 File f = new File((String) this.getServletConfig().getServletContext().getAttribute("newPath"));
                 if (f != null) {
-                    out.print(" <a href=\" " + f.getAbsolutePath() +"\" download=\" "+f.getName()+"\"> ");
+                    out.print(" <a href=\" res/userLists/" + f.getName() + "\" download=\" " + f.getName() + "\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
                             "                        value=\"downloadFile\"><span\n" +
-                            "                        class=\"glyphicon glyphicon-floppy-disk\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
+                            "                        class=\"glyphicon glyphicon-cloud-download\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
                             "                </button>");
                     out.print("</a>");
                 }
             }
         %>
+
+        <br><br>
+        <a href="AdminSettingsUI.jsp">
+            <button type="button" id="forward" class="btn btn-primary" name="forward"
+                    value="forwardToAdminSite"><span
+                    class="glyphicon glyphicon-floppy-disk"></span> Weiter zur Admin-Seite
+            </button>
+        </a>
+
     </center>
 </div>
 

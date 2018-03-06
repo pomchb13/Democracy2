@@ -84,7 +84,6 @@ public class NewPollSL extends HttpServlet {
                 pollData.setAnswerList(answerList);
                 this.getServletContext().setAttribute("poll", pollData);
             }
-
         } else {
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             pollTester = new PollHandler(cr);
