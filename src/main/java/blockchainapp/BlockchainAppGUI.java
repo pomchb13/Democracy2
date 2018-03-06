@@ -59,34 +59,30 @@ public class BlockchainAppGUI extends JFrame {
 
     private void initComponents() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JButton btGeth = new JButton("Start Blockchain environement");
-        btGeth.addActionListener((e) -> {
+        JButton btStart = new JButton("Start Blockchain environement");
+        btStart.addActionListener((e) -> {
             try {
                 onStartGeth(e);
             } catch (FileNotFoundException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (IOException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (CipherException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (Exception e1) {
-                JOptionPane.showMessageDialog(this, "Login terminated!");
+                JOptionPane.showMessageDialog(this, "Login terminated!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         });
 
-        JButton btJS = new JButton("Start JS console");
-        btJS.addActionListener((e) -> onStartJSConsole(e));
 
         this.getContentPane().setLayout(new BorderLayout());
 
-        JPanel paNorth = new JPanel(new GridLayout(1, 2, 5, 5));
-        paNorth.add(btGeth);
-        paNorth.add(btJS);
-        this.getContentPane().add(paNorth, BorderLayout.NORTH);
+
+        this.getContentPane().add(btStart, BorderLayout.NORTH);
 
         liAdmins = new JList();
         JScrollPane scPane = new JScrollPane(liAdmins);
@@ -99,23 +95,22 @@ public class BlockchainAppGUI extends JFrame {
             try {
                 onCreateNewAdmin(e);
             } catch (NoSuchAlgorithmException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (NoSuchProviderException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (InvalidAlgorithmParameterException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (CipherException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (IOException e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (Exception e1) {
-                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString());
-                return;
+                JOptionPane.showMessageDialog(this, "An error occured!\n" + e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -134,7 +129,8 @@ public class BlockchainAppGUI extends JFrame {
                 return;
             }
             JPasswordField passwordField = new JPasswordField();
-            if (JOptionPane.showConfirmDialog(this, passwordField, "Please enter your password!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
+            if (JOptionPane.showConfirmDialog(this, passwordField, "Please enter your password!",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION) {
                 String password = new String(passwordField.getPassword());
                 if (password.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Password may not be empty!");
@@ -153,13 +149,17 @@ public class BlockchainAppGUI extends JFrame {
                         dtm.addElement(a);
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "User is not admin!");
+                    JOptionPane.showMessageDialog(this, "User is not admin!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
         } else {
             contractExists = false;
             startGeth();
+            JOptionPane.showMessageDialog(this, "The first admin will be automatically created!\n" +
+                            "Do not forget to start the miner in the JavaScript console with the following command:\nminer.start()",
+                    "Information", JOptionPane.INFORMATION_MESSAGE);
+            onCreateNewAdmin(null);
         }
     }
 
@@ -171,44 +171,63 @@ public class BlockchainAppGUI extends JFrame {
         }
     }
 
-    private void onCreateNewAdmin(ActionEvent e) throws Exception {
+    private void onCreateNewAdmin(ActionEvent e) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException, IOException {
         UserCreator creator = new UserCreator();
 
         if (contractExists) {
             if (adminHandler != null) {
                 String password = PasswordGenerator.createPassword(20);
+
+
                 String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                         + File.separator + "keystore" + File.separator);
 
-                JTextArea optionPaneArea = new JTextArea("Please store the login data on a save place!\n"
+
+                JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
                         + "Username: " + newAddress + "\nPassword: " + password);
                 optionPaneArea.setEditable(false);
-                JOptionPane.showMessageDialog(this, optionPaneArea);
-                Credentials cr = BlockchainUtil.loginToBlockhain(newAddress, password, path
-                        + "geth_data" + File.separator + "keystore" + File.separator);
-                dtm.addElement(new Address(newAddress));
-                adminHandler.addAdminAddress(new Address(cr.getAddress()), new Address(adminCredentials.getAddress()));
+                JOptionPane.showMessageDialog(this, optionPaneArea, "Information", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    Credentials cr = BlockchainUtil.loginToBlockhain(newAddress, password, path
+                            + "geth_data" + File.separator + "keystore" + File.separator);
+                    dtm.addElement(new Address(newAddress));
+                    adminHandler.addAdminAddress(new Address(cr.getAddress()), new Address(adminCredentials.getAddress()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+
             }
         } else {
             String password = PasswordGenerator.createPassword(20);
             String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                     + File.separator + "keystore" + File.separator);
+
             JTextArea optionPaneArea = new JTextArea("Please store the login data on a save place!\n"
                     + "Username: " + newAddress + "\nPassword: " + password);
             optionPaneArea.setEditable(false);
-            JOptionPane.showMessageDialog(this, optionPaneArea);
-            adminCredentials = BlockchainUtil.loginToBlockhain(newAddress, password, path
-                    + "geth_data" + File.separator + "keystore" + File.separator);
-            dtm.addElement(new Address(newAddress));
+            JOptionPane.showMessageDialog(this, optionPaneArea, "Information", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                adminCredentials = BlockchainUtil.loginToBlockhain(newAddress, password, path
+                        + "geth_data" + File.separator + "keystore" + File.separator);
 
-            if (adminHandler == null) {
-                adminHandler = new AdminHandler(adminCredentials);
-                String contractAddress = adminHandler.createSmartContract();
-                BufferedWriter bw = new BufferedWriter(new FileWriter(path + "admin"
-                        + File.separator + "contract.txt"));
-                bw.write(contractAddress);
-                bw.close();
+
+                if (adminHandler == null) {
+                    adminHandler = new AdminHandler(adminCredentials);
+                    String contractAddress = adminHandler.createSmartContract();
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(path + "admin"
+                            + File.separator + "contract.txt"));
+                    bw.write(contractAddress);
+                    bw.close();
+                    dtm.addElement(new Address(newAddress));
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+
         }
     }
 
@@ -261,6 +280,7 @@ public class BlockchainAppGUI extends JFrame {
     private void startGeth() {
         try {
             cmdUtil.startGethNetwork();
+            cmdUtil.startJSConsole();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
         }

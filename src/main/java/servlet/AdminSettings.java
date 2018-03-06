@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by Ewald on 06.03.2018.
  */
-@WebServlet(urlPatterns = {"/NewElectionSL"})
+@WebServlet(urlPatterns = {"/AdminSettings"})
 public class AdminSettings extends HttpServlet {
 
     private LoggedUsers lU = LoggedUsers.getInstance();

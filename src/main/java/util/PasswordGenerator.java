@@ -16,7 +16,7 @@ public class PasswordGenerator {
     /**
      * Letters to generate the password
      */
-    private static final String AVAILABLELETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+    private static final String AVAILABLELETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^*()-_=+[{]}\\|;:,./?";
 
 
     /**

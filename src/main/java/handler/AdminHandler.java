@@ -37,15 +37,13 @@ public class AdminHandler {
 
     public String loadSmartContract(Address address) {
         admin = AdminContract.load(address.toString(), web3, credentials, new BigInteger("0"), new BigInteger("4700000"));
-        return  admin.getContractAddress();
+        return admin.getContractAddress();
     }
 
     public boolean checkIfAdmin(Address address) throws Exception {
         if (admin != null) {
             return admin.checkIfAdmin(address.toString()).send();
-        }
-        else
-        {
+        } else {
             throw new Exception("admin object is null!");
         }
     }
@@ -59,14 +57,10 @@ public class AdminHandler {
                     admins.add(new Address(admin.getAdmin(new BigInteger(i + "")).send()));
                 }
                 return admins;
-            }
-            else
-            {
+            } else {
                 throw new Exception("admin object is null!");
             }
-        }
-        else
-        {
+        } else {
             throw new Exception("sender address is not allowed to perform this operation!");
         }
 
@@ -74,8 +68,7 @@ public class AdminHandler {
     }
 
     public List<Address> getAllContractAddresses(Address senderAddress) throws Exception {
-        if(checkIfAdmin(senderAddress))
-        {
+        if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
                 List<Address> contracts = new ArrayList<>();
                 int numContracts = admin.getContractCount().send().intValue();
@@ -83,49 +76,35 @@ public class AdminHandler {
                     contracts.add(new Address(admin.getContractAddress(new BigInteger(i + "")).send()));
                 }
                 return contracts;
-            }
-            else
-            {
+            } else {
                 throw new Exception("admin object is null!");
             }
-        }
-        else
-        {
+        } else {
             throw new Exception("sender address is not allowed to perform this operation!");
         }
     }
 
     public void addAdminAddress(Address address, Address senderAddress) throws Exception {
-        if(checkIfAdmin(senderAddress))
-        {
+        if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
                 admin.addAdmin(address.toString()).send();
-            }
-            else
-            {
+            } else {
                 throw new Exception("admin object is null!");
             }
 
-        }
-        else
-        {
+        } else {
             throw new Exception("sender address is not allowed to perform this operation!");
         }
     }
 
     public void addContractAddress(Address address, Address senderAddress) throws Exception {
-        if(checkIfAdmin(senderAddress))
-        {
+        if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
                 admin.addContractAddress(address.toString()).send();
-            }
-            else
-            {
+            } else {
                 throw new Exception("admin object is null!");
             }
-        }
-        else
-        {
+        } else {
             throw new Exception("sender address is not allowed to perform this operation!");
         }
     }
