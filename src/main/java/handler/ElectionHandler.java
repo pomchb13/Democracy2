@@ -194,6 +194,7 @@ public class ElectionHandler {
             CandidateData p3 = new CandidateData("DI", "F3", "L3", LocalDate.of(1970, 9, 3), "SPÖ", "S3", null);
 
 
+            Credentials cr = BlockchainUtil.loginToBlockhain("0x8c995191c5dd74f876b2b4a44da84e3ec7795319", "1234");
             ElectionHandler tester = new ElectionHandler();
             tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());

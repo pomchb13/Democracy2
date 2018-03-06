@@ -28,16 +28,37 @@ public class BlockchainUtil {
     }
 
     public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {
-        System.out.println(PATH + getFileName(address));
         return WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
+    }
+
+    public static Credentials loginToBlockhain(String address, String passwd, String alternativePath) throws IOException, CipherException {
+        return WalletUtils.loadCredentials(passwd,new File(alternativePath + getFileName(address, alternativePath)));
     }
 
     public static String getFileName(String address)
     {
         //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
         address = address.substring(2);
-        System.out.println(PATH);
         File file = new File(PATH);
+        if(file.exists() && file.isDirectory())
+        {
+            String[] files = file.list();
+            for(String fileName : files)
+            {
+                if(fileName.toLowerCase().contains(address.toLowerCase()))
+                {
+                    return fileName;
+                }
+            }
+        }
+        return "";
+    }
+
+    public static String getFileName(String address, String alternativePath)
+    {
+        //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
+        address = address.substring(2);
+        File file = new File(alternativePath);
         if(file.exists() && file.isDirectory())
         {
             String[] files = file.list();
