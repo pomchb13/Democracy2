@@ -32,6 +32,7 @@ public class LoggedUsers {
 
     public void logout(String hash) {
         tokenList.remove(hash);
+        addressList.remove(hash);
     }
 
     public boolean compareRights(String hash, RightEnum neededRight) {
@@ -41,7 +42,6 @@ public class LoggedUsers {
             }
         }
         return false;
-
     }
 
     public void outPutUserList() {

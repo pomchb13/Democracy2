@@ -21,13 +21,13 @@ public class HashGenerator {
     }
 
 
-    public static String get_SHA_256_SecurePassword(String password) {
+    public static String get_SHA_256_SecurePassword(String passwordAndUsername) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] salt = getSalt();
             md.update(salt);
-            byte[] bytes = md.digest(password.getBytes());
+            byte[] bytes = md.digest(passwordAndUsername.getBytes());
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));

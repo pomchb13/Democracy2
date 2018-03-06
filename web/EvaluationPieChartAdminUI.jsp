@@ -1,6 +1,8 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="beans.PollAnswer" %>
-<%@ page import="beans.CandidateData" %><%--
+<%@ page import="beans.CandidateData" %>
+<%@ page import="beans.ElectionData" %>
+<%@ page import="beans.PollData" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -50,27 +52,19 @@
             data: {
                 columns: [
                     <%
-                        if(this.getServletConfig().getServletContext().getAttribute("Chart") instanceof PollAnswer) {
-
-                            LinkedList<PollAnswer> liPollList = (LinkedList<PollAnswer>) request.getSession()
-                                    .getAttribute("Chart");
-                            for (PollAnswer pa: liPollList) {
+                        if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
+                           PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (PollAnswer pa: pd.getAnswerList()) {
                                 out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
                             }
+
                         } else {
-                            LinkedList<CandidateData> liCanList = (LinkedList<CandidateData>) request.getSession()
-                                    .getAttribute("Chart");
-                            for (CandidateData cd: liCanList) {
+                            ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (CandidateData cd: ed.getLiCandidates()) {
                                 out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
                             }
                         }
 %>
-                 /* ['asdf', 50],
-                    ['MUSTERFRAU Mara', 120],
-                    ['KRAFT Michael', 13],
-                    ['CONRAD Heike', 54],
-                    ['MÜLLER Anke', 150],
-                    ['AZOG Sepp', 70], */
                 ],
                 type: 'donut',
                 onclick: function (d, i) {

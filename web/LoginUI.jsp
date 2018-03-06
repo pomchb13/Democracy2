@@ -30,11 +30,12 @@
 <div id="container">
     <br><br>
 
-        <!-- Title of the page -->
-        <div class="heading">
-            <br>
-            <h1>Willkommen bei Democracy 2.0</h1>
-        </div>
+    <!-- Title of the page -->
+    <div class="heading">
+        <br>
+        <h1>Willkommen bei Democracy 2.0</h1>
+    </div>
+    <br>
 
 
     <form action="/LoginSL" method="post">
@@ -42,27 +43,22 @@
         <div class="loginText">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="username" type="text" class="form-control" name="username" placeholder="Username">
+                <input id="username" type="text" class="form-control" name="username" placeholder="Benutzername">
             </div>
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                <input id="password" type="password" class="form-control" name="password" placeholder="Passwort">
             </div>
             <br>
-            <center>
-                <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
-                <div class="submitButton">
-                    <button type="submit" id="evaluation" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-log-in"></span>
-                        Login
-                    </button>
-                </div>
-            </center>
-
-
+            <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
+            <div class="submitButton">
+                <button type="submit" id="evaluation" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    Login
+                </button>
+            </div>
         </div>
-        </center>
     </form>
 </div>
 <footer class="footer">

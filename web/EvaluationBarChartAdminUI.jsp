@@ -1,6 +1,8 @@
 <%@ page import="beans.PollAnswer" %>
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.CandidateData" %><%--
+<%@ page import="beans.CandidateData" %>
+<%@ page import="beans.PollData" %>
+<%@ page import="beans.ElectionData" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -47,79 +49,48 @@
     <!-- JavaScript for the Chart -->
     <script>
         var chart = c3.generate({
-                data: {
-                    columns: [
-                        <%
-                            if(this.getServletConfig().getServletContext().getAttribute("Chart") instanceof PollAnswer) {
+            data: {
+                columns: [
+                    <%
+                        if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
+                           PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (PollAnswer pa: pd.getAnswerList()) {
+                                out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                            }
 
-                                LinkedList<PollAnswer> liPollList = (LinkedList<PollAnswer>) request.getSession()
-                                        .getAttribute("Chart");
-                                for (PollAnswer pa: liPollList) {
-                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
-                                }
-                            } else {
-                                LinkedList<CandidateData> liCanList = (LinkedList<CandidateData>) request.getSession()
-                                        .getAttribute("Chart");
-                                for (CandidateData cd: liCanList) {
-                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
-                                }
+                        } else {
+                            ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (CandidateData cd: ed.getLiCandidates()) {
+                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
                             }
+                        }
 %>
-                        /* ['asdf', 50],
-                         ['MUSTERFRAU Mara', 120],
-                         ['KRAFT Michael', 13],
-                         ['CONRAD Heike', 54],
-                         ['MÜLLER Anke', 150],
-                         ['AZOG Sepp', 70], */
-                    ],
-                    type: 'bar',
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onmouseover: function (d, i) {
-                        console.log("onmouseover", d, i);
-                    },
-                    onmouseout: function (d, i) {
-                        console.log("onmouseout", d, i);
-                    }
+                ],
+                type: 'bar',
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
                 },
-                axis: {
-                    x: {
-                        label: {
-                            text: 'Namen der Kandidaten',
-                            position: 'outer-center'
-                        },
-                        tick: {
-                            count: 1,
-                            format: function () {
-                                return ''
-                            }
-                        }
-                    },
-                    y: {
-                        label: {
-                            text: 'Anzahl der Stimmen',
-                            position: 'outer-middle'
-                        }
-                    },
+                onmouseover: function (d, i) {
+                    console.log("onmouseover", d, i);
                 },
-                legend: {
-                    position: 'bottom'
+                onmouseout: function (d, i) {
+                    console.log("onmouseout", d, i);
                 }
-                    /*        colors: {
-                     Max: '#ffff00',
-                     Muster: '#99ccff',
-                     Mann: '#cc80ff',
-                     Max1: '#88cc00',
-                     Muster1: '#00ffff',
-                     Mann1: '#008080'
-                     },
-                     color: function (color, d) {
-                     // d will be 'id' when called for legends
-                     return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-                     }*/
-            })
-        ;
+            },
+            axis: {
+
+                x: {
+                    label: 'Namen der Kandidaten'
+                },
+                y: {
+                    label: 'Anzahl der Stimmen'
+
+                },
+            },
+            donut: {
+                title: "Prozentverteilung"
+            }
+        });
     </script>
     <center>
         <!-- Add a Button the change to the other chart -->

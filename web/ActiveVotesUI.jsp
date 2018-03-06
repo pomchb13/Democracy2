@@ -52,10 +52,8 @@
     <br>
     <br>
     <%
-        LinkedList<PollData> liPollList = new LinkedList<>();
-        LinkedList<ElectionData> liElectionList = new LinkedList<>();
-
-
+        LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
+        LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
     %>
 
     <!-- Title of the page -->
@@ -63,38 +61,58 @@
         <h1>Alle beendeten und aktiven Wahlen auf einem Blick</h1>
     </div>
     <div class="showTable">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Von</th>
-                    <th>Bis</th>
-                    <th>Abgegebene Stimmen</th>
-                    <th>Zum Diagramm</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%
-                    for (PollData pd:liPollList) {
-                        out.println("<tr>");
-                        out.println("<td>"+pd.getTitle()+"</td>");
-                        out.println("<td>"+pd.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))+"</td>");
-                        out.println("<td>"+pd.getDate_due().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))+"</td>");
-                        int count = 0;
-                        for (PollAnswer pa:pd.getAnswerList()) {
-                            count += pa.getVoteCount();
+        <form method="POST" action="EvaluationSL">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Von</th>
+                        <th>Bis</th>
+                        <th>Abgegebene Stimmen</th>
+                        <th>Zum Diagramm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%
+                        int anz = 0;
+                        for (PollData pd : liPollList) {
+                            out.println("<tr>");
+                            out.println("<td>" + pd.getTitle() + "</td>");
+                            out.println("<td>" + pd.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");
+                            out.println("<td>" + pd.getDate_due().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");
+                            int count = 0;
+                            for (PollAnswer pa : pd.getAnswerList()) {
+                                count += pa.getVoteCount();
+                            }
+                            out.println("<td>" + count + "</td>");
+                            out.println("<td style=\"width: 100%;\">"
+                                    + "<button style=\"width: 100%;\" class=\"btn btn-primary\" value=\" " + pd.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
+                                    + "Diagramm anzeigen"
+                                    + "</button>"
+                                    + "</td>");
                         }
-                        out.println("<td>"+count+"</td>");
-                        out.println("");
-
-                    }
-                %>
-
-
-                </tbody>
-            </table>
-        </div>
+                        for (ElectionData ed : liElectionList) {
+                            out.println("<tr>");
+                            out.println("<td>" + ed.getTitle() + "</td>");
+                            out.println("<td>" + ed.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");
+                            out.println("<td>" + ed.getDate_due().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");
+                            int count = 0;
+                            for (CandidateData cd : ed.getLiCandidates()) {
+                                count += cd.getVoteCount();
+                            }
+                            out.println("<td>" + count + "</td>");
+                            out.println("<td style=\"width: 100%;\">"
+                                    + "<button style=\"width: 100%;\" class=\"btn btn-primary\" value=\" " + ed.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
+                                    + "Diagramm anzeigen"
+                                    + "</button>"
+                                    + "</td>");
+                        }
+                    %>
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
 
 
