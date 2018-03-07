@@ -21,28 +21,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Import the CSS of  Bootstrap Datepicker -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css"/>
-    <!-- Import the CSS of  Bootstrap Datepicker 3-->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
-    <!-- Import the JavaScript of  Bootstrap Datepicker -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-    <!-- Import toggleNewVote -->
-    <script type="text/javascript" src="js/toggleNewVote.js"></script>
-    <!-- Import addAnswersNewVote -->
-    <script type="text/javascript" src="js/AddAnswersNewVote.js"></script>
-    <!-- Import defaultDate -->
-    <script type="text/javascript" src="js/defaultDate.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/Avatar.png">
-    <!-- Import datepicker -->
-    <script type="text/javascript" src="js/datepicker.js"></script>
-    <!-- Import Javascript function to add Candidates -->
-    <script type="text/javascript" src="js/addCandidate.js"></script>
-    <!-- Import JavaScript to view the selected DropDownMenuItem -->
-    <!-- <script src="js/viewDropdownItem.js"></script> -->
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/NavbarAdmin.js"></script>
 </head>

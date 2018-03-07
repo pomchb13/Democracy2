@@ -40,10 +40,17 @@ public class LogoutSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // get hash of user from the session scope
         String hash = (String) req.getSession().getAttribute("hash");
+
+        // set hash of user to null
         req.getSession().setAttribute("hash", "");
+
+        // delete user in the user list
         lU.logout(hash);
         lU.outPutUserList();
+
+        // forward the the LoginSL
         resp.sendRedirect("/LoginSL");
 
     }

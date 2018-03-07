@@ -14,8 +14,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Import login js -->
-    <script lang="JavaScript" type="text/javascript" src="js/login.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
@@ -29,15 +27,12 @@
 
 <div id="container">
     <br><br>
-
     <!-- Title of the page -->
     <div class="heading">
         <br>
         <h1>Willkommen bei Democracy 2.0</h1>
     </div>
     <br>
-
-
     <form action="/LoginSL" method="post">
         <!-- Add the username, the password and submit button -->
         <div class="loginText">
@@ -61,6 +56,7 @@
         </div>
     </form>
 </div>
+<!-- footer -->
 <footer class="footer">
     <div class="container text-center">
         <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>

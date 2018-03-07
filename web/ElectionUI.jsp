@@ -110,7 +110,7 @@
                 <div class="modal-footer">
                     <div class="infoDiv">
                         <div class="col-sm-2">
-                            <img src="res/Avatar.png" id="cand_pic" class="img-responsive" alt="" width="150"
+                            <img src="res/images/user.png" id="cand_pic" class="img-responsive" alt="" width="150"
                                  height="300">
                         </div>
                         <div class="col-sm-10">

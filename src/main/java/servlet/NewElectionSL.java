@@ -85,14 +85,13 @@ public class NewElectionSL extends HttpServlet {
                     //Testing Statement --> Delete After not needed
                     System.out.println(newElectionData.toString());
                     this.getServletContext().setAttribute("newElection", newElectionData);
-                    req.setAttribute("errorVote","Wahl erfolreich erstellt und zwischengespeichert!");
+                    req.setAttribute("errorVote", "Wahl erfolreich erstellt und zwischengespeichert!");
                 } else {
                     req.setAttribute("errorVote", "Wahl nicht erstellt! Bitte Datum überprüfen!");
                 }
             } catch (Exception ex) {
-                req.setAttribute("errorVote","Wahl nicht erstellt! Bitte Datumsformat überprüfen \"MM/DD/YYYY\"!");
-            }
-            finally {
+                req.setAttribute("errorVote", "Wahl nicht erstellt! Bitte Datumsformat überprüfen \"MM/DD/YYYY\"!");
+            } finally {
                 processRequest(req, resp);
             }
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
@@ -110,6 +109,9 @@ public class NewElectionSL extends HttpServlet {
                     String portraitPath = this.getServletContext().getRealPath("/") + "images"
                             + File.separator
                             + ServletUtil.filter(req.getParameter("input_cand_Picture"));
+                    if (portraitPath == null) {
+                        portraitPath = this.getServletContext().getRealPath("/images/user.png");
+                    }
                     CandidateData pot = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, portraitPath);
                     System.out.println(pot.toString());
 
@@ -120,15 +122,13 @@ public class NewElectionSL extends HttpServlet {
                     newElectionData.setLiCandidates(liPolit);
 
                     System.out.println(newElectionData.toString());
-                    req.setAttribute("errorPol","Kandidat erfolgreich erstellt!");
+                    req.setAttribute("errorPol", "Kandidat erfolgreich erstellt!");
                     this.getServletContext().setAttribute("newElection", newElectionData);
-
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                req.setAttribute("errorPol","Bitte überprüfen Sie ihre Eingaben!");
-            }
-            finally {
+                req.setAttribute("errorPol", "Bitte überprüfen Sie ihre Eingaben!");
+            } finally {
                 processRequest(req, resp);
             }
         } else {

@@ -9,11 +9,23 @@ public class PollAnswer {
 
     private int voteCount;
 
+
+    /**
+     *
+     * @param title
+     * @param description
+     */
     public PollAnswer(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
+    /**
+     *
+     * @param title
+     * @param description
+     * @param voteCount
+     */
     public PollAnswer(String title, String description, int voteCount) {
         this.title = title;
         this.description = description;

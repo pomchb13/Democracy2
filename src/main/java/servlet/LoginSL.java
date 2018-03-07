@@ -57,14 +57,18 @@ public class LoginSL extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        // read useranme and password
         String username = ServletUtil.filter((String) req.getParameter("username"));
         String password = ServletUtil.filter((String) req.getParameter("password"));
 
+        // check if there is more then one try left
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
+                // login to Blockchain
                 Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
                 System.out.println(cr.getAddress());
 
+                //set credentials to the session scope
                 req.getSession().setAttribute("credentials", cr);
                 System.out.println("After setting cr to session");
                 //Generation of MD5 Hash
@@ -72,12 +76,14 @@ public class LoginSL extends HttpServlet {
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 AdminHandler adminHandler = new AdminHandler();
                 RightEnum right = RightEnum.USER;
+
+                // set right of user
                 if (adminHandler.checkIfAdmin(new Address(username))) {
                     right = RightEnum.ADMIN;
                 }
-                TypeOfVote art = TypeOfVote.Election;
                 System.out.println("after hashing");
-                //log User in List
+                //log user in list
+                //if there is an exception the user is already logged in
                 userInstance = LoggedUsers.getInstance();
                 try {
                     userInstance.login(hash, right, username);
@@ -86,13 +92,19 @@ public class LoginSL extends HttpServlet {
                     req.setAttribute("error", "User bereits eingeloggt");
                 }
 
+                // check rights of user
                 if (right == RightEnum.USER) {
-
+                    // set hash and right to the session scope
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
+
+                    //set MaxInactiveInterval to 15 minutes
                     session.setMaxInactiveInterval(15 * 60);
-                    //ToDo: Abfrage welche Wahl !!!
+
+                    // check on with kind of vote the user is authorized
+                    // if there is an exception the user is only authorized to vote for an poll
+                    // otherwise he/she is authorized to vote for an election
                     try {
                         ElectionHandler eh = new ElectionHandler(cr);
                         String address = eh.getVoteAddressForVoter(new Address(password));
@@ -101,9 +113,12 @@ public class LoginSL extends HttpServlet {
                         HttpSession ses = req.getSession();
                         ses.setAttribute("election", ed);
                         ses.setMaxInactiveInterval(15 * 60);
+                        // check if user has already voted
                         if (eh.getAlreadyVotedForVoter(new Address(address))) {
+                            // forwald to EvaluationBarChartUI
                             resp.sendRedirect("EvaluationBarChartUI.jsp");
                         } else {
+                            // forwald to ElectionUI
                             resp.sendRedirect("ElectionUI.jsp");
                         }
                     } catch (Exception ex) {
@@ -115,28 +130,37 @@ public class LoginSL extends HttpServlet {
                             HttpSession ses = req.getSession();
                             ses.setAttribute("poll", pd);
                             ses.setMaxInactiveInterval(15 * 60);
+                            // check if user has already voted
                             if (ph.getAlreadyVotedForVoter(new Address(address))) {
+                                // forwald to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
                             } else {
+                                // forwald to PollUI
                                 resp.sendRedirect("PollUI.jsp");
                             }
                         } catch (Exception e) {
-                            req.setAttribute("error","Es ist ein Fehler bei der Weiterleitung aufgetreten");
+                            req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
                         }
                     }
+                    // User is an admin
                 } else if (right == RightEnum.ADMIN) {
                     System.out.println("in Admin");
+                    // set hash and right to the session scope
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
+
+                    //set MaxInactiveInterval to 15 minutes
                     session.setMaxInactiveInterval(15 * 60);
-                    System.out.println("Before getting all Filenames");
+
+                    // set all uploaded files to the list liFilenames
                     this.getAllFiles();
-                    System.out.println("After getting all Filenames");
+
+                    // set the list on the request scope
                     this.getServletContext().setAttribute("liFilenames", liFilenames);
-                    System.out.println("Before forward");
+
+                    //forward to AdminSettingsSL
                     resp.sendRedirect("AdminSettingsSL");
-                    System.out.println("forwarded");
                 }
             } catch (Exception e) {
                 int tries = (int) req.getSession().getAttribute("tries");
@@ -150,15 +174,15 @@ public class LoginSL extends HttpServlet {
         }
     }
 
+    /**
+     * reads all files in the /res/images folder
+     */
     private void getAllFiles() {
         File file = new File(this.getServletContext().getRealPath("/res/images"));
-        System.out.println("After getting the Directory");
         File[] files = file.listFiles();
-        System.out.println("Adter reading all Files from Directory");
         for (int i = 0; i < files.length; i++) {
             if (!files[i].getName().equals("dummy")) {
                 if (!files[i].isDirectory()) {
-                    System.out.println("Adding File to List");
                     liFilenames.add(files[i].getName());
                 }
             }

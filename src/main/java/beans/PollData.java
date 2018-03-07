@@ -20,6 +20,13 @@ public class PollData {
     /* List of all Answers */
     private LinkedList<PollAnswer> answerList;
 
+    /**
+     *
+     * @param title
+     * @param date_from
+     * @param date_due
+     * @param diagramOption
+     */
     public PollData(String title, LocalDate date_from, LocalDate date_due, boolean diagramOption) {
         this.title = title;
         this.date_from = date_from;

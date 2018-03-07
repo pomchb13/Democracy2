@@ -27,6 +27,16 @@ public class CandidateData {
 
     private int voteCount;
 
+    /**
+     *
+     * @param title academic title of the candidate
+     * @param forename
+     * @param surname
+     * @param birthday
+     * @param party
+     * @param slogan
+     * @param portraitPath
+     */
     public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, String portraitPath) {
         this.title = title;
         this.forename = forename;
@@ -37,6 +47,16 @@ public class CandidateData {
         this.portraitPath = portraitPath;
     }
 
+    /**
+     *
+     * @param title academic title of the candidate
+     * @param forename
+     * @param surname
+     * @param birthday
+     * @param party
+     * @param slogan
+     * @param voteCount
+     */
     public CandidateData(String title, String forename, String surname, LocalDate birthday, String party, String slogan, int voteCount) {
         this.title = title;
         this.forename = forename;

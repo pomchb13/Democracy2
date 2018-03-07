@@ -28,8 +28,6 @@
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/Avatar.png">
-    <!-- Set Tab picture -->
-    <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of Navbar -->
     <script src="js/NavbarAdmin.js"></script>
 

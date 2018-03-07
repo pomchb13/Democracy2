@@ -21,6 +21,13 @@ public class ElectionData {
     /* List where all Candidates where saved */
     private LinkedList<CandidateData> liCandidates;
 
+    /**
+     *
+     * @param title
+     * @param date_from
+     * @param date_due
+     * @param show_diagrams
+     */
     public ElectionData(String title, LocalDate date_from, LocalDate date_due, boolean show_diagrams) {
         this.title = title;
         this.date_from = date_from;
