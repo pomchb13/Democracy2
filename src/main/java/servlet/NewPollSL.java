@@ -3,7 +3,7 @@ package servlet;
 import beans.*;
 import org.web3j.crypto.Credentials;
 import handler.PollHandler;
-import test.VoteType;
+import beans.VoteType;
 import user.LoggedUsers;
 import util.BlockchainUtil;
 import util.ServletUtil;

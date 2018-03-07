@@ -14,7 +14,7 @@ package servlet;
 
 import beans.RightEnum;
 import org.web3j.crypto.Credentials;
-import test.VoteType;
+import beans.VoteType;
 import user.LoggedUsers;
 import user.UserCreator;
 import util.BlockchainUtil;

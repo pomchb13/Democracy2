@@ -6,11 +6,10 @@ import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import handler.PollHandler;
-import test.VoteType;
+import beans.VoteType;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class BlockchainUtil {
@@ -37,7 +36,6 @@ public class BlockchainUtil {
 
     public static String getFileName(String address)
     {
-        //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
         address = address.substring(2);
         File file = new File(PATH);
         if(file.exists() && file.isDirectory())
@@ -56,7 +54,6 @@ public class BlockchainUtil {
 
     public static String getFileName(String address, String alternativePath)
     {
-        //5365a53ffbeadb2bd0d02a16d2f73c50a6999b78
         address = address.substring(2);
         File file = new File(alternativePath);
         if(file.exists() && file.isDirectory())
@@ -73,32 +70,6 @@ public class BlockchainUtil {
         return "";
     }
 
-
-    //old method. DONT USE!!!!
-    @Deprecated
-    public static boolean checkIfAdmin(String adminAddress, String contractAddress, VoteType type, Credentials cr) throws Exception {
-        if(type.equals(VoteType.ELECTION))
-        {
-            ElectionHandler handler = new ElectionHandler(cr);
-            handler.loadSmartContract(new Address(contractAddress));
-            String realAdminAddress = handler.getAdminAddress();
-            if(adminAddress.equals(realAdminAddress))
-            {
-                return true;
-            }
-        }
-        else if(type.equals(VoteType.POLL))
-        {
-            PollHandler handler = new PollHandler(cr);
-            handler.loadSmartContract(new Address(contractAddress));
-            String realAdminAddress = handler.getAdminAddress();
-            if(adminAddress.equals(realAdminAddress))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static void saveContractAddress(String address,String path) throws IOException {
 
@@ -118,9 +89,6 @@ public class BlockchainUtil {
         Files.delete(Paths.get(userpath));
     }
 
-    public static void main(String[] args) {
-        System.out.println(PATH+BlockchainUtil.getFileName("0x5365a53ffbeadb2bd0d02a16d2f73c50a6999b78"));
-    }
 
 
 

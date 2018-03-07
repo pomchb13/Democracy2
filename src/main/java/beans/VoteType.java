@@ -1,4 +1,4 @@
-package test;
+package beans;
 
 public enum VoteType {
     ELECTION,

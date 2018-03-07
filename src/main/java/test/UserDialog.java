@@ -1,6 +1,7 @@
 package test;
 
 
+import beans.VoteType;
 import handler.ElectionHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
