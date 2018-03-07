@@ -31,7 +31,7 @@ public class CMDUtil {
      * @throws IOException if an I/O error occurs
      */
     public void startGethNetwork() throws IOException {
-        runtime.exec("cmd /c start " + gethDirectory + "geth --dev --datadir " + dataDirectory + " --rpc --gpopercentile 0 --fast");
+        runtime.exec("cmd /c start " + gethDirectory + "geth --dev --datadir " + dataDirectory + " --rpc --gpopercentile 0 --gasprice 0 --fast");
     }
 
     /**
