@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.List;
 
+//TODO: Class-header, Autor, Datum, Klassenbeschreibung
 /**
  * Created by Patrick Windegger on 05.03.2018.
  */
@@ -40,9 +41,14 @@ public class BlockchainAppGUI extends JFrame {
             + File.separator + "test_webapp2_war_exploded" + File.separator + "res"
             + File.separator;
 
+    /**
+     * Constructor for initializing the GUI,
+     * initializing CMDUtil class and creating the Default List Model for the JList
+     *
+     * @param title: title of the GUI
+     */
     public BlockchainAppGUI(String title) {
         super(title);
-
         initComponents();
         this.setSize(450, 250);
         this.setLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 1.5f), Toolkit.getDefaultToolkit().getScreenSize().height / 9);
@@ -57,6 +63,10 @@ public class BlockchainAppGUI extends JFrame {
 
     }
 
+    /**
+     * Method responsible for insitializing all components of the window
+     * and adding ActionListeners on the different buttons.
+     */
     private void initComponents() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton btStart = new JButton("Start Blockchain environement");
@@ -78,10 +88,7 @@ public class BlockchainAppGUI extends JFrame {
             }
         });
 
-
         this.getContentPane().setLayout(new BorderLayout());
-
-
         this.getContentPane().add(btStart, BorderLayout.NORTH);
 
         liAdmins = new JList();
@@ -118,6 +125,15 @@ public class BlockchainAppGUI extends JFrame {
         this.getContentPane().add(btNewAdmin, BorderLayout.SOUTH);
     }
 
+
+    /**
+     * Method responsible for starting the Blockchain
+     * If the Admin contract exists, the admin has to log in to the Blockchain using his Login data. All available
+     * admins of the contract get loaded into a JList.
+     * If the Admin contract does not exists, a new admin gets created automatically.
+     *
+     * @throws Exception if there are errors during the input.
+     */
     private void onStartGeth(ActionEvent e) throws Exception {
         File file = new File(path + "admin" + File.separator + "contract.txt");
         if (file.exists()) {
@@ -163,25 +179,28 @@ public class BlockchainAppGUI extends JFrame {
         }
     }
 
-    private void onStartJSConsole(ActionEvent e) {
-        try {
-            cmdUtil.startJSConsole();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
-        }
-    }
 
+    /**
+     * Method responsible for creating a new admin
+     * If the Admin contract exists and the contract is loaded, a new user address and password gets created,
+     * the admin gets stored in the contract and is added to the JList.
+     * If the admin contract does not exist and the contract is not loaded yet, a new user address and password gets created,
+     * a new Admin contract gets created, the new admin gets added to the JList.
+     *
+     * @throws NoSuchAlgorithmException           if an error occurs
+     * @throws NoSuchProviderException            if an error occurs
+     * @throws InvalidAlgorithmParameterException if an error occurs
+     * @throws CipherException                    if an error occurs
+     * @throws IOException                        if an error occurs
+     */
     private void onCreateNewAdmin(ActionEvent e) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException, IOException {
         UserCreator creator = new UserCreator();
 
         if (contractExists) {
             if (adminHandler != null) {
                 String password = PasswordGenerator.createPassword(20);
-
-
                 String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                         + File.separator + "keystore" + File.separator);
-
 
                 JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
                         + "Username: " + newAddress + "\nPassword: " + password);
@@ -196,8 +215,6 @@ public class BlockchainAppGUI extends JFrame {
                     JOptionPane.showMessageDialog(this, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
-
             }
         } else {
             String password = PasswordGenerator.createPassword(20);
@@ -212,7 +229,6 @@ public class BlockchainAppGUI extends JFrame {
                 adminCredentials = BlockchainUtil.loginToBlockhain(newAddress, password, path
                         + "geth_data" + File.separator + "keystore" + File.separator);
 
-
                 if (adminHandler == null) {
                     adminHandler = new AdminHandler(adminCredentials);
                     String contractAddress = adminHandler.createSmartContract();
@@ -226,11 +242,18 @@ public class BlockchainAppGUI extends JFrame {
                 JOptionPane.showMessageDialog(this, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-
         }
     }
 
+    /**
+     * Method responsible for initializing components of the geth-network
+     * If the textfile with the path to 'geth.exe' and the data directory exists, it gets read and the Blockchain
+     * is ready to get started.
+     * If the textfile does not exist, 2 file chooser are opened and the user has to navigate to the path
+     * where 'geth.exe' and the data directory is stored. The Blockchain is ready to get started if this process has been finished
+     *
+     * @throws IOException if an I/O error occurs
+     */
     public void initGeth() throws IOException {
         res = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "gethpath.txt";
         File f = new File(res);
@@ -277,6 +300,9 @@ public class BlockchainAppGUI extends JFrame {
 
     }
 
+    /**
+     * Method responsible for starting the geth-network and starting the java script console
+     */
     private void startGeth() {
         try {
             cmdUtil.startGethNetwork();
@@ -287,6 +313,9 @@ public class BlockchainAppGUI extends JFrame {
     }
 
 
+    /**
+     * Main method responsible for creating the GUI and making the window visible
+     */
     public static void main(String[] args) {
         new BlockchainAppGUI("Blockchain App for admins").setVisible(true);
     }
