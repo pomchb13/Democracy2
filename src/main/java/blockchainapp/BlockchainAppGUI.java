@@ -9,6 +9,7 @@ import util.BlockchainUtil;
 import util.PasswordGenerator;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
@@ -20,6 +21,7 @@ import java.security.NoSuchProviderException;
 import java.util.List;
 
 //TODO: Class-header, Autor, Datum, Klassenbeschreibung
+
 /**
  * Created by Patrick Windegger on 05.03.2018.
  */
@@ -50,7 +52,7 @@ public class BlockchainAppGUI extends JFrame {
     public BlockchainAppGUI(String title) {
         super(title);
         initComponents();
-        this.setSize(450, 250);
+        this.setSize(450, 500);
         this.setLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 1.5f), Toolkit.getDefaultToolkit().getScreenSize().height / 9);
         try {
             initGeth();
@@ -88,8 +90,22 @@ public class BlockchainAppGUI extends JFrame {
             }
         });
 
+        JPanel paNorth = new JPanel();
+        paNorth.setLayout(new BorderLayout());
+        paNorth.add(btStart, BorderLayout.SOUTH);
+
+        JEditorPane info = new JEditorPane();
+        info.setContentType("text/html");
+        info.setEditable(false);
+        String htmlString = "<h1>Important information:</h1>" +
+                "<p>Please start the miner in the java script console with the 'miner.start()' command " +
+                "before creating a new admin! " +
+                "Otherwise the application will not run properly!</p>";
+        info.setText(htmlString);
+        paNorth.add(info, BorderLayout.CENTER);
+
         this.getContentPane().setLayout(new BorderLayout());
-        this.getContentPane().add(btStart, BorderLayout.NORTH);
+        this.getContentPane().add(paNorth, BorderLayout.NORTH);
 
         liAdmins = new JList();
         JScrollPane scPane = new JScrollPane(liAdmins);
