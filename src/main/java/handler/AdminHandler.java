@@ -42,10 +42,14 @@ public class AdminHandler {
 
     public boolean checkIfAdmin(Address address) throws Exception {
         if (admin != null) {
+            System.out.println("in checkIfAdmin ---- Admin Handler");
             return admin.checkIfAdmin(address.toString()).send();
         } else {
             throw new Exception("admin object is null!");
         }
+    }
+    public int getAdminCount() throws Exception {
+       return admin.getAdminCount().send().intValue();
     }
 
     public List<Address> getAllAdmins(Address senderAddress) throws Exception {

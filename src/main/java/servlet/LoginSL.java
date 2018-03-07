@@ -1,6 +1,7 @@
 package servlet;
 
 import beans.*;
+import contracts.AdminContract;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
@@ -20,7 +21,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -76,95 +79,110 @@ public class LoginSL extends HttpServlet {
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 AdminHandler adminHandler = new AdminHandler(cr);
-                System.out.println("wtf1");
-                RightEnum right = RightEnum.USER;
-                System.out.println("wtf2");
-                System.out.println(Arrays.toString(adminHandler.getAllAdmins(new Address(username)).toArray()));
-                // set right of user
-                if (adminHandler.checkIfAdmin(new Address(username))) {
-                    right = RightEnum.ADMIN;
-                    System.out.println("isAdmin");
-                }
-                System.out.println("after hashing");
-                //log user in list
-                //if there is an exception the user is already logged in
-                userInstance = LoggedUsers.getInstance();
-                try {
-                    userInstance.login(hash, right, username);
-                    System.out.println("after loggin in");
-                } catch (Exception e) {
-                    req.setAttribute("error", "User bereits eingeloggt");
-                }
+                File file = new File(this.getServletContext().getRealPath("/res/admin/") + "contract.txt");
+                if (file.exists()) {
 
-                // check rights of user
-                if (right == RightEnum.USER) {
-                    // set hash and right to the session scope
-                    HttpSession session = req.getSession();
-                    session.setAttribute("hash", hash);
-                    session.setAttribute("right", right);
 
-                    //set MaxInactiveInterval to 15 minutes
-                    session.setMaxInactiveInterval(15 * 60);
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String adminContractAddress = br.readLine();
+                    adminHandler.loadSmartContract(new Address(adminContractAddress));
+                    System.out.println("wtf1");
+                    RightEnum right = RightEnum.USER;
+                    System.out.println("wtf2");
 
-                    // check on with kind of vote the user is authorized
-                    // if there is an exception the user is only authorized to vote for an poll
-                    // otherwise he/she is authorized to vote for an election
+
+                    System.out.println("wtf3");
+                    // set right of user
+                    if (adminHandler.checkIfAdmin(new Address(username))) {
+                        System.out.println("isAdmin start");
+                        right = RightEnum.ADMIN;
+                        System.out.println("isAdmin");
+                    }
+                    System.out.println("after hashing");
+                    //log user in list
+                    //if there is an exception the user is already logged in
+                    userInstance = LoggedUsers.getInstance();
                     try {
-                        ElectionHandler eh = new ElectionHandler(cr);
-                        String address = eh.getVoteAddressForVoter(new Address(password));
-                        eh.loadSmartContract(new Address(address));
-                        ElectionData ed = eh.getElectionData();
-                        HttpSession ses = req.getSession();
-                        ses.setAttribute("election", ed);
-                        ses.setMaxInactiveInterval(15 * 60);
-                        // check if user has already voted
-                        if (eh.getAlreadyVotedForVoter(new Address(address))) {
-                            // forwald to EvaluationBarChartUI
-                            resp.sendRedirect("EvaluationBarChartUI.jsp");
-                        } else {
-                            // forwald to ElectionUI
-                            resp.sendRedirect("ElectionUI.jsp");
-                        }
-                    } catch (Exception ex) {
+                        userInstance.login(hash, right, username);
+                        System.out.println("after loggin in");
+                    } catch (Exception e) {
+                        req.setAttribute("error", "User bereits eingeloggt");
+                    }
+
+                    // check rights of user
+                    if (right == RightEnum.USER) {
+                        // set hash and right to the session scope
+                        HttpSession session = req.getSession();
+                        session.setAttribute("hash", hash);
+                        session.setAttribute("right", right);
+
+                        //set MaxInactiveInterval to 15 minutes
+                        session.setMaxInactiveInterval(15 * 60);
+
+                        // check on with kind of vote the user is authorized
+                        // if there is an exception the user is only authorized to vote for an poll
+                        // otherwise he/she is authorized to vote for an election
                         try {
-                            PollHandler ph = new PollHandler(cr);
-                            String address = ph.getVoteAddressForVoter(new Address(password));
-                            ph.loadSmartContract(new Address(address));
-                            PollData pd = ph.getPollData();
+                            ElectionHandler eh = new ElectionHandler(cr);
+                            String address = eh.getVoteAddressForVoter(new Address(password));
+                            eh.loadSmartContract(new Address(address));
+                            ElectionData ed = eh.getElectionData();
                             HttpSession ses = req.getSession();
-                            ses.setAttribute("poll", pd);
+                            ses.setAttribute("election", ed);
                             ses.setMaxInactiveInterval(15 * 60);
                             // check if user has already voted
-                            if (ph.getAlreadyVotedForVoter(new Address(address))) {
+                            if (eh.getAlreadyVotedForVoter(new Address(address))) {
                                 // forwald to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
                             } else {
-                                // forwald to PollUI
-                                resp.sendRedirect("PollUI.jsp");
+                                // forwald to ElectionUI
+                                resp.sendRedirect("ElectionUI.jsp");
                             }
-                        } catch (Exception e) {
-                            req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
+                        } catch (Exception ex) {
+                            try {
+                                PollHandler ph = new PollHandler(cr);
+                                String address = ph.getVoteAddressForVoter(new Address(password));
+                                ph.loadSmartContract(new Address(address));
+                                PollData pd = ph.getPollData();
+                                HttpSession ses = req.getSession();
+                                ses.setAttribute("poll", pd);
+                                ses.setMaxInactiveInterval(15 * 60);
+                                // check if user has already voted
+                                if (ph.getAlreadyVotedForVoter(new Address(address))) {
+                                    // forwald to EvaluationBarChartUI
+                                    resp.sendRedirect("EvaluationBarChartUI.jsp");
+                                } else {
+                                    // forwald to PollUI
+                                    resp.sendRedirect("PollUI.jsp");
+                                }
+                            } catch (Exception e) {
+                                req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
+                            }
                         }
+                        // User is an admin
+                    } else if (right == RightEnum.ADMIN) {
+                        System.out.println("in Admin");
+                        // set hash and right to the session scope
+                        HttpSession session = req.getSession();
+                        session.setAttribute("hash", hash);
+                        session.setAttribute("right", right);
+
+                        //set MaxInactiveInterval to 15 minutes
+                        session.setMaxInactiveInterval(15 * 60);
+
+                        // set all uploaded files to the list liFilenames
+                        this.getAllFiles();
+
+                        // set the list on the request scope
+                        this.getServletContext().setAttribute("liFilenames", liFilenames);
+
+                        //forward to AdminSettingsSL
+                        resp.sendRedirect("AdminSettingsSL");
                     }
-                    // User is an admin
-                } else if (right == RightEnum.ADMIN) {
-                    System.out.println("in Admin");
-                    // set hash and right to the session scope
-                    HttpSession session = req.getSession();
-                    session.setAttribute("hash", hash);
-                    session.setAttribute("right", right);
-
-                    //set MaxInactiveInterval to 15 minutes
-                    session.setMaxInactiveInterval(15 * 60);
-
-                    // set all uploaded files to the list liFilenames
-                    this.getAllFiles();
-
-                    // set the list on the request scope
-                    this.getServletContext().setAttribute("liFilenames", liFilenames);
-
-                    //forward to AdminSettingsSL
-                    resp.sendRedirect("AdminSettingsSL");
+                }
+                else
+                {
+                    //TODO: Error Page --> damit admin admin-contract erstellt
                 }
             } catch (Exception e) {
                 int tries = (int) req.getSession().getAttribute("tries");
@@ -175,6 +193,7 @@ public class LoginSL extends HttpServlet {
                 }
                 req.getSession().setAttribute("tries", tries);
             }
+
         }
     }
 
