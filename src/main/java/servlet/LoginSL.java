@@ -56,10 +56,10 @@ public class LoginSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String username = ServletUtil.filter((String) req.getParameter("username"));
         String password = ServletUtil.filter((String) req.getParameter("password"));
-        System.out.println(username + " " + password);
-        // Blockchain request return Boolean loggedIn AND Berechtigung user,admin
+
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
                 Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
@@ -72,7 +72,7 @@ public class LoginSL extends HttpServlet {
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
                 AdminHandler adminHandler = new AdminHandler();
                 RightEnum right = RightEnum.USER;
-                if(adminHandler.checkIfAdmin(new Address(username))){
+                if (adminHandler.checkIfAdmin(new Address(username))) {
                     right = RightEnum.ADMIN;
                 }
                 TypeOfVote art = TypeOfVote.Election;
@@ -87,26 +87,42 @@ public class LoginSL extends HttpServlet {
                 }
 
                 if (right == RightEnum.USER) {
-                    //ToDo: Abfrage auf Wahlrecht
+
                     HttpSession session = req.getSession();
                     session.setAttribute("hash", hash);
                     session.setAttribute("right", right);
                     session.setMaxInactiveInterval(15 * 60);
                     //ToDo: Abfrage welche Wahl !!!
-                    if (art == TypeOfVote.Election) {
-                        ElectionHandler handler = new ElectionHandler(cr);
-                        ElectionData ed = handler.getElectionData();
+                    try {
+                        ElectionHandler eh = new ElectionHandler(cr);
+                        String address = eh.getVoteAddressForVoter(new Address(password));
+                        eh.loadSmartContract(new Address(address));
+                        ElectionData ed = eh.getElectionData();
                         HttpSession ses = req.getSession();
                         ses.setAttribute("election", ed);
                         ses.setMaxInactiveInterval(15 * 60);
-                        resp.sendRedirect("ElectionUI.jsp");
-                    } else {
-                        PollHandler handler = new PollHandler(cr);
-                        PollData pa = handler.getPollData();
-                        HttpSession ses = req.getSession();
-                        ses.setAttribute("poll", pa);
-                        ses.setMaxInactiveInterval(15 * 60);
-                        resp.sendRedirect("PollUI.jsp");
+                        if (eh.getAlreadyVotedForVoter(new Address(address))) {
+                            resp.sendRedirect("EvaluationBarChartUI.jsp");
+                        } else {
+                            resp.sendRedirect("ElectionUI.jsp");
+                        }
+                    } catch (Exception ex) {
+                        try {
+                            PollHandler ph = new PollHandler(cr);
+                            String address = ph.getVoteAddressForVoter(new Address(password));
+                            ph.loadSmartContract(new Address(address));
+                            PollData pd = ph.getPollData();
+                            HttpSession ses = req.getSession();
+                            ses.setAttribute("poll", pd);
+                            ses.setMaxInactiveInterval(15 * 60);
+                            if (ph.getAlreadyVotedForVoter(new Address(address))) {
+                                resp.sendRedirect("EvaluationBarChartUI.jsp");
+                            } else {
+                                resp.sendRedirect("PollUI.jsp");
+                            }
+                        } catch (Exception e) {
+                            req.setAttribute("error","Es ist ein Fehler bei der Weiterleitung aufgetreten");
+                        }
                     }
                 } else if (right == RightEnum.ADMIN) {
                     System.out.println("in Admin");
@@ -119,7 +135,7 @@ public class LoginSL extends HttpServlet {
                     System.out.println("After getting all Filenames");
                     this.getServletContext().setAttribute("liFilenames", liFilenames);
                     System.out.println("Before forward");
-                    resp.sendRedirect("AdminSettingsUI.jsp");
+                    resp.sendRedirect("AdminSettingsSL");
                     System.out.println("forwarded");
                 }
             } catch (Exception e) {
@@ -130,13 +146,8 @@ public class LoginSL extends HttpServlet {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
                 }
                 req.getSession().setAttribute("tries", tries);
-            } /*catch (Exception e) {
-                req.setAttribute("error", "Fehler beim laden der Datein");
-            }*/
+            }
         }
-
-        //405 Method not allowed
-        //super.doPost(req, resp);
     }
 
     private void getAllFiles() {

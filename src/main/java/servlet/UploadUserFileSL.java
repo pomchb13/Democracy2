@@ -1,5 +1,17 @@
 package servlet;
 
+/**
+ * Created by Leonhard on 05.03.2018
+ *
+ * This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled everything for an election
+ * or poll up and presses the last button he will be redirected to the UploadUserFileUI. In this UI he has to upload
+ * the electoral register as an excel file so the Blockchain backend can generate the usernames and passwords and add
+ * the right to vote to the election or poll the administrator created. After a while an additional button should appear
+ * below the upload button. The administrator has to press it to download the electoral register where all usernames and
+ * password to the eligible voter are saved.
+ *
+ */
+
 import beans.RightEnum;
 import org.web3j.crypto.Credentials;
 import test.VoteType;
