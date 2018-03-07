@@ -28,17 +28,20 @@ public class AdminSettingsSL extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
 
         //ToDo: Windi's code bitte hier hin --> Alle Wahlen und Abstimmungen!
+        super.init(config);
         LinkedList<PollData> liPollList = new LinkedList<>();
         LinkedList<ElectionData> liElectioData = new LinkedList<>();
+
+
         this.getServletContext().setAttribute("PollList", liPollList);
         this.getServletContext().setAttribute("ElectionList", liElectioData);
-        super.init(config);
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/AdminSettingsSL.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/AdminSettingsUI.jsp");
         rd.forward(request, response);
     }
 
@@ -51,7 +54,6 @@ public class AdminSettingsSL extends HttpServlet {
         } else {
             processRequest(req, resp);
         }
-        processRequest(req, resp);
     }
 
     @Override

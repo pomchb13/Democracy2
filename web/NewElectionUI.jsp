@@ -21,6 +21,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Import the CSS of  Bootstrap Datepicker -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css"/>
+    <!-- Import the CSS of  Bootstrap Datepicker 3-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css"/>
+    <!-- Import the JavaScript of  Bootstrap Datepicker -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
@@ -147,11 +153,12 @@
                 <br>
 
                 <!-- Field to add his/her birthday -->
-                <div class="input-group">
-                    <span class="input-group-addon">Geburtsdatum</span>
-                    <input id="inputBirthday" type="text" name="input_cand_Birthday" class="form-control"
-                           placeholder="Geburtsdatum">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                <div class="input-group date" data-provide="datepicker">
+                    <span class="input-group-addon">Geburtsdatum </span>
+                    <input type="text" class="form-control" name="input_cand_Birthday">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
                 </div>
                 <br>
 

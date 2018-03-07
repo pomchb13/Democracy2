@@ -103,7 +103,7 @@ public class NewElectionSL extends HttpServlet {
                     String candTitle = ServletUtil.filter(req.getParameter("input_cand_Title"));
                     String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
                     String candLastname = ServletUtil.filter((req.getParameter("input_cand_Lastname")));
-                    LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                    LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
                     String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                     String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
                     String portraitPath = this.getServletContext().getRealPath("/") + "images"

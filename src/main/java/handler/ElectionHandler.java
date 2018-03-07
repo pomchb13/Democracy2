@@ -54,7 +54,7 @@ public class ElectionHandler {
         System.out.println("Handler --> create 2");
         System.out.println(web3);
         System.out.println(credentials);
-        election = ElectionContract.deploy(web3, credentials, new BigInteger("300000"), new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        election = ElectionContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
         System.out.println("Handler --> create 3");
         return election.getContractAddress();
     }
