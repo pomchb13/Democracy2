@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -74,12 +75,15 @@ public class LoginSL extends HttpServlet {
                 //Generation of MD5 Hash
                 hashInstance = HashGenerator.getTheInstance();
                 String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
-                AdminHandler adminHandler = new AdminHandler();
+                AdminHandler adminHandler = new AdminHandler(cr);
+                System.out.println("wtf1");
                 RightEnum right = RightEnum.USER;
-
+                System.out.println("wtf2");
+                System.out.println(Arrays.toString(adminHandler.getAllAdmins(new Address(username)).toArray()));
                 // set right of user
                 if (adminHandler.checkIfAdmin(new Address(username))) {
                     right = RightEnum.ADMIN;
+                    System.out.println("isAdmin");
                 }
                 System.out.println("after hashing");
                 //log user in list
