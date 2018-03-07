@@ -100,7 +100,9 @@ public class BlockchainAppGUI extends JFrame {
         String htmlString = "<h1>Important information:</h1>" +
                 "<p>Please start the miner in the java script console with the 'miner.start()' command " +
                 "before creating a new admin! " +
-                "Otherwise the application will not run properly!</p>";
+                "Otherwise the application will not run properly!<br>" +
+                "If you start this application for the first time, you need to start the miner later. " +
+                "This will be explained to you during the initialization process.</p>";
         info.setText(htmlString);
         paNorth.add(info, BorderLayout.CENTER);
 
@@ -188,8 +190,7 @@ public class BlockchainAppGUI extends JFrame {
         } else {
             contractExists = false;
             startGeth();
-            JOptionPane.showMessageDialog(this, "The first admin will be automatically created!\n" +
-                            "Do not forget to start the miner in the JavaScript console with the following command:\nminer.start()",
+            JOptionPane.showMessageDialog(this, "The first admin will be automatically created!\n",
                     "Information", JOptionPane.INFORMATION_MESSAGE);
             onCreateNewAdmin(null);
         }
@@ -219,7 +220,8 @@ public class BlockchainAppGUI extends JFrame {
                         + File.separator + "keystore" + File.separator);
 
                 JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
-                        + "Username: " + newAddress + "\nPassword: " + password);
+                        + "Username: " + newAddress + "\nPassword: " + password
+                        + "\nPress OK and start the miner in the java script console with the 'miner.start()' command, if it is not already started!");
                 optionPaneArea.setEditable(false);
                 JOptionPane.showMessageDialog(this, optionPaneArea, "Information", JOptionPane.INFORMATION_MESSAGE);
                 try {
@@ -237,8 +239,9 @@ public class BlockchainAppGUI extends JFrame {
             String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                     + File.separator + "keystore" + File.separator);
 
-            JTextArea optionPaneArea = new JTextArea("Please store the login data on a save place!\n"
-                    + "Username: " + newAddress + "\nPassword: " + password);
+            JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
+                    + "Username: " + newAddress + "\nPassword: " + password
+                    + "\nPress OK and start the miner in the java script console with the 'miner.start()' command, if it is not already started!");
             optionPaneArea.setEditable(false);
             JOptionPane.showMessageDialog(this, optionPaneArea, "Information", JOptionPane.INFORMATION_MESSAGE);
             try {
