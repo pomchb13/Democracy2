@@ -10,14 +10,12 @@ public class HashGenerator {
     private static HashGenerator theInstance;
 
     private HashGenerator() {
-
     }
 
     public static HashGenerator getTheInstance() {
         if (theInstance == null) {
             theInstance = new HashGenerator();
         }
-
         return theInstance;
     }
 
