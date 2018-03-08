@@ -47,22 +47,21 @@
 
 <div id="container">
     <br>
-    <h1>Upload des Wählerverzeichnisses</h1>
-    <p>benötigter Dateityp: xls, xlsx</p>
+    <h1></h1>Wählerverzeichnisses</h1>
+    <p>Anzahl der zugelassernen Wählerx</p>
     <center>
         <form method="POST" action="/UploadUserFileSL" enctype="multipart/form-data">
             <div class="input-group">
-                <span class="input-group-addon">Wählerverzeichnis</span>
-                <input id="inputExcel" type="file"
-                       accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                       name="input_Excel" class="form-control" placeholder="Excel-Datei">
+                <span class="input-group-addon">Anzahl</span>
+                <input id="titelVote" type="text" name="input_Count_Voter" class="form-control farm-control-sm"
+                       placeholder="1">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
             <div class="submitButton">
                 <button type="submit" id="upload" class="btn btn-primary" name="Upload"
                         value="uploadFile"><span
-                        class="glyphicon glyphicon-floppy-disk"></span> Wählerverzeichnis hochladen
+                        class="glyphicon glyphicon-floppy-disk"></span> Bestätigen
                 </button>
             </div>
         </form>
