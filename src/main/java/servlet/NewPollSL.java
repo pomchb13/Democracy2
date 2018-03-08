@@ -1,6 +1,8 @@
 package servlet;
 
 import beans.*;
+import handler.AdminHandler;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import handler.PollHandler;
 import beans.VoteType;
@@ -50,9 +52,7 @@ public class NewPollSL extends HttpServlet {
 
     /**
      * @param request
-     * @param response
-     *
-     * In this Method we only get the RequestDispatcher which forwards to the "NewPollUI.jsp".
+     * @param response In this Method we only get the RequestDispatcher which forwards to the "NewPollUI.jsp".
      * @throws ServletException
      * @throws IOException
      */
@@ -65,16 +65,14 @@ public class NewPollSL extends HttpServlet {
 
     /**
      * @param req
-     * @param resp
-     *
-     * In the doPost method we catch a variety of post requests from the "NewPollUI.jsp". Every form has its own if section
-     * where the functionality is implemented. In the first if-section it only reads the main properties for a poll,
-     * creates the PollData-object saves it to the application scope. The CandidateList in the object is initialised but empty.
-     * The second section if responsible for creating an answer and adding it to the PollData-object in the application scope.
-     * In the else-section the doPost Method checks if the administrator is logged in correctly, creates a PollHandler object, to
-     * communicate with the Blockchain, and then let the Blockchain create the Poll. This may take a while. After creating the
-     * Poll the Blockchain needs to add the answers to the Poll. When everything did go will, we will be forwarded to the
-     * "UploadUserFile.jsp" where we have to upload an excel sheet where all eligible voters are saved.
+     * @param resp In the doPost method we catch a variety of post requests from the "NewPollUI.jsp". Every form has its own if section
+     *             where the functionality is implemented. In the first if-section it only reads the main properties for a poll,
+     *             creates the PollData-object saves it to the application scope. The CandidateList in the object is initialised but empty.
+     *             The second section if responsible for creating an answer and adding it to the PollData-object in the application scope.
+     *             In the else-section the doPost Method checks if the administrator is logged in correctly, creates a PollHandler object, to
+     *             communicate with the Blockchain, and then let the Blockchain create the Poll. This may take a while. After creating the
+     *             Poll the Blockchain needs to add the answers to the Poll. When everything did go will, we will be forwarded to the
+     *             "UploadUserFile.jsp" where we have to upload an excel sheet where all eligible voters are saved.
      * @throws ServletException
      * @throws IOException
      */
@@ -136,6 +134,7 @@ public class NewPollSL extends HttpServlet {
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             //The PollHandler is the communication tool for communicating with the Blockchain
             pollTester = new PollHandler(cr);
+
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
                 //Method to create the Poll on the Blockchain
@@ -144,6 +143,8 @@ public class NewPollSL extends HttpServlet {
                         pollData.getDate_from(),
                         pollData.getDate_due(),
                         pollData.isDiagramOption());
+                AdminHandler adminHandler = new AdminHandler(cr);
+                adminHandler.addAdminAddress(new Address(contractAdress), new Address(cr.getAddress()));
 
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
@@ -166,9 +167,8 @@ public class NewPollSL extends HttpServlet {
 
     /**
      * @param req
-     * @param resp
-     * Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
-     * in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
+     * @param resp Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
+     *             in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
      * @throws ServletException
      * @throws IOException
      */
