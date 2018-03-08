@@ -19,6 +19,7 @@ public class ExcelHandler {
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @Deprecated
     public static TreeMap<Integer, User> readExcelFile(File file) throws IOException {
         TreeMap<Integer, User> map = new TreeMap<>();
 
@@ -59,6 +60,7 @@ public class ExcelHandler {
         return map;
     }
 
+    @Deprecated
     public static void updateExcelFile(File file, TreeMap<Integer, User> map, String path) throws IOException, InvalidFormatException {
         Workbook w = new XSSFWorkbook(file);
 

@@ -55,7 +55,7 @@ public class UserCreator {
     }
 
 
-
+@Deprecated
     public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt, Credentials cr) throws Exception {
         TreeMap<Integer, User> map = ExcelHandler.readExcelFile(new File(uploadedFilePath));
         ElectionHandler el = null;
