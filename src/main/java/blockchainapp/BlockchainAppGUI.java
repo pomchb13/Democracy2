@@ -192,7 +192,7 @@ public class BlockchainAppGUI extends JFrame {
         } else {
             contractExists = false;
             startGeth();
-            JOptionPane.showMessageDialog(this, "The first admin will be automatically created!\n",
+            JOptionPane.showMessageDialog(this, "The first admin will be created automatically!\n Press OK to continue!",
                     "Information", JOptionPane.INFORMATION_MESSAGE);
             onCreateNewAdmin(null);
         }
