@@ -79,13 +79,13 @@ public class UploadUserFileSL extends HttpServlet {
         try {
             int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_Count_Voter")));
             if (count_voter > 0) {
-                userCreat.createNewUsers(this.getServletContext().getRealPath("/res/userLists/userlist.xlxs"),
+                userCreat.createNewUsers(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
                         (String) this.getServletContext().getAttribute("newContractAdress"),
                         (VoteType) this.getServletContext().getAttribute("newTypeOfVote"),
                         (Credentials) req.getSession().getAttribute("credentials"),
                         count_voter);
-                this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists") + File.separator + f.getName());
+                this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
                 status = "File wurde erfolgreich hochgeladen!";
             } else {
@@ -93,6 +93,7 @@ public class UploadUserFileSL extends HttpServlet {
             }
         } catch (Exception ex) {
             status = "Bitte nur Zahlen eingeben";
+            ex.printStackTrace();
         }
 
         req.setAttribute("status", status);

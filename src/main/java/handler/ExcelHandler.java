@@ -95,30 +95,39 @@ public class ExcelHandler {
 
     public static void createExcelFile(String file, TreeMap<String,String> map,int anzSheets) throws IOException {
         Workbook w = new XSSFWorkbook();
-        int anzvotersWroteout=0;
+        System.out.println("path: "+file);
+        int anzvotersWroteout=1;
         int sheetIndex=0;
         int rowIndex=1;
+        LinkedList<Sheet> sheetList = new LinkedList<>();
+        System.out.println(anzSheets);
         for(int i=0;i<anzSheets;i++)
         {
-            Sheet sheet = w.createSheet("Users_"+i);
-            sheet.createRow(0).createCell(0).setCellValue("ID");
-            sheet.createRow(0).createCell(1).setCellValue("Username");
-            sheet.createRow(0).createCell(2).setCellValue("Password");
+            Sheet sheet = w.createSheet("Users"+i);
+            Row row = sheet.createRow(0);
+            row.createCell(0).setCellValue("ID");
+            row.createCell(1).setCellValue("Username");
+            row.createCell(2).setCellValue("Password");
+
+            sheetList.add(sheet);
 
         }
-        Sheet sheet = w.getSheetAt(0);
 
+        System.out.println("map size: "+map.size());
         for(Map.Entry<String,String> entry:map.entrySet())
         {
-            sheet.createRow(rowIndex).createCell(0).setCellValue(anzvotersWroteout);
-            sheet.createRow(rowIndex).createCell(1).setCellValue(entry.getKey());
-            sheet.createRow(rowIndex).createCell(2).setCellValue(entry.getValue());
+            Row row = sheetList.get(sheetIndex).createRow(rowIndex);
+            row.createCell(0).setCellValue(anzvotersWroteout);
+            row.createCell(1).setCellValue(entry.getKey());
+            row.createCell(2).setCellValue(entry.getValue());
             if(anzvotersWroteout%1048575==0)
             {
-                sheet = w.getSheetAt(sheetIndex++);
-                rowIndex=1;
+                System.out.println("asdf");
+              sheetIndex++;
+              rowIndex=1;
             }
             rowIndex++;
+            System.out.println("anzvoter: "+anzvotersWroteout);
             anzvotersWroteout++;
         }
 
@@ -141,7 +150,7 @@ public class ExcelHandler {
             rowIndex++;
 
             */
-        FileOutputStream out = new FileOutputStream(new File(file));
+        FileOutputStream out = new FileOutputStream(file);
         w.write(out);
         out.close();
     }

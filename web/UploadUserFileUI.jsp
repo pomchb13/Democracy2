@@ -75,7 +75,7 @@
             if (((String) this.getServletConfig().getServletContext().getAttribute("newPath")) != null) {
                 File f = new File((String) this.getServletConfig().getServletContext().getAttribute("newPath"));
                 if (f != null) {
-                    out.print(" <a href=\" res/userLists/userlist.xlxs\" download=\" userlist.xlxs \"> ");
+                    out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\" userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
                             "                        value=\"downloadFile\" onClick=\"test()\"><span\n" +
                             "                        class=\"glyphicon glyphicon-cloud-download\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
