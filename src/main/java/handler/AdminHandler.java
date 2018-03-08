@@ -2,25 +2,20 @@ package handler;
 
 import contracts.AdminContract;
 import org.web3j.abi.datatypes.Address;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
-import util.BlockchainUtil;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Author:          Patrick Windegger
  * Created on:
  * Description:     Class responsible for handling the admins of elections and polls.
- *                  All methods of the contract are implemented in this handler.
- *                  The communication between java and the Blockchain is also implemented here.
+ * All methods of the contract are implemented in this handler.
+ * The communication between java and the Blockchain is also implemented here.
  */
 
 public class AdminHandler {
@@ -204,6 +199,22 @@ public class AdminHandler {
             }
         } else {
             throw new Exception("sender address is not allowed to perform this operation!");
+        }
+    }
+
+    public void addContractAddressToVoter(Address contractAddress, Address voterAddress) throws Exception {
+        if (admin != null) {
+            admin.addContractAddressToVoter(contractAddress.toString(), voterAddress.toString()).send();
+        } else {
+            throw new Exception("admin object is null!");
+        }
+    }
+
+    public Address getContractAddressForVoter(Address voterAddress) throws Exception {
+        if (admin != null) {
+            return new Address(admin.getContractAddressForVoter(voterAddress.toString()).send());
+        } else {
+            throw new Exception("admin object is null!");
         }
     }
 }
