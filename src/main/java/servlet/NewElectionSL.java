@@ -3,7 +3,9 @@ package servlet;
 import beans.CandidateData;
 import beans.ElectionData;
 import beans.RightEnum;
+import handler.AdminHandler;
 import handler.ElectionHandler;
+import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import beans.VoteType;
 import user.LoggedUsers;
@@ -180,6 +182,8 @@ public class NewElectionSL extends HttpServlet {
                 // add election to blockchain
                 String newContractAdress = election.createContract(electionData.getLiCandidates().size(), electionData.getTitle(), electionData.getDate_from(),
                         electionData.getDate_due(), electionData.isShow_diagrams());
+                AdminHandler adminHandler = new AdminHandler(cr);
+                adminHandler.addContractAddress(new Address(newContractAdress),new Address(cr.getAddress()));
 
                 System.out.println("Election saved in Blockchain");
                 List<CandidateData> liPolit = electionData.getLiCandidates();
