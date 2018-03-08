@@ -1,6 +1,7 @@
 package user;
 
 import beans.User;
+import handler.AdminHandler;
 import handler.ElectionHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
@@ -11,6 +12,7 @@ import org.web3j.protocol.http.HttpService;
 import handler.PollHandler;
 import beans.VoteType;
 import handler.ExcelHandler;
+import util.AdminReader;
 import util.PasswordGenerator;
 
 import java.io.File;
@@ -92,9 +94,11 @@ public class UserCreator {
     }
 
 
-    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int anzVoters) throws Exception {
+    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int anzVoters,String adminFilepath) throws Exception {
         int anzSheets = anzVoters / 1048576;
         if(anzVoters%1048576>0)anzSheets++;
+        AdminHandler ah = new AdminHandler(cr);
+        ah.loadSmartContract(AdminReader.getAdminContractAddress(adminFilepath));
 
         TreeMap<String, String> map = new TreeMap<>();
         ElectionHandler el = null;
@@ -110,8 +114,10 @@ public class UserCreator {
             String password = PasswordGenerator.createPassword(PASSWORDLENGTH);
             String username = createNewUserAddress(password, walletPath);
             map.put(username, password);
+            ah.addContractAddressToVoter(new Address(contractAddress),new Address(username),new Address(cr.getAddress()));
             if (vt.equals(VoteType.ELECTION)) {
                 el.giveRightToVote(new Address(username));
+
             } else {
                 pl.giveRightToVote(new Address(username));
             }

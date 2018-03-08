@@ -28,7 +28,7 @@
     <script src="js/NavbarLogedUser.js"></script>
 </head>
 <body>
-<%
+<%/*
     HttpSession ses = request.getSession();
     LoggedUsers lU = LoggedUsers.getInstance();
 
@@ -37,7 +37,7 @@
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
-
+*/
 %>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>

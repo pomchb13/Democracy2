@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
@@ -124,33 +125,36 @@ public class LoginSL extends HttpServlet {
                         // check on with kind of vote the user is authorized
                         // if there is an exception the user is only authorized to vote for an poll
                         // otherwise he/she is authorized to vote for an election
+                        String contractAddress = adminHandler.getContractAddressForVoter(new Address(cr.getAddress())).toString();
                         try {
                             ElectionHandler eh = new ElectionHandler(cr);
-                            String address = eh.getContractAddressForVoter(new Address(password));
-                            eh.loadSmartContract(new Address(address));
+                            eh.loadSmartContract(new Address(contractAddress));
                             ElectionData ed = eh.getElectionData();
                             HttpSession ses = req.getSession();
                             ses.setAttribute("election", ed);
                             ses.setMaxInactiveInterval(15 * 60);
                             // check if user has already voted
-                            if (eh.getAlreadyVotedForVoter(new Address(address))) {
-                                // forwald to EvaluationBarChartUI
+                            if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress()))||ed.getDate_due().isBefore(LocalDate.now())) {
+                                // forward to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-                            } else {
-                                // forwald to ElectionUI
-                                resp.sendRedirect("ElectionUI.jsp");
+                            }else if(ed.getDate_from().isAfter(LocalDate.now()))
+                            {
+                                //TODO: seite mit wahl beginnt erst
+                            }
+                            else {
+                                // forward to ElectionUI
+                                resp.sendRedirect("/ElectionSL");
                             }
                         } catch (Exception ex) {
                             try {
                                 PollHandler ph = new PollHandler(cr);
-                                String address = ph.getContractAddressForVoter(new Address(password));
-                                ph.loadSmartContract(new Address(address));
+                                ph.loadSmartContract(new Address(contractAddress));
                                 PollData pd = ph.getPollData();
                                 HttpSession ses = req.getSession();
                                 ses.setAttribute("poll", pd);
                                 ses.setMaxInactiveInterval(15 * 60);
                                 // check if user has already voted
-                                if (ph.getAlreadyVotedForVoter(new Address(address))) {
+                                if (ph.getAlreadyVotedForVoter(new Address(cr.getAddress()))) {
                                     // forwald to EvaluationBarChartUI
                                     resp.sendRedirect("EvaluationBarChartUI.jsp");
                                 } else {

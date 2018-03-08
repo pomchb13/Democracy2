@@ -202,10 +202,6 @@ public class NewElectionSL extends HttpServlet {
                 }
                 System.out.println("Candidate saved to Blockchainelection");
 
-                LinkedList<ElectionData> liElectioData = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
-                liElectioData.add(electionData);
-                this.getServletContext().setAttribute("ElectionList", liElectioData);
-
                 // set ContractAdress and TypeofVote
                 this.getServletContext().setAttribute("newContractAdress", newContractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.ELECTION);

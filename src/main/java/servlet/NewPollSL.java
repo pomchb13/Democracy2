@@ -156,9 +156,6 @@ public class NewPollSL extends HttpServlet {
                 {
                     ex.printStackTrace();
                 }
-                LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
-                liPollList.add(pollData);
-                this.getServletContext().setAttribute("PollList", liPollList);
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
             } catch (Exception e) {
