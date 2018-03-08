@@ -1,6 +1,9 @@
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.RightEnum" %>
-<%@ page import="java.io.File" %><%--
+<%@ page import="java.io.File" %>
+<%@ page import="java.nio.file.Files" %>
+<%@ page import="java.nio.file.Path" %>
+<%@ page import="java.nio.file.Paths" %><%--
   Created by IntelliJ IDEA.
   User: Leonhard
   Date: 05.03.2018
@@ -72,9 +75,9 @@
             if (((String) this.getServletConfig().getServletContext().getAttribute("newPath")) != null) {
                 File f = new File((String) this.getServletConfig().getServletContext().getAttribute("newPath"));
                 if (f != null) {
-                    out.print(" <a href=\" res/userLists/" + f.getName() + "\" download=\" " + f.getName() + "\"> ");
+                    out.print(" <a href=\" res/userLists/userlist.xlxs\" download=\" userlist.xlxs \"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
-                            "                        value=\"downloadFile\"><span\n" +
+                            "                        value=\"downloadFile\" onClick=\"test()\"><span\n" +
                             "                        class=\"glyphicon glyphicon-cloud-download\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
                             "                </button>");
                     out.print("</a>");
@@ -93,6 +96,13 @@
     </center>
 </div>
 
+<script>
+    function test() {
+        <%
+        Files.delete(Paths.get((String)this.getServletConfig().getServletContext().getAttribute("newPath")));
+        %>
+    }
+</script>
 
 </body>
 </html>

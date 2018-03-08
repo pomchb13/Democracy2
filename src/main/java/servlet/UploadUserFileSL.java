@@ -77,12 +77,14 @@ public class UploadUserFileSL extends HttpServlet {
         System.out.println("doPost");
         String status = null;
         try {
-            int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_cand_Title")));
+            int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_Count_Voter")));
             if (count_voter > 0) {
-                 userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/res/userLists"),
+                userCreat.createNewUsers(this.getServletContext().getRealPath("/res/userLists/userlist.xlxs"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
                         (String) this.getServletContext().getAttribute("newContractAdress"),
-                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"), (Credentials) req.getSession().getAttribute("credentials"));
+                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"),
+                        (Credentials) req.getSession().getAttribute("credentials"),
+                        count_voter);
                 this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists") + File.separator + f.getName());
 
                 status = "File wurde erfolgreich hochgeladen!";
