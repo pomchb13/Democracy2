@@ -80,6 +80,7 @@ public class NewPollSL extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
         Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
         String pollStatus = null;
         String answerStatus = null;
@@ -146,9 +147,13 @@ public class NewPollSL extends HttpServlet {
                         pollData.getDate_from(),
                         pollData.getDate_due(),
                         pollData.isDiagramOption());
-                AdminHandler adminHandler = new AdminHandler(cr);
-                adminHandler.addAdminAddress(new Address(contractAdress), new Address(cr.getAddress()));
-
+                try {
+                    AdminHandler adminHandler = new AdminHandler(cr);
+                    adminHandler.addAdminAddress(new Address(contractAdress), new Address(cr.getAddress()));
+                }catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
             } catch (Exception e) {

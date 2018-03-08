@@ -70,6 +70,7 @@ public class NewElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
         Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
         System.out.println(req.getParameter("actionButton"));
         // check if value of the clicked button is createVote
@@ -184,9 +185,14 @@ public class NewElectionSL extends HttpServlet {
                 // add election to blockchain
                 String newContractAdress = election.createContract(electionData.getLiCandidates().size(), electionData.getTitle(), electionData.getDate_from(),
                         electionData.getDate_due(), electionData.isShow_diagrams());
-                AdminHandler adminHandler = new AdminHandler(cr);
-                adminHandler.addContractAddress(new Address(newContractAdress),new Address(cr.getAddress()));
-
+                try {
+                    AdminHandler adminHandler = new AdminHandler(cr);
+                    adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
                 System.out.println("Election saved in Blockchain");
                 List<CandidateData> liPolit = electionData.getLiCandidates();
                 for (int i = 0; i < liPolit.size(); i++) {

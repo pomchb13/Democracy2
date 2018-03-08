@@ -41,6 +41,7 @@ public class AdminHandler {
     public AdminHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
+        System.out.println("createdAdminCredentials");
     }
 
     /**

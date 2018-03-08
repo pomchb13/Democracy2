@@ -38,12 +38,33 @@ public class AdminSettingsSL extends HttpServlet {
 
         //ToDo: Windi's code bitte hier hin --> Alle Wahlen und Abstimmungen!
         super.init(config);
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        RequestDispatcher rd = request.getRequestDispatcher("/AdminSettingsUI.jsp");
+        rd.forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String hash = (String) session.getAttribute("hash");
         LinkedList<PollData> liPollList = new LinkedList<>();
         LinkedList<ElectionData> liElectioData = new LinkedList<>();
         try {
-            Credentials credentials = (Credentials) this.getServletContext().getAttribute("credentials");
+            Credentials credentials = (Credentials) session.getAttribute("credentials");
             AdminHandler adminHandler = new AdminHandler(credentials);
-            List<Address> list = adminHandler.getAllContractAddresses(new Address(credentials.getAddress()));
+            adminHandler.loadSmartContract(new Address());
+
+            List<Address> list = null;
+            try {
+                list = adminHandler.getAllContractAddresses(new Address(credentials.getAddress()));
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
             for (Address a : list) {
                 try {
                     ElectionHandler electionHandler = new ElectionHandler(credentials);
@@ -60,19 +81,6 @@ public class AdminSettingsSL extends HttpServlet {
         }
         this.getServletContext().setAttribute("PollList", liPollList);
         this.getServletContext().setAttribute("ElectionList", liElectioData);
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher("/AdminSettingsUI.jsp");
-        rd.forward(request, response);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String hash = (String) session.getAttribute("hash");
         if (!lU.compareRights(hash, RightEnum.ADMIN)) {
             resp.sendRedirect("/LoginSL");
         } else {
@@ -82,6 +90,7 @@ public class AdminSettingsSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
         Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
         processRequest(req, resp);
     }
