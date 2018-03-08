@@ -202,11 +202,13 @@ public class AdminHandler {
         }
     }
 
-    public void addContractAddressToVoter(Address contractAddress, Address voterAddress) throws Exception {
-        if (admin != null) {
-            admin.addContractAddressToVoter(contractAddress.toString(), voterAddress.toString()).send();
-        } else {
-            throw new Exception("admin object is null!");
+    public void addContractAddressToVoter(Address contractAddress, Address voterAddress, Address senderAddress) throws Exception {
+        if (checkIfAdmin(senderAddress)) {
+            if (admin != null) {
+                admin.addContractAddressToVoter(contractAddress.toString(), voterAddress.toString()).send();
+            } else {
+                throw new Exception("admin object is null!");
+            }
         }
     }
 
