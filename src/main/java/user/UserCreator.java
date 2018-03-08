@@ -27,6 +27,7 @@ import java.util.TreeMap;
 public class UserCreator {
 
     private Web3j web3j;
+    private static final int PASSWORDLENGTH =15;
 
     /**
      * Initialization for the Web3j-Service
