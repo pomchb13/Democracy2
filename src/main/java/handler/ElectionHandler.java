@@ -37,16 +37,30 @@ public class ElectionHandler {
         credentials = BlockchainUtil.loginToBlockhain("0x67db9880d62389799691b9b1806ab59f90b49259", "1234");
     }
 
+    /**
+     * Constructor to initiliaze the web3j web-service
+     *
+     * @param credentials: credentials of the user (wallet file)
+     */
     public ElectionHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
     }
 
 
-    /***
-     * Method responsible for creating a new smart contract
+    /**
+     * Method responsible for creating a new election contract
+     *
+     * @param numCandidates: number of candidates of the election
+     * @param title:         title of the election
+     * @param dateFrom:      start date of the election
+     * @param dateDue:       end date of the election
+     * @param showDiagram:   boolean if a diagram is shown on the web page
+     * @return
+     * @throws Exception if an error occurs
      */
-    public String createContract(int numProps, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
+    //TODO: souts entfernen
+    public String createContract(int numCandidates, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         System.out.println("Handler --> create 1");
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
@@ -54,11 +68,17 @@ public class ElectionHandler {
         System.out.println("Handler --> create 2");
         System.out.println(web3);
         System.out.println(credentials);
-        election = ElectionContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numProps + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        election = ElectionContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numCandidates + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
         System.out.println("Handler --> create 3");
         return election.getContractAddress();
     }
 
+    /**
+     * Method responsible for giving the voter the right to vote for an election
+     *
+     * @param voter: address of the voter
+     * @throws Exception if the election contract is not loaded
+     */
     public void giveRightToVote(Address voter) throws Exception {
         if (election != null) {
             election.giveRightToVote(voter.toString()).send();
@@ -67,15 +87,28 @@ public class ElectionHandler {
         }
     }
 
-    public void vote(Uint8 proposal, Address address) throws Exception {
+    /**
+     * Method responsible for voting for a specific candidate
+     *
+     * @param candidate: index of the candidate
+     * @param voter:     address of the voter
+     * @throws Exception if the election contract is not loaded
+     */
+    public void vote(Uint8 candidate, Address voter) throws Exception {
         if (election != null) {
-            election.vote(proposal.getValue(), address.toString()).send();
+            election.vote(candidate.getValue(), voter.toString()).send();
         } else {
             throw new Exception("election object is null!");
         }
     }
 
 
+    /**
+     * Method responsible for getting the winner or winners of an election
+     *
+     * @param allCandidates: list of all candidates of the election
+     * @return
+     */
     public List<CandidateData> getWinners(List<CandidateData> allCandidates) {
         List<CandidateData> winners = new ArrayList<>();
         int winningVoteCount = 0;
@@ -95,6 +128,18 @@ public class ElectionHandler {
     }
 
 
+    /**
+     * Method responsible for storing a candidate in the Ethereum blockchain
+     *
+     * @param candidate: index of the candidate
+     * @param title:     academic title of the candidate
+     * @param firstname: firstname of the candidate
+     * @param lastname:  lastname of the candidate
+     * @param birthday:  birthday of the candidate
+     * @param party:     party of the candidate
+     * @param slogan:    slogan of the candidate
+     * @throws Exception if the election contract is not loaded
+     */
     public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
         if (election != null) {
             BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
@@ -104,6 +149,12 @@ public class ElectionHandler {
         }
     }
 
+    /**
+     * Method responsible for getting the data of an election
+     *
+     * @return ElectionData object
+     * @throws Exception if the election contract is not loaded
+     */
     public ElectionData getElectionData() throws Exception {
         if (election != null) {
             String title = election.getElectionData().send().getValue1();
@@ -119,9 +170,16 @@ public class ElectionHandler {
         }
     }
 
-    public CandidateData getCandidateData(int can) throws Exception {
+    /**
+     * Method responsible for getting the candidate with a specific index
+     *
+     * @param candidateIndex: index of the candidate
+     * @return CandidateData object
+     * @throws Exception if the election contract is not loaded
+     */
+    public CandidateData getCandidateData(int candidateIndex) throws Exception {
         if (election != null) {
-            BigInteger candidate = new BigInteger(can + "");
+            BigInteger candidate = new BigInteger(candidateIndex + "");
             String title = election.getCandidate(candidate).send().getValue1();
             String firstname = election.getCandidate(candidate).send().getValue2();
             String lastname = election.getCandidate(candidate).send().getValue3();
@@ -137,14 +195,23 @@ public class ElectionHandler {
     }
 
 
-    /***
+    /**
      * Method responsible for loading an existing contract with a specific address
-     * @param address
+     *
+     * @param address: address of the contract
+     * @return address of the contract
      */
-    public void loadSmartContract(Address address) {
+    public String loadSmartContract(Address address) {
         election = ElectionContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
+        return election.getContractAddress();
     }
 
+    /**
+     * Method responsible for returning the address of the admin of an election
+     *
+     * @return the address of the admin of an election
+     * @throws Exception if the election contract is not loaded
+     */
     public String getAdminAddress() throws Exception {
         if (election != null) {
             return election.getAdminAddress().send();
@@ -153,6 +220,12 @@ public class ElectionHandler {
         }
     }
 
+    /**
+     * Method responsible for returning the contract address of the election contract
+     *
+     * @return contract address of the election
+     * @throws Exception if the election contract is not loaded
+     */
     public String getContractAddress() throws Exception {
         if (election != null) {
             return election.getContractAddress();
@@ -161,6 +234,13 @@ public class ElectionHandler {
         }
     }
 
+    /**
+     * Method responsible for determining whether the voter has already voted
+     *
+     * @param address: address of the voter
+     * @return boolean if the given voter has already voted
+     * @throws Exception if the election contract is not loaded
+     */
     public boolean getAlreadyVotedForVoter(Address address) throws Exception {
         if (election != null) {
             return election.getAlreadyVotedForVoter(address.toString()).send();
@@ -169,7 +249,14 @@ public class ElectionHandler {
         }
     }
 
-    public String getVoteAddressForVoter(Address address) throws Exception {
+    /**
+     * Method responsible for returning the correct contract address of the contract where the voter is allowed to vote
+     *
+     * @param address: address of the voter
+     * @return the contract address of the contract where the voter is allowed to vote
+     * @throws Exception if the election contract is not loaded
+     */
+    public String getContractAddressForVoter(Address address) throws Exception {
         if (election != null) {
             return election.getVoteAddressForVoter(address.toString()).send();
         } else {

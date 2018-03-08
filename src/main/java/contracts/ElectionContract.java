@@ -127,7 +127,7 @@ public final class ElectionContract extends Contract {
     }
 
     public RemoteCall<String> getVoteAddressForVoter(String a) {
-        Function function = new Function("getVoteAddressForVoter", 
+        Function function = new Function("getContractAddressForVoter",
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(a)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
         return executeRemoteCallSingleValueReturn(function, String.class);

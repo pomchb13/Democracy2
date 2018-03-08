@@ -1,12 +1,10 @@
 package servlet;
 
 import beans.*;
-import contracts.AdminContract;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
 import org.web3j.abi.datatypes.Address;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import user.HashGenerator;
 import user.LoggedUsers;
@@ -25,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -124,7 +121,7 @@ public class LoginSL extends HttpServlet {
                         // otherwise he/she is authorized to vote for an election
                         try {
                             ElectionHandler eh = new ElectionHandler(cr);
-                            String address = eh.getVoteAddressForVoter(new Address(password));
+                            String address = eh.getContractAddressForVoter(new Address(password));
                             eh.loadSmartContract(new Address(address));
                             ElectionData ed = eh.getElectionData();
                             HttpSession ses = req.getSession();
@@ -141,7 +138,7 @@ public class LoginSL extends HttpServlet {
                         } catch (Exception ex) {
                             try {
                                 PollHandler ph = new PollHandler(cr);
-                                String address = ph.getVoteAddressForVoter(new Address(password));
+                                String address = ph.getContractAddressForVoter(new Address(password));
                                 ph.loadSmartContract(new Address(address));
                                 PollData pd = ph.getPollData();
                                 HttpSession ses = req.getSession();
