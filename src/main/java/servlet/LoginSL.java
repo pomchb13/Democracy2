@@ -25,6 +25,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
+/**
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     Servlet behind the LoginUI
+ */
 
 @WebServlet(urlPatterns = {"/LoginSL"})
 public class LoginSL extends HttpServlet {
@@ -176,11 +181,8 @@ public class LoginSL extends HttpServlet {
                         //forward to AdminSettingsSL
                         resp.sendRedirect("AdminSettingsSL");
                     }
-                }
-                else
-                {
-                    //TODO: Error Page --> damit admin admin-
-                    // contract erstellt
+                } else {
+                    resp.sendRedirect("ErrorUI.jsp");
                 }
             } catch (Exception e) {
                 int tries = (int) req.getSession().getAttribute("tries");
