@@ -77,7 +77,7 @@
                 if (f != null) {
                     out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\" userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
-                            "                        value=\"downloadFile\" onClick=\"test()\"><span\n" +
+                            "                        value=\"downloadFile\"><span\n" +
                             "                        class=\"glyphicon glyphicon-cloud-download\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
                             "                </button>");
                     out.print("</a>");
@@ -86,23 +86,13 @@
         %>
 
         <br><br>
-        <a href="AdminSettingsUI.jsp">
-            <button type="button" id="forward" class="btn btn-primary" name="forward"
+        <form method="post" action="AdminSettingsSL">
+            <button type="submit" id="forward" class="btn btn-primary" name="forward"
                     value="forwardToAdminSite"><span
                     class="glyphicon glyphicon-floppy-disk"></span> Weiter zur Admin-Seite
             </button>
-        </a>
-
+        </form>
     </center>
 </div>
-
-<script>
-    function test() {
-        <%
-        Files.delete(Paths.get((String)this.getServletConfig().getServletContext().getAttribute("newPath")));
-        %>
-    }
-</script>
-
 </body>
 </html>
