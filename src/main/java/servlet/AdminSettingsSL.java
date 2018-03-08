@@ -36,8 +36,6 @@ public class AdminSettingsSL extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-
-        //ToDo: Windi's code bitte hier hin --> Alle Wahlen und Abstimmungen!
         super.init(config);
     }
 

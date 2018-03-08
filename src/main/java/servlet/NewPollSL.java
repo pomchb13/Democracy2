@@ -158,6 +158,11 @@ public class NewPollSL extends HttpServlet {
                 }
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
+
+                LinkedList<PollData> dataLinkedList = (LinkedList<PollData>) this.getServletContext().getAttribute("PollList");
+                dataLinkedList.add(pollData);
+                this.getServletContext().setAttribute("PollList", dataLinkedList);
+
             } catch (Exception e) {
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }

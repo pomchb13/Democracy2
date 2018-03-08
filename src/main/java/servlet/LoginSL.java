@@ -130,6 +130,16 @@ public class LoginSL extends HttpServlet {
                             ElectionHandler eh = new ElectionHandler(cr);
                             eh.loadSmartContract(new Address(contractAddress));
                             ElectionData ed = eh.getElectionData();
+                            LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
+                            for (int i = 0; i < 100; i++) {
+                                try {
+                                    liCandidateDate.add(eh.getCandidateData(i));
+                                } catch (Exception e) {
+                                    System.out.println("keine Kanditaten mehr");
+                                    break;
+                                }
+                            }
+                            ed.setLiCandidates(liCandidateDate);
                             // check if user has already voted
                             if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress())) || ed.getDate_due().isBefore(LocalDate.now())) {
                                 // forward to EvaluationBarChartUI

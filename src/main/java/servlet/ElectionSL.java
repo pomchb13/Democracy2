@@ -39,6 +39,8 @@ public class ElectionSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        System.out.println(request.getRequestURI());
+        System.out.println(request.getRequestURL());
         if (request.getParameter("candidateID") != null)
         {
             int id = Integer.parseInt(request.getParameter("candidateID"));
@@ -49,7 +51,6 @@ public class ElectionSL extends HttpServlet {
                 out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
                         cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
                 out.flush();
-
             }
         }
         else{

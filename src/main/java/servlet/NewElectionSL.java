@@ -153,6 +153,12 @@ public class NewElectionSL extends HttpServlet {
                         newElectionData.setLiCandidates(liPolit);
 
                         System.out.println(newElectionData.toString());
+
+                        LinkedList<ElectionData> dataLinkedList = (LinkedList<ElectionData>) this.getServletContext().getAttribute("ElectionList");
+                        dataLinkedList.add(newElectionData);
+                        this.getServletContext().setAttribute("ElectionList", dataLinkedList);
+
+
                         req.setAttribute("errorPol", "Kandidat erfolgreich erstellt!");
                         this.getServletContext().setAttribute("newElection", newElectionData);
                     }else{
