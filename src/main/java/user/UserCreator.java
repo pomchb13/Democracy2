@@ -94,6 +94,8 @@ public class UserCreator {
         System.out.println(newPath);
 
         ExcelHandler.updateExcelFile(new File(uploadedFilePath),map,newPath);
+        map.clear();
+        map=null;
     }
 
 
