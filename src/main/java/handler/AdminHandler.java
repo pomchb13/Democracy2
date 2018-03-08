@@ -8,9 +8,11 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import util.BlockchainUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,12 +28,6 @@ public class AdminHandler {
     private Web3j web3;
     private Credentials credentials;
     private AdminContract admin;
-
-    // for testing purpose only
-    public AdminHandler() throws IOException, CipherException {
-        web3 = Web3j.build(new HttpService());
-        credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
-    }
 
     /**
      * Constructor to initiliaze the web3j web-service
@@ -75,7 +71,7 @@ public class AdminHandler {
      */
     public boolean checkIfAdmin(Address address) throws Exception {
         if (admin != null) {
-            System.out.println("in checkIfAdmin ---- Admin Handler");
+            System.out.println("in checkIfAdmin ---- AdminContract Handler");
             return admin.checkIfAdmin(address.toString()).send();
         } else {
             throw new Exception("admin object is null!");
@@ -200,6 +196,7 @@ public class AdminHandler {
      */
     public void addContractAddress(Address address, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
+            System.out.println("user is admin");
             if (admin != null) {
                 admin.addContractAddress(address.toString()).send();
             } else {

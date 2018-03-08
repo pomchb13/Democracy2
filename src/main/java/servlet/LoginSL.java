@@ -163,7 +163,7 @@ public class LoginSL extends HttpServlet {
                         }
                         // User is an admin
                     } else if (right == RightEnum.ADMIN) {
-                        System.out.println("in Admin");
+                        System.out.println("in AdminContract");
                         // set hash and right to the session scope
                         HttpSession session = req.getSession();
                         session.setAttribute("hash", hash);
