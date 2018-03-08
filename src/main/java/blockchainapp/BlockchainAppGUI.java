@@ -338,6 +338,6 @@ public class BlockchainAppGUI extends JFrame {
      * Main method responsible for creating the GUI and making the window visible
      */
     public static void main(String[] args) {
-        new BlockchainAppGUI("Blockchain App for admins").setVisible(true);
+        new BlockchainAppGUI("Blockchain app for admins").setVisible(true);
     }
 }
