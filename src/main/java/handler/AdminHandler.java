@@ -14,8 +14,8 @@ import java.util.List;
  * Author:          Patrick Windegger
  * Created on:
  * Description:     Class responsible for handling the admins of elections and polls.
- * All methods of the contract are implemented in this handler.
- * The communication between java and the Blockchain is also implemented here.
+ *                  All methods of the contract are implemented in this handler.
+ *                  The communication between java and the Blockchain is also implemented here.
  */
 
 public class AdminHandler {
@@ -202,6 +202,14 @@ public class AdminHandler {
         }
     }
 
+    /**
+     * Method responsible for mapping the contract address to the voter address
+     *
+     * @param contractAddress: address of the contract
+     * @param voterAddress:    address of the voter
+     * @param senderAddress:   address of the sender to check if he is allowed to perform this operation
+     * @throws Exception if the admin contract is not loaded
+     */
     public void addContractAddressToVoter(Address contractAddress, Address voterAddress, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
@@ -212,6 +220,13 @@ public class AdminHandler {
         }
     }
 
+    /**
+     * Method responsible for getting the address of the contract where the voter is allowed to vote
+     *
+     * @param voterAddress: address of the voter
+     * @return address of the contract
+     * @throws Exception if the admin contract is not loaded
+     */
     public Address getContractAddressForVoter(Address voterAddress) throws Exception {
         if (admin != null) {
             return new Address(admin.getContractAddressForVoter(voterAddress.toString()).send());
