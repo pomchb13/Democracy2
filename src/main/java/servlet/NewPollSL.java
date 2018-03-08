@@ -22,21 +22,40 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
- * Created by Ewald on 17.08.2017.
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     This Servlet java class is responsible for creating a new Poll and push it to the Blockchain. Before
+ * the administrator is able to create a new Poll it also checks if the administrator is logged in correctly.
+ * The creation of the new Poll could take a while because the PollHandler needs to push it to the Blockchain and
+ * create all possible answers the administrator created.
  */
+
 @WebServlet(urlPatterns = {"/NewPollSL"})
 public class NewPollSL extends HttpServlet {
+    //The Instance where all logged users and administrator are saved
     private LoggedUsers lU = LoggedUsers.getInstance();
+    //The Pollhandler object is responsible for the communication with the blockchain
     private PollHandler pollTester;
 
+    /**
+     * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
+     * @throws ServletException
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
+    /**
+     * @param request
+     * @param response
+     *
+     * In this Method we only get the RequestDispatcher which forwards to the "NewPollUI.jsp".
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -44,6 +63,21 @@ public class NewPollSL extends HttpServlet {
         rd.forward(request, response);
     }
 
+    /**
+     * @param req
+     * @param resp
+     *
+     * In the doPost method we catch a variety of post requests from the "NewPollUI.jsp". Every form has its own if section
+     * where the functionality is implemented. In the first if-section it only reads the main properties for a poll,
+     * creates the PollData-object saves it to the application scope. The CandidateList in the object is initialised but empty.
+     * The second section if responsible for creating an answer and adding it to the PollData-object in the application scope.
+     * In the else-section the doPost Method checks if the administrator is logged in correctly, creates a PollHandler object, to
+     * communicate with the Blockchain, and then let the Blockchain create the Poll. This may take a while. After creating the
+     * Poll the Blockchain needs to add the answers to the Poll. When everything did go will, we will be forwarded to the
+     * "UploadUserFile.jsp" where we have to upload an excel sheet where all eligible voters are saved.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pollStatus = null;
@@ -75,8 +109,7 @@ public class NewPollSL extends HttpServlet {
                 }
             } catch (Exception ex) {
                 pollStatus = "Bitte überprüfen Sie Ihre Eingabe!";
-            }
-            finally {
+            } finally {
                 req.setAttribute("pollStatus", pollStatus);
                 processRequest(req, resp);
             }
@@ -92,18 +125,20 @@ public class NewPollSL extends HttpServlet {
                     pollData.setAnswerList(answerList);
                     this.getServletContext().setAttribute("poll", pollData);
                     answerStatus = "Antwort erfolgreich hinzugefügt!";
-                } catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     answerStatus = "Bitte die Eingaben überprüfen!";
                 }
                 req.setAttribute("answerStatus", answerStatus);
                 processRequest(req, resp);
             }
         } else {
+            //Checks if the administrator is logged in correctly
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
+            //The PollHandler is the communication tool for communicating with the Blockchain
             pollTester = new PollHandler(cr);
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
+                //Method to create the Poll on the Blockchain
                 String contractAdress = pollTester.createContract(pollData.getAnswerList().size(),
                         pollData.getTitle(),
                         pollData.getDate_from(),
@@ -116,6 +151,7 @@ public class NewPollSL extends HttpServlet {
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> liAnswers = pollData.getAnswerList();
+            //Foreach loop is responsible for adding all answers to the Poll in the Blockchain
             for (int i = 0; i < liAnswers.size(); i++) {
                 try {
                     pollTester.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
@@ -128,7 +164,14 @@ public class NewPollSL extends HttpServlet {
 
     }
 
-
+    /**
+     * @param req
+     * @param resp
+     * Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
+     * in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();

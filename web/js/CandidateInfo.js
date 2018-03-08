@@ -1,9 +1,10 @@
 /**
- * Created by Leonhard on DATUM im Git nachschaun
- *
- * This javascript class is responsible for displaying the whole candidate information if the voter presses the
- * an info button in the VoteUI. Every candidate has it's own info button. To ensure that the information will be displayed
- * we use java ajax. Ajax the information will appear on the website without reloading the whole site.
+ * Author:          Leonhard Gangl
+ * Created on:
+ * Description:     This javascript class is responsible for displaying the whole candidate information if the voter
+ *                  presses the an info button in the VoteUI. Every candidate has it's own info button. To ensure that
+ *                  the information will be displayed we use java ajax. Ajax the information will appear on the website
+ *                  without reloading the whole site.
  */
 
 //Ajax Object

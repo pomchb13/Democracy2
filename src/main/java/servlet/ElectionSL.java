@@ -24,6 +24,8 @@ import java.io.PrintWriter;
 
 /**
  * Created by Ewald on 28.02.2018.
+ *
+ *
  */
 @WebServlet(urlPatterns = {"/ElectionSL"})
 public class ElectionSL extends HttpServlet {
@@ -62,9 +64,9 @@ public class ElectionSL extends HttpServlet {
         if (!address.isEmpty()) {
             try {
                 electionHandler.giveRightToVote(new Address(address));
-                electionHandler.vote(new Uint8(val),new Address(address));
+                electionHandler.vote(new Uint8(val), new Address(address));
             } catch (Exception e) {
-                System.out.println(e.toString());
+                e.printStackTrace();
             }
         }
 

@@ -1,14 +1,13 @@
 package servlet;
 
 /**
-    Created by Leonhard 23.02.2018
-
-    In this Servlet we define the "Backend" for the "UploadImageUI.jsp". This Servlet grants that the images put from
-    the Administrator into the fileinput will be saved to our server environment. In our project structure the server
-    environment is the "out" directory. Before the administrator well be redirected to the JSP it checks if the
-    administrator is logged in.
+ * Author:          Leonhard Gangl
+ * Created on:
+ * Description:     In this Servlet we define the "Backend" for the "UploadImageUI.jsp". This Servlet grants that the
+ * images put from the Administrator into the fileinput will be saved to our server environment. In our project
+ * structure the server environment is the "out" directory. Before the administrator well be redirected to the JSP it
+ * checks if the administrator is logged in.
  */
-
 
 import beans.RightEnum;
 import user.LoggedUsers;

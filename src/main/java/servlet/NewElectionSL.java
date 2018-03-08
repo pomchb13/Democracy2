@@ -24,10 +24,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Leonhard on 28.11.2017.
+ * Author:          Leonhard Gangl
+ * Created on:
+ * Description:     This Servlet java class is responsible for creating a new Poll and push it to the Blockchain.
+ *                  Before the administrator is able to create a new Poll it also checks if the administrator is logged
+ *                  in correctly. The creation of the new Poll could take a while because the PollHandler needs to push
+ *                  it to the Blockchain and create all possible answers the administrator created.
  */
+
 @WebServlet(urlPatterns = {"/NewElectionSL"})
 public class NewElectionSL extends HttpServlet {
+    //The Instance where all logged users and administrator are saved
     private LoggedUsers lU = LoggedUsers.getInstance();
     private ElectionHandler election;
 
