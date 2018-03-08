@@ -1,5 +1,5 @@
 package beans;
-
+@Deprecated
 public class User {
 
     private String firstName;

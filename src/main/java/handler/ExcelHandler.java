@@ -123,31 +123,24 @@ public class ExcelHandler {
         }
 
 
+    /*
+            Workbook w = new XSSFWorkbook();
+            Sheet sheet = w.createSheet("Users");
+            Row row = sheet.createRow(0);
+            row.createCell(0).setCellValue("ID");
+            row.createCell(1).setCellValue("Username");
+            row.createCell(2).setCellValue("Password");
+            int rowIndex = 1;
 
-
-
-
-
-
-
-
-    /*    Workbook w = new XSSFWorkbook();
-        Sheet sheet = w.createSheet("Users");
-        Row row = sheet.createRow(0);
-        row.createCell(0).setCellValue("ID");
-        row.createCell(1).setCellValue("Username");
-        row.createCell(2).setCellValue("Password");
-        int rowIndex = 1;
-
-        for(Map.Entry<String,String> entry:map.entrySet())
-        {
+            for(Map.Entry<String,String> entry:map.entrySet())
+            {
             Row r = sheet.createRow(rowIndex);
             r.createCell(0).setCellValue(rowIndex);
             r.createCell(1).setCellValue(entry.getKey());
             r.createCell(2).setCellValue(entry.getValue());
             rowIndex++;
-        }
-*/
+
+            */
         FileOutputStream out = new FileOutputStream(new File(file));
         w.write(out);
         out.close();
