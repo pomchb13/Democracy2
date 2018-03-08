@@ -130,19 +130,17 @@ public class LoginSL extends HttpServlet {
                             ElectionHandler eh = new ElectionHandler(cr);
                             eh.loadSmartContract(new Address(contractAddress));
                             ElectionData ed = eh.getElectionData();
-                            HttpSession ses = req.getSession();
-                            ses.setAttribute("election", ed);
-                            ses.setMaxInactiveInterval(15 * 60);
                             // check if user has already voted
-                            if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress()))||ed.getDate_due().isBefore(LocalDate.now())) {
+                            if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress())) || ed.getDate_due().isBefore(LocalDate.now())) {
                                 // forward to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-                            }else if(ed.getDate_from().isAfter(LocalDate.now()))
-                            {
+                            } else if (!ed.getDate_from().isAfter(LocalDate.now())) {
                                 //TODO: seite mit wahl beginnt erst
-                            }
-                            else {
+                            } else {
                                 // forward to ElectionUI
+                                HttpSession ses = req.getSession();
+                                ses.setAttribute("election", ed);
+                                ses.setMaxInactiveInterval(15 * 60);
                                 resp.sendRedirect("/ElectionSL");
                             }
                         } catch (Exception ex) {
@@ -208,7 +206,7 @@ public class LoginSL extends HttpServlet {
         File file = new File(this.getServletContext().getRealPath("/res/images"));
         File[] files = file.listFiles();
         for (int i = 0; i < files.length; i++) {
-            if (!files[i].getName().equals("dummy")) {
+            if (!files[i].getName().equals("dummy") && !liFilenames.contains(files[i].getName())) {
                 if (!files[i].isDirectory()) {
                     liFilenames.add(files[i].getName());
                 }
