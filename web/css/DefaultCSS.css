@@ -1,3 +1,10 @@
+/**
+    Created by Ewald Datum im Git nachschaun
+
+    In our Default CSS file we define all styles we want to add to our bootstrap html elements. We don't have many
+    styles saved here, because bootstrap has it's own css file and we just wanted to add some small things.
+ */
+
 body {
     /*background: url(../images/Background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;

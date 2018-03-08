@@ -45,7 +45,12 @@ public class UploadImageSL extends HttpServlet {
     }
 
     /**
-     * In this Method we only get the RequestDispatcher which forwards to the "UploadImageUI.jsp"
+     * @param request
+     * @param response
+     *
+     * In this Method we only get the RequestDispatcher which forwards to the "UploadImageUI.jsp".
+     * @throws ServletException
+     * @throws IOException
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -70,8 +75,8 @@ public class UploadImageSL extends HttpServlet {
     }
 
     /**
-     * @param req --> actual request to save objects onto it, so we could access to these object in our JSP.
-     * @param resp --> will redirect us to another page
+     * @param req
+     * @param resp
      *
      * The doPost will be fired if the user presses the upload button in the JSP. Firstly it gets the path for the
      * server environment. Then it reads the Part sent via the encryption type mulipart/form-data from the fileinput.
