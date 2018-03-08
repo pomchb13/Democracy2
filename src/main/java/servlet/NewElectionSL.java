@@ -1,14 +1,12 @@
 package servlet;
 
-import beans.CandidateData;
-import beans.ElectionData;
-import beans.RightEnum;
+import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
-import beans.VoteType;
 import user.LoggedUsers;
+import util.AdminReader;
 import util.BlockchainUtil;
 import util.ServletUtil;
 
@@ -129,7 +127,7 @@ public class NewElectionSL extends HttpServlet {
                     LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
                     // check if birthday is between today and today minis 99 years
-                    if(dateOfBirth.isBefore(LocalDate.now()) && dateOfBirth.isAfter(LocalDate.now().minusYears(99))) {
+                    if(dateOfBirth.isBefore(LocalDate.now().minusYears(18)) && dateOfBirth.isAfter(LocalDate.now().minusYears(99))) {
                         String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                         String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
                         String portraitPath = this.getServletContext().getRealPath("/") + "images"
@@ -187,6 +185,7 @@ public class NewElectionSL extends HttpServlet {
                         electionData.getDate_due(), electionData.isShow_diagrams());
                 try {
                     AdminHandler adminHandler = new AdminHandler(cr);
+                    adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
                     adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
                 }
                 catch (Exception ex)
@@ -202,6 +201,10 @@ public class NewElectionSL extends HttpServlet {
                             liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan());
                 }
                 System.out.println("Candidate saved to Blockchainelection");
+
+                LinkedList<ElectionData> liElectioData = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
+                liElectioData.add(electionData);
+                this.getServletContext().setAttribute("ElectionList", liElectioData);
 
                 // set ContractAdress and TypeofVote
                 this.getServletContext().setAttribute("newContractAdress", newContractAdress);

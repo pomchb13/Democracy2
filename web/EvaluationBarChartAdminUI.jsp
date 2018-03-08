@@ -57,7 +57,6 @@
                             for (PollAnswer pa: pd.getAnswerList()) {
                                 out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
                             }
-
                         } else {
                             ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
                             for (CandidateData cd: ed.getLiCandidates()) {
@@ -95,7 +94,7 @@
     <center>
         <!-- Add a Button the change to the other chart -->
         <button id="evaluation" type="submit" class="btn btn-primary"
-                onclick="window.location.href='/EvaluationPieChartUI.jsp'">
+                onclick="window.location.href='/EvaluationPieChartAdminUI.jsp'">
             <span class="glyphicon glyphicon-retweet"></span> Kreisdiagramm
         </button>
     </center>

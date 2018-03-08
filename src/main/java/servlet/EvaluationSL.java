@@ -56,20 +56,20 @@ public class EvaluationSL extends HttpServlet {
         System.out.println(s);
 
         // get both list from the session scope
-        LinkedList<PollData> liPollList = (LinkedList<PollData>) req.getSession().getAttribute("PollList");
-        LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletContext().getAttribute("PollList");
+        LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
+        LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
         for (ElectionData electionData : liElectionList) {
             // check if value is in this list
             if (electionData.getTitle().equals(s)) {
-                // set clickt Data on the session scope
-                req.getSession().setAttribute("clicked", electionData);
+                // set cilckt Data on the session scope
+                req.getServletContext().setAttribute("clicked", electionData);
             }
         }
         for (PollData pollData : liPollList) {
             // check if value is in this list
             if (pollData.getTitle().equals(s)) {
                 // set clickt Data on the session scope
-                req.getSession().setAttribute("clicked", pollData);
+                req.getServletContext().setAttribute("clicked", pollData);
             }
         }
         processRequest(req, resp);

@@ -115,7 +115,7 @@
         <br>
 
         <div>
-            <h1>Kanditaten zur <%= this.getServletConfig().getServletContext().getAttribute("newElection") != null ?
+            <h1>Kanditat zur <%= this.getServletConfig().getServletContext().getAttribute("newElection") != null ?
                     ((ElectionData) this.getServletConfig().getServletContext().getAttribute("newElection")).getTitle() : ""%>
                 hinzufügen</h1></div>
 

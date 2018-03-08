@@ -136,6 +136,7 @@ public class AdminHandler {
      */
     public List<Address> getAllContractAddresses(Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
+            System.out.println("in get All contracts");
             if (admin != null) {
                 List<Address> contracts = new ArrayList<>();
                 int numContracts = admin.getContractCount().send().intValue();

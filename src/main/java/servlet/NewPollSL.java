@@ -7,6 +7,7 @@ import org.web3j.crypto.Credentials;
 import handler.PollHandler;
 import beans.VoteType;
 import user.LoggedUsers;
+import util.AdminReader;
 import util.BlockchainUtil;
 import util.ServletUtil;
 
@@ -149,11 +150,15 @@ public class NewPollSL extends HttpServlet {
                         pollData.isDiagramOption());
                 try {
                     AdminHandler adminHandler = new AdminHandler(cr);
+                    adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
                     adminHandler.addAdminAddress(new Address(contractAdress), new Address(cr.getAddress()));
                 }catch (Exception ex)
                 {
                     ex.printStackTrace();
                 }
+                LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
+                liPollList.add(pollData);
+                this.getServletContext().setAttribute("PollList", liPollList);
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
             } catch (Exception e) {
@@ -168,6 +173,7 @@ public class NewPollSL extends HttpServlet {
                     req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                 }
             }
+
             resp.sendRedirect("/UploadUserFileSL");
         }
 

@@ -9,6 +9,7 @@ import handler.PollHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
+import util.AdminReader;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -56,7 +57,7 @@ public class AdminSettingsSL extends HttpServlet {
         try {
             Credentials credentials = (Credentials) session.getAttribute("credentials");
             AdminHandler adminHandler = new AdminHandler(credentials);
-            adminHandler.loadSmartContract(new Address());
+            adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
 
             List<Address> list = null;
             try {
