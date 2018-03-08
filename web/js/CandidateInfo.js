@@ -18,9 +18,7 @@ onload = init;
 function init() {
     if(window.XMLHttpRequest)
     {
-        alert('init');
         xmlhttp = new XMLHttpRequest();
-        alert('end init ' + xmlhttp)
     }
 }
 
@@ -30,17 +28,10 @@ function init() {
  * receives a result it calls the processRequest() method.
  */
 function reply_click(buttonStr) {
-    alert('I am in reply_click:'+buttonStr);
     url = "../ElectionSL?candidateID="+buttonStr;
     xmlhttp.open("GET", url, true);
-    try {
-        xmlhttp.onreadystatechange = processRequest();
-    }catch (e){
-        alert(e.toString());
-    }
-    //xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     xmlhttp.send(null);
-    alert('did all your work');
+    xmlhttp.onreadystatechange = processRequest();
 }
 
 /**
@@ -49,12 +40,9 @@ function reply_click(buttonStr) {
  */
 function processRequest()
 {
-    alert('pr');
-    alert(xmlhttp.readyState);
-    alert(xmlhttp.status);
+
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
     {
-        alert('request successfull');
         wholeString = xmlhttp.responseText;
         stringField = wholeString.split(";");
         document.getElementById("cand_titleName").innerHTML = stringField[0];
@@ -64,6 +52,5 @@ function processRequest()
         document.getElementById("cand_birthday").innerHTML = stringField[3];
         document.getElementById("cand_party").innerHTML = stringField[4];
         document.getElementById("cand_slogan").innerHTML = stringField[5];
-        alert('written successfull');
     }
 }

@@ -75,9 +75,9 @@
                             + cd.getTitle() + " "
                             + cd.getSurname().toUpperCase() + " "
                             + cd.getForename() + "</label>");
-                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" name=\" "+ count++ +" \" onClick=\"reply_click(this.name)\" ><span");
-                    out.println("                    class=\"glyphicon glyphicon-info-sign\" data-toggle=\"modal\"");
-                    out.println("                    data-target=\"#infoModal\"  ></span></button>");
+                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\" "+ count++ +" \" onClick=\"reply_click(this.name)\" ><span");
+                    out.println("                    class=\"glyphicon glyphicon-info-sign\"");
+                    out.println("                      ></span></button>");
                     out.println("        </div>");
                     out.println("    </li>");
                     out.println("</ul>");

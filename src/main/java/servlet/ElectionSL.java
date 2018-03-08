@@ -41,10 +41,12 @@ public class ElectionSL extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println(request.getRequestURI());
         System.out.println(request.getRequestURL());
+        System.out.println(request.getParameterNames().toString());
+        System.out.println(request.getParameter("candidateID"));
         if (request.getParameter("candidateID") != null)
         {
-            int id = Integer.parseInt(request.getParameter("candidateID"));
-            ElectionData ed = (ElectionData) request.getAttribute("election");
+            int id = Integer.parseInt(request.getParameter("candidateID").trim());
+            ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
 
             try (PrintWriter out = response.getWriter()) {
