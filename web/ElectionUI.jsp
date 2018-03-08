@@ -26,6 +26,9 @@
     <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/NavbarLogedUser.js"></script>
+    <!-- Import the JavaScript for showing the candidateinfo -->
+    <script src="js/CandidateInfo.js"></script>
+
 </head>
 <body>
 <%/*

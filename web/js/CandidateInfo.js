@@ -28,10 +28,11 @@ function init() {
  * receives a result it calls the processRequest() method.
  */
 function reply_click(buttonStr) {
-    url = "../ElectionSL?"+buttonStr;
-    xmlhttp.open("GET", url, true);
+    url = "../ElectionSL";
+    xmlhttp.open("POST", url, true);
     xmlhttp.onreadystatechange = processRequest();
-    xmlhttp.send(null);
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    xmlhttp.send("candidateID="+buttonStr);
 }
 
 /**

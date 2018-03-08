@@ -51,7 +51,7 @@
 <div id="container">
     <br>
     <h1></h1>Wählerverzeichnisses</h1>
-    <p>Anzahl der zugelassernen Wählerx</p>
+    <p>Anzahl der zugelassernen Wähler</p>
     <center>
         <form method="POST" action="/UploadUserFileSL" enctype="multipart/form-data">
             <div class="input-group">

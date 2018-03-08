@@ -39,17 +39,23 @@ public class ElectionSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*int id = Integer.parseInt(request.getQueryString().split("/?")[1]);
-        ElectionData ed = (ElectionData) request.getAttribute("election");
-        CandidateData cd = ed.getLiCandidates().get(id);
+        if (request.getParameter("candidateID") != null)
+        {
+            int id = Integer.parseInt(request.getParameter("candidateID"));
+            ElectionData ed = (ElectionData) request.getAttribute("election");
+            CandidateData cd = ed.getLiCandidates().get(id);
 
-        try (PrintWriter out = response.getWriter()) {
-            out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
-                    cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
+            try (PrintWriter out = response.getWriter()) {
+                out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
+                        cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
+                out.flush();
 
-        }*/
-        RequestDispatcher rd = request.getRequestDispatcher("ElectionUI.jsp");
-        rd.forward(request, response);
+            }
+        }
+        else{
+            RequestDispatcher rd = request.getRequestDispatcher("ElectionUI.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -59,7 +65,7 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       /* int val = Integer.parseInt(req.getParameter("optradio"));
+        int val = Integer.parseInt(req.getParameter("optradio"));
         ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
@@ -79,7 +85,6 @@ public class ElectionSL extends HttpServlet {
         } else {
             resp.sendRedirect("ThankYouUI.jsp");
         }
-        */
 
        processRequest(req, resp);
     }
