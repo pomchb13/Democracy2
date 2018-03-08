@@ -90,7 +90,7 @@ public class UploadUserFileSL extends HttpServlet {
                 status = "Bitte nur Zahlen größer 0 eingeben";
             }
         } catch (Exception ex) {
-            status = "Bitte nur Zahlen eingeben"
+            status = "Bitte nur Zahlen eingeben";
         }
 
         req.setAttribute("status", status);
