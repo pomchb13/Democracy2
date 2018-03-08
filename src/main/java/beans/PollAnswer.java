@@ -1,37 +1,27 @@
 package beans;
 
+/**
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     beans class responsible for the PollAnswer object.
+ */
 public class PollAnswer {
 
-    /* Title of the answer */
     private String title;
-    /* Description of the answer */
     private String description;
-
     private int voteCount;
 
 
-    /**
-     *
-     * @param title
-     * @param description
-     */
     public PollAnswer(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
-    /**
-     *
-     * @param title
-     * @param description
-     * @param voteCount
-     */
     public PollAnswer(String title, String description, int voteCount) {
         this.title = title;
         this.description = description;
         this.voteCount = voteCount;
     }
-
 
     public String getTitle() {
         return title;

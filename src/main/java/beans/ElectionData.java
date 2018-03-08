@@ -4,47 +4,25 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
- * Created by Leonhard on 13.08.2017.
- * Not finished --> Only a suggestion
- * Not sure how to handle the party, politician conflict
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     beans class responsible for the ElectionData objects.
+ *                  The object contains a list of all candidates of the election.
  */
 public class ElectionData {
 
-    /* Title of the ElectionDataOld */
     private String title;
-    /* Startdate of the ElectionDataOld */
     private LocalDate date_from;
-    /* Enddate of the ElectionDataOld */
     private LocalDate date_due;
-
     private boolean show_diagrams;
-    /* List where all Candidates where saved */
     private LinkedList<CandidateData> liCandidates;
 
-    /**
-     *
-     * @param title
-     * @param date_from
-     * @param date_due
-     * @param show_diagrams
-     */
     public ElectionData(String title, LocalDate date_from, LocalDate date_due, boolean show_diagrams) {
         this.title = title;
         this.date_from = date_from;
         this.date_due = date_due;
         this.show_diagrams = show_diagrams;
         this.liCandidates = new LinkedList<>();
-    }
-
-    @Override
-    public String toString() {
-        return "ElectionData{" +
-                "title='" + title + '\'' +
-                ", date_from=" + date_from +
-                ", date_due=" + date_due +
-                ", show_diagrams=" + show_diagrams +
-                ", liCandidates=" + liCandidates +
-                '}';
     }
 
     public String getTitle() {
@@ -85,5 +63,16 @@ public class ElectionData {
 
     public void setLiCandidates(LinkedList<CandidateData> liCandidates) {
         this.liCandidates = liCandidates;
+    }
+
+    @Override
+    public String toString() {
+        return "ElectionData{" +
+                "title='" + title + '\'' +
+                ", date_from=" + date_from +
+                ", date_due=" + date_due +
+                ", show_diagrams=" + show_diagrams +
+                ", liCandidates=" + liCandidates +
+                '}';
     }
 }

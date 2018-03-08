@@ -22,9 +22,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Patrick on 01.08.2017.
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     Class responsible for handling an election.
+ *                  All methods of the contract are implemented in this handler.
+ *                  The communication between java and the Blockchain is also implemented here.
  */
-
 public class ElectionHandler {
 
     private Web3j web3;
@@ -56,7 +59,7 @@ public class ElectionHandler {
      * @param dateFrom:      start date of the election
      * @param dateDue:       end date of the election
      * @param showDiagram:   boolean if a diagram is shown on the web page
-     * @return
+     * @return address of the contract
      * @throws Exception if an error occurs
      */
     //TODO: souts entfernen

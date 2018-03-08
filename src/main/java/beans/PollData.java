@@ -4,29 +4,19 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
- * Created by Leonhard on 16.08.2017.
- * Not finished --> Only a suggestion
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     beans class responsible for the PollData objects.
+ *                  The object contains a list of all PollAnswers of a poll.
  */
 public class PollData {
 
-    /* Tite of the PollContract */
     private String title;
-    /* Startdate of the PollContract */
     private LocalDate date_from;
-    /* Enddate of the PollContract */
     private LocalDate date_due;
-    /* Option to show or not to show diagrams */
     private boolean diagramOption;
-    /* List of all Answers */
     private LinkedList<PollAnswer> answerList;
 
-    /**
-     *
-     * @param title
-     * @param date_from
-     * @param date_due
-     * @param diagramOption
-     */
     public PollData(String title, LocalDate date_from, LocalDate date_due, boolean diagramOption) {
         this.title = title;
         this.date_from = date_from;
@@ -35,16 +25,7 @@ public class PollData {
         this.answerList = new LinkedList<>();
     }
 
-    @Override
-    public String toString() {
-        return "PollContract{" +
-                "title='" + title + '\'' +
-                ", date_from=" + date_from +
-                ", date_due=" + date_due +
-                ", diagramOption=" +diagramOption +
-                ", answerList="+answerList +
-                '}';
-    }
+
 
     public boolean isDiagramOption() {
         return diagramOption;
@@ -84,5 +65,16 @@ public class PollData {
 
     public void setAnswerList(LinkedList<PollAnswer> answerList) {
         this.answerList = answerList;
+    }
+
+    @Override
+    public String toString() {
+        return "PollData{" +
+                "title='" + title + '\'' +
+                ", date_from=" + date_from +
+                ", date_due=" + date_due +
+                ", diagramOption=" + diagramOption +
+                ", answerList=" + answerList +
+                '}';
     }
 }

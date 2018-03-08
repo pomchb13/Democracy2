@@ -21,7 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Patrick on 03.01.2018.
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     Class responsible for handling a poll.
+ *                  All methods of the contract are implemented in this handler.
+ *                  The communication between java and the Blockchain is also implemented here.
  */
 public class PollHandler {
 
@@ -55,7 +59,7 @@ public class PollHandler {
      * @param dateFrom:    start date of the poll
      * @param dateDue:     end date of the poll
      * @param showDiagram: boolean if a diagram is shown on the web page
-     * @return
+     * @return address of the contract
      * @throws Exception if an error occurs
      */
     public String createContract(int numAnswers, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {

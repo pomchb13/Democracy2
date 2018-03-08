@@ -13,6 +13,14 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     Class responsible for handling the admins of elections and polls.
+ *                  All methods of the contract are implemented in this handler.
+ *                  The communication between java and the Blockchain is also implemented here.
+ */
+
 public class AdminHandler {
 
     private Web3j web3;
@@ -25,21 +33,45 @@ public class AdminHandler {
         credentials = BlockchainUtil.loginToBlockhain("0xdcc97f1bd80b47137480d2a3d9a54a0af6aa92be", "1234");
     }
 
+    /**
+     * Constructor to initiliaze the web3j web-service
+     *
+     * @param credentials: credentials of the user (wallet file)
+     */
     public AdminHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
     }
 
+    /**
+     * Method responsible for creating a new admin contract
+     *
+     * @return address of the contract
+     * @throws Exception if an error occurs
+     */
     public String createSmartContract() throws Exception {
         admin = AdminContract.deploy(web3, credentials, new BigInteger("0"), new BigInteger("4700000")).send();
         return admin.getContractAddress();
     }
 
+    /**
+     * Method responsible for loading an existing contrat with a specific address
+     *
+     * @param address: address of the contract
+     * @return address of the contract
+     */
     public String loadSmartContract(Address address) {
         admin = AdminContract.load(address.toString(), web3, credentials, new BigInteger("0"), new BigInteger("4700000"));
         return admin.getContractAddress();
     }
 
+    /**
+     * Method responsible for checking if a user is admin
+     *
+     * @param address: address of a user
+     * @return true if the user is admin, false if the user is not admin
+     * @throws Exception if the admin contract is not loaded
+     */
     public boolean checkIfAdmin(Address address) throws Exception {
         if (admin != null) {
             System.out.println("in checkIfAdmin ---- Admin Handler");
@@ -48,10 +80,33 @@ public class AdminHandler {
             throw new Exception("admin object is null!");
         }
     }
-    public int getAdminCount() throws Exception {
-       return admin.getAdminCount().send().intValue();
+
+    /**
+     * Method responsible for getting the current amount of admins
+     *
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @return amount of admins
+     * @throws Exception if the admin contract is not loaded
+     */
+    public int getAdminCount(Address senderAddress) throws Exception {
+        if (checkIfAdmin(senderAddress)) {
+            if (admin != null) {
+                return admin.getAdminCount().send().intValue();
+            } else {
+                throw new Exception("admin object is null!");
+            }
+        } else {
+            throw new Exception("sender address is not allowed to perform this operation!");
+        }
     }
 
+    /**
+     * Method responsible for getting all admins
+     *
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @return list of all admins
+     * @throws Exception if the admin contract is not loaded
+     */
     public List<Address> getAllAdmins(Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
@@ -71,6 +126,13 @@ public class AdminHandler {
 
     }
 
+    /**
+     * Method responsible for getting all stored contract addresses
+     *
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @return list of contract addresses
+     * @throws Exception if the admin contract is not loaded
+     */
     public List<Address> getAllContractAddresses(Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
@@ -88,6 +150,32 @@ public class AdminHandler {
         }
     }
 
+    /**
+     * Method responsible for getting the current amount of contracts
+     *
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @return amount of contracts
+     * @throws Exception if the admin contract is not loaded
+     */
+    public int getContractCount(Address senderAddress) throws Exception {
+        if (checkIfAdmin(senderAddress)) {
+            if (admin != null) {
+                return admin.getContractCount().send().intValue();
+            } else {
+                throw new Exception("admin object is null!");
+            }
+        } else {
+            throw new Exception("sender address is not allowed to perform this operation!");
+        }
+    }
+
+    /**
+     * Method responsible for adding a new admin to the contract
+     *
+     * @param address:       address of the new admin
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @throws Exception if the admin contract is not loaded
+     */
     public void addAdminAddress(Address address, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
@@ -101,6 +189,13 @@ public class AdminHandler {
         }
     }
 
+    /**
+     * Method responsible for adding a contract address
+     *
+     * @param address:       address of the contract
+     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @throws Exception if the admin contract is not loaded
+     */
     public void addContractAddress(Address address, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {

@@ -20,10 +20,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.List;
 
-//TODO: Class-header, Autor, Datum, Klassenbeschreibung
-
 /**
- * Created by Patrick Windegger on 05.03.2018.
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     GUI for the blockchain app for admins, to start the private Blockchain environment,
+ *                  deploy the admin-contract and create new admins.
+ *
  */
 public class BlockchainAppGUI extends JFrame {
 

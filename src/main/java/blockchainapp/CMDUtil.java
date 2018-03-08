@@ -2,9 +2,11 @@ package blockchainapp;
 
 import java.io.IOException;
 
-//TODO: Class-header, Autor, Datum, Klassenbeschreibung
 /**
- * Created by Patrick Windegger on 05.03.2018.
+ * Author:          Patrick Windegger
+ * Created on:
+ * Description:     Class responsible for opening command prompts with certain commands/parameters to start
+ *                  the private Blockchain environment.
  */
 public class CMDUtil {
 
