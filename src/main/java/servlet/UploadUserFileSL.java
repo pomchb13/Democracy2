@@ -85,7 +85,7 @@ public class UploadUserFileSL extends HttpServlet {
                         (VoteType) this.getServletContext().getAttribute("newTypeOfVote"),
                         (Credentials) req.getSession().getAttribute("credentials"),
                         count_voter);
-                this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists") + File.separator + f.getName());
+                this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlxs"));
 
                 status = "File wurde erfolgreich hochgeladen!";
             } else {
