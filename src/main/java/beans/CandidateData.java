@@ -1,12 +1,11 @@
 package beans;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.time.LocalDate;
 
 /**
- * Created by Leonhard on 16.08.2017.
- * Not finished --> Only a suggestion
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     beans class responsible for the CandidateData object
  */
 public class CandidateData {
 
@@ -24,7 +23,7 @@ public class CandidateData {
     private String slogan;
     /* Picture of the politican */
     private String portraitPath;
-
+    /* number of votes for the candidate */
     private int voteCount;
 
     /**

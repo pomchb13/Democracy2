@@ -4,6 +4,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+/**
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     class for generate hash of password and username
+ */
+
 public class HashGenerator {
 
     // implement the HashGenerator as a singleton class
@@ -38,6 +44,7 @@ public class HashGenerator {
             md.update(salt);
 
             // encrypt username, password and salt
+            // input - the input to be updated before the digest is completed.
             byte[] bytes = md.digest(passwordAndUsername.getBytes());
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < bytes.length; i++) {

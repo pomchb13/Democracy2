@@ -18,8 +18,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Created by Ewald on 22.02.2018.
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     Servlet to logout the user
  */
+
 @WebServlet(urlPatterns = {"/LogoutSL"})
 public class LogoutSL extends HttpServlet {
     private LoggedUsers lU = LoggedUsers.getInstance();

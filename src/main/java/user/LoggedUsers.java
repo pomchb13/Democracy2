@@ -4,6 +4,12 @@ import beans.RightEnum;
 
 import java.util.*;
 
+/**
+ * Author:          Ewald Hartmann
+ * Created on:
+ * Description:     class contains all user which are logged in.
+ */
+
 public class LoggedUsers {
 
     private Map<String, RightEnum> tokenList = new HashMap<>();

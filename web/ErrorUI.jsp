@@ -37,9 +37,7 @@
         <br>
         <!-- Error text -->
         <div class="alert alert-danger" id="Error">
-            <strong>Achtung!</strong> <br> Beim Eintragen Ihrer Stimme ist ein Fehler aufgetreten. <br><br> Bitte melden
-            Sie sich schnellstmöglichst bei Ihrem Gemeindeamt, damit der Fehler behoben werden kann. <br> Danke für Ihr
-            Verständnis!
+            <strong>Achtung!</strong> <br> Es gibt Propleme beim unseren Servern. <br> Es muss zuerst ein Contract erstellt werden.
         </div>
     </div>
 

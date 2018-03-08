@@ -1,204 +1,150 @@
 /**
- * Author:          Ewald Hartmann
- * Created on:
- * Description:     In our Default CSS file we define all styles we want to add to our bootstrap html elements. We don't
- *                  have many styles saved here, because bootstrap has it's own css file and we just wanted to add some
- *                  small things.
- */
+* Author:          Ewald Hartmann
+* Created on:
+* Description:     design for all classes
+*/
 
 body {
-    /*background: url(../images/Background.jpg) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    zoom: 130%;*/
+    /*
+       background: url(../images/Background.jpg) no-repeat center center fixed;
+       -webkit-background-size: cover;
+       -moz-background-size: cover;
+       -o-background-size: cover;
+       background-size: cover;
+       zoom: 130%;
+    */
     background-color: #ffffff;
 }
 .container {
-    height: 90%;
-    width: 80%;
+    height: 90%; /* set the height of all classes */
+    width: 80%; /* set the width of all classes */
 
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
+    margin-top: auto; /* imported for responsibility */
+    margin-bottom: auto; /* imported for responsibility */
+    margin-right: auto; /* imported for responsibility */
+    margin-left: auto; /* imported for responsibility */
+    text-align: center; /* set everything center */
 }
 
 #container{
-    height: 90%;
-    width: 80%;
+    height: 90%; /* set the height of all classes */
+    width: 80%; /* set the width of all classes */
 
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-}
-/*.loginText {
-
+    margin-top: auto; /* imported for responsibility */
+    margin-bottom: auto; /* imported for responsibility */
+    margin-right: auto; /* imported for responsibility */
+    margin-left: auto; /* imported for responsibility */
+    text-align: center; /* set everything center */
 }
 
-.activeVotes {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
-}
-
-.newVote {
-    margin-top: 40px;
-    margin-bottom: 100px;
-    margin-right: 150px;
-    margin-left: 150px;
-}
-
-.newRef {
-    margin-top: 40px;
-    margin-bottom: 100px;
-    margin-right: 150px;
-    margin-left: 150px;
-}
-.voteDiv {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
-}
-
-.chartEvaluation {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
-}
-
-#success {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-right: 200px;
-    margin-left: 200px;
-    font-size: 16px;
-}
-
-#error {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    margin-right: 200px;
-    margin-left: 200px;
-    font-size: 16px;
-    color: red;
-}
-*/
 .candDiv {
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    padding-top: 25px;
+    margin-left: 50px; /* move 50 px in */
+    margin-right: 50px; /* move 50 px in */
+    margin-top: 50px; /* move 50 px in */
+    margin-bottom: 50px; /* move 50 px in */
+    padding-left: 25px; /* space between its content and its border */
+    padding-right: 25px; /* space between its content and its border */
+    padding-bottom: 25px; /* space between its content and its border */
+    padding-top: 25px; /* space between its content and its border */
 
-    border: 1px solid black; /* Border muss noch angepasst werden*/
+    border: 1px solid black; /* Border around the div*/
 
 }
 
 input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none; /* remove button spinner */
+    margin: 0; /* ser margin */
 }
 
 .refTable {
-    width: 100%;
+    width: 100%; /* width of the table*/
 }
 
 
 
 .navbar-custom {
-    color: #000000;
-    background-color: #ffffff;
+    color: #000000; /* set font color */
+    background-color: #ffffff; /* set background-color*/
 }
 
 .h1 {
-    color: black;
+    color: black; /* set font color */
 }
 
 .nav.navbar-nav li a {
-    font-weight: bold;
-    font-size: 110%;
+    font-weight: bold; /* set element li an a bold*/
+    font-size: 110%; /* set element li an a to the size 110%*/
 }
 
 .titleID {
-    font-size: 150%;
+    font-size: 150%; /* set the front size 150%*/
 }
 
 .footer {
-    position: fixed;
+    position: fixed; /* fix footer at bot*/
     bottom: 0;
-    width: 100%;
-    z-index: 900;
-    height: 50px;
-    background-color: #ffffff;
-    font-size: 110%;
-    font-weight: bold;
-    overflow: hidden;
+    width: 100%; /* width of the footer*/
+    z-index: 900; /* set stack order of an element */
+    height: 50px; /* set the height to 50px */
+    background-color: #ffffff; /* set the background color*/
+    font-size: 110%; /* set element li an a to the size 110%*/
+    font-weight: bold; /* set element li an a bold*/
+    overflow: hidden; /* set the overflow hidden*/
 }
 
 .navbar {
-    overflow: hidden;
-    background-color: #333;
-    position: fixed;
+    overflow: hidden;  /* set the overflow hidden*/
+    background-color: #333; /* set the color */
+    position: fixed; /* fix navbar at top*/
     top: 0;
-    width: 100%;
-    z-index: 900;
+    width: 100%; /* width of the navbar*/
+    z-index: 900; /* set stack order of an element */
 }
 
 .navbar a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+    float: left; /* set text left */
+    display: block; /* set the display type to block */
+    color: #f2f2f2; /* set front color white */
+    text-align: center; /* set navbar center */
+    padding: 14px 16px; /* set pedding */
+    text-decoration: none; /* set text decoration to none */
+    font-size: 17px; /* set front size */
 }
 
 .navbar a:hover {
-    background: #ddd;
-    color: black;
+    background: #ddd; /* set background color white by hover */
+    color: black; /* set front color black by hover*/
 }
 
 .c3-axis-y-label {
-    font-size: 12px;
-    font-family: "Courier New";
+    font-size: 12px; /* set front size to 12px */
+    font-family: "Courier New"; /* set front family to Courier New*/
 }
 
 .c3-axis-x-label {
-    font-size: 12px;
-    font-family: "Courier New";
+    font-size: 12px; /* set front size to 12px */
+    font-family: "Courier New"; /* set front family to Courier New*/
 }
 #inputPicture{
-    height: 3%;
+    height: 3%; /* set height to 3% */
 }
 #inputExcel{
-    height: 3%;
+    height: 3%; /* set height to 3% */
 }
 
 #hiddenPoll {
-    visibility: hidden;
+    visibility: hidden; /* set div hidden */
 }
 #hiddenVote {
-    visibility: hidden;
+    visibility: hidden; /* set div hidden */
 }
 #hiddenFoto {
-    visibility: hidden;
+    visibility: hidden; /* set div hidden */
 }
 
 #hiddenId {
-    visibility: hidden;
+    visibility: hidden; /* set div hidden */
 }
 
 

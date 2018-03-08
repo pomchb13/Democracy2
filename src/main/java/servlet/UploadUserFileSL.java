@@ -79,12 +79,12 @@ public class UploadUserFileSL extends HttpServlet {
         try {
             int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_cand_Title")));
             if (count_voter > 0) {
-                /* userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/res/userLists"),
+                 userCreat.createNewUsers(fileName, this.getServletContext().getRealPath("/res/userLists"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
                         (String) this.getServletContext().getAttribute("newContractAdress"),
                         (VoteType) this.getServletContext().getAttribute("newTypeOfVote"), (Credentials) req.getSession().getAttribute("credentials"));
                 this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists") + File.separator + f.getName());
-                */
+
                 status = "File wurde erfolgreich hochgeladen!";
             } else {
                 status = "Bitte nur Zahlen größer 0 eingeben";
