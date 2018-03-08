@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class ExcelHandler {
@@ -89,5 +90,65 @@ public class ExcelHandler {
         out.close();
     }
 
+
+    public static void createExcelFile(String file, TreeMap<String,String> map,int anzSheets) throws IOException {
+        Workbook w = new XSSFWorkbook();
+        int anzvotersWroteout=0;
+        int sheetIndex=0;
+        int rowIndex=1;
+        for(int i=0;i<anzSheets;i++)
+        {
+            Sheet sheet = w.createSheet("Users_"+i);
+            sheet.createRow(0).createCell(0).setCellValue("ID");
+            sheet.createRow(0).createCell(1).setCellValue("Username");
+            sheet.createRow(0).createCell(2).setCellValue("Password");
+
+        }
+        Sheet sheet = w.getSheetAt(0);
+
+        for(Map.Entry<String,String> entry:map.entrySet())
+        {
+            sheet.createRow(rowIndex).createCell(0).setCellValue(anzvotersWroteout);
+            sheet.createRow(rowIndex).createCell(1).setCellValue(entry.getKey());
+            sheet.createRow(rowIndex).createCell(2).setCellValue(entry.getValue());
+            if(anzvotersWroteout%1048575==0)
+            {
+                sheet = w.getSheetAt(sheetIndex++);
+                rowIndex=1;
+            }
+            rowIndex++;
+            anzvotersWroteout++;
+        }
+
+
+
+
+
+
+
+
+
+
+    /*    Workbook w = new XSSFWorkbook();
+        Sheet sheet = w.createSheet("Users");
+        Row row = sheet.createRow(0);
+        row.createCell(0).setCellValue("ID");
+        row.createCell(1).setCellValue("Username");
+        row.createCell(2).setCellValue("Password");
+        int rowIndex = 1;
+
+        for(Map.Entry<String,String> entry:map.entrySet())
+        {
+            Row r = sheet.createRow(rowIndex);
+            r.createCell(0).setCellValue(rowIndex);
+            r.createCell(1).setCellValue(entry.getKey());
+            r.createCell(2).setCellValue(entry.getValue());
+            rowIndex++;
+        }
+*/
+        FileOutputStream out = new FileOutputStream(new File(file));
+        w.write(out);
+        out.close();
+    }
 
 }

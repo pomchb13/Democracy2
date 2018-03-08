@@ -96,6 +96,40 @@ public class UserCreator {
     }
 
 
+    public void createNewUsers(String path,String walletPath,String contractAddress,VoteType vt, Credentials cr, int anzVoters) throws Exception {
+        int anzSheets = (int) StrictMath.ceil(anzVoters/1048576);
+        TreeMap<String, String> map = new TreeMap<>();
+        ElectionHandler el = null;
+        PollHandler pl=null;
+        if(vt.equals(VoteType.ELECTION))
+        {
+            el= new ElectionHandler(cr);
+            el.loadSmartContract(new Address(contractAddress));
+        }
+        else
+        {
+            pl = new PollHandler(cr);
+            pl.loadSmartContract(new Address(contractAddress));
+        }
+        for(int i=0;i<=anzVoters;i++)
+        {
+            String password = PasswordGenerator.createPassword(PASSWORDLENGTH);
+            String username = createNewUserAddress(password,walletPath);
+            map.put(username,password);
+            if(vt.equals(VoteType.ELECTION))
+            {
+                el.giveRightToVote(new Address(username));
+            }
+            else
+            {
+                pl.giveRightToVote(new Address(username));
+            }
+        }
+        ExcelHandler.createExcelFile(path,map,anzSheets);
+
+
+    }
+
     /**
      * Main-method for testing purposes
      * @param args
