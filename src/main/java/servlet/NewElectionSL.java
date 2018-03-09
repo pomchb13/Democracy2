@@ -189,15 +189,10 @@ public class NewElectionSL extends HttpServlet {
                 // add election to blockchain
                 String newContractAdress = election.createContract(electionData.getLiCandidates().size(), electionData.getTitle(), electionData.getDate_from(),
                         electionData.getDate_due(), electionData.isShow_diagrams());
-                try {
-                    AdminHandler adminHandler = new AdminHandler(cr);
-                    adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
-                    adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
+
+                AdminHandler adminHandler = new AdminHandler(cr);
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+                adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
                 System.out.println("Election saved in Blockchain");
                 List<CandidateData> liPolit = electionData.getLiCandidates();
                 for (int i = 0; i < liPolit.size(); i++) {
@@ -215,6 +210,7 @@ public class NewElectionSL extends HttpServlet {
                 // forward to UploadUserFileSL
                 resp.sendRedirect("/UploadUserFileSL");
             } catch (Exception e) {
+                e.printStackTrace();
                 req.setAttribute("errorComplete", "Fehler beim Speichern der kompletten Wahl auf der Blockchain");
             }
         }

@@ -1,17 +1,14 @@
 package user;
 
 import beans.User;
-import handler.AdminHandler;
-import handler.ElectionHandler;
+import handler.*;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
-import handler.PollHandler;
 import beans.VoteType;
-import handler.ExcelHandler;
 import util.AdminReader;
 import util.PasswordGenerator;
 
@@ -110,11 +107,14 @@ public class UserCreator {
             pl = new PollHandler(cr);
             pl.loadSmartContract(new Address(contractAddress));
         }
+        TransactionHandler th = new TransactionHandler(cr);
+
         for (int i = 0; i < anzVoters; i++) {
             String password = PasswordGenerator.createPassword(PASSWORDLENGTH);
             String username = createNewUserAddress(password, walletPath);
             map.put(username, password);
             ah.addContractAddressToVoter(new Address(contractAddress),new Address(username),new Address(cr.getAddress()));
+            th.sendTransaction(new Address(username));
             if (vt.equals(VoteType.ELECTION)) {
                 el.giveRightToVote(new Address(username));
 
