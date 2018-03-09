@@ -67,7 +67,10 @@ public class LoginSL extends HttpServlet {
         // read useranme and password
         String username = ServletUtil.filter((String) req.getParameter("username"));
         String password = ServletUtil.filter((String) req.getParameter("password"));
-
+        if (username.isEmpty() || password.isEmpty()) {
+            resp.sendRedirect("/LoginUI.jsp");
+        }
+        int tries = (int) req.getSession().getAttribute("tries");
         // check if there is more then one try left
         if ((int) req.getSession().getAttribute("tries") > 0) {
             try {
@@ -144,6 +147,8 @@ public class LoginSL extends HttpServlet {
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
                             } else if (!ed.getDate_from().isAfter(LocalDate.now())) {
                                 //TODO: seite mit wahl beginnt erst
+                                this.getServletContext().setAttribute("timer", ed.getDate_due().toString());
+                                resp.sendRedirect("/TimerUI.jsp");
                             } else {
                                 // forward to ElectionUI
                                 HttpSession ses = req.getSession();
@@ -157,13 +162,27 @@ public class LoginSL extends HttpServlet {
                                 PollHandler ph = new PollHandler(cr);
                                 ph.loadSmartContract(new Address(contractAddress));
                                 PollData pd = ph.getPollData();
+                                LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
+                                for (int i = 0; i < 100; i++) {
+                                    try {
+                                        liPollAnswer.add(ph.getAnswerData(i));
+                                    } catch (Exception e) {
+                                        System.out.println("keine Antwort mehr");
+                                        break;
+                                    }
+                                }
+                                pd.setAnswerList(liPollAnswer);
                                 HttpSession ses = req.getSession();
                                 ses.setAttribute("poll", pd);
                                 ses.setMaxInactiveInterval(15 * 60);
                                 // check if user has already voted
-                                if (ph.getAlreadyVotedForVoter(new Address(cr.getAddress()))) {
+                                if (ph.getAlreadyVotedForVoter(new Address(cr.getAddress())) || pd.getDate_due().isBefore(LocalDate.now())) {
                                     // forwald to EvaluationBarChartUI
                                     resp.sendRedirect("EvaluationBarChartUI.jsp");
+                                } else if (!pd.getDate_from().isAfter(LocalDate.now())) {
+                                    //TODO: seite mit wahl beginnt erst
+                                    this.getServletContext().setAttribute("timer", pd.getDate_due().toString());
+                                    resp.sendRedirect("/TimerUI.jsp");
                                 } else {
                                     // forwald to PollUI
                                     resp.sendRedirect("PollUI.jsp");
@@ -196,15 +215,16 @@ public class LoginSL extends HttpServlet {
                     resp.sendRedirect("ErrorUI.jsp");
                 }
             } catch (Exception e) {
-                int tries = (int) req.getSession().getAttribute("tries");
                 if (tries > 1) {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
                 } else {
                     req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
                 }
                 req.getSession().setAttribute("tries", tries);
+                resp.sendRedirect("/LoginUI.jsp");
             }
-
+        } else {
+            resp.sendRedirect("ErrorUI.jsp");
         }
     }
 
