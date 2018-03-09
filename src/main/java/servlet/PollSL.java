@@ -2,11 +2,13 @@ package servlet;
 
 import beans.PollData;
 import beans.RightEnum;
+import handler.AdminHandler;
 import handler.PollHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
+import util.AdminReader;
 import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -68,24 +70,23 @@ public class PollSL extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int val = Integer.parseInt(req.getParameter("optradio"));
-        PollHandler handler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
+        int val = Integer.parseInt(req.getParameter("optradio").trim());
+        PollHandler pollHandler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
-        String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
-        if (!address.isEmpty()) {
+        String address = null;
             try {
-                handler.giveRightToVote(new Address(address));
-                handler.vote(new Uint8(val),new Address(address));
+                Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+                AdminHandler adminHandler = new AdminHandler(user);
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin")));
+                address= lu.getAddessOfHash((String)req.getSession().getAttribute("hash"));
+                Address contractAddress= adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+                pollHandler.loadSmartContract(contractAddress);
+                pollHandler.vote(new Uint8(val),new Address(address));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        PollData pollData = (PollData) req.getSession().getAttribute("poll");
-        if (pollData.isDiagramOption()) {
-            resp.sendRedirect("EvaluationBarChartUI.jsp");
-        } else {
-            resp.sendRedirect("ThankYouUI.jsp");
-        }
+        processRequest(req,resp);
+
     }
 
     /**
