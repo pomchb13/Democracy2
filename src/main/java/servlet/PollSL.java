@@ -82,6 +82,13 @@ public class PollSL extends HttpServlet {
                 Address contractAddress= adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
                 pollHandler.loadSmartContract(contractAddress);
                 pollHandler.vote(new Uint8(val),new Address(address));
+                PollData pd = pollHandler.getPollData();
+                if (pd.isDiagramOption()) {
+                    req.setAttribute("Chart", pd);
+                    resp.sendRedirect("EvaluationBarChartUI.jsp");
+                }else {
+                    resp.sendRedirect("ThankYouUI.jsp");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
