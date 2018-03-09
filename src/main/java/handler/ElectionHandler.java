@@ -190,7 +190,9 @@ public class ElectionHandler {
             String slogan = election.getCandidate(candidate).send().getValue6();
             LocalDate ldBirthday = Instant.ofEpochMilli(birthday.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
             BigInteger voteCount = election.getCandidate(candidate).send().getValue7();
-            return new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
+            CandidateData data = new CandidateData(title, firstname, lastname, ldBirthday, party, slogan, voteCount.intValue());
+            data.setPortraitPath(getCandidateImagePath(candidateIndex));
+            return data;
         } else {
             throw new Exception("election object is null!");
         }
@@ -251,6 +253,12 @@ public class ElectionHandler {
         }
     }
 
+    /**
+     * Method responsible for getting the path to the image of the candidate
+     * @param candidateIndex: index of the candidate
+     * @return the path to the image of the candidate
+     * @throws Exception if the election contract is not loaded
+     */
     public String getCandidateImagePath(int candidateIndex) throws Exception {
         if (election != null) {
             return election.getCandidateImagePath(new BigInteger(candidateIndex + "")).send();
