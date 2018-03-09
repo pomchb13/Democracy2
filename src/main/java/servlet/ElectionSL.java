@@ -12,6 +12,7 @@ import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
 import util.AdminReader;
 import util.BlockchainUtil;
+import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -45,6 +46,7 @@ public class ElectionSL extends HttpServlet {
         System.out.println(request.getParameter("candidateID"));
         if (request.getParameter("candidateID") != null) {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
+            System.out.println("ID: "+id);
             ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
             //request.setAttribute("candidateID", null);
@@ -83,10 +85,17 @@ public class ElectionSL extends HttpServlet {
             electionHandler.vote(new Uint8(val), new Address(address));
             System.out.println(electionHandler.getCandidateData(val).getVoteCount());
             System.out.println("after vote");
+            ElectionData ed = electionHandler.getElectionData();
+            if (ed.isShow_diagrams()) {
+                req.setAttribute("Chart", ed);
+                resp.sendRedirect("EvaluationBarChartUI.jsp");
+            }else {
+                resp.sendRedirect("ThankYouUI.jsp");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        processRequest(req, resp);
+        //processRequest(req, resp);
     }
 
 }

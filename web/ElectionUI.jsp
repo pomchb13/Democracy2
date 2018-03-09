@@ -2,7 +2,8 @@
 <%@ page import="beans.ElectionData" %>
 <%@ page import="beans.CandidateData" %>
 <%@ page import="user.LoggedUsers" %>
-<%@ page import="beans.RightEnum" %><%--
+<%@ page import="beans.RightEnum" %>
+<%@ page import="util.ServletUtil" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -58,7 +59,7 @@
     <br>
     <!--  Shows the question of the vote -->
     <div class="voteQuestion">
-        <h3>Bitte wählen Sie einen der folgenedn Kanditaten aus. </h3>
+        <h3>Bitte wählen Sie einen der folgenden Kanditaten aus. </h3>
     </div>
     <br>
     <form method="post" action="/ElectionSL">
@@ -71,11 +72,11 @@
                     out.println("<ul class=\"list-group\">");
                     out.println("    <li class=\"list-group-item\">");
                     out.println("        <div class=\"radio\">");
-                    out.println("            <label><input type=\"radio\" name=\"optradio\" value=\" " + count++ + " \" >"
-                            + cd.getTitle() + " "
-                            + cd.getSurname().toUpperCase() + " "
-                            + cd.getForename() + "</label>");
-                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" onClick=\"reply_click(this.name)\" ><span");
+                    out.println("            <label><input type=\"radio\" name=\"optradio\" value=\" " + count + " \" >"
+                            + ServletUtil.filter(cd.getTitle()) + " "
+                            + ServletUtil.filter(cd.getSurname().toUpperCase()) + " "
+                            + ServletUtil.filter(cd.getForename()) + "</label>");
+                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\""+count++ +"\" onClick=\"reply_click(this.name)\" ><span");
                     out.println("                    class=\"glyphicon glyphicon-info-sign\"");
                     out.println("                      ></span></button>");
                     out.println("        </div>");

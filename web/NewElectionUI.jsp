@@ -225,7 +225,7 @@
         <form action="/NewElectionSL" id="form3" method="post">
             <div class="submitButton">
                 <button type="submit" class="btn btn-primary" name="actionButton"
-                        value="forward"> Weiter zum Upload des Wählerverzeichnisses <span
+                        value="forward"> Weiter zur Generierung der Userkeys<span
                         class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
