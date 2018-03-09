@@ -24,7 +24,6 @@ public class TransactionHandler {
 
 
     public void sendTransaction(Address to) throws Exception {
-        System.out.println(BigDecimal.valueOf(0.0001));
         Transfer.sendFunds(web3, credentials, to.toString(), BigDecimal.valueOf(0.0001), Convert.Unit.ETHER).send();
     }
 
