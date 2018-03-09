@@ -18,15 +18,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Author:          Patrick Windegger
  * Created on:
  * Description:     Class responsible for handling an election.
- *                  All methods of the contract are implemented in this handler.
- *                  The communication between java and the Blockchain is also implemented here.
+ * All methods of the contract are implemented in this handler.
+ * The communication between java and the Blockchain is also implemented here.
  */
 public class ElectionHandler {
 
@@ -252,20 +251,14 @@ public class ElectionHandler {
         }
     }
 
-    /**
-     * Method responsible for returning the correct contract address of the contract where the voter is allowed to vote
-     *
-     * @param address: address of the voter
-     * @return the contract address of the contract where the voter is allowed to vote
-     * @throws Exception if the election contract is not loaded
-     */
-    public String getContractAddressForVoter(Address address) throws Exception {
+    public String getCandidateImagePath(int candidateIndex) throws Exception {
         if (election != null) {
-            return election.getVoteAddressForVoter(address.toString()).send();
+            return election.getCandidateImagePath(new BigInteger(candidateIndex + "")).send();
         } else {
             throw new Exception("election object is null!");
         }
     }
+
 
     // for testing purpose only
     public static void main(String[] args) {

@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * Author:          Ewald Hartmann
  * Created on:
- * Description:     This Servlet java class is responsible for creating a new Poll and push it to the Blockchain. Before
- * the administrator is able to create a new Poll it also checks if the administrator is logged in correctly.
- * The creation of the new Poll could take a while because the PollHandler needs to push it to the Blockchain and
+ * Description:     This Servlet java class is responsible for creating a new PollContract and push it to the Blockchain. Before
+ * the administrator is able to create a new PollContract it also checks if the administrator is logged in correctly.
+ * The creation of the new PollContract could take a while because the PollHandler needs to push it to the Blockchain and
  * create all possible answers the administrator created.
  */
 
@@ -73,8 +73,8 @@ public class NewPollSL extends HttpServlet {
      *             creates the PollData-object saves it to the application scope. The CandidateList in the object is initialised but empty.
      *             The second section if responsible for creating an answer and adding it to the PollData-object in the application scope.
      *             In the else-section the doPost Method checks if the administrator is logged in correctly, creates a PollHandler object, to
-     *             communicate with the Blockchain, and then let the Blockchain create the Poll. This may take a while. After creating the
-     *             Poll the Blockchain needs to add the answers to the Poll. When everything did go will, we will be forwarded to the
+     *             communicate with the Blockchain, and then let the Blockchain create the PollContract. This may take a while. After creating the
+     *             PollContract the Blockchain needs to add the answers to the PollContract. When everything did go will, we will be forwarded to the
      *             "UploadUserFile.jsp" where we have to upload an excel sheet where all eligible voters are saved.
      * @throws ServletException
      * @throws IOException
@@ -142,7 +142,7 @@ public class NewPollSL extends HttpServlet {
 
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
-                //Method to create the Poll on the Blockchain
+                //Method to create the PollContract on the Blockchain
                 String contractAdress = pollTester.createContract(pollData.getAnswerList().size(),
                         pollData.getTitle(),
                         pollData.getDate_from(),
@@ -167,7 +167,7 @@ public class NewPollSL extends HttpServlet {
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> liAnswers = pollData.getAnswerList();
-            //Foreach loop is responsible for adding all answers to the Poll in the Blockchain
+            //Foreach loop is responsible for adding all answers to the PollContract in the Blockchain
             for (int i = 0; i < liAnswers.size(); i++) {
                 try {
                     pollTester.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());

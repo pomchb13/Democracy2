@@ -28,9 +28,9 @@ import java.util.List;
 /**
  * Author:          Leonhard Gangl
  * Created on:
- * Description:     This Servlet java class is responsible for creating a new Poll and push it to the Blockchain.
- *                  Before the administrator is able to create a new Poll it also checks if the administrator is logged
- *                  in correctly. The creation of the new Poll could take a while because the PollHandler needs to push
+ * Description:     This Servlet java class is responsible for creating a new PollContract and push it to the Blockchain.
+ *                  Before the administrator is able to create a new PollContract it also checks if the administrator is logged
+ *                  in correctly. The creation of the new PollContract could take a while because the PollHandler needs to push
  *                  it to the Blockchain and create all possible answers the administrator created.
  */
 
@@ -96,7 +96,7 @@ public class NewElectionSL extends HttpServlet {
                         && LocalDate.now().isBefore(vote_dueDate)
                         && vote_fromDate.isBefore(vote_dueDate)) {
 
-                    // create ne Election
+                    // create ne ElectionContract
                     ElectionData newElectionData = new ElectionData(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
                     System.out.println(newElectionData.toString());
 
@@ -193,7 +193,7 @@ public class NewElectionSL extends HttpServlet {
                 AdminHandler adminHandler = new AdminHandler(cr);
                 adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
                 adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
-                System.out.println("Election saved in Blockchain");
+                System.out.println("ElectionContract saved in Blockchain");
                 List<CandidateData> liPolit = electionData.getLiCandidates();
                 for (int i = 0; i < liPolit.size(); i++) {
 

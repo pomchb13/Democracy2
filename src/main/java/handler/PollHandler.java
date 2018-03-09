@@ -234,21 +234,6 @@ public class PollHandler {
         }
     }
 
-    /**
-     * Method responsible for returning the correct contract address of the contract where the voter is allowed to vote
-     *
-     * @param address: address of the voter
-     * @return the contract address of the contract where the voter is allowed to vote
-     * @throws Exception if the poll contract is not loaded
-     */
-    public String getContractAddressForVoter(Address address) throws Exception {
-        if (poll != null) {
-            return poll.getVoteAddressForVoter(address.toString()).send();
-        } else {
-            throw new Exception("poll object is null!");
-        }
-    }
-
 
     // for testing purpose only
     public static void main(String[] args) {
