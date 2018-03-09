@@ -55,7 +55,7 @@ public class EvaluationSL extends HttpServlet {
         String s = req.getParameter("actionbutton").trim();
         System.out.println(s);
 
-        // get both list from the session scope
+        // get both list from the session scope --> TODO: Listen direkt vom Handler gönnen
         LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
         LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
         for (ElectionData electionData : liElectionList) {

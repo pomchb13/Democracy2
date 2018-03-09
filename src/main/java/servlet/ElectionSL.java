@@ -87,7 +87,7 @@ public class ElectionSL extends HttpServlet {
             System.out.println("after vote");
             ElectionData ed = electionHandler.getElectionData();
             if (ed.isShow_diagrams()) {
-                req.setAttribute("Chart", ed);
+                req.getSession().setAttribute("Chart", ed);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
             }else {
                 resp.sendRedirect("ThankYouUI.jsp");

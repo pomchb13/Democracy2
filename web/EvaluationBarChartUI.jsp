@@ -52,17 +52,38 @@
                 data: {
                     columns: [
                         <%
+                            ElectionData ed1 = (ElectionData) request.getSession().getAttribute("Chart");
+
                             if(request.getAttribute("Chart") instanceof PollData) {
                                 PollData pd = (PollData) request.getAttribute("Chart");
                                 LinkedList<PollAnswer> liPollList = pd.getAnswerList();
-                                for (PollAnswer pa: liPollList) {
+                                /*for (PollAnswer pa: liPollList) {
                                     out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                }*/
+                                for (int i=0; i<liPollList.size(); i++)
+                                {
+                                    PollAnswer pa = liPollList.get(i);
+                                    if (i == liPollList.size()-1)
+                                    {
+                                        out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+                                    }
+                                    else{
+                                        out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                    }
                                 }
                             } else if (request.getAttribute("Chart") instanceof ElectionData){
                                 ElectionData ed = (ElectionData) request.getAttribute("Chart");
                                 LinkedList<CandidateData> liCanList = ed.getLiCandidates();
-                                for (CandidateData cd: liCanList) {
-                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                for (int i=0; i<liCanList.size(); i++)
+                                {
+                                    CandidateData ca = liCanList.get(i);
+                                    if (i == liCanList.size()-1)
+                                    {
+                                        out.println("['" + ca.getTitle() + " "+ca.getSurname() + "', " + ca.getVoteCount() + "]");
+                                    }
+                                    else{
+                                        out.println("['" + ca.getTitle() + " "+ca.getSurname() + "', " + ca.getVoteCount() + "],");
+                                    }
                                 }
                             }
 %>

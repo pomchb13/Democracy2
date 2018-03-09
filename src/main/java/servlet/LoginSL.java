@@ -148,6 +148,7 @@ public class LoginSL extends HttpServlet {
                                 // forward to ElectionUI
                                 HttpSession ses = req.getSession();
                                 ses.setAttribute("election", ed);
+                                ses.setAttribute("Chart", ed);
                                 ses.setMaxInactiveInterval(15 * 60);
                                 resp.sendRedirect("/ElectionSL");
                             }
