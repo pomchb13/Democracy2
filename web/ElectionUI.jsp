@@ -69,13 +69,14 @@
                 LinkedList<CandidateData> canDat = ed.getLiCandidates();
                 int count = 0;
                 for (CandidateData cd : canDat) {
+                    System.out.println(cd.toString());
                     out.println("<ul class=\"list-group\">");
                     out.println("    <li class=\"list-group-item\">");
                     out.println("        <div class=\"radio\">");
                     out.println("            <label><input type=\"radio\" name=\"optradio\" value=\" " + count + " \" >"
-                            + ServletUtil.filter(cd.getTitle()) + " "
-                            + ServletUtil.filter(cd.getSurname().toUpperCase()) + " "
-                            + ServletUtil.filter(cd.getForename()) + "</label>");
+                            + cd.getTitle() + " "
+                            + cd.getSurname().toUpperCase() + " "
+                            + cd.getForename() + "</label>");
                     out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\""+count++ +"\" onClick=\"reply_click(this.name)\" ><span");
                     out.println("                    class=\"glyphicon glyphicon-info-sign\"");
                     out.println("                      ></span></button>");
@@ -83,11 +84,6 @@
                     out.println("    </li>");
                     out.println("</ul>");
                 }
-
-                /*
-                JS mit Übergabe von Index
-                AJAX request
-                 */
             %>
 
 

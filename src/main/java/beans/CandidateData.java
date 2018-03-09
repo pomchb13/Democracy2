@@ -64,6 +64,7 @@ public class CandidateData {
         this.party = party;
         this.slogan = slogan;
         this.voteCount = voteCount;
+        this.portraitPath = "";
     }
 
     @Override
