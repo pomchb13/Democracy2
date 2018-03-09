@@ -76,15 +76,9 @@ public class ElectionSL extends HttpServlet {
             AdminHandler adminHandler = new AdminHandler(user);
             adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
             address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
-            Address contractadress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
-            electionHandler.loadSmartContract(contractadress);
-            if (!address.isEmpty()) {
-                try {
-                    electionHandler.vote(new Uint8(val), new Address(address));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+            electionHandler.loadSmartContract(contractAddress);
+            electionHandler.vote(new Uint8(val), new Address(address));
         } catch (Exception e) {
             e.printStackTrace();
         }
