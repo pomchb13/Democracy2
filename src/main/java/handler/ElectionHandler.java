@@ -140,12 +140,13 @@ public class ElectionHandler {
      * @param birthday:  birthday of the candidate
      * @param party:     party of the candidate
      * @param slogan:    slogan of the candidate
+     * @param imagePath: path to the portrait of the candidate
      * @throws Exception if the election contract is not loaded
      */
-    public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan) throws Exception {
+    public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, String imagePath) throws Exception {
         if (election != null) {
             BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-            election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan).send();
+            election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan, imagePath).send();
         } else {
             throw new Exception("election object is null!");
         }
@@ -288,9 +289,9 @@ public class ElectionHandler {
             Credentials cr = BlockchainUtil.loginToBlockhain("0x8c995191c5dd74f876b2b4a44da84e3ec7795319", "1234");
             ElectionHandler tester = new ElectionHandler();
             tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
-            tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan());
-            tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan());
-            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan());
+            tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan(), "");
+            tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan(), "");
+            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan(), "");
             //   tester.loadSmartContract(address);
             System.out.println(tester.getElectionData());
             System.out.println(tester.getCandidateData(0));
