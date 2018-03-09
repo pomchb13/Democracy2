@@ -1,6 +1,8 @@
 <%@ page import="beans.PollAnswer" %>
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.CandidateData" %><%--
+<%@ page import="beans.CandidateData" %>
+<%@ page import="beans.PollData" %>
+<%@ page import="beans.ElectionData" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -50,16 +52,15 @@
                 data: {
                     columns: [
                         <%
-                            if(this.getServletConfig().getServletContext().getAttribute("Chart") instanceof PollAnswer) {
-
-                                LinkedList<PollAnswer> liPollList = (LinkedList<PollAnswer>) request.getSession()
-                                        .getAttribute("Chart");
+                            if(request.getAttribute("Chart") instanceof PollData) {
+                                PollData pd = (PollData) request.getAttribute("Chart");
+                                LinkedList<PollAnswer> liPollList = pd.getAnswerList();
                                 for (PollAnswer pa: liPollList) {
                                     out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
                                 }
-                            } else {
-                                LinkedList<CandidateData> liCanList = (LinkedList<CandidateData>) request.getSession()
-                                        .getAttribute("Chart");
+                            } else if (request.getAttribute("Chart") instanceof ElectionData){
+                                ElectionData ed = (ElectionData) request.getAttribute("Chart");
+                                LinkedList<CandidateData> liCanList = ed.getLiCandidates();
                                 for (CandidateData cd: liCanList) {
                                     out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
                                 }
