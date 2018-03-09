@@ -40,9 +40,11 @@ function reply_click(buttonStr) {
  */
 function processRequest()
 {
-
+    alert(xmlhttp.readyState);
+    alert(xmlhttp.status);
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
     {
+        alert('in pr');
         wholeString = xmlhttp.responseText;
         stringField = wholeString.split(";");
         document.getElementById("cand_titleName").innerHTML = stringField[0];
@@ -52,5 +54,6 @@ function processRequest()
         document.getElementById("cand_birthday").innerHTML = stringField[3];
         document.getElementById("cand_party").innerHTML = stringField[4];
         document.getElementById("cand_slogan").innerHTML = stringField[5];
+        alert('after');
     }
 }

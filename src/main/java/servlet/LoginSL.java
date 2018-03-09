@@ -84,8 +84,6 @@ public class LoginSL extends HttpServlet {
                 AdminHandler adminHandler = new AdminHandler(cr);
                 File file = new File(this.getServletContext().getRealPath("/res/admin/") + "contract.txt");
                 if (file.exists()) {
-
-
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     String adminContractAddress = br.readLine();
                     adminHandler.loadSmartContract(new Address(adminContractAddress));

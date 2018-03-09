@@ -3,12 +3,14 @@ package servlet;
 import beans.CandidateData;
 import beans.ElectionData;
 import beans.PollData;
+import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
+import util.AdminReader;
 import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -24,8 +26,6 @@ import java.io.PrintWriter;
 
 /**
  * Created by Ewald on 28.02.2018.
- *
- *
  */
 @WebServlet(urlPatterns = {"/ElectionSL"})
 public class ElectionSL extends HttpServlet {
@@ -43,8 +43,7 @@ public class ElectionSL extends HttpServlet {
         System.out.println(request.getRequestURL());
         System.out.println(request.getParameterNames().toString());
         System.out.println(request.getParameter("candidateID"));
-        if (request.getParameter("candidateID") != null)
-        {
+        if (request.getParameter("candidateID") != null) {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
             ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
@@ -54,8 +53,7 @@ public class ElectionSL extends HttpServlet {
                         cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
                 out.flush();
             }
-        }
-        else{
+        } else {
             RequestDispatcher rd = request.getRequestDispatcher("ElectionUI.jsp");
             rd.forward(request, response);
         }
@@ -68,28 +66,29 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int val = Integer.parseInt(req.getParameter("optradio"));
+        System.out.println(req.getParameter("optradio").trim());
+        int val = Integer.parseInt(req.getParameter("optradio").trim());
         ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
-        String address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
-        if (!address.isEmpty()) {
-            try {
-                electionHandler.giveRightToVote(new Address(address));
-                electionHandler.vote(new Uint8(val), new Address(address));
-            } catch (Exception e) {
-                e.printStackTrace();
+        String address = null;
+        try {
+            Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+            AdminHandler adminHandler = new AdminHandler(user);
+            adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+            address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
+            Address contractadress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+            electionHandler.loadSmartContract(contractadress);
+            if (!address.isEmpty()) {
+                try {
+                    electionHandler.vote(new Uint8(val), new Address(address));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-        PollData pollData = (PollData) req.getSession().getAttribute("election");
-        if (pollData.isDiagramOption()) {
-            resp.sendRedirect("EvaluationBarChartUI.jsp");
-        } else {
-            resp.sendRedirect("ThankYouUI.jsp");
-        }
-
-       processRequest(req, resp);
+        processRequest(req, resp);
     }
 
 }
