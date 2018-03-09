@@ -1,8 +1,6 @@
-<%@ page import="beans.PollAnswer" %>
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.CandidateData" %>
-<%@ page import="beans.PollData" %>
-<%@ page import="beans.ElectionData" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.*" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -38,7 +36,17 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
+    <%
+        HttpSession ses = request.getSession();
+        LoggedUsers lU = LoggedUsers.getInstance();
 
+        String hash = (String) ses.getAttribute("hash");
+
+        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+            response.sendRedirect("/LoginSL");
+        }
+
+    %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
         <h1>Derzeitiger Stand der Wahl</h1>

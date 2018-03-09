@@ -1,8 +1,6 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.PollAnswer" %>
-<%@ page import="beans.CandidateData" %>
-<%@ page import="beans.ElectionData" %>
-<%@ page import="beans.PollData" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.*" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -38,7 +36,17 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
+    <%
+        HttpSession ses = request.getSession();
+        LoggedUsers lU = LoggedUsers.getInstance();
 
+        String hash = (String) ses.getAttribute("hash");
+
+        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+            response.sendRedirect("/LoginSL");
+        }
+
+    %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
         <h1>Derzeitiger Stand der Wahl</h1>
@@ -51,7 +59,7 @@
         var chart = c3.generate({
             data: {
                 columns: [
-                    <%
+<%
                         if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
                            PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
                             for (PollAnswer pa: pd.getAnswerList()) {

@@ -1,8 +1,6 @@
 package servlet;
 
-import beans.ElectionData;
-import beans.PollData;
-import beans.RightEnum;
+import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
@@ -68,11 +66,33 @@ public class AdminSettingsSL extends HttpServlet {
                 try {
                     ElectionHandler electionHandler = new ElectionHandler(credentials);
                     electionHandler.loadSmartContract(a);
-                    liElectioData.add(electionHandler.getElectionData());
+                    ElectionData ed = electionHandler.getElectionData();
+                    LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
+                    for (int i = 0; i < 100; i++) {
+                        try {
+                            liCandidateDate.add(electionHandler.getCandidateData(i));
+                        } catch (Exception e) {
+                            System.out.println("keine Kanditaten mehr");
+                            break;
+                        }
+                    }
+                    ed.setLiCandidates(liCandidateDate);
+                    liElectioData.add(ed);
                 } catch (Exception ex) {
-                    PollHandler pollHandler = new PollHandler(credentials);
-                    pollHandler.loadSmartContract(a);
-                    liPollList.add(pollHandler.getPollData());
+                    PollHandler ph = new PollHandler(credentials);
+                    ph.loadSmartContract(a);
+                    PollData pd = ph.getPollData();
+                    LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
+                    for (int i = 0; i < 100; i++) {
+                        try {
+                            liPollAnswer.add(ph.getAnswerData(i));
+                        } catch (Exception e) {
+                            System.out.println("keine Antwort mehr");
+                            break;
+                        }
+                    }
+                    pd.setAnswerList(liPollAnswer);
+                    liPollList.add(pd);
                 }
             }
         } catch (Exception e) {

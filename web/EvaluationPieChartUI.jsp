@@ -1,6 +1,6 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.PollAnswer" %>
-<%@ page import="beans.CandidateData" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.*" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -36,7 +36,17 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
+    <%
+        HttpSession ses = request.getSession();
+        LoggedUsers lU = LoggedUsers.getInstance();
 
+        String hash = (String) ses.getAttribute("hash");
+
+        if (!lU.compareRights(hash, RightEnum.USER)) {
+            response.sendRedirect("/LoginSL");
+        }
+
+    %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
         <h1>Derzeitiger Stand der Wahl</h1>
@@ -50,21 +60,18 @@
             data: {
                 columns: [
                     <%
-                        if(this.getServletConfig().getServletContext().getAttribute("Chart") instanceof PollAnswer) {
-
-                            LinkedList<PollAnswer> liPollList = (LinkedList<PollAnswer>) request.getSession()
-                                    .getAttribute("Chart");
-                            for (PollAnswer pa: liPollList) {
+                        if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
+                           PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (PollAnswer pa: pd.getAnswerList()) {
                                 out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
                             }
                         } else {
-                            LinkedList<CandidateData> liCanList = (LinkedList<CandidateData>) request.getSession()
-                                    .getAttribute("Chart");
-                            for (CandidateData cd: liCanList) {
+                            ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            for (CandidateData cd: ed.getLiCandidates()) {
                                 out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
                             }
                         }
-%>
+                    %>
                  /* ['asdf', 50],
                     ['MUSTERFRAU Mara', 120],
                     ['KRAFT Michael', 13],

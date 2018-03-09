@@ -37,7 +37,7 @@
         <br>
         <!-- Error text -->
         <div class="alert alert-danger" id="Error">
-            <strong>Achtung!</strong> <br> Es gibt Propleme beim unseren Servern. <br> Es muss zuerst ein Contract erstellt werden.
+            <strong>Achtung!</strong> <br> Ooooops, da ging wohl etwas schief!
         </div>
     </div>
 

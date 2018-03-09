@@ -43,14 +43,10 @@ function reply_click(buttonStr) {
  */
 function processRequest()
 {
-    //alert('processRequest');
-    // alert(xmlhttp.readyState);
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
     {
-
         var wholeString = xmlhttp.responseText;
         var stringField = wholeString.split(";");
-        //alert(wholeString);
         document.getElementById("cand_titleName").innerHTML = stringField[0] + ' ' + stringField[1] + ' ' + stringField[2];
         document.getElementById("cand_pic").setAttribute("src", stringField[6]);
         document.getElementById("cand_forename").innerHTML = stringField[1];

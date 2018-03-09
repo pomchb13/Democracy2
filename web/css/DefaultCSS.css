@@ -37,20 +37,6 @@ body {
     text-align: center; /* set everything center */
 }
 
-.candDiv {
-    margin-left: 50px; /* move 50 px in */
-    margin-right: 50px; /* move 50 px in */
-    margin-top: 50px; /* move 50 px in */
-    margin-bottom: 50px; /* move 50 px in */
-    padding-left: 25px; /* space between its content and its border */
-    padding-right: 25px; /* space between its content and its border */
-    padding-bottom: 25px; /* space between its content and its border */
-    padding-top: 25px; /* space between its content and its border */
-
-    border: 1px solid black; /* Border around the div*/
-
-}
-
 input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-outer-spin-button {
     -webkit-appearance: none; /* remove button spinner */
@@ -60,8 +46,6 @@ input[type=date]::-webkit-outer-spin-button {
 .refTable {
     width: 100%; /* width of the table*/
 }
-
-
 
 .navbar-custom {
     color: #000000; /* set font color */
@@ -151,8 +135,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .candAttribute{
-    display: inline-Block;
-    vertical-alin:top;
+    text-align: left;
 }
 
 

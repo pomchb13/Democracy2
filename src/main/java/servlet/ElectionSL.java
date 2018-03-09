@@ -51,8 +51,10 @@ public class ElectionSL extends HttpServlet {
             CandidateData cd = ed.getLiCandidates().get(id);
             //request.setAttribute("candidateID", null);
             try (PrintWriter out = response.getWriter()) {
+                String path = cd.getPortraitPath();
+                path = File.separator + "res" + path.split("res")[1];
                 out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
-                        cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());
+                        cd.getBirthday(), cd.getParty(), cd.getSlogan(), path);
                 out.flush();
             }
         } else {

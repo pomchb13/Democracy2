@@ -3,7 +3,8 @@
 <%@ page import="beans.CandidateData" %>
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.RightEnum" %>
-<%@ page import="util.ServletUtil" %><%--
+<%@ page import="util.ServletUtil" %>
+<%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 11.07.2017
@@ -32,16 +33,16 @@
 
 </head>
 <body>
-<%/*
+<%
     HttpSession ses = request.getSession();
     LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+    if (!lU.compareRights(hash, RightEnum.USER)) {
         response.sendRedirect("/LoginSL");
     }
-*/
+
 %>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
@@ -77,7 +78,7 @@
                             + cd.getTitle() + " "
                             + cd.getSurname().toUpperCase() + " "
                             + cd.getForename() + "</label>");
-                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\""+count++ +"\" onClick=\"reply_click(this.name)\" ><span");
+                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\"" + count++ + "\" onClick=\"reply_click(this.name)\" ><span");
                     out.println("                    class=\"glyphicon glyphicon-info-sign\"");
                     out.println("                      ></span></button>");
                     out.println("        </div>");
@@ -89,12 +90,13 @@
 
         </div>
         <!-- Adds a button the submit the choise -->
-        <div class="input-group">
-            <button id="evaluation" type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
-            </button>
-        </div>
-
+        <center>
+            <div class="input-group">
+                    <button id="evaluation" type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
+                    </button>
+            </div>
+        </center>
     </form>
 
     <!-- Implements the Infodialog -->
@@ -110,16 +112,21 @@
                 <div class="modal-footer">
                     <div class="infoDiv">
                         <div class="col-sm-2">
-                            <img src="res/images/user.png" id="cand_pic" class="img-responsive" alt="" width="150"
+                            <img src="" id="cand_pic" class="img-responsive" alt="" width="150"
                                  height="300">
                         </div>
                         <div class="col-sm-10">
-                            <ul class="list-group">
-                                <li class="list-group-item"><span class="listHeader">Vorname: </span><p class="candAttribute" id="cand_forename"></p></li>
-                                <li class="list-group-item"><span class="listHeader">Nachname: </span><p class="candAttribute" id="cand_surname"></p></li>
-                                <li class="list-group-item"><span class="listHeader">Geburtsdatum: </span><p class="candAttribute" id="cand_birthday"></p></li>
-                                <li class="list-group-item"><span class="listHeader">Partei: </span><p class="candAttribute" id="cand_party"></p></li>
-                                <li class="list-group-item"><span class="listHeader">Wahlmotto: </span><p class="candAttribute" id="cand_slogan"></p></li>
+                            <ul class="list-group" style="text-align: left">
+                                <li class="list-group-item"><span class="listHeader">Vorname: </span>
+                                    <p class="candAttribute" id="cand_forename"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Nachname: </span>
+                                    <p class="candAttribute" id="cand_surname"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Geburtsdatum: </span>
+                                    <p class="candAttribute" id="cand_birthday"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Partei: </span>
+                                    <p class="candAttribute" id="cand_party"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Wahlmotto: </span>
+                                    <p class="candAttribute" id="cand_slogan"></p></li>
                             </ul>
                         </div>
                     </div>
@@ -128,7 +135,7 @@
         </div>
     </div>
     <br>
-    <p>Für Alle Angaben ist der Ersteller der Wahl verantwortlich!</p>
+    <p>Für alle Angaben ist der Ersteller der Wahl verantwortlich!</p>
 </div>
 <footer class="footer">
     <div class="container text-center">

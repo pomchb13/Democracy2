@@ -1,8 +1,6 @@
-<%@ page import="beans.PollAnswer" %>
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="beans.CandidateData" %>
-<%@ page import="beans.PollData" %>
-<%@ page import="beans.ElectionData" %><%--
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.*" %><%--
   Created by IntelliJ IDEA.
   User: Ewald
   Date: 12.07.2017
@@ -38,7 +36,17 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
+    <%
+        HttpSession ses = request.getSession();
+        LoggedUsers lU = LoggedUsers.getInstance();
 
+        String hash = (String) ses.getAttribute("hash");
+
+        if (!lU.compareRights(hash, RightEnum.USER)) {
+            response.sendRedirect("/LoginSL");
+        }
+
+    %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
         <h1>Derzeitiger Stand der Wahl</h1>
@@ -51,41 +59,18 @@
         var chart = c3.generate({
                 data: {
                     columns: [
-                        <%
-                            ElectionData ed1 = (ElectionData) request.getSession().getAttribute("Chart");
-
-                            if(request.getAttribute("Chart") instanceof PollData) {
-                                PollData pd = (PollData) request.getAttribute("Chart");
-                                LinkedList<PollAnswer> liPollList = pd.getAnswerList();
-                                /*for (PollAnswer pa: liPollList) {
-                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
-                                }*/
-                                for (int i=0; i<liPollList.size(); i++)
-                                {
-                                    PollAnswer pa = liPollList.get(i);
-                                    if (i == liPollList.size()-1)
-                                    {
-                                        out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
-                                    }
-                                    else{
-                                        out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
-                                    }
-                                }
-                            } else if (request.getAttribute("Chart") instanceof ElectionData){
-                                ElectionData ed = (ElectionData) request.getAttribute("Chart");
-                                LinkedList<CandidateData> liCanList = ed.getLiCandidates();
-                                for (int i=0; i<liCanList.size(); i++)
-                                {
-                                    CandidateData ca = liCanList.get(i);
-                                    if (i == liCanList.size()-1)
-                                    {
-                                        out.println("['" + ca.getTitle() + " "+ca.getSurname() + "', " + ca.getVoteCount() + "]");
-                                    }
-                                    else{
-                                        out.println("['" + ca.getTitle() + " "+ca.getSurname() + "', " + ca.getVoteCount() + "],");
-                                    }
-                                }
-                            }
+<%
+    if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
+       PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+        for (PollAnswer pa: pd.getAnswerList()) {
+            out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+        }
+    } else {
+        ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+        for (CandidateData cd: ed.getLiCandidates()) {
+            out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+        }
+    }
 %>
                         /* ['asdf', 50],
                          ['MUSTERFRAU Mara', 120],

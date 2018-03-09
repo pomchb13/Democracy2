@@ -24,6 +24,7 @@
     <script src="js/NavbarLogedUser.js"></script>
 </head>
 <body>
+
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 

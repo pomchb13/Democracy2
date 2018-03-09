@@ -29,9 +29,9 @@ import java.util.List;
  * Author:          Leonhard Gangl
  * Created on:
  * Description:     This Servlet java class is responsible for creating a new PollContract and push it to the Blockchain.
- *                  Before the administrator is able to create a new PollContract it also checks if the administrator is logged
- *                  in correctly. The creation of the new PollContract could take a while because the PollHandler needs to push
- *                  it to the Blockchain and create all possible answers the administrator created.
+ * Before the administrator is able to create a new PollContract it also checks if the administrator is logged
+ * in correctly. The creation of the new PollContract could take a while because the PollHandler needs to push
+ * it to the Blockchain and create all possible answers the administrator created.
  */
 
 @WebServlet(urlPatterns = {"/NewElectionSL"})
@@ -68,8 +68,8 @@ public class NewElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
-        Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        if (Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
+            Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
         System.out.println(req.getParameter("actionButton"));
         // check if value of the clicked button is createVote
         if (req.getParameter("actionButton").equals("createVote")) {
@@ -127,16 +127,16 @@ public class NewElectionSL extends HttpServlet {
                     LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
                     // check if birthday is between today and today minis 99 years
-                    if(dateOfBirth.isBefore(LocalDate.now().minusYears(18)) && dateOfBirth.isAfter(LocalDate.now().minusYears(99))) {
+                    if (dateOfBirth.isBefore(LocalDate.now().minusYears(18)) && dateOfBirth.isAfter(LocalDate.now().minusYears(99))) {
                         String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
                         String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
-                        String portraitPath = this.getServletContext().getRealPath("/") + "images"
+                        String portraitPath = this.getServletContext().getRealPath("/res/") + "images"
                                 + File.separator
                                 + ServletUtil.filter(req.getParameter("input_cand_Picture"));
 
                         // set default photo is photo is not set
                         if (portraitPath == null) {
-                            portraitPath = this.getServletContext().getRealPath("/images/user.png");
+                            portraitPath = this.getServletContext().getRealPath("/res/images/user.png");
                         }
 
                         // create new candidate
@@ -161,7 +161,7 @@ public class NewElectionSL extends HttpServlet {
 
                         req.setAttribute("errorPol", "Kandidat erfolgreich erstellt!");
                         this.getServletContext().setAttribute("newElection", newElectionData);
-                    }else{
+                    } else {
                         req.setAttribute("errorPol", "Bitte überprüfen Sie ihre Eingaben. Das Geburtsdatum muss zwischen heute und heute vor 100 Jahren liegen!");
                     }
                 }
@@ -199,7 +199,7 @@ public class NewElectionSL extends HttpServlet {
 
                     // add candidates to blockchain
                     election.storeCandidateData(i, liPolit.get(i).getTitle(), liPolit.get(i).getForename(), liPolit.get(i).getSurname(),
-                            liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan());
+                            liPolit.get(i).getBirthday(), liPolit.get(i).getParty(), liPolit.get(i).getSlogan(), liPolit.get(i).getPortraitPath());
                 }
                 System.out.println("Candidate saved to Blockchainelection");
 

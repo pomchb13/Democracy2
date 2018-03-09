@@ -34,7 +34,7 @@
 
     String hash = (String) ses.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+    if (!lU.compareRights(hash, RightEnum.USER)) {
         response.sendRedirect("/LoginSL");
     }
 
