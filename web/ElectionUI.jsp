@@ -118,11 +118,11 @@
                         </div>
                         <div class="col-sm-10">
                             <ul class="list-group">
-                                <li class="list-group-item" id="cand_forename"><span>Vorname: </span> Max</li>
-                                <li class="list-group-item" id="cand_surname"><span>Nachname: </span> Mustermann</li>
-                                <li class="list-group-item" id="cand_birthday"><span>Geburtsdatum: </span> 01.01.1980</li>
-                                <li class="list-group-item" id="cand_party"><span>Partei: </span> keine Partei angebenen</li>
-                                <li class="list-group-item" id="cand_slogan"><span>Wahlmotto: </span> Für Österreich!</li>
+                                <li class="list-group-item"><span class="listHeader">Vorname: </span><p class="candAttribute" id="cand_forename"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Nachname: </span><p class="candAttribute" id="cand_surname"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Geburtsdatum: </span><p class="candAttribute" id="cand_birthday"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Partei: </span><p class="candAttribute" id="cand_party"></p></li>
+                                <li class="list-group-item"><span class="listHeader">Wahlmotto: </span><p class="candAttribute" id="cand_slogan"></p></li>
                             </ul>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
         </div>
     </div>
     <br>
-    <p>Für alle Angaben ist der Ersteller der Wahl verantwortlich</p>
+    <p>Für Alle Angaben ist der Ersteller der Wahl verantwortlich!</p>
 </div>
 <footer class="footer">
     <div class="container text-center">

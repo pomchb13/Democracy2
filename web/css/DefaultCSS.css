@@ -146,6 +146,14 @@ input[type=date]::-webkit-outer-spin-button {
 #hiddenId {
     visibility: hidden; /* set div hidden */
 }
+.listHeader{
+    font-weight: bold;
+}
+
+.candAttribute{
+    display: inline-Block;
+    vertical-alin:top;
+}
 
 
 

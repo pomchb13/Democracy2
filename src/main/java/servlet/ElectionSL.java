@@ -47,7 +47,7 @@ public class ElectionSL extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
             ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
-
+            //request.setAttribute("candidateID", null);
             try (PrintWriter out = response.getWriter()) {
                 out.format("%s;%s;%s;%s;%s;%s;%s", cd.getTitle(), cd.getForename(), cd.getSurname(),
                         cd.getBirthday(), cd.getParty(), cd.getSlogan(), cd.getPortraitPath());

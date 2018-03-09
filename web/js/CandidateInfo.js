@@ -40,20 +40,16 @@ function reply_click(buttonStr) {
  */
 function processRequest()
 {
-    alert(xmlhttp.readyState);
-    alert(xmlhttp.status);
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
     {
-        alert('in pr');
         wholeString = xmlhttp.responseText;
         stringField = wholeString.split(";");
-        document.getElementById("cand_titleName").innerHTML = stringField[0];
+        document.getElementById("cand_titleName").innerHTML = stringField[0] + ' ' + stringField[1] + ' ' + stringField[2];
         document.getElementById("cand_pic").setAttribute("src", stringField[6]);
         document.getElementById("cand_forename").innerHTML = stringField[1];
         document.getElementById("cand_surname").innerHTML = stringField[2];
         document.getElementById("cand_birthday").innerHTML = stringField[3];
         document.getElementById("cand_party").innerHTML = stringField[4];
         document.getElementById("cand_slogan").innerHTML = stringField[5];
-        alert('after');
     }
 }
