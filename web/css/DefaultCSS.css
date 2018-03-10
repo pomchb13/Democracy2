@@ -144,6 +144,13 @@ input[type=date]::-webkit-outer-spin-button {
     font-size: 20px;
 }
 
+#photoDropDiv{
+    width: 100%;
+}
+
+#photoDropButton{
+    width: 100%;
+}
 .AnswerBody{
     vertical-align: middle;
     horiz-align: center;

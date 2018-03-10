@@ -4,6 +4,7 @@ import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
+import logger.Logger;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import user.HashGenerator;
@@ -43,7 +44,6 @@ public class LoginSL extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
-        System.out.println(BlockchainUtil.getPATH());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,9 +55,6 @@ public class LoginSL extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("tries") == null) {
-            req.getSession().setAttribute("tries", 4);
-        }
         processRequest(req, resp);
     }
 
@@ -65,161 +62,148 @@ public class LoginSL extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // read useranme and password
-        String username = ServletUtil.filter((String) req.getParameter("username"));
-        String password = ServletUtil.filter((String) req.getParameter("password"));
+        String username = ServletUtil.filter(req.getParameter("username"));
+        String password = ServletUtil.filter(req.getParameter("password"));
+        //Check if inputFields are empty
         if (username.isEmpty() || password.isEmpty()) {
-            resp.sendRedirect("/LoginUI.jsp");
+            req.setAttribute("error", "Bitte die Einlogdaten eingeben");
         }
-        int tries = (int) req.getSession().getAttribute("tries");
-        // check if there is more then one try left
-        if ((int) req.getSession().getAttribute("tries") > 0) {
-            try {
-                // login to Blockchain
-                Credentials cr = BlockchainUtil.loginToBlockhain(username, password);
-                System.out.println(cr.getAddress());
+        try {
+            // login to Blockchain
+            Credentials credentials = BlockchainUtil.loginToBlockhain(username, password);
+            Logger.logInformation("User " + credentials.getAddress() + " logged into Blockchain", LoginSL.class);
 
-                //set credentials to the session scope
-                req.getSession().setAttribute("credentials", cr);
-                System.out.println("After setting cr to session");
-                //Generation of MD5 Hash
-                hashInstance = HashGenerator.getTheInstance();
-                String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
-                AdminHandler adminHandler = new AdminHandler(cr);
-                File file = new File(this.getServletContext().getRealPath("/res/admin/") + "contract.txt");
-                if (file.exists()) {
-                    BufferedReader br = new BufferedReader(new FileReader(file));
-                    String adminContractAddress = br.readLine();
-                    adminHandler.loadSmartContract(new Address(adminContractAddress));
-                    RightEnum right = RightEnum.USER;
+            //Create session-object
+            HttpSession session = req.getSession();
 
-                    // set right of user
-                    if (adminHandler.checkIfAdmin(new Address(username))) {
-                        System.out.println("isAdmin start");
-                        right = RightEnum.ADMIN;
-                        System.out.println("isAdmin");
+            //set credentials to the session scope
+            session.setAttribute("credentials", credentials);
+
+            //Generation of MD5 Hash
+            hashInstance = HashGenerator.getTheInstance();
+            String hash = hashInstance.get_SHA_256_SecurePassword(username + password);
+
+            //Check if the contract.txt file exists
+            File file = new File(this.getServletContext().getRealPath("/res/admin/") + "contract.txt");
+            if (file.exists()) {
+                AdminHandler adminHandler = new AdminHandler(credentials);
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String adminContractAddress = br.readLine();
+                adminHandler.loadSmartContract(new Address(adminContractAddress));
+
+                //Set right to User before it checks if the credentials are admin credentials
+                RightEnum right = RightEnum.USER;
+                if (adminHandler.checkIfAdmin(new Address(username))) {
+                    right = RightEnum.ADMIN;
+                }
+
+                //log user in list
+                //if there is an exception the user is already logged in
+                userInstance = LoggedUsers.getInstance();
+                try {
+                    userInstance.login(hash, right, username);
+                    if (right == RightEnum.ADMIN) {
+                        Logger.logInformation("Admin " + credentials.getAddress() + " is logged in", LoginSL.class);
+                    } else {
+                        Logger.logInformation("User " + credentials.getAddress() + " is logged in", LoginSL.class);
                     }
-                    System.out.println("after hashing");
-                    //log user in list
-                    //if there is an exception the user is already logged in
-                    userInstance = LoggedUsers.getInstance();
+                } catch (Exception e) {
+                    req.setAttribute("error", "Account bereits eingeloggt");
+                }
+
+                // check rights of logged in Account
+                if (right == RightEnum.USER) {
+                    // set hash and right to the session scope
+                    session.setAttribute("hash", hash);
+                    session.setAttribute("right", right);
+
+                    //set MaxInactiveInterval to 15 minutes
+                    session.setMaxInactiveInterval(15 * 60);
+
+                    // check on which kind of vote the user is authorized for
+                    // if there is an exception the user is only authorized to vote for a poll
+                    // otherwise he/she is authorized to vote for an election
+                    String contractAddress = adminHandler.getContractAddressForVoter(new Address(credentials.getAddress())).toString();
                     try {
-                        userInstance.login(hash, right, username);
-                        System.out.println("after loggin in");
-                    } catch (Exception e) {
-                        req.setAttribute("error", "User bereits eingeloggt");
-                    }
-
-                    // check rights of user
-                    if (right == RightEnum.USER) {
-                        // set hash and right to the session scope
-                        HttpSession session = req.getSession();
-                        session.setAttribute("hash", hash);
-                        session.setAttribute("right", right);
-
-                        //set MaxInactiveInterval to 15 minutes
-                        session.setMaxInactiveInterval(15 * 60);
-
-                        // check on which kind of vote the user is authorized for
-                        // if there is an exception the user is only authorized to vote for an poll
-                        // otherwise he/she is authorized to vote for an election
-                        String contractAddress = adminHandler.getContractAddressForVoter(new Address(cr.getAddress())).toString();
+                        ElectionHandler electionHandler = new ElectionHandler(credentials);
+                        electionHandler.loadSmartContract(new Address(contractAddress));
+                        ElectionData election = electionHandler.getElectionData();
+                        LinkedList<CandidateData> candidateList = new LinkedList<>();
+                        //Add Candidates from Blockchain to election-object
+                        for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
+                            candidateList.add(electionHandler.getCandidateData(i));
+                        }
+                        election.setLiCandidates(candidateList);
+                        session.setAttribute("voteObject", election);
+                        // check if user has already voted
+                        if (electionHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || election.getDate_due().isBefore(LocalDate.now())) {
+                            // forward to EvaluationBarChartUI
+                            resp.sendRedirect("EvaluationBarChartUI.jsp");
+                        } else if (!election.getDate_from().isAfter(LocalDate.now())) {
+                            //TODO: seite mit wahl beginnt erst
+                            resp.sendRedirect("/TimerUI.jsp");
+                        } else {
+                            // forward to ElectionSL
+                            resp.sendRedirect("/ElectionSL");
+                        }
+                    } catch (Exception ex) {
                         try {
-                            ElectionHandler eh = new ElectionHandler(cr);
-                            eh.loadSmartContract(new Address(contractAddress));
-                            ElectionData ed = eh.getElectionData();
-                            LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
-                            System.out.println("List size in ElectionHandler -->"+eh.getCandidateArraySize());
-                            for (int i = 0; i < eh.getCandidateArraySize(); i++) {
-                                liCandidateDate.add(eh.getCandidateData(i));
-
+                            PollHandler pollHandler = new PollHandler(credentials);
+                            pollHandler.loadSmartContract(new Address(contractAddress));
+                            PollData poll = pollHandler.getPollData();
+                            LinkedList<PollAnswer> pollAnswerList = new LinkedList<>();
+                            //Add Asnwers from Blockchain to poll-object
+                            for (int i = 0; i < pollHandler.getAnswerArraySize(); i++) {
+                                pollAnswerList.add(pollHandler.getAnswerData(i));
                             }
-                            ed.setLiCandidates(liCandidateDate);
-                            // check if user has already voted
-                            if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress())) || ed.getDate_due().isBefore(LocalDate.now())) {
-                                // forward to EvaluationBarChartUI
-                                this.getServletContext().setAttribute("clicked", ed);
+                            poll.setAnswerList(pollAnswerList);
+
+                            //Set poll-object to session scope
+                            session.setAttribute("voteObject", poll);
+
+                            //check if user has already voted
+                            if (pollHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || poll.getDate_due().isBefore(LocalDate.now())) {
+                                //forward to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-                            } else if (!ed.getDate_from().isAfter(LocalDate.now())) {
+                            } else if (!poll.getDate_from().isAfter(LocalDate.now())) {
                                 //TODO: seite mit wahl beginnt erst
-                                this.getServletContext().setAttribute("timer", ed.getDate_due().toString());
                                 resp.sendRedirect("/TimerUI.jsp");
                             } else {
-                                // forward to ElectionUI
-                                HttpSession ses = req.getSession();
-                                ses.setAttribute("election", ed);
-                                ses.setMaxInactiveInterval(15 * 60);
-                                resp.sendRedirect("/ElectionSL");
+                                //forward to PollUI
+                                resp.sendRedirect("PollUI.jsp");
                             }
-                        } catch (Exception ex) {
-                            try {
-                                PollHandler ph = new PollHandler(cr);
-                                ph.loadSmartContract(new Address(contractAddress));
-                                PollData pd = ph.getPollData();
-                                LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
-                                System.out.println("ListSize in Handler -->" +ph.getAnswerArraySize());
-                                for (int i = 0; i < ph.getAnswerArraySize(); i++) {
-                                    liPollAnswer.add(ph.getAnswerData(i));
-                                }
-                                pd.setAnswerList(liPollAnswer);
-                                HttpSession ses = req.getSession();
-                                ses.setAttribute("poll", pd);
-                                ses.setMaxInactiveInterval(15 * 60);
-                                // check if user has already voted
-                                if (ph.getAlreadyVotedForVoter(new Address(cr.getAddress())) || pd.getDate_due().isBefore(LocalDate.now())) {
-                                    // forwald to EvaluationBarChartUI
-                                    this.getServletContext().setAttribute("clicked", pd);
-                                    resp.sendRedirect("EvaluationBarChartUI.jsp");
-                                } else if (!pd.getDate_from().isAfter(LocalDate.now())) {
-                                    //TODO: seite mit wahl beginnt erst
-                                    this.getServletContext().setAttribute("timer", pd.getDate_due().toString());
-                                    resp.sendRedirect("/TimerUI.jsp");
-                                } else {
-                                    // forwald to PollUI
-                                    resp.sendRedirect("PollUI.jsp");
-                                }
-                            } catch (Exception e) {
-                                req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
-                            }
+                        } catch (Exception e) {
+                            req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
+                            Logger.logError("Fehler bei der Weiterleitung: "+e.toString(), LoginSL.class);
                         }
-                        // User is an admin
-                    } else if (right == RightEnum.ADMIN) {
-                        System.out.println("in AdminContract");
-                        // set hash and right to the session scope
-                        HttpSession session = req.getSession();
-                        session.setAttribute("hash", hash);
-                        session.setAttribute("right", right);
-
-                        //set MaxInactiveInterval to 15 minutes
-                        session.setMaxInactiveInterval(15 * 60);
-
-                        // set all uploaded files to the list liFilenames
-                        this.getAllFiles();
-
-                        // set the list on the request scope
-                        this.getServletContext().setAttribute("liFilenames", liFilenames);
-
-                        //forward to AdminSettingsSL
-                        resp.sendRedirect("AdminSettingsSL");
                     }
-                } else {
-                    resp.sendRedirect("ErrorUI.jsp");
+                    //Account is an Adminaccount
+                } else if (right == RightEnum.ADMIN) {
+                    //set hash and right to the session scope
+                    session.setAttribute("hash", hash);
+                    session.setAttribute("right", right);
+
+                    //set all uploaded files to the list "liFilenames"
+                    this.getAllFiles();
+
+                    //set the list of filenames to the application scope
+                    this.getServletContext().setAttribute("liFilenames", liFilenames);
+
+                    //forward to AdminSettingsSL
+                    resp.sendRedirect("AdminSettingsSL");
                 }
-            } catch (Exception e) {
-                if (tries > 1) {
-                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch " + tries-- + " versuche");
-                } else {
-                    req.setAttribute("error", "Fehlerhafte Logindaten! Es bleiben noch ein " + tries-- + " Versuch");
-                }
-                req.getSession().setAttribute("tries", tries);
-                resp.sendRedirect("/LoginUI.jsp");
+            } else {
+                Logger.logError("Contract datei existiert nicht", LoginSL.class);
+                resp.sendRedirect("ErrorUI.jsp");
             }
-        } else {
-            resp.sendRedirect("ErrorUI.jsp");
+        } catch (Exception e) {
+            req.setAttribute("error", "Username oder Passwort ist falsch");
+            processRequest(req, resp);
         }
     }
 
     /**
-     * reads all files in the /res/images folder
+     * reads all files from the /res/images folder
      */
     private void getAllFiles() {
         File file = new File(this.getServletContext().getRealPath("/res/images"));

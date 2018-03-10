@@ -51,7 +51,7 @@
     <!--  Shows the title of the page -->
     <div class="voteTitle">
         <%
-            ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
+            ElectionData ed = (ElectionData) request.getSession().getAttribute("voteObject");
         %>
         <h1>
             <%= ed.getTitle()%>

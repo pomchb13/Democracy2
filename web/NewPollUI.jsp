@@ -109,8 +109,8 @@
         <hr>
         <br>
         <div>
-            <h1>Antwortmöglichkeiten zur <%= this.getServletConfig().getServletContext().getAttribute("poll") != null ?
-                    ((PollData) this.getServletConfig().getServletContext().getAttribute("poll")).getTitle() : ""%>
+            <h1>Antwortmöglichkeiten zur <%= request.getAttribute("newPoll") != null ?
+                    ((PollData) request.getAttribute("newPoll")).getTitle() : ""%>
                 hinzufügen</h1></div>
         <form id="form2" action="/NewPollSL" method="post">
             <br>
@@ -157,15 +157,4 @@
     </div>
 </footer>
 </body>
-<!--
-<script>
-    $("#tableMenu a").click(function (e) {
-        e.preventDefault(); // cancel the link behaviour
-        var selText = $(this).text();
-        alert(selText);
-        document.getElementById('hiddenPoll').value = selText;
-        document.getElementById('tableButton').innerHTML = selText;
-
-    });
-</script>-->
 </html>

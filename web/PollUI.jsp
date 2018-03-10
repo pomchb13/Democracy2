@@ -47,7 +47,7 @@
     <div class="voteTitle">
         <h1>
             <%
-                PollData pd = (PollData) request.getSession().getAttribute("poll");
+                PollData pd = (PollData) request.getSession().getAttribute("voteObject");
                 out.print(pd.getTitle());
             %>
         </h1>

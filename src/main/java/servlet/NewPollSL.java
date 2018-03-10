@@ -2,6 +2,7 @@ package servlet;
 
 import beans.*;
 import handler.AdminHandler;
+import logger.Logger;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import handler.PollHandler;
@@ -39,8 +40,8 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/NewPollSL"})
 public class NewPollSL extends HttpServlet {
     //The Instance where all logged users and administrator are saved
-    private LoggedUsers lU = LoggedUsers.getInstance();
-    //The Pollhandler object is responsible for the communication with the blockchain
+    private LoggedUsers userInstance = LoggedUsers.getInstance();
+    //The Pollhandler object is responsible for the communication with the Blockchain
     private PollHandler pollHandler;
 
     /**
@@ -81,33 +82,40 @@ public class NewPollSL extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
-        Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        //Checks if an old userlist file exists. If yes, it will be deleted.
+        if(Files.exists(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
+        Files.delete(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+
         String pollStatus = null;
         String answerStatus = null;
+        //Checks if the pressed button has the "createReferendum" value
         if (req.getParameter("actionButton").equals("createReferendum")) {
             try {
+                //Reads data for a poll from the field
                 String title = ServletUtil.filter(req.getParameter("input_Title"));
                 String date_from = ServletUtil.filter(req.getParameter("input_Start"));
                 String date_due = ServletUtil.filter(req.getParameter("input_End"));
-                System.out.println("After reading Parameters");
+
+                //Checks if the administrator allowed seeing diagrams
                 boolean voteDiagrams;
                 if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
                     voteDiagrams = true;
                 else
                     voteDiagrams = false;
 
+                //Parsing the dates from String to LocalDate
                 LocalDate vote_fromDate = LocalDate.parse(date_from, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
                 LocalDate vote_dueDate = LocalDate.parse(date_due, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-                System.out.println("After formattting LocalDate");
+
+                //date validation
                 if (LocalDate.now().isBefore(vote_fromDate)
                         || LocalDate.now().isEqual(vote_fromDate)
                         && LocalDate.now().isBefore(vote_dueDate)
                         && vote_fromDate.isBefore(vote_dueDate)) {
-                    System.out.println("Before creating poll");
-                    PollData pollData = new PollData(title, vote_fromDate, vote_dueDate, voteDiagrams);
-                    this.getServletContext().setAttribute("poll", pollData);
-                    System.out.println("After creating poll");
+                    //Creating the poll and saving it to request scope
+                    PollData newPoll = new PollData(title, vote_fromDate, vote_dueDate, voteDiagrams);
+                    req.setAttribute("newpoll", newPoll);
+
                     pollStatus = "Abstimmung erfolgreich erstellt und zwischengespeichert";
                 }
             } catch (Exception ex) {
@@ -116,17 +124,21 @@ public class NewPollSL extends HttpServlet {
                 req.setAttribute("pollStatus", pollStatus);
                 processRequest(req, resp);
             }
+            //Checks if the pressed button has the "addAnswer" value
         } else if (req.getParameter("actionButton").equals("addAnswer")) {
-            if (this.getServletContext().getAttribute("poll") != null) {
+            if (req.getAttribute("newPoll") != null) {
                 try {
+                    //Reads the attribute from the HTML input field to create an Answer
                     String answerTitle = ServletUtil.filter(req.getParameter("input_AnswerTitle"));
                     String answerDescription = ServletUtil.filter((req.getParameter("input_Answer")));
+
+                    //Gets the new Poll from the request scope, adds the answer and saved it back
                     PollAnswer pAnswer = new PollAnswer(answerTitle, answerDescription);
-                    PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
-                    LinkedList<PollAnswer> answerList = pollData.getAnswerList();
+                    PollData newPoll = (PollData) req.getAttribute("newPoll");
+                    LinkedList<PollAnswer> answerList = newPoll.getAnswerList();
                     answerList.add(pAnswer);
-                    pollData.setAnswerList(answerList);
-                    this.getServletContext().setAttribute("poll", pollData);
+                    newPoll.setAnswerList(answerList);
+                    req.setAttribute("newPoll", newPoll);
                     answerStatus = "Antwort erfolgreich hinzugefügt!";
                 } catch (Exception ex) {
                     answerStatus = "Bitte die Eingaben überprüfen!";
@@ -139,41 +151,49 @@ public class NewPollSL extends HttpServlet {
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             //The PollHandler is the communication tool for communicating with the Blockchain
             pollHandler = new PollHandler(cr);
+            //Creates the adminHandler-object
             AdminHandler adminHandler = new AdminHandler(cr);
 
-            PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
+            PollData newPoll = (PollData) req.getAttribute("newPoll");
             try {
                 //Method to create the PollContract on the Blockchain
-                String contractAdress = pollHandler.createContract(pollData.getAnswerList().size(),
-                        pollData.getTitle(),
-                        pollData.getDate_from(),
-                        pollData.getDate_due(),
-                        pollData.isDiagramOption());
+                String contractAdress = pollHandler.createContract(newPoll.getAnswerList().size(),
+                        newPoll.getTitle(),
+                        newPoll.getDate_from(),
+                        newPoll.getDate_due(),
+                        newPoll.isDiagramOption());
+                //Load Admincontract in the adminHandler
                 adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+                //Save PollContract to Admincontract
                 adminHandler.addContractAddress(new Address(contractAdress), new Address(cr.getAddress()));
 
+                //save the new ContractAddress and the type to session scope
+                req.getSession().setAttribute("newContractAdress", contractAdress);
+                req.getSession().setAttribute("newTypeOfVote", VoteType.POLL);
 
-                this.getServletContext().setAttribute("newContractAdress", contractAdress);
-                this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
-
-                LinkedList<PollData> dataLinkedList = (LinkedList<PollData>) this.getServletContext().getAttribute("PollList");
-                dataLinkedList.add(pollData);
-                this.getServletContext().setAttribute("PollList", dataLinkedList);
+                //get Polllist from session scope, add the new Poll and save it back to session scope
+                LinkedList<PollData> pollList = (LinkedList<PollData>) req.getSession().getAttribute("pollList");
+                pollList.add(newPoll);
+                req.getSession().setAttribute("pollList", pollList);
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.logError("Error while creating a new Poll on Blockchain: "+e.toString(), NewPollSL.class);
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
-            List<PollAnswer> liAnswers = pollData.getAnswerList();
+            List<PollAnswer> answerList = newPoll.getAnswerList();
             //Foreach loop is responsible for adding all answers to the PollContract in the Blockchain
-            for (int i = 0; i < liAnswers.size(); i++) {
+            for (int i = 0; i < answerList.size(); i++) {
                 try {
-                    pollHandler.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
+                    pollHandler.storeAnswerData(i, answerList.get(i).getTitle(), answerList.get(i).getDescription());
                 } catch (Exception e) {
+                    Logger.logError("Error while adding a pollAnswer to the poll: "+e.toString(), NewPollSL.class);
                     req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                 }
             }
 
+            Logger.logInformation("The Poll "+newPoll.getTitle()+" was saved successfully on the Blockchain", NewPollSL.class);
+
+            //Forward to the Userkey Generator
             resp.sendRedirect("/UploadUserFileSL");
         }
 
@@ -190,7 +210,7 @@ public class NewPollSL extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        if (!userInstance.compareRights(hash, RightEnum.ADMIN)) {
             resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);

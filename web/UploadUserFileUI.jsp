@@ -35,12 +35,10 @@
 <div id="navbar"></div>
 <br><br>
 <%
-
     HttpSession ses = request.getSession();
     LoggedUsers lU = LoggedUsers.getInstance();
 
     String hash = (String) ses.getAttribute("hash");
-
 
     if (!lU.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
@@ -72,21 +70,21 @@
 
         <br><br>
         <%
-            if (((String) this.getServletConfig().getServletContext().getAttribute("newPath")) != null) {
-                File f = new File((String) this.getServletConfig().getServletContext().getAttribute("newPath"));
+            if (request.getAttribute("newPath") != null) {
+                File f = new File((String) request.getAttribute("newPath"));
                 if (f != null) {
-                    out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\" userlist.xlsx\"> ");
+                    out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\"userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
                             "                        value=\"downloadFile\"><span\n" +
                             "                        class=\"glyphicon glyphicon-cloud-download\"></span> Userkeys mit Passwörter herunterladen\n" +
-                            "                </button>");
+                            "   </button>");
                     out.print("</a>");
                 }
             }
         %>
 
         <br><br>
-        <form method="post" action="AdminSettingsSL">
+        <form method="post" action="/AdminSettingsSL">
             <button type="submit" id="forward" class="btn btn-primary" name="forward"
                     value="forwardToAdminSite"><span
                     class="glyphicon glyphicon-floppy-disk"></span> Weiter zur Admin-Seite

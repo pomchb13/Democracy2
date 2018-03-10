@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der <%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
+        <h1>Derzeitiger Stand der <%= request.getAttribute("evaluationObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -60,15 +60,27 @@
             data: {
                 columns: [
                     <%
-                        if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
-                           PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                       int count = 0;
+                        if(request.getAttribute("evaluationObject") instanceof PollData) {
+                            PollData pd = (PollData) (request.getAttribute("evaluationObject"));
+
                             for (PollAnswer pa: pd.getAnswerList()) {
-                                out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                if (count == pd.getAnswerList().size()) {
+                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+                                } else {
+                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                }
+                                count++;
                             }
-                        } else {
-                            ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                        } else if (request.getAttribute("evaluationObject") instanceof ElectionData){
+                            ElectionData ed = (ElectionData) request.getAttribute("evaluationObject");
                             for (CandidateData cd: ed.getLiCandidates()) {
-                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                if (count == ed.getLiCandidates().size()) {
+                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
+                                } else{
+                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                }
+                                count++;
                             }
                         }
 %>
@@ -87,7 +99,7 @@
             axis: {
 
                 x: {
-                    label: '<%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
+                    label: '<%= request.getAttribute("evaluationObject") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
                 },
                 y: {
                     label: 'Anzahl der Stimmen'

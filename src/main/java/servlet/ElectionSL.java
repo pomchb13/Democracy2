@@ -2,18 +2,15 @@ package servlet;
 
 import beans.CandidateData;
 import beans.ElectionData;
-import beans.PollAnswer;
-import beans.PollData;
 import handler.AdminHandler;
 import handler.ElectionHandler;
-import handler.PollHandler;
+import logger.Logger;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
 import util.AdminReader;
 import util.BlockchainUtil;
-import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -42,16 +39,13 @@ public class ElectionSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getParameterNames().toString());
-        System.out.println(request.getParameter("candidateID"));
+        //AJAX Request for showing candidate info in a popup <div>
         if (request.getParameter("candidateID") != null) {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
-            System.out.println("ID: " + id);
             ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
-            //request.setAttribute("candidateID", null);
+            request.setAttribute("candidateID", null);
+            //Writes the whole candidate info back to the xmlhttp object from the javascript file
             try (PrintWriter out = response.getWriter()) {
                 String path = cd.getPortraitPath();
                 path = File.separator + "res" + path.split("res")[1];
@@ -72,39 +66,56 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameter("optradio").trim());
+        //gets the value from the radiobuttongroup
         int val = Integer.parseInt(req.getParameter("optradio").trim());
+
+        //Creates electionHandler object
         ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
-        LoggedUsers lu = LoggedUsers.getInstance();
+        //The Instance where all logged users and administrator are saved
+        LoggedUsers userInstance = LoggedUsers.getInstance();
         String address = null;
         try {
+            //Get Credentials from the session scope
             Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+
+            //Create adminHandler object
             AdminHandler adminHandler = new AdminHandler(user);
+
+            //Load the Admincontract to adminHandler
             adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
-            address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
-            System.out.println("vote --> " + address);
+
+            //Get userAddress from Hash(username+salt+password)
+            address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
+
+            //Get Contractaddress from election for voter
             Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+
+            //Load Usercontract to elecitonHandler
             electionHandler.loadSmartContract(contractAddress);
-            System.out.println("before vote");
+
+            //Give the vote to a candidate
             electionHandler.vote(new Uint8(val), new Address(address));
-            System.out.println(electionHandler.getCandidateData(val).getVoteCount());
-            System.out.println("after vote");
+
+            //Get the election from electionHandler
             ElectionData ed = electionHandler.getElectionData();
+
+            //Add the candidates to the electionobject
             LinkedList<CandidateData> liCandidateList = new LinkedList<>();
             for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
                 liCandidateList.add(electionHandler.getCandidateData(i));
             }
             ed.setLiCandidates(liCandidateList);
+
+            //Check if showing diagrams is allowed
             if (ed.isShow_diagrams()) {
-                this.getServletContext().setAttribute("clicked", ed);
+                req.getSession().setAttribute("voteObject", ed);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
             } else {
                 resp.sendRedirect("ThankYouUI.jsp");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.logError("Error while voting: "+e.toString(), ElectionSL.class );
         }
-        //processRequest(req, resp);
     }
 
 }

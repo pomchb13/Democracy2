@@ -5,6 +5,7 @@ import beans.PollData;
 import beans.RightEnum;
 import handler.AdminHandler;
 import handler.PollHandler;
+import logger.Logger;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
@@ -33,7 +34,7 @@ import java.util.LinkedList;
 public class PollSL extends HttpServlet {
 
     //The Instance where all logged users and administrator are saved
-    private LoggedUsers lU = LoggedUsers.getInstance();
+    private LoggedUsers userInstance = LoggedUsers.getInstance();
 
     /**
      * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
@@ -69,32 +70,54 @@ public class PollSL extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //Get the value from the radiobuttongroup
         int val = Integer.parseInt(req.getParameter("optradio").trim());
+
+        //Create pollHandler object
         PollHandler pollHandler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
-        LoggedUsers lu = LoggedUsers.getInstance();
+
         String address = null;
         try {
+            //Get Credentials from session scope
             Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+
+            //Create adminHandler object
             AdminHandler adminHandler = new AdminHandler(user);
+
+            //Load Admincontract to adminHandler
             adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
-            address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
+
+            //Get Accountaddress from the Hash(user+salt+password)
+            address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
+
+            //Get Contractaddress from poll for voter
             Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+
+            //Load Contrat in pollHandler
             pollHandler.loadSmartContract(contractAddress);
+
+            //Give vote to the answer
             pollHandler.vote(new Uint8(val), new Address(address));
+
+            //get the updated pollobject without answers
             PollData pd = pollHandler.getPollData();
+
+            //Add Answers to the pollobject
             LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
             for (int i = 0; i < pollHandler.getAnswerArraySize(); i++) {
                 liPollAnswer.add(pollHandler.getAnswerData(i));
             }
             pd.setAnswerList(liPollAnswer);
+
+            //Check if showing diagrams is allowed
             if (pd.isDiagramOption()) {
-                this.getServletContext().setAttribute("clicked", pd);
+                this.getServletContext().setAttribute("voteObject", pd);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
             } else {
                 resp.sendRedirect("ThankYouUI.jsp");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.logError("Error while voting: "+e.toString(), PollSL.class);
         }
     }
 
@@ -109,7 +132,7 @@ public class PollSL extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
-        if (!lU.compareRights(hash, RightEnum.USER)) {
+        if (!userInstance.compareRights(hash, RightEnum.USER)) {
             resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);

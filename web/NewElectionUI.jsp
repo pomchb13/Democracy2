@@ -54,7 +54,7 @@
 
         <h1>Neue Wahl erstellen</h1>
         <br><br>
-        <form action="/NewElectionSL" id="form1" method="post">
+        <form action="/NewElectionSL" id="electionForm" method="post">
             <!-- Field to add a title -->
             <div class="input-group">
                 <span class="input-group-addon">Titel</span>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <p id="error"><%=  request.getAttribute("errorVote") != null ? request.getAttribute("errorVote") : ""  %>
+            <p id="error"><%=  request.getAttribute("statusVote") != null ? request.getAttribute("statusVote") : ""  %>
             </p>
 
 
@@ -115,13 +115,13 @@
         <br>
 
         <div>
-            <h1>Kanditat zur <%= this.getServletConfig().getServletContext().getAttribute("newElection") != null ?
-                    ((ElectionData) this.getServletConfig().getServletContext().getAttribute("newElection")).getTitle() : ""%>
+            <h1>Kanditat zur <%= request.getAttribute("newElection") != null ?
+                    ((ElectionData) request.getAttribute("newElection")).getTitle() : ""%>
                 hinzufügen</h1></div>
 
         <!-- Add a new Candidate -->
-        <div class="candDiv1">
-            <form action="/NewElectionSL" id="form2" method="post">
+        <div class="candDiv">
+            <form action="/NewElectionSL" id="candidateForm" method="post">
                 <!-- Default dropup button -->
                 <!--<input id="ElectionDataOld" type="text" name="hiddenVote" class="form-control" hidden>-->
                 <br><br>
@@ -183,10 +183,10 @@
                 <!-- Field to add a picture from him/her-->
                 <div class="input-group">
                     <span class="input-group-addon">Foto</span>
-                    <div id="photoDropDiv" class="dropdown" style="width: 100% ">
+                    <div id="photoDropDiv" class="dropdown">
                         <button id="photoDropButton" name="photoButton" class="btn btn-default dropdown-toggle"
                                 type="button" value="Bitte wählen Sie ein Foto aus"
-                                data-toggle="dropdown" onclick="<% %>" style="width: 100%">Bitte wählen Sie ein Foto aus
+                                data-toggle="dropdown">Bitte wählen Sie ein Foto aus
                             <span class="caret"></span>
                         </button>
                         <ul id="photoDropList" class="dropdown-menu">
@@ -206,7 +206,7 @@
                 <input id="hiddenFoto" type="text" name="input_cand_Picture" class="form-control" hidden>
 
                 <br>
-                <%=  request.getAttribute("errorPol") != null ? request.getAttribute("errorPol") : ""  %>
+                <%=  request.getAttribute("statusCand") != null ? request.getAttribute("statusCand") : ""  %>
 
                 <!-- Button to add the Candidate -->
                 <div class="submitButton">
@@ -222,7 +222,7 @@
         <br>
         <br>
         <p>Hierbei könnte es zu etweiligen Verzögerungen kommen</p>
-        <form action="/NewElectionSL" id="form3" method="post">
+        <form action="/NewElectionSL" id="CompletionForm" method="post">
             <div class="submitButton">
                 <button type="submit" class="btn btn-primary" name="actionButton"
                         value="forward"> Weiter zur Generierung der Userkeys<span

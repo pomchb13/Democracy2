@@ -2,7 +2,6 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.*" %>
-<%@ page import="user.LoggedUsers" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
@@ -50,8 +49,8 @@
     <br>
     <br>
     <%
-        LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
-        LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
+        LinkedList<PollData> pollList = (LinkedList<PollData>) request.getSession().getAttribute("pollList");
+        LinkedList<ElectionData> electionList = (LinkedList<ElectionData>) request.getSession().getAttribute("electionList");
     %>
 
     <!-- Title of the page -->
@@ -73,8 +72,11 @@
                     </thead>
                     <tbody>
                     <%
+                        /**
+                         * Creates a HTML Table, where all polls and elections were shown.
+                         */
                         int anz = 0;
-                        for (PollData pd : liPollList) {
+                        for (PollData pd : pollList) {
                             out.println("<tr>");
                             out.println("<td>" + pd.getTitle() + "</td>");
                             out.println("<td>" + pd.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");
@@ -90,7 +92,7 @@
                                     + "</button>"
                                     + "</td>");
                         }
-                        for (ElectionData ed : liElectionList) {
+                        for (ElectionData ed : electionList) {
                             out.println("<tr>");
                             out.println("<td>" + ed.getTitle() + "</td>");
                             out.println("<td>" + ed.getDate_from().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "</td>");

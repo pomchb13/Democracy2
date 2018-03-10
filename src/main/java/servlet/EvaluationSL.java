@@ -22,7 +22,7 @@ import java.util.LinkedList;
 @WebServlet(urlPatterns = {"/EvaluationSL"})
 public class EvaluationSL extends HttpServlet {
 
-    private LoggedUsers lU = LoggedUsers.getInstance();
+    private LoggedUsers userInstance = LoggedUsers.getInstance();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -32,17 +32,15 @@ public class EvaluationSL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // forward to EvaluationPieChartAdminUI
         RequestDispatcher rd = request.getRequestDispatcher("/EvaluationPieChartAdminUI.jsp");
         rd.forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Check if user has right to be on this page
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        if (!userInstance.compareRights(hash, RightEnum.ADMIN)) {
             resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);
@@ -51,25 +49,24 @@ public class EvaluationSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // get value of clicked button
-        String s = req.getParameter("actionbutton").trim();
-        System.out.println(s);
+        // get Title of clicked button
+        String voteObjectTitle = req.getParameter("actionbutton").trim();
 
-        // get both list from the session scope --> TODO: Listen direkt vom Handler gönnen
-        LinkedList<PollData> liPollList = (LinkedList<PollData>) this.getServletConfig().getServletContext().getAttribute("PollList");
-        LinkedList<ElectionData> liElectionList = (LinkedList<ElectionData>) this.getServletConfig().getServletContext().getAttribute("ElectionList");
-        for (ElectionData electionData : liElectionList) {
+        // get both list from the session scope
+        LinkedList<PollData> pollList = (LinkedList<PollData>) req.getSession().getAttribute("pollList");
+        LinkedList<ElectionData> electionList = (LinkedList<ElectionData>) req.getSession().getAttribute("electionList");
+        for (ElectionData election : electionList) {
             // check if value is in this list
-            if (electionData.getTitle().equals(s)) {
+            if (election.getTitle().equals(voteObjectTitle)) {
                 // set cilckt Data on the session scope
-                req.getServletContext().setAttribute("clicked", electionData);
+                req.setAttribute("evaluationObject", election);
             }
         }
-        for (PollData pollData : liPollList) {
+        for (PollData poll : pollList) {
             // check if value is in this list
-            if (pollData.getTitle().equals(s)) {
+            if (poll.getTitle().equals(voteObjectTitle)) {
                 // set clickt Data on the session scope
-                req.getServletContext().setAttribute("clicked", pollData);
+                req.setAttribute("evaluationObject", poll);
             }
         }
         processRequest(req, resp);

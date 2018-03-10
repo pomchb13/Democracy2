@@ -10,6 +10,7 @@ package servlet;
  */
 
 import beans.RightEnum;
+import logger.Logger;
 import user.LoggedUsers;
 import util.BlockchainUtil;
 
@@ -30,7 +31,7 @@ import java.util.LinkedList;
 public class UploadImageSL extends HttpServlet {
 
     //The Instance where all logged users and administrator are saved
-    private LoggedUsers lU = LoggedUsers.getInstance();
+    private LoggedUsers userInstance = LoggedUsers.getInstance();
 
     /**
      * @param config
@@ -90,12 +91,21 @@ public class UploadImageSL extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String status = null;
+
+        //Get the path to the images folder on the server environment
         final String path = this.getServletContext().getRealPath("/res/images");
+
+        //Read the Part object from HTML input field
         final Part filePart = req.getPart("input_Picture");
         if (filePart != null) {
+
+            //Filtering filename from the Part object
             String[] fileField = getFileName(filePart).split("\\.");
+
             //Adding the a DateTimestamp to the filename to be sure no files will be overwritten
             final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
+
+            //List where all filenames from images are saved
             LinkedList<String> liFilenames = (LinkedList<String>) this.getServletContext().getAttribute("liFilenames");
             liFilenames.add(fileName);
             this.getServletContext().setAttribute("liFilenames", liFilenames);
@@ -117,6 +127,7 @@ public class UploadImageSL extends HttpServlet {
                 status = "Bild wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
+                Logger.logError("Error while reading image from file input: "+ fne.toString(), UploadUserFileSL.class);
             } finally {
                 if (out != null) {
                     out.close();
@@ -144,7 +155,7 @@ public class UploadImageSL extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String hash = (String) session.getAttribute("hash");
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        if (!userInstance.compareRights(hash, RightEnum.ADMIN)) {
             resp.sendRedirect("/LoginSL");
         } else {
             processRequest(req, resp);

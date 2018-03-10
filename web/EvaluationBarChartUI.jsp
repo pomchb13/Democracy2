@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der <%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
+        <h1>Derzeitiger Stand der <%= request.getSession().getAttribute("voteObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -61,8 +61,8 @@
                 columns: [
                     <%
     int count = 0;
-    if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
-       PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+    if(request.getSession().getAttribute("voteObject") instanceof PollData) {
+       PollData pd = (PollData) request.getSession().getAttribute("voteObject");
 
        for (PollAnswer pa: pd.getAnswerList()) {
            if (count == pd.getAnswerList().size()) {
@@ -72,8 +72,8 @@
            }
            count++;
         }
-    } else if (this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData){
-        ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
+    } else if (request.getSession().getAttribute("voteObject") instanceof ElectionData){
+        ElectionData ed = (ElectionData)request.getSession().getAttribute("voteObject");
         for (CandidateData cd: ed.getLiCandidates()) {
             if (count == ed.getLiCandidates().size()) {
                 out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
@@ -99,7 +99,7 @@
             axis: {
                 x: {
                     label: {
-                        text: '<%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>',
+                        text: '<%= request.getSession().getAttribute("voteObject") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>',
                         position: 'outer-center'
                     },
                     tick: {

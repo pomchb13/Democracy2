@@ -88,7 +88,7 @@ public class LoggedUsers {
      * @param hash hash of username, password and salt
      * @return the address(username) of this hash
      */
-    public String getAddessOfHash(String hash) {
+    public String getAddressOfHash(String hash) {
         for (Map.Entry<String, String> e : addressList.entrySet()) {
             if (e.getKey().equals(hash)) {
                 return e.getValue();
