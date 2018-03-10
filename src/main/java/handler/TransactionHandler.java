@@ -32,8 +32,8 @@ public class TransactionHandler {
 
     /**
      * Method responsible for sending a small amount of Ether (0.0001 Ether) from the admin account to a second account.
-     * This method is only needed because the voter would not be able to vote because they cannot pay the gas price
-     * for the transaction.
+     * This method is only needed because the voter would not be able to vote without any ether because the user have to
+     * pay a gas price for the transaction
      *
      * @param toAddress address of the second account where the Ether goes to
      * @throws Exception if the transaction fails

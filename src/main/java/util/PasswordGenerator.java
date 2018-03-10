@@ -1,12 +1,13 @@
 package util;
 
-
+/**
+ * Author:          Christoph Pommer
+ * Created on:
+ * Description:     Class to generate a random paassword for the user
+ */
 import java.security.SecureRandom;
 
-/**
- * Created by Christoph Pommer on 18.02.2018
- * Class to generate a Secure Password
- */
+
 public class PasswordGenerator {
 
 
@@ -21,7 +22,7 @@ public class PasswordGenerator {
 
     /**
      *
-     * Generates a password out of the Available Letters and the length with a securerandom object
+     * Generates a password out of the AvailableLetters and the length with a securerandom object
      * @param length of password
      * @return the new password
      */

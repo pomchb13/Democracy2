@@ -1,16 +1,21 @@
 package util;
 
-import handler.ElectionHandler;
-import org.web3j.abi.datatypes.Address;
+
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
-import handler.PollHandler;
-import beans.VoteType;
+
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+/**
+ * Author:          Christoph Pommer
+ * Created on:
+ * Description:     This class is responsible for a lot of things needed for the the Blockchain like logging in
+ *                  and get the filenames + saving them
+ */
 
 public class BlockchainUtil {
 
@@ -26,14 +31,40 @@ public class BlockchainUtil {
         return PATH;
     }
 
+    /**
+     * Method to log in to the Blockchain via the website
+     * @param address of the user
+     * @param passwd  password of the user
+     * @return the credentials of the user
+     * @throws IOException
+     * @throws CipherException
+     */
     public static Credentials loginToBlockhain(String address, String passwd) throws IOException, CipherException {
         return WalletUtils.loadCredentials(passwd,new File(PATH + getFileName(address)));
     }
 
+    /**
+     * Method to log in to the Blcokchain with the BlockchainApp because the BlockchainApp can not access the
+     * serveltcontext for the path of the walletfiles
+     * @param address of the user or admin
+     * @param passwd of the user
+     * @param alternativePath path where the BlockchainUserfiles are saved
+     * @return the credentials of the user
+     * @throws IOException
+     * @throws CipherException
+     */
     public static Credentials loginToBlockhain(String address, String passwd, String alternativePath) throws IOException, CipherException {
         return WalletUtils.loadCredentials(passwd,new File(alternativePath + getFileName(address, alternativePath)));
     }
 
+    /**
+     * method to get the filename of the users wallet file
+     * because the wallet files that get created do not have the address as the filename we need to get the right
+     * filename
+     * the path is the path of the directory where the walletfiles are saved
+     * @param address of the user
+     * @return the filename for the user walletfile
+     */
     public static String getFileName(String address)
     {
         address = address.substring(2);
@@ -52,6 +83,13 @@ public class BlockchainUtil {
         return "";
     }
 
+    /**
+     * more or like the same method as before, except the path of the directory, because the BlockchainApp can not
+     * acess the serveltcontext
+     * @param address of the user
+     * @param alternativePath path of the walletfiles because the BlockchainApp can not access the servletcontext
+     * @return
+     */
     public static String getFileName(String address, String alternativePath)
     {
         address = address.substring(2);
@@ -71,23 +109,6 @@ public class BlockchainUtil {
     }
 
 
-    public static void saveContractAddress(String address,String path) throws IOException {
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(path));
-        bw.write(address);
-        bw.flush();
-        bw.close();
-    }
-
-    public static String readContractAdress(String path) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(path));
-        String address = br.readLine();
-        return address;
-    }
-
-    public static void afterVote(String userpath) throws IOException {
-        Files.delete(Paths.get(userpath));
-    }
 
 
 

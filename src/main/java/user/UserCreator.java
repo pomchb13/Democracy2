@@ -20,31 +20,36 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Patrick Windegger on 10.12.2017.
+ * Author:          Christoph Pommer
+ * Created on:
+ * Description:     This class is responsible creating a new wallet file and all users needed for the election or poll
  */
 public class UserCreator {
 
     private Web3j web3j;
+    //Length of the created password
     private static final int PASSWORDLENGTH = 15;
 
+
     /**
-     * Initialization for the Web3j-Service
+     * initializes the web3j object with a new httpservice
      */
     public UserCreator() {
         web3j = Web3j.build(new HttpService());
     }
 
+
     /**
-     * Creates a new user account
      *
-     * @param password        - password of the account
-     * @param destinationPath - destination path where the wallet file is saved
+     * @param password password for the Blockchain user
+     * @param destinationPath path where the Blockchain user wallet file gets saved
+     * @return String with the new created users address
      * @throws CipherException
      * @throws InvalidAlgorithmParameterException
      * @throws NoSuchAlgorithmException
      * @throws NoSuchProviderException
      * @throws IOException
-     * @returns the address of the account
+     * throws a lot of exceptions because there are a lot of things that can go wrong while creating a new Blockchain user
      */
     public String createNewUserAddress(String password, String destinationPath) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         String filename = WalletUtils.generateFullNewWalletFile(password, new File(destinationPath));
@@ -53,9 +58,35 @@ public class UserCreator {
     }
 
 
-    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int anzVoters,String adminFilepath) throws Exception {
-        int anzSheets = anzVoters / 1048576;
-        if(anzVoters%1048576>0)anzSheets++;
+    /**
+     * method for creating all the new users.
+     * the needed amount of sheets getting calculated
+     * with the given votetype the election or poll gets loaded
+     * with the given number of needed user accounts, a new map gets created with all the needed data
+     * the transactionhandler is needed to give the user a small amount of ether which is needed to vote
+     * the for-loop creates the needed amount of useraccounts.
+     * in the for-loop a new password gets created with the passwordgenerator class
+     * with the newly created password a new username/ address gets created with the createNewUserAddress method
+     * the new user gets put into the map
+     * after the user is created the user will be mapped to the election or poll in the admincontract via the adminhandler
+     * then the user gets his small amount of ether with the Transactionhandler method sendTransaction
+     * at last the user gets the rightToVote in the specific election or poll
+     * the excelhandler gets the excelFilePath, the newly created usermap and the sheetcount which will create the excel
+     * file
+     * @param path where the created excel file gets saved for the download
+     * @param walletPath path where the wallet files gets saved
+     * @param contractAddress every user is created for a specific election or poll and this is the address to this
+     *                        election or poll
+     * @param vt the type of the vote, election or poll, so we do not to test it
+     * @param cr the credentials of the admin for giving the user the right to vote on the specific election or poll
+     * @param votersCount count of the voters allowed on the poll or election, also the amount of users that need to be
+     *                    created
+     * @param adminFilepath because we needed the admincontract, we need this path to load the admincontract
+     * @throws Exception throws the exception of the excel handler along, and all the exceptions of the contracts
+     */
+    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int votersCount,String adminFilepath) throws Exception {
+        int sheetCount = votersCount / 1048576;
+        if(votersCount%1048576>0 &&votersCount<1048576)sheetCount++;
         AdminHandler ah = new AdminHandler(cr);
         ah.loadSmartContract(AdminReader.getAdminContractAddress(adminFilepath));
 
@@ -71,7 +102,7 @@ public class UserCreator {
         }
         TransactionHandler th = new TransactionHandler(cr);
 
-        for (int i = 0; i < anzVoters; i++) {
+        for (int i = 0; i < votersCount; i++) {
             String password = PasswordGenerator.createPassword(PASSWORDLENGTH);
             String username = createNewUserAddress(password, walletPath);
             map.put(username, password);
@@ -84,7 +115,7 @@ public class UserCreator {
                 pl.giveRightToVote(new Address(username));
             }
         }
-        ExcelHandler.createExcelFile(path, map, anzSheets);
+        ExcelHandler.createExcelFile(path, map, sheetCount);
     }
 
     /**

@@ -15,7 +15,7 @@ public class CMDUtil {
     private String dataDirectory;
 
     /**
-     * Constructor to initialize the Runtime
+     * Constructor to initialize the runtime
      *
      * @param gethDirectoy:  path to 'geth.exe'
      * @param dataDirectory: path to the data directory, where the wallet files are stored.

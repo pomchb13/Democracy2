@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 /**
  * Author:          Ewald Hartmann
  * Created on:
- * Description:     class for generate hash of password and username
+ * Description:     Class for generate hash of password and username
  */
 
 public class HashGenerator {

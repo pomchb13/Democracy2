@@ -23,9 +23,8 @@ import java.util.List;
 /**
  * Author:          Patrick Windegger
  * Created on:
- * Description:     GUI for the blockchain app for admins, to start the private Blockchain environment,
+ * Description:     GUI for the Blockchain app for admins, to start the private Blockchain environment,
  *                  deploy the admin-contract and create new admins.
- *
  */
 public class BlockchainAppGUI extends JFrame {
 
@@ -148,7 +147,7 @@ public class BlockchainAppGUI extends JFrame {
 
     /**
      * Method responsible for starting the Blockchain
-     * If the AdminContract contract exists, the admin has to log in to the Blockchain using his Login data. All available
+     * If the AdminContract contract exists, the admin has to log in to the Blockchain using his login data. All available
      * admins of the contract get loaded into a JList.
      * If the AdminContract contract does not exists, a new admin gets created automatically.
      *
@@ -204,7 +203,7 @@ public class BlockchainAppGUI extends JFrame {
      * If the AdminContract contract exists and the contract is loaded, a new user address and password gets created,
      * the admin gets stored in the contract and is added to the JList.
      * If the admin contract does not exist and the contract is not loaded yet, a new user address and password gets created,
-     * a new AdminContract contract gets created, the new admin gets added to the JList.
+     * a new AdminContract contract gets created and the new admin gets added to the JList.
      *
      * @throws NoSuchAlgorithmException           if an error occurs
      * @throws NoSuchProviderException            if an error occurs

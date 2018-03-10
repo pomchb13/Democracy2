@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Author:          Ewald Hartmann
  * Created on:
- * Description:     class contains all user which are logged in.
+ * Description:     Class contains all users which are logged in.
  */
 
 public class LoggedUsers {
@@ -61,7 +61,7 @@ public class LoggedUsers {
     /**
      *
      * @param hash hash of username, password and salt
-     * @param neededRight the needed right for this side
+     * @param neededRight the needed right for this webpage
      * @return true if the right is okay , false if the right is to low
      */
     public boolean compareRights(String hash, RightEnum neededRight) {
@@ -74,7 +74,7 @@ public class LoggedUsers {
     }
 
     /**
-     * prints all user out
+     * prints all users out
      */
     public void outPutUserList() {
         System.out.println("----------LoggedUsers------------");
