@@ -2,6 +2,7 @@ package servlet;
 
 import beans.CandidateData;
 import beans.ElectionData;
+import beans.PollAnswer;
 import beans.PollData;
 import handler.AdminHandler;
 import handler.ElectionHandler;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 /**
  * Created by Ewald on 28.02.2018.
@@ -88,8 +90,18 @@ public class ElectionSL extends HttpServlet {
             System.out.println(electionHandler.getCandidateData(val).getVoteCount());
             System.out.println("after vote");
             ElectionData ed = electionHandler.getElectionData();
+            LinkedList<CandidateData> liCandidateList = new LinkedList<>();
+            for (int i = 0; i < Integer.MAX_VALUE; i++) {
+                try {
+                    liCandidateList.add(electionHandler.getCandidateData(i));
+                } catch (Exception e) {
+                    System.out.println("keine Antwort mehr");
+                    break;
+                }
+            }
+            ed.setLiCandidates(liCandidateList);
             if (ed.isShow_diagrams()) {
-                req.getSession().setAttribute("Chart", ed);
+                this.getServletContext().setAttribute("clicked", ed);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
             }else {
                 resp.sendRedirect("ThankYouUI.jsp");
