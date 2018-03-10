@@ -95,12 +95,10 @@ public class ExcelHandler {
 
     public static void createExcelFile(String file, TreeMap<String,String> map,int anzSheets) throws IOException {
         Workbook w = new XSSFWorkbook();
-        System.out.println("path: "+file);
         int anzvotersWroteout=1;
         int sheetIndex=0;
         int rowIndex=1;
         LinkedList<Sheet> sheetList = new LinkedList<>();
-        System.out.println(anzSheets);
         for(int i=0;i<anzSheets;i++)
         {
             Sheet sheet = w.createSheet("Users"+i);
@@ -113,7 +111,6 @@ public class ExcelHandler {
 
         }
 
-        System.out.println("map size: "+map.size());
         for(Map.Entry<String,String> entry:map.entrySet())
         {
             Row row = sheetList.get(sheetIndex).createRow(rowIndex);
@@ -122,12 +119,10 @@ public class ExcelHandler {
             row.createCell(2).setCellValue(entry.getValue());
             if(anzvotersWroteout%1048575==0)
             {
-                System.out.println("asdf");
               sheetIndex++;
               rowIndex=1;
             }
             rowIndex++;
-            System.out.println("anzvoter: "+anzvotersWroteout);
             anzvotersWroteout++;
         }
 

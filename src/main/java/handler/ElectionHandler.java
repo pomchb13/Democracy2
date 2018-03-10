@@ -63,15 +63,9 @@ public class ElectionHandler {
      */
     //TODO: souts entfernen
     public String createContract(int numCandidates, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
-        System.out.println("Handler --> create 1");
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-
-        System.out.println("Handler --> create 2");
-        System.out.println(web3);
-        System.out.println(credentials);
         election = ElectionContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numCandidates + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
-        System.out.println("Handler --> create 3");
         return election.getContractAddress();
     }
 
@@ -164,7 +158,6 @@ public class ElectionHandler {
             BigInteger dateFrom = election.getElectionData().send().getValue2();
             BigInteger dateDue = election.getElectionData().send().getValue3();
             Boolean showDiagram = election.getElectionData().send().getValue4();
-
             LocalDate ldDateFrom = Instant.ofEpochMilli(dateFrom.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate ldDateDue = Instant.ofEpochMilli(dateDue.longValue()).atZone(ZoneId.systemDefault()).toLocalDate();
             return new ElectionData(title, ldDateFrom, ldDateDue, showDiagram);

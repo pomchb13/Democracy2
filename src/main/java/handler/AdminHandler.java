@@ -14,8 +14,8 @@ import java.util.List;
  * Author:          Patrick Windegger
  * Created on:
  * Description:     Class responsible for handling the admins of elections and polls.
- *                  All methods of the contract are implemented in this handler.
- *                  The communication between java and the Blockchain is also implemented here.
+ * All methods of the contract are implemented in this handler.
+ * The communication between java and the Blockchain is also implemented here.
  */
 
 public class AdminHandler {
@@ -32,7 +32,6 @@ public class AdminHandler {
     public AdminHandler(Credentials credentials) {
         web3 = Web3j.build(new HttpService());
         this.credentials = credentials;
-        System.out.println("createdAdminCredentials");
     }
 
     /**
@@ -66,7 +65,6 @@ public class AdminHandler {
      */
     public boolean checkIfAdmin(Address address) throws Exception {
         if (admin != null) {
-            System.out.println("in checkIfAdmin ---- AdminContract Handler");
             return admin.checkIfAdmin(address.toString()).send();
         } else {
             throw new Exception("admin object is null!");
@@ -127,7 +125,6 @@ public class AdminHandler {
      */
     public List<Address> getAllContractAddresses(Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
-            System.out.println("in get All contracts");
             if (admin != null) {
                 List<Address> contracts = new ArrayList<>();
                 int numContracts = admin.getContractCount().send().intValue();
@@ -191,7 +188,6 @@ public class AdminHandler {
      */
     public void addContractAddress(Address address, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
-            System.out.println("user is admin");
             if (admin != null) {
                 admin.addContractAddress(address.toString()).send();
             } else {
