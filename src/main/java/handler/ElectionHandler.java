@@ -256,6 +256,7 @@ public class ElectionHandler {
 
     /**
      * Method responsible for getting the path to the image of the candidate
+     *
      * @param candidateIndex: index of the candidate
      * @return the path to the image of the candidate
      * @throws Exception if the election contract is not loaded
@@ -263,6 +264,20 @@ public class ElectionHandler {
     public String getCandidateImagePath(int candidateIndex) throws Exception {
         if (election != null) {
             return election.getCandidateImagePath(new BigInteger(candidateIndex + "")).send();
+        } else {
+            throw new Exception("election object is null!");
+        }
+    }
+
+    /**
+     * Method responsible for returning the size of the candidate array in the contract
+     *
+     * @return size of array
+     * @throws Exception if the election contract is not loaded
+     */
+    public int getCandidateArraySize() throws Exception {
+        if (election != null) {
+            return election.getCandidateSize().send().intValue();
         } else {
             throw new Exception("election object is null!");
         }
