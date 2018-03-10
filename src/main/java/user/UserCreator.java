@@ -1,6 +1,5 @@
 package user;
 
-import beans.User;
 import handler.*;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
@@ -51,43 +50,6 @@ public class UserCreator {
         String filename = WalletUtils.generateFullNewWalletFile(password, new File(destinationPath));
         Credentials credentials = WalletUtils.loadCredentials(password, destinationPath + filename);
         return credentials.getAddress();
-    }
-
-
-    @Deprecated
-    public void createNewUsers(String uploadedFilePath, String newPath, String walletPath, String contractAddress, VoteType vt, Credentials cr) throws Exception {
-        TreeMap<Integer, User> map = ExcelHandler.readExcelFile(new File(uploadedFilePath));
-        ElectionHandler el = null;
-        PollHandler pl = null;
-        if (vt.equals(VoteType.ELECTION)) {
-            el = new ElectionHandler(cr);
-            el.loadSmartContract(new Address(contractAddress));
-        } else {
-            pl = new PollHandler(cr);
-            pl.loadSmartContract(new Address(contractAddress));
-        }
-        for (Map.Entry<Integer, User> entry : map.entrySet()) {
-            User user = entry.getValue();
-            String passwd = PasswordGenerator.createPassword(15);
-            String username = createNewUserAddress(passwd, walletPath);
-            user.setUsername(username);
-            user.setPassword(passwd);
-            entry.setValue(user);
-            if (vt.equals(VoteType.ELECTION)) {
-                el.giveRightToVote(new Address(username));
-            } else {
-                pl.giveRightToVote(new Address(username));
-            }
-        }
-
-        File uploadedFile = new File(uploadedFilePath);
-        System.out.println(uploadedFile.getName());
-        newPath = newPath + File.separator + uploadedFile.getName();
-        System.out.println(newPath);
-
-        ExcelHandler.updateExcelFile(new File(uploadedFilePath), map, newPath);
-        map.clear();
-        map = null;
     }
 
 
