@@ -301,8 +301,8 @@ public class ElectionHandler {
             CandidateData p3 = new CandidateData("DI", "F3", "L3", LocalDate.of(1970, 9, 3), "SPÖ", "S3", null);
 
 
-            Credentials cr = BlockchainUtil.loginToBlockhain("0x8c995191c5dd74f876b2b4a44da84e3ec7795319", "1234");
-            ElectionHandler tester = new ElectionHandler();
+            Credentials cr = BlockchainUtil.loginToBlockhain("0x88c50c20dbbc569c956792510c7451b3e7b74b8a", "N{1ee-mO/Bx0A!qUM|6F");
+            ElectionHandler tester = new ElectionHandler(cr);
             tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
             tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan(), "");
             tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan(), "");
@@ -312,6 +312,8 @@ public class ElectionHandler {
             System.out.println(tester.getCandidateData(0));
             System.out.println(tester.getCandidateData(1));
             System.out.println(tester.getCandidateData(2));
+
+            System.out.println(tester.getCandidateArraySize());
 
 
            /* tester.giveRightToVote(new Address(users[0]));
