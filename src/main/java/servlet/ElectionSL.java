@@ -48,7 +48,7 @@ public class ElectionSL extends HttpServlet {
         System.out.println(request.getParameter("candidateID"));
         if (request.getParameter("candidateID") != null) {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
-            System.out.println("ID: "+id);
+            System.out.println("ID: " + id);
             ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
             CandidateData cd = ed.getLiCandidates().get(id);
             //request.setAttribute("candidateID", null);
@@ -91,19 +91,14 @@ public class ElectionSL extends HttpServlet {
             System.out.println("after vote");
             ElectionData ed = electionHandler.getElectionData();
             LinkedList<CandidateData> liCandidateList = new LinkedList<>();
-            for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                try {
-                    liCandidateList.add(electionHandler.getCandidateData(i));
-                } catch (Exception e) {
-                    System.out.println("keine Antwort mehr");
-                    break;
-                }
+            for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
+                liCandidateList.add(electionHandler.getCandidateData(i));
             }
             ed.setLiCandidates(liCandidateList);
             if (ed.isShow_diagrams()) {
                 this.getServletContext().setAttribute("clicked", ed);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-            }else {
+            } else {
                 resp.sendRedirect("ThankYouUI.jsp");
             }
         } catch (Exception e) {

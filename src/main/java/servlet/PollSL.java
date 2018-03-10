@@ -36,8 +36,7 @@ public class PollSL extends HttpServlet {
     private LoggedUsers lU = LoggedUsers.getInstance();
 
     /**
-     * @param config
-     * In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
+     * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
      * @throws ServletException
      */
     @Override
@@ -48,8 +47,7 @@ public class PollSL extends HttpServlet {
 
     /**
      * @param request
-     * @param response
-     * In this Method we only get the RequestDispatcher which forwards to the "NewPollUI.jsp".
+     * @param response In this Method we only get the RequestDispatcher which forwards to the "NewPollUI.jsp".
      * @throws ServletException
      * @throws IOException
      */
@@ -62,11 +60,10 @@ public class PollSL extends HttpServlet {
 
     /**
      * @param req
-     * @param resp
-     * The doPost method will be fired when the voter uses his right to vote and firstly selects a candidate and then
-     * presses the votebutton. The PollHandler communicates with the Blockchain that the Blockchain kann save the vote
-     * and delete the right to vote for that poll. If the administrator enabled seeing real-time results the voter will
-     * be forwarded to the "EvaluationBarChartUI.jsp", else he will be forwarded to the "ThankYouUI.jsp".
+     * @param resp The doPost method will be fired when the voter uses his right to vote and firstly selects a candidate and then
+     *             presses the votebutton. The PollHandler communicates with the Blockchain that the Blockchain kann save the vote
+     *             and delete the right to vote for that poll. If the administrator enabled seeing real-time results the voter will
+     *             be forwarded to the "EvaluationBarChartUI.jsp", else he will be forwarded to the "ThankYouUI.jsp".
      * @throws ServletException
      * @throws IOException
      */
@@ -76,42 +73,35 @@ public class PollSL extends HttpServlet {
         PollHandler pollHandler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
         LoggedUsers lu = LoggedUsers.getInstance();
         String address = null;
-            try {
-                Credentials user = (Credentials) req.getSession().getAttribute("credentials");
-                AdminHandler adminHandler = new AdminHandler(user);
-                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
-                address= lu.getAddessOfHash((String)req.getSession().getAttribute("hash"));
-                Address contractAddress= adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
-                pollHandler.loadSmartContract(contractAddress);
-                pollHandler.vote(new Uint8(val),new Address(address));
-                PollData pd = pollHandler.getPollData();
-                LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        liPollAnswer.add(pollHandler.getAnswerData(i));
-                    } catch (Exception e) {
-                        System.out.println("keine Antwort mehr");
-                        break;
-                    }
-                }
-                pd.setAnswerList(liPollAnswer);
-                if (pd.isDiagramOption()) {
-                    this.getServletContext().setAttribute("clicked", pd);
-                    resp.sendRedirect("EvaluationBarChartUI.jsp");
-                }else {
-                    resp.sendRedirect("ThankYouUI.jsp");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+            AdminHandler adminHandler = new AdminHandler(user);
+            adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+            address = lu.getAddessOfHash((String) req.getSession().getAttribute("hash"));
+            Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+            pollHandler.loadSmartContract(contractAddress);
+            pollHandler.vote(new Uint8(val), new Address(address));
+            PollData pd = pollHandler.getPollData();
+            LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
+            for (int i = 0; i < pollHandler.getAnswerArraySize(); i++) {
+                liPollAnswer.add(pollHandler.getAnswerData(i));
             }
+            pd.setAnswerList(liPollAnswer);
+            if (pd.isDiagramOption()) {
+                this.getServletContext().setAttribute("clicked", pd);
+                resp.sendRedirect("EvaluationBarChartUI.jsp");
+            } else {
+                resp.sendRedirect("ThankYouUI.jsp");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * @param req
-     * @param resp
-     *
-     * Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
-     * in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
+     * @param resp Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
+     *             in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
      * @throws ServletException
      * @throws IOException
      */

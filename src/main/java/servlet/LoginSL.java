@@ -128,13 +128,10 @@ public class LoginSL extends HttpServlet {
                             eh.loadSmartContract(new Address(contractAddress));
                             ElectionData ed = eh.getElectionData();
                             LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
-                            for (int i = 0; i < 100; i++) {
-                                try {
-                                    liCandidateDate.add(eh.getCandidateData(i));
-                                } catch (Exception e) {
-                                    System.out.println("keine Kanditaten mehr");
-                                    break;
-                                }
+                            System.out.println("List size in ElectionHandler -->"+eh.getCandidateArraySize());
+                            for (int i = 0; i < eh.getCandidateArraySize()-1; i++) {
+                                liCandidateDate.add(eh.getCandidateData(i));
+
                             }
                             ed.setLiCandidates(liCandidateDate);
                             // check if user has already voted
@@ -159,13 +156,9 @@ public class LoginSL extends HttpServlet {
                                 ph.loadSmartContract(new Address(contractAddress));
                                 PollData pd = ph.getPollData();
                                 LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
-                                for (int i = 0; i < 100; i++) {
-                                    try {
-                                        liPollAnswer.add(ph.getAnswerData(i));
-                                    } catch (Exception e) {
-                                        System.out.println("keine Antwort mehr");
-                                        break;
-                                    }
+                                System.out.println("ListSize in Handler -->" +ph.getAnswerArraySize());
+                                for (int i = 0; i < ph.getAnswerArraySize()-1; i++) {
+                                    liPollAnswer.add(ph.getAnswerData(i));
                                 }
                                 pd.setAnswerList(liPollAnswer);
                                 HttpSession ses = req.getSession();
