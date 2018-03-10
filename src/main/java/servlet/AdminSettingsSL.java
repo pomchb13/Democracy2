@@ -58,8 +58,7 @@ public class AdminSettingsSL extends HttpServlet {
             List<Address> list = null;
             try {
                 list = adminHandler.getAllContractAddresses(new Address(credentials.getAddress()));
-            }catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
             for (Address a : list) {
@@ -68,14 +67,11 @@ public class AdminSettingsSL extends HttpServlet {
                     electionHandler.loadSmartContract(a);
                     ElectionData ed = electionHandler.getElectionData();
                     LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
-                    for (int i = 0; i < 100; i++) {
-                        try {
-                            liCandidateDate.add(electionHandler.getCandidateData(i));
-                            System.out.println("Added Candidate to ElectionContract");
-                        } catch (Exception e) {
-                            System.out.println("keine Kanditaten mehr");
-                            break;
-                        }
+                    for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
+
+                        liCandidateDate.add(electionHandler.getCandidateData(i));
+                        System.out.println("Added Candidate to ElectionContract");
+
                     }
                     ed.setLiCandidates(liCandidateDate);
                     liElectioData.add(ed);
@@ -85,13 +81,10 @@ public class AdminSettingsSL extends HttpServlet {
                     ph.loadSmartContract(a);
                     PollData pd = ph.getPollData();
                     LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
-                    for (int i = 0; i < 100; i++) {
-                        try {
-                            liPollAnswer.add(ph.getAnswerData(i));
-                        } catch (Exception e) {
-                            System.out.println("keine Antwort mehr");
-                            break;
-                        }
+                    for (int i = 0; i < ph.getAnswerArraySize(); i++) {
+
+                        liPollAnswer.add(ph.getAnswerData(i));
+
                     }
                     pd.setAnswerList(liPollAnswer);
                     liPollList.add(pd);
@@ -111,8 +104,8 @@ public class AdminSettingsSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
-        Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        if (Files.exists(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
+            Files.delete(Paths.get((String) this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
         processRequest(req, resp);
     }
 }

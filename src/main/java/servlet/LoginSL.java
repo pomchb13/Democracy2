@@ -129,7 +129,7 @@ public class LoginSL extends HttpServlet {
                             ElectionData ed = eh.getElectionData();
                             LinkedList<CandidateData> liCandidateDate = new LinkedList<>();
                             System.out.println("List size in ElectionHandler -->"+eh.getCandidateArraySize());
-                            for (int i = 0; i < eh.getCandidateArraySize()-1; i++) {
+                            for (int i = 0; i < eh.getCandidateArraySize(); i++) {
                                 liCandidateDate.add(eh.getCandidateData(i));
 
                             }
@@ -157,7 +157,7 @@ public class LoginSL extends HttpServlet {
                                 PollData pd = ph.getPollData();
                                 LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
                                 System.out.println("ListSize in Handler -->" +ph.getAnswerArraySize());
-                                for (int i = 0; i < ph.getAnswerArraySize()-1; i++) {
+                                for (int i = 0; i < ph.getAnswerArraySize(); i++) {
                                     liPollAnswer.add(ph.getAnswerData(i));
                                 }
                                 pd.setAnswerList(liPollAnswer);
