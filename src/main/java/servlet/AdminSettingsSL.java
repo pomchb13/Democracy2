@@ -71,6 +71,7 @@ public class AdminSettingsSL extends HttpServlet {
                     for (int i = 0; i < 100; i++) {
                         try {
                             liCandidateDate.add(electionHandler.getCandidateData(i));
+                            System.out.println("Added Candidate to Election");
                         } catch (Exception e) {
                             System.out.println("keine Kanditaten mehr");
                             break;
@@ -79,6 +80,7 @@ public class AdminSettingsSL extends HttpServlet {
                     ed.setLiCandidates(liCandidateDate);
                     liElectioData.add(ed);
                 } catch (Exception ex) {
+                    System.out.println(ex.toString());
                     PollHandler ph = new PollHandler(credentials);
                     ph.loadSmartContract(a);
                     PollData pd = ph.getPollData();

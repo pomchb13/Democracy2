@@ -41,7 +41,7 @@ public class NewPollSL extends HttpServlet {
     //The Instance where all logged users and administrator are saved
     private LoggedUsers lU = LoggedUsers.getInstance();
     //The Pollhandler object is responsible for the communication with the blockchain
-    private PollHandler pollTester;
+    private PollHandler pollHandler;
 
     /**
      * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
@@ -138,24 +138,21 @@ public class NewPollSL extends HttpServlet {
             //Checks if the administrator is logged in correctly
             Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
             //The PollHandler is the communication tool for communicating with the Blockchain
-            pollTester = new PollHandler(cr);
+            pollHandler = new PollHandler(cr);
+            AdminHandler adminHandler = new AdminHandler(cr);
 
             PollData pollData = (PollData) this.getServletContext().getAttribute("poll");
             try {
                 //Method to create the PollContract on the Blockchain
-                String contractAdress = pollTester.createContract(pollData.getAnswerList().size(),
+                String contractAdress = pollHandler.createContract(pollData.getAnswerList().size(),
                         pollData.getTitle(),
                         pollData.getDate_from(),
                         pollData.getDate_due(),
                         pollData.isDiagramOption());
-                try {
-                    AdminHandler adminHandler = new AdminHandler(cr);
-                    adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
-                    adminHandler.addAdminAddress(new Address(contractAdress), new Address(cr.getAddress()));
-                }catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+                adminHandler.addContractAddress(new Address(contractAdress), new Address(cr.getAddress()));
+
+
                 this.getServletContext().setAttribute("newContractAdress", contractAdress);
                 this.getServletContext().setAttribute("newTypeOfVote", VoteType.POLL);
 
@@ -164,13 +161,14 @@ public class NewPollSL extends HttpServlet {
                 this.getServletContext().setAttribute("PollList", dataLinkedList);
 
             } catch (Exception e) {
+                e.printStackTrace();
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> liAnswers = pollData.getAnswerList();
             //Foreach loop is responsible for adding all answers to the PollContract in the Blockchain
             for (int i = 0; i < liAnswers.size(); i++) {
                 try {
-                    pollTester.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
+                    pollHandler.storeAnswerData(i, liAnswers.get(i).getTitle(), liAnswers.get(i).getDescription());
                 } catch (Exception e) {
                     req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                 }

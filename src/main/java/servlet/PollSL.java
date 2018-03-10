@@ -1,5 +1,6 @@
 package servlet;
 
+import beans.PollAnswer;
 import beans.PollData;
 import beans.RightEnum;
 import handler.AdminHandler;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Author:          Ewald Hartmann
@@ -77,14 +79,24 @@ public class PollSL extends HttpServlet {
             try {
                 Credentials user = (Credentials) req.getSession().getAttribute("credentials");
                 AdminHandler adminHandler = new AdminHandler(user);
-                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin")));
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
                 address= lu.getAddessOfHash((String)req.getSession().getAttribute("hash"));
                 Address contractAddress= adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
                 pollHandler.loadSmartContract(contractAddress);
                 pollHandler.vote(new Uint8(val),new Address(address));
                 PollData pd = pollHandler.getPollData();
+                LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
+                for (int i = 0; i < 100; i++) {
+                    try {
+                        liPollAnswer.add(pollHandler.getAnswerData(i));
+                    } catch (Exception e) {
+                        System.out.println("keine Antwort mehr");
+                        break;
+                    }
+                }
+                pd.setAnswerList(liPollAnswer);
                 if (pd.isDiagramOption()) {
-                    req.setAttribute("Chart", pd);
+                    this.getServletContext().setAttribute("clicked", pd);
                     resp.sendRedirect("EvaluationBarChartUI.jsp");
                 }else {
                     resp.sendRedirect("ThankYouUI.jsp");
@@ -92,8 +104,6 @@ public class PollSL extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        processRequest(req,resp);
-
     }
 
     /**

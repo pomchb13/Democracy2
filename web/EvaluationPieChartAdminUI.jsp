@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der Wahl</h1>
+        <h1>Derzeitiger Stand der <%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -88,7 +88,7 @@
             axis: {
 
                 x: {
-                    label: 'Namen der Kandidaten'
+                    label: '<%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
                 },
                 y: {
                     label: 'Anzahl der Stimmen'

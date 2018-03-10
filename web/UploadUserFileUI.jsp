@@ -50,7 +50,7 @@
 
 <div id="container">
     <br>
-    <h1></h1>Wählerverzeichnisses</h1>
+    <h1>Generator der Userkeys</h1>
     <p>Anzahl der zugelassernen Wähler</p>
     <center>
         <form method="POST" action="/UploadUserFileSL" enctype="multipart/form-data">
@@ -78,7 +78,7 @@
                     out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\" userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
                             "                        value=\"downloadFile\"><span\n" +
-                            "                        class=\"glyphicon glyphicon-cloud-download\"></span> Wählerverzeichnis mit Einlogdaten runterladen\n" +
+                            "                        class=\"glyphicon glyphicon-cloud-download\"></span> Userkeys mit Passwörter herunterladen\n" +
                             "                </button>");
                     out.print("</a>");
                 }

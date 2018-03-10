@@ -89,7 +89,7 @@
 
 
         </div>
-        <!-- Adds a button the submit the choise -->
+        <!-- Adds a button the submit the choice -->
         <center>
             <div class="input-group">
                     <button id="evaluation" type="submit" class="btn btn-primary">

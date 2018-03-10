@@ -55,29 +55,32 @@
     <br>
     <!--  Shows the question of the vote -->
     <div class="voteQuestion">
-        <h3>Bitte wählen Sie einen der folgenen Anworten aus. </h3>
+        <h3>Bitte wählen Sie eine der folgenen Anwortmöglichkeiten aus. </h3>
     </div>
     <br>
     <form method="post" action="/PollSL">
         <%
-            int counter = 1;
+            int counter = 0;
             LinkedList<PollAnswer> pollAnswers = pd.getAnswerList();
             for (PollAnswer pa : pollAnswers) {
                 out.println("<ul class=\"list-group\">");
                 out.println("    <li class=\"list-group-item\">");
+                out.println("       <p class=\"AnswerHeader\">" + pa.getTitle() + " </p>");
                 out.println("        <div class=\"radio\">");
-                out.println("            <label><input type=\"radio\" name=\"optradio\" value=\"" + counter++ + "\">"
+                out.println("            <label class=\"AnswerBody\"><input type=\"radio\" name=\"optradio\" class=\"AnswerBody\" value=\"" + counter++ + "\">"
                         + pa.getDescription() + "</label>");
                 out.println("        </div>");
                 out.println("    </li>");
                 out.println("</ul>");
             }
         %>
-        <div class="input-group">
-            <button id="evaluation" type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
-            </button>
-        </div>
+        <center>
+            <div class="input-group">
+                <button id="evaluation" type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
+                </button>
+            </div>
+        </center>
     </form>
 
 

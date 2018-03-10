@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der Wahl</h1>
+        <h1>Derzeitiger Stand der <%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -57,76 +57,69 @@
     <!-- JavaScript for the Chart -->
     <script>
         var chart = c3.generate({
-                data: {
-                    columns: [
-<%
+            data: {
+                columns: [
+                    <%
+    int count = 0;
     if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
        PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
-        for (PollAnswer pa: pd.getAnswerList()) {
-            out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+
+       for (PollAnswer pa: pd.getAnswerList()) {
+           if (count == pd.getAnswerList().size()) {
+               out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+           } else {
+               out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+           }
+           count++;
         }
-    } else {
+    } else if (this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData){
         ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
         for (CandidateData cd: ed.getLiCandidates()) {
-            out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+            if (count == ed.getLiCandidates().size()) {
+                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
+            }else{
+                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+            }
+            count++;
         }
     }
 %>
-                        /* ['asdf', 50],
-                         ['MUSTERFRAU Mara', 120],
-                         ['KRAFT Michael', 13],
-                         ['CONRAD Heike', 54],
-                         ['MÜLLER Anke', 150],
-                         ['AZOG Sepp', 70], */
-                    ],
-                    type: 'bar',
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
+                ],
+                type: 'bar',
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                },
+                onmouseover: function (d, i) {
+                    console.log("onmouseover", d, i);
+                },
+                onmouseout: function (d, i) {
+                    console.log("onmouseout", d, i);
+                }
+            },
+            axis: {
+                x: {
+                    label: {
+                        text: '<%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>',
+                        position: 'outer-center'
                     },
-                    onmouseover: function (d, i) {
-                        console.log("onmouseover", d, i);
-                    },
-                    onmouseout: function (d, i) {
-                        console.log("onmouseout", d, i);
+                    tick: {
+                        count: 1,
+                        format: function () {
+                            return ''
+                        }
                     }
                 },
-                axis: {
-                    x: {
-                        label: {
-                            text: 'Namen der Kandidaten',
-                            position: 'outer-center'
-                        },
-                        tick: {
-                            count: 1,
-                            format: function () {
-                                return ''
-                            }
-                        }
-                    },
-                    y: {
-                        label: {
-                            text: 'Anzahl der Stimmen',
-                            position: 'outer-middle'
-                        }
-                    },
+                y: {
+                    label: {
+                        text: 'Anzahl der Stimmen',
+                        position: 'outer-middle'
+                    }
                 },
-                legend: {
-                    position: 'bottom'
-                }
-                    /*        colors: {
-                     Max: '#ffff00',
-                     Muster: '#99ccff',
-                     Mann: '#cc80ff',
-                     Max1: '#88cc00',
-                     Muster1: '#00ffff',
-                     Mann1: '#008080'
-                     },
-                     color: function (color, d) {
-                     // d will be 'id' when called for legends
-                     return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-                     }*/
-            })
-        ;
+            },
+            legend: {
+                position: 'bottom'
+            }
+        });
     </script>
     <center>
         <!-- Add a Button the change to the other chart -->

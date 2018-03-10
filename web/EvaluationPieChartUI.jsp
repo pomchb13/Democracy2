@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der Wahl</h1>
+        <h1>Derzeitiger Stand der <%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -60,50 +60,62 @@
             data: {
                 columns: [
                     <%
+                        int count = 0;
                         if(this.getServletConfig().getServletContext().getAttribute("clicked") instanceof PollData) {
-                           PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+                            PollData pd = (PollData) this.getServletConfig().getServletContext().getAttribute("clicked");
+
                             for (PollAnswer pa: pd.getAnswerList()) {
-                                out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                if (count == pd.getAnswerList().size()) {
+                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+                                } else {
+                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                }
+                                count++;
                             }
-                        } else {
+                        } else if (this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData){
                             ElectionData ed = (ElectionData) this.getServletConfig().getServletContext().getAttribute("clicked");
                             for (CandidateData cd: ed.getLiCandidates()) {
-                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                if (count == ed.getLiCandidates().size()) {
+                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
+                                } else{
+                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                }
+                                count++;
                             }
-                        }
-                    %>
-                 /* ['asdf', 50],
-                    ['MUSTERFRAU Mara', 120],
-                    ['KRAFT Michael', 13],
-                    ['CONRAD Heike', 54],
-                    ['MÜLLER Anke', 150],
-                    ['AZOG Sepp', 70], */
-                ],
-                type: 'donut',
-                onclick: function (d, i) {
-                    console.log("onclick", d, i);
-                },
-                onmouseover: function (d, i) {
-                    console.log("onmouseover", d, i);
-                },
-                onmouseout: function (d, i) {
-                    console.log("onmouseout", d, i);
-                }
-            },
-            axis: {
+                        }%>
+                        ],
+                    type:'donut',
+            onclick:function (d, i) {
+            console.log("onclick", d, i);
+        }
 
-                x: {
-                    label: 'Namen der Kandidaten'
-                },
-                y: {
-                    label: 'Anzahl der Stimmen'
+        ,
+        onmouseover: function (d, i) {
+            console.log("onmouseover", d, i);
+        }
+        ,
+        onmouseout: function (d, i) {
+            console.log("onmouseout", d, i);
+        }
+        },
+        axis: {
 
-                },
-            },
-            donut: {
-                title: "Prozentverteilung"
+            x: {
+                label: '<%= this.getServletConfig().getServletContext().getAttribute("clicked") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
             }
-        });
+        ,
+            y: {
+                label: 'Anzahl der Stimmen'
+
+            }
+        ,
+        }
+        ,
+        donut: {
+            title: "Prozentverteilung"
+        }
+        })
+        ;
     </script>
     <center>
         <!-- Add a Button the change to the other chart -->

@@ -90,12 +90,8 @@ public class LoginSL extends HttpServlet {
                     BufferedReader br = new BufferedReader(new FileReader(file));
                     String adminContractAddress = br.readLine();
                     adminHandler.loadSmartContract(new Address(adminContractAddress));
-                    System.out.println("wtf1");
                     RightEnum right = RightEnum.USER;
-                    System.out.println("wtf2");
 
-
-                    System.out.println("wtf3");
                     // set right of user
                     if (adminHandler.checkIfAdmin(new Address(username))) {
                         System.out.println("isAdmin start");
@@ -123,7 +119,7 @@ public class LoginSL extends HttpServlet {
                         //set MaxInactiveInterval to 15 minutes
                         session.setMaxInactiveInterval(15 * 60);
 
-                        // check on with kind of vote the user is authorized
+                        // check on which kind of vote the user is authorized for
                         // if there is an exception the user is only authorized to vote for an poll
                         // otherwise he/she is authorized to vote for an election
                         String contractAddress = adminHandler.getContractAddressForVoter(new Address(cr.getAddress())).toString();
@@ -144,6 +140,7 @@ public class LoginSL extends HttpServlet {
                             // check if user has already voted
                             if (eh.getAlreadyVotedForVoter(new Address(cr.getAddress())) || ed.getDate_due().isBefore(LocalDate.now())) {
                                 // forward to EvaluationBarChartUI
+                                this.getServletContext().setAttribute("clicked", ed);
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
                             } else if (!ed.getDate_from().isAfter(LocalDate.now())) {
                                 //TODO: seite mit wahl beginnt erst
@@ -178,6 +175,7 @@ public class LoginSL extends HttpServlet {
                                 // check if user has already voted
                                 if (ph.getAlreadyVotedForVoter(new Address(cr.getAddress())) || pd.getDate_due().isBefore(LocalDate.now())) {
                                     // forwald to EvaluationBarChartUI
+                                    this.getServletContext().setAttribute("clicked", pd);
                                     resp.sendRedirect("EvaluationBarChartUI.jsp");
                                 } else if (!pd.getDate_from().isAfter(LocalDate.now())) {
                                     //TODO: seite mit wahl beginnt erst

@@ -138,6 +138,16 @@ input[type=date]::-webkit-outer-spin-button {
     text-align: left;
 }
 
+.AnswerHeader{
+    vertical-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.AnswerBody{
+    vertical-align: middle;
+    horiz-align: center;
+}
 
 
 

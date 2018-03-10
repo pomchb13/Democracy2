@@ -77,7 +77,7 @@ public class UploadUserFileSL extends HttpServlet {
         System.out.println("doPost");
         String status = null;
         try {
-            int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_Count_Voter")));
+            int count_voter = Integer.parseInt(ServletUtil.filter(req.getParameter("input_Count_Voter").trim()));
             if (count_voter > 0) {
                 userCreat.createNewUsers(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
@@ -87,7 +87,7 @@ public class UploadUserFileSL extends HttpServlet {
                         count_voter,this.getServletContext().getRealPath("/res/admin/"));
                 this.getServletContext().setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
-                status = "File wurde erfolgreich hochgeladen!";
+                status = "Userkey wurden erfolgreich generiert!";
             } else {
                 status = "Bitte nur Zahlen größer 0 eingeben";
             }
