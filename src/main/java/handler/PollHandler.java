@@ -24,8 +24,8 @@ import java.util.List;
  * Author:          Patrick Windegger
  * Created on:
  * Description:     Class responsible for handling a poll.
- *                  All methods of the contract are implemented in this handler.
- *                  The communication between java and the Blockchain is also implemented here.
+ * All methods of the contract are implemented in this handler.
+ * The communication between java and the Blockchain is also implemented here.
  */
 public class PollHandler {
 
@@ -234,6 +234,19 @@ public class PollHandler {
         }
     }
 
+    /**
+     * Method responsible for returning the size of the answer array in the contract
+     *
+     * @return size of array
+     * @throws Exception if the poll contract is not loaded
+     */
+    public int getAnswerArraySize() throws Exception {
+        if (poll != null) {
+            return poll.getAnswerSize().send().intValue();
+        } else {
+            throw new Exception("election object is null!");
+        }
+    }
 
     // for testing purpose only
     public static void main(String[] args) {
