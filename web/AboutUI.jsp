@@ -40,60 +40,60 @@
     </p>
     <br>
     <!-- Info about the teammembers-->
-    <div class="media">
-        <div class="media-left">
-            <!-- Add a picture -->
-            <img src="res/Windegger.jpg" class="media-object" style="width:150px">
-        </div>
-        <div class="media-body">
-            <!-- Name and description of the member  -->
-            <h4 class="media-heading"><b>Windegger</b> Patrick </h4>
-            <p>90BHIF</p><br>
-            <p>Projektleiter</p>
-            <p>Blockchain/Backend</p>
-        </div>
-    </div>
-    <hr>
-    <!-- Info about the teammembers -->
-    <div class="media">
-        <div class="media-left media-middle">
-            <!-- Add a picture -->
-            <img src="res/Pommer.jpg" class="media-object" style="width:150px">
-        </div>
-        <div class="media-body" >
-            <!-- Name and description of the member  -->
-            <h4 class="media-heading"><b>Pommer</b> Christoph</h4>
-            <p>90BHIF</p><br>
-            <p>Blockchain/Backend</p>
-        </div>
-    </div>
-    <hr>
-    <!-- Info about the teammembers -->
-    <div class="media">
-        <div class="media-left media-middle">
-            <!-- Add a picture -->
-            <img src="res/Hartmann.jpg" class="media-object" style="width:150px">
-        </div>
-        <div class="media-body">
-            <!-- Name and description of the member  -->
-            <h4 class="media-heading"><b>Hartmann</b> Ewald</h4>
-            <p>90BHIF</p><br>
-            <p>Java/Frontend</p>
-        </div>
-    </div>
-    <hr>
-    <!-- Info about the teammembers -->
-    <div class="media">
-        <div class="media-left media-middle">
-            <!-- Add a picture -->
-            <img src="res/Gangl.jpg" class="media-object" style="width:150px">
-        </div>
-        <div class="media-body">
-            <!-- Name and description of the member  -->
-            <h4 class="media-heading"><b>Gangl</b> Leonhard</h4>
-            <p>90BHIF</p><br>
-            <p>Java/Frontend</p>
-        </div>
+    <div class="table-responsive">
+        <table class="table" style="text-align: center">
+            <tbody>
+            <tr>
+                <td>
+                    <div style="width: 200px;margin: 0 auto;">
+                        <img src="res/Gangl.jpg" class="img-responsive" alt="Cinque Terre" width="250" height="250">
+                    </div>
+                </td>
+                <td>
+                    <div style="width: 200px;margin: 0 auto;">
+                        <img src="res/Hartmann.jpg" class="img-responsive" alt="Cinque Terre" width="250" height="250">
+                    </div>
+                </td>
+                <td>
+                    <div style="width: 200px;margin: 0 auto;">
+                        <img src="res/Pommer.jpg" class="img-responsive" alt="Cinque Terre" width="250" height="250">
+                    </div>
+                </td>
+                <td>
+                    <div style="width:  200px;margin: 0 auto;">
+                        <img src="res/Windegger.jpg" class="img-responsive" alt="Cinque Terre" width="250" height="250">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!-- Name and description of the member  -->
+                    <h4 class="media-heading"><b>Gangl</b> Leonhard</h4>
+                    <p>90BHIF</p>
+                    <p>Java/Frontend</p>
+                </td>
+                <td>
+                    <!-- Name and description of the member  -->
+                    <h4 class="media-heading"><b>Hartmann</b> Ewald</h4>
+                    <p>90BHIF</p>
+                    <p>Java/Frontend</p>
+                </td>
+                <td>
+                    <!-- Name and description of the member  -->
+                    <h4 class="media-heading"><b>Pommer</b> Christoph</h4>
+                    <p>90BHIF</p>
+                    <p>Blockchain/Backend</p>
+                </td>
+                <td>
+                    <!-- Name and description of the member  -->
+                    <h4 class="media-heading"><b>Windegger</b> Patrick </h4>
+                    <p>90BHIF</p>
+                    <p>Projektleiter</p>
+                    <p>Blockchain/Backend</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <br>

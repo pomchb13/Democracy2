@@ -28,7 +28,14 @@
 <div id="navbar"></div>
 <div id="container">
     <br><br>
+    <div>
+        <center>
+            <h1 style="text-align: center; width: 100%">
+                Willkommen in der Zukunft der Wahlen!
+            </h1>
+        </center>
 
+    </div>
 </div>
 <footer class="footer">
     <div class="container text-center">

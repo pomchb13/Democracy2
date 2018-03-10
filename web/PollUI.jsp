@@ -66,7 +66,7 @@
                 out.println("<ul class=\"list-group\">");
                 out.println("    <li class=\"list-group-item\">");
                 out.println("        <div class=\"radio\">");
-                out.println("            <label><input type=\"radio\" name=\"optradio\" value=\"" + counter++ + "\""
+                out.println("            <label><input type=\"radio\" name=\"optradio\" value=\"" + counter++ + "\">"
                         + pa.getDescription() + "</label>");
                 out.println("        </div>");
                 out.println("    </li>");
