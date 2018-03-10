@@ -46,8 +46,6 @@ public class LoginSL extends HttpServlet {
         } catch (FileNotFoundException e) {
             Logger.logError("Error while initializing BufferedWriter: "+e.toString(), Logger.class);
         }
-        Logger.logError("Hallo ich liebe dich", LoginSL.class);
-        Logger.logInformation("Dere du Huan", LoginSL.class);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
