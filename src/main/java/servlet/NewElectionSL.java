@@ -136,7 +136,7 @@ public class NewElectionSL extends HttpServlet {
                     ElectionData newElection = new ElectionData(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
 
                     //set the new election on request scope
-                    req.setAttribute("newElection", newElection);
+                    req.getSession().setAttribute("newElection", newElection);
 
                     req.setAttribute("statusVote", "Wahl erfolreich erstellt und zwischengespeichert!");
                 } else {
@@ -151,8 +151,7 @@ public class NewElectionSL extends HttpServlet {
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
             try {
                 //check if there is a newElection saved in request scope
-                if (req.getAttribute("newElection") != null) {
-
+                if (req.getSession().getAttribute("newElection") != null) {
                     //read data of the candidate from the fields
                     String candTitle = ServletUtil.filter(req.getParameter("input_cand_Title"));
                     String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
@@ -176,7 +175,7 @@ public class NewElectionSL extends HttpServlet {
                         CandidateData candidate = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, portraitPath);
 
                         //get new election from request scope
-                        ElectionData newElection = (ElectionData) req.getAttribute("newElection");
+                        ElectionData newElection = (ElectionData) req.getSession().getAttribute("newElection");
 
                         LinkedList<CandidateData> candidateList = newElection.getLiCandidates();
 
@@ -185,7 +184,7 @@ public class NewElectionSL extends HttpServlet {
                         newElection.setLiCandidates(candidateList);
 
                         req.setAttribute("statusCand", "Kandidat erfolgreich erstellt!");
-                        req.setAttribute("newElection", newElection);
+                        req.getSession().setAttribute("newElection", newElection);
                     } else {
                         req.setAttribute("statusCand", "Bitte überprüfen Sie ihre Eingaben. Das Geburtsdatum muss zwischen heute und heute vor 100 Jahren liegen!");
                     }
@@ -206,7 +205,7 @@ public class NewElectionSL extends HttpServlet {
                 electionHandler = new ElectionHandler(cr);
 
                 //get newElection from request scope
-                ElectionData newElection = (ElectionData) req.getAttribute("newElection");
+                ElectionData newElection = (ElectionData) req.getSession().getAttribute("newElection");
 
                 //create ContractAddress for the new election and save the new election in Blockchain
                 String newContractAdress = electionHandler.createContract(newElection.getLiCandidates().size(), newElection.getTitle(), newElection.getDate_from(),

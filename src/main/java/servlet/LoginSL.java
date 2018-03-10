@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -44,6 +41,13 @@ public class LoginSL extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
+        try {
+            Logger.setPath(this.getServletContext().getRealPath("/res/files/"));
+        } catch (FileNotFoundException e) {
+            Logger.logError("Error while initializing BufferedWriter: "+e.toString(), Logger.class);
+        }
+        Logger.logError("Hallo ich liebe dich", LoginSL.class);
+        Logger.logInformation("Dere du Huan", LoginSL.class);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -197,6 +201,7 @@ public class LoginSL extends HttpServlet {
                 resp.sendRedirect("ErrorUI.jsp");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             req.setAttribute("error", "Username oder Passwort ist falsch");
             processRequest(req, resp);
         }

@@ -69,13 +69,13 @@ public class UploadUserFileSL extends HttpServlet {
                 //Creates Usernames and Passwords and save them to a downloadable xlsx file
                 userCreator.createNewUsers(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"),
                         this.getServletContext().getRealPath("/res/geth_data/keystore/"),
-                        (String) this.getServletContext().getAttribute("newContractAdress"),
-                        (VoteType) this.getServletContext().getAttribute("newTypeOfVote"),
+                        (String) req.getSession().getAttribute("newContractAdress"),
+                        (VoteType) req.getSession().getAttribute("newTypeOfVote"),
                         (Credentials) req.getSession().getAttribute("credentials"),
                         count_voter,this.getServletContext().getRealPath("/res/admin/"));
                 req.setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
-                status = "Userkey wurden erfolgreich generiert!";
+                status = "Userkeys wurden erfolgreich generiert!";
                 Logger.logInformation("Alle Userkeys wurden erfolgreich erstellt", UploadUserFileSL.class);
             } else {
                 status = "Bitte nur Zahlen größer 0 eingeben";

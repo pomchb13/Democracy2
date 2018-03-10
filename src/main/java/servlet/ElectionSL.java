@@ -42,7 +42,7 @@ public class ElectionSL extends HttpServlet {
         //AJAX Request for showing candidate info in a popup <div>
         if (request.getParameter("candidateID") != null) {
             int id = Integer.parseInt(request.getParameter("candidateID").trim());
-            ElectionData ed = (ElectionData) request.getSession().getAttribute("election");
+            ElectionData ed = (ElectionData) request.getSession().getAttribute("voteObject");
             CandidateData cd = ed.getLiCandidates().get(id);
             request.setAttribute("candidateID", null);
             //Writes the whole candidate info back to the xmlhttp object from the javascript file

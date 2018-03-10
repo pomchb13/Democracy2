@@ -115,8 +115,8 @@
         <br>
 
         <div>
-            <h1>Kanditat zur <%= request.getAttribute("newElection") != null ?
-                    ((ElectionData) request.getAttribute("newElection")).getTitle() : ""%>
+            <h1>Kanditat zur <%= request.getSession().getAttribute("newElection") != null ?
+                    ((ElectionData) request.getSession().getAttribute("newElection")).getTitle() : ""%>
                 hinzufügen</h1></div>
 
         <!-- Add a new Candidate -->

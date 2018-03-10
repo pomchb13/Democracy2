@@ -49,7 +49,7 @@
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der <%= request.getAttribute("evaluationObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
+        <h1>Derzeitiger Stand der <%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -61,8 +61,8 @@
                 columns: [
                     <%
                        int count = 0;
-                        if(request.getAttribute("evaluationObject") instanceof PollData) {
-                            PollData pd = (PollData) (request.getAttribute("evaluationObject"));
+                        if(request.getSession().getAttribute("evaluationObject") instanceof PollData) {
+                            PollData pd = (PollData) (request.getSession().getAttribute("evaluationObject"));
 
                             for (PollAnswer pa: pd.getAnswerList()) {
                                 if (count == pd.getAnswerList().size()) {
@@ -72,8 +72,8 @@
                                 }
                                 count++;
                             }
-                        } else if (request.getAttribute("evaluationObject") instanceof ElectionData){
-                            ElectionData ed = (ElectionData) request.getAttribute("evaluationObject");
+                        } else if (request.getSession().getAttribute("evaluationObject") instanceof ElectionData){
+                            ElectionData ed = (ElectionData) request.getSession().getAttribute("evaluationObject");
                             for (CandidateData cd: ed.getLiCandidates()) {
                                 if (count == ed.getLiCandidates().size()) {
                                     out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
@@ -99,7 +99,7 @@
             axis: {
 
                 x: {
-                    label: '<%= request.getAttribute("evaluationObject") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
+                    label: '<%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
                 },
                 y: {
                     label: 'Anzahl der Stimmen'

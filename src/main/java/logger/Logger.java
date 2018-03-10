@@ -1,13 +1,9 @@
 package logger;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
+
+import java.io.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
 
 /**
  * Created by Ewald on 08.03.2018.
@@ -15,30 +11,34 @@ import java.util.logging.Level;
 public class Logger {
 
 
-    private static final File logFile = new File(System.getProperty("user.dir") + File.separator + "out" + File.separator + "artifacts"
-            + File.separator + "test_webapp2_war_exploded" + File.separator + "res"
-            + File.separator + "log" + File.separator + "weblog.log");
+    private static File logFile;
+    private static BufferedWriter bw;
+
+    public static void setPath(String path) throws FileNotFoundException {
+        logFile = new File(path+"log.txt");
+        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(logFile)));
+    }
 
 
-    public static void logInformation(String log,Object o)
+    public static void logInformation(String log,Object type)
     {
-        String out= LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MMM.yyyy hh:mm:ss"))+" [Information] "+o.getClass().toString()+"log";
-        BufferedWriter bw=null;
+        String out = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))+" [Information] "+type.toString()+": "+log;
         try {
-           bw = new BufferedWriter(new FileWriter(logFile));
-           bw.append(out);
+           bw.write(out);
+           bw.newLine();
+           bw.flush();
         } catch (IOException e) {
 
         }
     }
 
-    public static void logError(String log,Object o)
+    public static void logError(String log,Object type)
     {
-        String out= LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MMM.yyyy hh:mm:ss"))+" [Error] "+o.getClass().toString()+"log";
-        BufferedWriter bw=null;
+        String out= LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))+" [Error] "+type.toString()+": "+log;
         try {
-            bw = new BufferedWriter(new FileWriter(logFile));
-            bw.append(out);
+            bw.write(out);
+            bw.newLine();
+            bw.flush();
         } catch (IOException e) {
 
         }

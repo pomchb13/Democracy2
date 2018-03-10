@@ -76,7 +76,7 @@
                     out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\"userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
                             "                        value=\"downloadFile\"><span\n" +
-                            "                        class=\"glyphicon glyphicon-cloud-download\"></span> Userkeys mit Passwörter herunterladen\n" +
+                            "                        class=\"glyphicon glyphicon-cloud-download\"></span> Usernames mit Passwörter herunterladen\n" +
                             "   </button>");
                     out.print("</a>");
                 }

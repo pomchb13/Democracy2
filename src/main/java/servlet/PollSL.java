@@ -111,7 +111,7 @@ public class PollSL extends HttpServlet {
 
             //Check if showing diagrams is allowed
             if (pd.isDiagramOption()) {
-                this.getServletContext().setAttribute("voteObject", pd);
+                req.getSession().setAttribute("voteObject", pd);
                 resp.sendRedirect("EvaluationBarChartUI.jsp");
             } else {
                 resp.sendRedirect("ThankYouUI.jsp");

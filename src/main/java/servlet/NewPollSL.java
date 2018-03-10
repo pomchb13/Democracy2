@@ -114,7 +114,7 @@ public class NewPollSL extends HttpServlet {
                         && vote_fromDate.isBefore(vote_dueDate)) {
                     //Creating the poll and saving it to request scope
                     PollData newPoll = new PollData(title, vote_fromDate, vote_dueDate, voteDiagrams);
-                    req.setAttribute("newpoll", newPoll);
+                    req.getSession().setAttribute("newPoll", newPoll);
 
                     pollStatus = "Abstimmung erfolgreich erstellt und zwischengespeichert";
                 }
@@ -126,7 +126,7 @@ public class NewPollSL extends HttpServlet {
             }
             //Checks if the pressed button has the "addAnswer" value
         } else if (req.getParameter("actionButton").equals("addAnswer")) {
-            if (req.getAttribute("newPoll") != null) {
+            if (req.getSession().getAttribute("newPoll") != null) {
                 try {
                     //Reads the attribute from the HTML input field to create an Answer
                     String answerTitle = ServletUtil.filter(req.getParameter("input_AnswerTitle"));
@@ -134,11 +134,11 @@ public class NewPollSL extends HttpServlet {
 
                     //Gets the new Poll from the request scope, adds the answer and saved it back
                     PollAnswer pAnswer = new PollAnswer(answerTitle, answerDescription);
-                    PollData newPoll = (PollData) req.getAttribute("newPoll");
+                    PollData newPoll = (PollData) req.getSession().getAttribute("newPoll");
                     LinkedList<PollAnswer> answerList = newPoll.getAnswerList();
                     answerList.add(pAnswer);
                     newPoll.setAnswerList(answerList);
-                    req.setAttribute("newPoll", newPoll);
+                    req.getSession().setAttribute("newPoll", newPoll);
                     answerStatus = "Antwort erfolgreich hinzugefügt!";
                 } catch (Exception ex) {
                     answerStatus = "Bitte die Eingaben überprüfen!";
@@ -154,7 +154,7 @@ public class NewPollSL extends HttpServlet {
             //Creates the adminHandler-object
             AdminHandler adminHandler = new AdminHandler(cr);
 
-            PollData newPoll = (PollData) req.getAttribute("newPoll");
+            PollData newPoll = (PollData) req.getSession().getAttribute("newPoll");
             try {
                 //Method to create the PollContract on the Blockchain
                 String contractAdress = pollHandler.createContract(newPoll.getAnswerList().size(),
@@ -162,8 +162,10 @@ public class NewPollSL extends HttpServlet {
                         newPoll.getDate_from(),
                         newPoll.getDate_due(),
                         newPoll.isDiagramOption());
+
                 //Load Admincontract in the adminHandler
                 adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+
                 //Save PollContract to Admincontract
                 adminHandler.addContractAddress(new Address(contractAdress), new Address(cr.getAddress()));
 
@@ -171,16 +173,12 @@ public class NewPollSL extends HttpServlet {
                 req.getSession().setAttribute("newContractAdress", contractAdress);
                 req.getSession().setAttribute("newTypeOfVote", VoteType.POLL);
 
-                //get Polllist from session scope, add the new Poll and save it back to session scope
-                LinkedList<PollData> pollList = (LinkedList<PollData>) req.getSession().getAttribute("pollList");
-                pollList.add(newPoll);
-                req.getSession().setAttribute("pollList", pollList);
-
             } catch (Exception e) {
                 Logger.logError("Error while creating a new Poll on Blockchain: "+e.toString(), NewPollSL.class);
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> answerList = newPoll.getAnswerList();
+
             //Foreach loop is responsible for adding all answers to the PollContract in the Blockchain
             for (int i = 0; i < answerList.size(); i++) {
                 try {
@@ -190,6 +188,11 @@ public class NewPollSL extends HttpServlet {
                     req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                 }
             }
+
+            //get Polllist from session scope, add the new Poll and save it back to session scope
+            LinkedList<PollData> pollList = (LinkedList<PollData>) req.getSession().getAttribute("pollList");
+            pollList.add(newPoll);
+            req.getSession().setAttribute("pollList", pollList);
 
             Logger.logInformation("The Poll "+newPoll.getTitle()+" was saved successfully on the Blockchain", NewPollSL.class);
 

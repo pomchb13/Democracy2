@@ -62,7 +62,6 @@ public class UserCreator {
         TreeMap<String, String> map = new TreeMap<>();
         ElectionHandler el = null;
         PollHandler pl = null;
-        System.out.println("Create New Users --> VoteType:"+vt);
         if (vt.equals(VoteType.ELECTION)) {
             el = new ElectionHandler(cr);
             el.loadSmartContract(new Address(contractAddress));

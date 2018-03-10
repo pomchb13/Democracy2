@@ -51,7 +51,6 @@ public class LogoutSL extends HttpServlet {
 
         // delete user in the user list
         lU.logout(hash);
-        lU.outPutUserList();
 
         // forward the the LoginSL
         resp.sendRedirect("/LoginSL");

@@ -59,14 +59,14 @@ public class EvaluationSL extends HttpServlet {
             // check if value is in this list
             if (election.getTitle().equals(voteObjectTitle)) {
                 // set cilckt Data on the session scope
-                req.setAttribute("evaluationObject", election);
+                req.getSession().setAttribute("evaluationObject", election);
             }
         }
         for (PollData poll : pollList) {
             // check if value is in this list
             if (poll.getTitle().equals(voteObjectTitle)) {
                 // set clickt Data on the session scope
-                req.setAttribute("evaluationObject", poll);
+                req.getSession().setAttribute("evaluationObject", poll);
             }
         }
         processRequest(req, resp);
