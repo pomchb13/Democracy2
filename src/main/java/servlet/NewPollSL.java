@@ -136,10 +136,24 @@ public class NewPollSL extends HttpServlet {
                     PollAnswer pAnswer = new PollAnswer(answerTitle, answerDescription);
                     PollData newPoll = (PollData) req.getSession().getAttribute("newPoll");
                     LinkedList<PollAnswer> answerList = newPoll.getAnswerList();
-                    answerList.add(pAnswer);
-                    newPoll.setAnswerList(answerList);
-                    req.getSession().setAttribute("newPoll", newPoll);
-                    answerStatus = "Antwort erfolgreich hinzugefügt!";
+
+                    boolean addAnswer = true;
+                    for (PollAnswer pollAnswer:answerList) {
+
+                        if (pollAnswer.getTitle().contains(pAnswer.getTitle()))
+                        {
+                            addAnswer = false;
+                        }
+                    }
+                    if (addAnswer){
+                        answerList.add(pAnswer);
+                        newPoll.setAnswerList(answerList);
+                        req.getSession().setAttribute("newPoll", newPoll);
+                        answerStatus = "Antwort erfolgreich hinzugefügt!";
+                    } else {
+                        answerStatus = "Es können nicht 2 Antworten mit den selben Titeln erstell werden";
+                    }
+
                 } catch (Exception ex) {
                     answerStatus = "Bitte die Eingaben überprüfen!";
                 }

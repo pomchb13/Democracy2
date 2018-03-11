@@ -63,7 +63,7 @@ public class LoginSL extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // read useranme and password
+        //read useranme and password
         String username = ServletUtil.filter(req.getParameter("username"));
         String password = ServletUtil.filter(req.getParameter("password"));
         //Check if inputFields are empty
@@ -71,9 +71,9 @@ public class LoginSL extends HttpServlet {
             req.setAttribute("error", "Bitte die Einlogdaten eingeben");
         }
         try {
-            // login to Blockchain
+            //login to Blockchain
             Credentials credentials = BlockchainUtil.loginToBlockhain(username, password);
-            Logger.logInformation("User " + credentials.getAddress() + " logged into Blockchain", LoginSL.class);
+            Logger.logInformation("Account " + credentials.getAddress() + " logged into Blockchain", LoginSL.class);
 
             //Create session-object
             HttpSession session = req.getSession();
@@ -141,10 +141,11 @@ public class LoginSL extends HttpServlet {
                         if (electionHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || election.getDate_due().isBefore(LocalDate.now())) {
                             // forward to EvaluationBarChartUI
                             resp.sendRedirect("EvaluationBarChartUI.jsp");
+                            //TODO: ! bei produktiv entfernen!!!!!!!!
                         } else if (!election.getDate_from().isAfter(LocalDate.now())) {
                             //TODO: seite mit wahl beginnt erst
                             resp.sendRedirect("/TimerUI.jsp");
-                        } else {
+                        } else{
                             // forward to ElectionSL
                             resp.sendRedirect("/ElectionSL");
                         }

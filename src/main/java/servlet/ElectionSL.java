@@ -66,7 +66,7 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //gets the value from the radiobuttongroup
+        //gets the value from the radiobuttongroup TODO: Abfragen, ob der user einen Kandidaten ausgewählt hat
         int val = Integer.parseInt(req.getParameter("optradio").trim());
 
         //Creates electionHandler object

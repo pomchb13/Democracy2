@@ -67,7 +67,7 @@
                 out.println("    <li class=\"list-group-item\">");
                 out.println("       <p class=\"AnswerHeader\">" + pa.getTitle() + " </p>");
                 out.println("        <div class=\"radio\">");
-                out.println("            <label class=\"AnswerBody\"><input type=\"radio\" name=\"optradio\" class=\"AnswerBody\" value=\"" + counter++ + "\">"
+                out.println("            <label class=\"AnswerBody\"><input type=\"radio\" class=\"votingButton\" name=\"optradio\" class=\"AnswerBody\" value=\"" + counter++ + "\">"
                         + pa.getDescription() + "</label>");
                 out.println("        </div>");
                 out.println("    </li>");

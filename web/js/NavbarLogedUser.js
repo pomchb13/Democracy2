@@ -23,6 +23,9 @@ window.onload = function userNavbar() {
         '<a class="navbar-brand" href="">Democracy 2.0</a>' +
         '</div>' +
         '       <div class="collapse navbar-collapse" id="navBar"> ' +
+        '           <ul class="nav navbar-nav"> ' +
+        '               <li><a href="../AboutUI.jsp" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> About us</a></li> ' +
+        '           </ul> ' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
         '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
         '           </ul> ' +

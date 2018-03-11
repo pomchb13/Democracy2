@@ -116,6 +116,11 @@
                     }
                 },
             },
+            bar: {
+                width: {
+                    ratio: 0.3,
+                }
+            },
             legend: {
                 position: 'bottom'
             }

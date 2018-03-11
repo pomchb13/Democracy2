@@ -74,7 +74,7 @@
                     out.println("<ul class=\"list-group\">");
                     out.println("    <li class=\"list-group-item\">");
                     out.println("        <div class=\"radio\">");
-                    out.println("            <label><input type=\"radio\" name=\"optradio\" value=\" " + count + " \" >"
+                    out.println("            <label><input type=\"radio\" class=\"votingButton\" name=\"optradio\" value=\" " + count + " \" >"
                             + cd.getTitle() + " "
                             + cd.getSurname().toUpperCase() + " "
                             + cd.getForename() + "</label>");
