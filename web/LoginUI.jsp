@@ -4,6 +4,7 @@
   Time: 18:23
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <html>
 <head>
     <!-- Change the Tab-title of the page -->

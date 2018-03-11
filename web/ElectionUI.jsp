@@ -12,6 +12,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <html>
 <head>
     <!-- Change the Tab-title of the page -->
@@ -116,7 +117,7 @@
                                  height="300">
                         </div>
                         <div class="col-sm-10">
-                            <ul class="list-group" style="text-align: left">
+                            <ul class="list-group" style="text-align: left"> <!-- STYLE TAG MUSS INS CSS -->
                                 <li class="list-group-item"><span class="listHeader">Vorname: </span>
                                     <p class="candAttribute" id="cand_forename"></p></li>
                                 <li class="list-group-item"><span class="listHeader">Nachname: </span>
