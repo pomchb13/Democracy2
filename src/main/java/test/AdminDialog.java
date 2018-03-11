@@ -66,7 +66,7 @@ public class AdminDialog extends JDialog {
                 try {
                     pt = new PollHandler(cr);
                     pt.createContract(2, "Gangl is schiach", LocalDate.now(), LocalDate.now().plusDays(10), false);
-                    //BlockchainUtil.saveContractAddress(pt.getContractAddress(),tester.getContractAddressPath());
+                    BlockchainUtil.saveContractAddress(pt.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
                     election=1;
                 } catch (CipherException ex) {
@@ -84,7 +84,7 @@ public class AdminDialog extends JDialog {
                 try {
                     et = new ElectionHandler(cr);
                     et.createContract(2, "Pommer is a schiach", LocalDate.now(), LocalDate.now().plusDays(20), false);
-                    //BlockchainUtil.saveContractAddress(et.getContractAddress(),tester.getContractAddressPath());
+                    BlockchainUtil.saveContractAddress(et.getContractAddress(),tester.getContractAddressPath());
                     ok = true;
                     election=2;
                 } catch (IOException e1) {
