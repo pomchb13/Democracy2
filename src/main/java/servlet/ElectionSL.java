@@ -66,55 +66,61 @@ public class ElectionSL extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //gets the value from the radiobuttongroup TODO: Abfragen, ob der user einen Kandidaten ausgewählt hat
-        int val = Integer.parseInt(req.getParameter("optradio").trim());
-
-        //Creates electionHandler object
-        ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
-        //The Instance where all logged users and administrator are saved
-        LoggedUsers userInstance = LoggedUsers.getInstance();
-        String address = null;
         try {
-            //Get Credentials from the session scope
-            Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+            //gets the value from the radiobuttongroup
+            int val = Integer.parseInt(req.getParameter("optradio").trim());
 
-            //Create adminHandler object
-            AdminHandler adminHandler = new AdminHandler(user);
+            //Creates electionHandler object
+            ElectionHandler electionHandler = new ElectionHandler((Credentials) req.getSession().getAttribute("credentials"));
 
-            //Load the Admincontract to adminHandler
-            adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+            //The Instance where all logged users and administrator are saved
+            LoggedUsers userInstance = LoggedUsers.getInstance();
+            String address = null;
+            try {
 
-            //Get userAddress from Hash(username+salt+password)
-            address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
+                //Get Credentials from the session scope
+                Credentials user = (Credentials) req.getSession().getAttribute("credentials");
 
-            //Get Contractaddress from election for voter
-            Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+                //Create adminHandler object
+                AdminHandler adminHandler = new AdminHandler(user);
 
-            //Load Usercontract to elecitonHandler
-            electionHandler.loadSmartContract(contractAddress);
+                //Load the Admincontract to adminHandler
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
 
-            //Give the vote to a candidate
-            electionHandler.vote(new Uint8(val), new Address(address));
+                //Get userAddress from Hash(username+salt+password)
+                address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
 
-            //Get the election from electionHandler
-            ElectionData ed = electionHandler.getElectionData();
+                //Get Contractaddress from election for voter
+                Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
 
-            //Add the candidates to the electionobject
-            LinkedList<CandidateData> liCandidateList = new LinkedList<>();
-            for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
-                liCandidateList.add(electionHandler.getCandidateData(i));
-            }
-            ed.setLiCandidates(liCandidateList);
+                //Load Usercontract to elecitonHandler
+                electionHandler.loadSmartContract(contractAddress);
 
-            //Check if showing diagrams is allowed
-            if (ed.isShow_diagrams()) {
-                req.getSession().setAttribute("voteObject", ed);
-                resp.sendRedirect("EvaluationBarChartUI.jsp");
-            } else {
-                resp.sendRedirect("ThankYouUI.jsp");
+                //Give the vote to a candidate
+                electionHandler.vote(new Uint8(val), new Address(address));
+
+                //Get the election from electionHandler
+                ElectionData ed = electionHandler.getElectionData();
+
+                //Add the candidates to the electionobject
+                LinkedList<CandidateData> liCandidateList = new LinkedList<>();
+                for (int i = 0; i < electionHandler.getCandidateArraySize(); i++) {
+                    liCandidateList.add(electionHandler.getCandidateData(i));
+                }
+                ed.setLiCandidates(liCandidateList);
+
+                //Check if showing diagrams is allowed
+                if (ed.isShow_diagrams()) {
+                    req.getSession().setAttribute("voteObject", ed);
+                    resp.sendRedirect("EvaluationBarChartUI.jsp");
+                } else {
+                    resp.sendRedirect("ThankYouUI.jsp");
+                }
+            } catch (Exception e) {
+                Logger.logError("Error while voting: " + e.toString(), ElectionSL.class);
             }
         } catch (Exception e) {
-            Logger.logError("Error while voting: "+e.toString(), ElectionSL.class );
+            req.setAttribute("error", "Bitte wählen Sie einen Kandidaten aus.");
         }
     }
 

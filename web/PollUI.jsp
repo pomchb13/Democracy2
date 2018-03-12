@@ -2,12 +2,11 @@
 <%@ page import="beans.PollAnswer" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="user.LoggedUsers" %>
-<%@ page import="beans.RightEnum" %><%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 28.02.2018
-  Time: 16:07
-  To change this template use File | Settings | File Templates.
+<%@ page import="beans.RightEnum" %>
+<%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents a poll
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -48,8 +47,8 @@
     <div class="voteTitle">
         <h1>
             <%
-                PollData pd = (PollData) request.getSession().getAttribute("voteObject");
-                out.print(pd.getTitle());
+                PollData pollData = (PollData) request.getSession().getAttribute("voteObject");
+                out.print(pollData.getTitle());
             %>
         </h1>
     </div>
@@ -62,14 +61,14 @@
     <form method="post" action="/PollSL">
         <%
             int counter = 0;
-            LinkedList<PollAnswer> pollAnswers = pd.getAnswerList();
-            for (PollAnswer pa : pollAnswers) {
+            LinkedList<PollAnswer> pollAnswers = pollData.getAnswerList();
+            for (PollAnswer pollAnswer : pollAnswers) {
                 out.println("<ul class=\"list-group\">");
                 out.println("    <li class=\"list-group-item\">");
-                out.println("       <p class=\"AnswerHeader\">" + pa.getTitle() + " </p>");
+                out.println("       <p class=\"AnswerHeader\">" + pollAnswer.getTitle() + " </p>");
                 out.println("        <div class=\"radio\">");
                 out.println("            <label class=\"AnswerBody\"><input type=\"radio\" class=\"votingButton\" name=\"optradio\" class=\"AnswerBody\" value=\"" + counter++ + "\">"
-                        + pa.getDescription() + "</label>");
+                        + pollAnswer.getDescription() + "</label>");
                 out.println("        </div>");
                 out.println("    </li>");
                 out.println("</ul>");
@@ -81,6 +80,8 @@
                     <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
                 </button>
             </div>
+            <br>
+            <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
         </center>
     </form>
 
@@ -88,7 +89,7 @@
 </div>
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 </body>

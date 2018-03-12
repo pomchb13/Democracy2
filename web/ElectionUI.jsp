@@ -5,11 +5,9 @@
 <%@ page import="beans.RightEnum" %>
 <%@ page import="util.ServletUtil" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 11.07.2017
-  Time: 17:42
-  To change this template use File | Settings | File Templates.
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents an election
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -35,12 +33,12 @@
 </head>
 <body>
 <%
-    HttpSession ses = request.getSession();
-    LoggedUsers lU = LoggedUsers.getInstance();
+    HttpSession httpSession = request.getSession();
+    LoggedUsers loggesUser = LoggedUsers.getInstance();
 
-    String hash = (String) ses.getAttribute("hash");
+    String hash = (String) httpSession.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.USER)) {
+    if (!loggesUser.compareRights(hash, RightEnum.USER)) {
         response.sendRedirect("/LoginSL");
     }
 
@@ -52,10 +50,10 @@
     <!--  Shows the title of the page -->
     <div class="voteTitle">
         <%
-            ElectionData ed = (ElectionData) request.getSession().getAttribute("voteObject");
+            ElectionData electionData = (ElectionData) request.getSession().getAttribute("voteObject");
         %>
         <h1>
-            <%= ed.getTitle()%>
+            <%= electionData.getTitle()%>
         </h1>
     </div>
     <br>
@@ -68,18 +66,18 @@
         <!--  Adds the answer options of the vote -->
         <div class="voteDiv">
             <%
-                LinkedList<CandidateData> canDat = ed.getLiCandidates();
+                LinkedList<CandidateData> candidateDataList = electionData.getLiCandidates();
                 int count = 0;
-                for (CandidateData cd : canDat) {
-                    System.out.println(cd.toString());
+                for (CandidateData candidateData : candidateDataList) {
+                    System.out.println(candidateData.toString());
                     out.println("<ul class=\"list-group\">");
                     out.println("    <li class=\"list-group-item\">");
                     out.println("        <div class=\"radio\">");
                     out.println("            <label><input type=\"radio\" class=\"votingButton\" name=\"optradio\" value=\" " + count + " \" >"
-                            + cd.getTitle() + " "
-                            + cd.getSurname().toUpperCase() + " "
-                            + cd.getForename() + "</label>");
-                    out.println("            <button id=\"info\" type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\"" + count++ + "\" onClick=\"reply_click(this.name)\" ><span");
+                            + candidateData.getTitle() + " "
+                            + candidateData.getSurname().toUpperCase() + " "
+                            + candidateData.getForename() + "</label>");
+                    out.println("            <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#infoModal\" name=\"" + count++ + "\" onClick=\"reply_click(this.name)\" style=\"height 100px; width: 100px \"><span");
                     out.println("                    class=\"glyphicon glyphicon-info-sign\"");
                     out.println("                      ></span></button>");
                     out.println("        </div>");
@@ -97,6 +95,8 @@
                         <span class="glyphicon glyphicon-ok"></span> Stimme abgeben
                     </button>
             </div>
+            <br>
+            <%=  request.getAttribute("error") != null ? request.getAttribute("error") : ""  %>
         </center>
     </form>
 
@@ -140,7 +140,7 @@
 </div>
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 </body>

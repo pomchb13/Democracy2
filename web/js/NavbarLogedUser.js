@@ -27,7 +27,7 @@ window.onload = function userNavbar() {
         '               <li><a href="../AboutUI.jsp" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> About us</a></li> ' +
         '           </ul> ' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Logout</a></li> ' +
+        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> USER | Abmelden</a></li> ' +
         '           </ul> ' +
         '       </div> ' +
         '   </div> ' +

@@ -1,11 +1,10 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="user.LoggedUsers" %>
-<%@ page import="beans.*" %><%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 12.07.2017
-  Time: 12:01
-  To change this template use File | Settings | File Templates.
+<%@ page import="beans.*" %>
+<%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents the current status of the vote in a bar chart
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -20,11 +19,11 @@
     <!-- Import the JavaScript of  Bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Import the C3 diagramm CSS -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.css" rel="stylesheet" type="text/css">
     <!-- Import the JavaScript for D3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
     <!-- Import the JavaScript for C3 diagramm  -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.min.js"></script>
     <!-- Import the default CSS -->
     <link rel="stylesheet" type="text/css" href="css/DefaultCSS.css">
     <!-- Set Tab picture -->
@@ -38,19 +37,22 @@
 <div id="container">
     <br><br>
     <%
-        HttpSession ses = request.getSession();
-        LoggedUsers lU = LoggedUsers.getInstance();
+        // check if the admin is loged in
+        HttpSession httpSession = request.getSession();
+        LoggedUsers loggedUser = LoggedUsers.getInstance();
 
-        String hash = (String) ses.getAttribute("hash");
+        String hash = (String) httpSession.getAttribute("hash");
 
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        if (!loggedUser.compareRights(hash, RightEnum.ADMIN)) {
             response.sendRedirect("/LoginSL");
         }
 
     %>
     <!-- Title of the page -->
     <div class="titleEvaluation">
-        <h1>Derzeitiger Stand der <%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%></h1>
+        <h1>Derzeitiger Stand
+            der <%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Wahl" : "Abstimmung"%>
+        </h1>
     </div>
 
     <!-- Div for the Chart -->
@@ -61,25 +63,26 @@
             data: {
                 columns: [
                     <%
-                       int count = 0;
+                        int count = 0;
                         if(request.getSession().getAttribute("evaluationObject") instanceof PollData) {
-                            PollData pd = (PollData) (request.getSession().getAttribute("evaluationObject"));
-
-                            for (PollAnswer pa: pd.getAnswerList()) {
-                                if (count == pd.getAnswerList().size()) {
-                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+                            PollData pollData = (PollData) (request.getSession().getAttribute("evaluationObject"));
+                            out.println("['Stimmen: ',");
+                            for (PollAnswer pollAnswer: pollData.getAnswerList()) {
+                                if (count == pollData.getAnswerList().size()-1) {
+                                    out.println(pollAnswer.getVoteCount() + "]");
                                 } else {
-                                    out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                                    out.println(pollAnswer.getVoteCount() + ",");
                                 }
                                 count++;
                             }
                         } else if (request.getSession().getAttribute("evaluationObject") instanceof ElectionData){
-                            ElectionData ed = (ElectionData) request.getSession().getAttribute("evaluationObject");
-                            for (CandidateData cd: ed.getLiCandidates()) {
-                                if (count == ed.getLiCandidates().size()) {
-                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
+                            ElectionData electionData = (ElectionData) request.getSession().getAttribute("evaluationObject");
+                            out.println("['Stimmen: ',");
+                            for (CandidateData candidateData: electionData.getLiCandidates()) {
+                                if (count == electionData.getLiCandidates().size()-1) {
+                                    out.println(candidateData.getVoteCount() + "]");
                                 } else{
-                                    out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                    out.println(candidateData.getVoteCount() + ",");
                                 }
                                 count++;
                             }
@@ -100,15 +103,44 @@
             axis: {
 
                 x: {
-                    label: '<%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Name der Kandidaten" : "Antworten"%>'
+                    label: '<%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Kandidaten" : "Antworten"%>',
+                    type: 'category',
+                    categories: [
+                        <%
+                        int count1 = 0;
+                        if(request.getSession().getAttribute("evaluationObject") instanceof PollData) {
+                            PollData pollData = (PollData) (request.getSession().getAttribute("evaluationObject"));
+                            for (PollAnswer pollAnswer: pollData.getAnswerList()) {
+                                if (count1 == pollData.getAnswerList().size()-1) {
+                                   out.println("'" + pollAnswer.getTitle() + "'");
+                                } else {
+                                    out.println("'" + pollAnswer.getTitle() + "',");
+                                }
+                                count1++;
+                            }
+                        } else if (request.getSession().getAttribute("evaluationObject") instanceof ElectionData){
+                            ElectionData electionData = (ElectionData) request.getSession().getAttribute("evaluationObject");
+                            for (CandidateData candidateData: electionData.getLiCandidates()) {
+                                if (count1 == electionData.getLiCandidates().size()-1) {
+                                   out.println("'" + candidateData.getTitle() + " " + candidateData.getSurname().toUpperCase() + " " + candidateData.getForename() + "'");
+                                } else {
+                                    out.println("'" + candidateData.getTitle() + " " + candidateData.getSurname().toUpperCase() + " " + candidateData.getForename() + "',");
+                                }
+                                count1++;
+                            }
+                        }
+                        %>
+                    ]
                 },
                 y: {
-                    label: 'Anzahl der Stimmen'
-
-                },
+                    label: 'Stimmen'
+                }
             },
             donut: {
                 title: "Prozentverteilung"
+            },
+            bar: {
+                width: 150
             }
         });
     </script>
@@ -122,7 +154,7 @@
 </div>
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 </body>

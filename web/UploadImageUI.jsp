@@ -2,11 +2,9 @@
 <%@ page import="beans.RightEnum" %>
 <%@ page import="user.LoggedUsers" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: Leonhard
-  Date: 23.02.2018
-  Time: 14:00
-  To change this template use File | Settings | File Templates.
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents the image upload
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -32,12 +30,12 @@
 <body>
 <%
 
-    HttpSession ses = request.getSession();
-    LoggedUsers lU = LoggedUsers.getInstance();
+    HttpSession httpSession = request.getSession();
+    LoggedUsers loggedUsers = LoggedUsers.getInstance();
 
-    String hash = (String) ses.getAttribute("hash");
+    String hash = (String) httpSession.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+    if (!loggedUsers.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
 
@@ -56,7 +54,8 @@
                 <input id="inputPicture" type="file" name="input_Picture" class="form-control"
                        placeholder="Bild">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-            </div><br>
+            </div>
+            <br>
             <div class="submitButton">
                 <button type="submit" id="upload" class="btn btn-primary" name="Upload"
                         value="uploadPicture"><span
@@ -67,6 +66,10 @@
         <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
     </center>
 </div>
-
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
+    </div>
+</footer>
 </body>
 </html>

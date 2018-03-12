@@ -30,7 +30,7 @@ window.onload = function adminNavbar() {
         '               <li><a href="/UploadImageSL" accesskey="1"><span class="glyphicon glyphicon-upload"></span> Bild hochladen</a></li>' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
-        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> ADMIN | Logout</a></li> ' +
+        '               <li><a href="/LogoutSL" accesskey="1"><span class="glyphicon glyphicon-log-out"></span> ADMIN | Abmelden</a></li> ' +
         '           </ul>' +
         '       </div>' +
         '   </div>' +

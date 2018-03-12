@@ -3,12 +3,11 @@
 <%@ page import="user.LoggedUsers" %>
 <%@ page import="beans.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="java.util.Date" %><%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 11.07.2017
-  Time: 20:34
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.util.Date" %>
+<%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents the active votes for the admin
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -34,12 +33,12 @@
 </head>
 <body>
 <%
-    HttpSession ses = request.getSession();
-    LoggedUsers lU = LoggedUsers.getInstance();
+    HttpSession httpSession = request.getSession();
+    LoggedUsers loggedUser = LoggedUsers.getInstance();
 
-    String hash = (String) ses.getAttribute("hash");
+    String hash = (String) httpSession.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+    if (!loggedUser.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
 
@@ -103,8 +102,8 @@
                                 count += cd.getVoteCount();
                             }
                             out.println("<td>" + count + "</td>");
-                            out.println("<td style=\"width: 100%;\">"
-                                    + "<button style=\"width: 100%;\" class=\"btn btn-primary\" value=\" " + ed.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
+                            out.println("<td style=\"width: 50%;\">"
+                                    + "<button style=\"width: 50%;\" class=\"btn btn-primary\" value=\" " + ed.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
                                     + "Diagramm anzeigen"
                                     + "</button>"
                                     + "</td>");
@@ -123,7 +122,7 @@
 <!-- Implement the footer -->
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 

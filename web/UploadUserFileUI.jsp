@@ -3,12 +3,11 @@
 <%@ page import="java.io.File" %>
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.nio.file.Path" %>
-<%@ page import="java.nio.file.Paths" %><%--
-  Created by IntelliJ IDEA.
-  User: Leonhard
-  Date: 05.03.2018
-  Time: 15:13
-  To change this template use File | Settings | File Templates.
+<%@ page import="java.nio.file.Paths" %>
+<%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents user upload
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -36,12 +35,12 @@
 <div id="navbar"></div>
 <br><br>
 <%
-    HttpSession ses = request.getSession();
-    LoggedUsers lU = LoggedUsers.getInstance();
+    HttpSession httpSession = request.getSession();
+    LoggedUsers loggedUsers = LoggedUsers.getInstance();
 
-    String hash = (String) ses.getAttribute("hash");
+    String hash = (String) httpSession.getAttribute("hash");
 
-    if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+    if (!loggedUsers.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
 
@@ -72,8 +71,8 @@
         <br><br>
         <%
             if (request.getAttribute("newPath") != null) {
-                File f = new File((String) request.getAttribute("newPath"));
-                if (f != null) {
+                File file = new File((String) request.getAttribute("newPath"));
+                if (file != null) {
 
                     out.print(" <a href=\" res/userLists/userlist.xlsx\" download=\"userlist.xlsx\"> ");
                     out.print(" <button type=\"button\" id=\"download\" class=\"btn btn-primary\" name=\"download\"\n" +
@@ -91,9 +90,13 @@
                 }
             }
         %>
-
-
     </center>
 </div>
+<footer class="footer">
+    <div class="container text-center">
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
+    </div>
+</footer>
+
 </body>
 </html>

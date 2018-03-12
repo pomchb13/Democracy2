@@ -37,6 +37,7 @@ body {
     text-align: center; /* set everything center */
 }
 
+
 input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-outer-spin-button {
     -webkit-appearance: none; /* remove button spinner */
@@ -131,30 +132,31 @@ input[type=date]::-webkit-outer-spin-button {
     visibility: hidden; /* set div hidden */
 }
 .listHeader{
-    font-weight: bold;
+    font-weight: bold; /* set font bold */
 }
 
 .candAttribute{
-    text-align: left;
+    text-align: left; /* set text-align left */
 }
 
 .AnswerHeader{
-    vertical-align: center;
-    font-weight: bold;
-    font-size: 20px;
+    vertical-align: center; /* set vertical align center */
+    font-weight: bold; /* set font bold */
+    font-size: 20px; /* set font size 20 px */
 }
 
 #photoDropDiv{
-    width: 100%;
+    width: 100%; /* set width 100% */
 }
 
 #photoDropButton{
-    width: 100%;
+    width: 100%; /* set width 100% */
 }
 .AnswerBody{
-    vertical-align: middle;
-    horiz-align: center;
+    vertical-align: middle; /* set vertical align middle */
+    horiz-align: center; /* set horiz align center */
 }
 
-
-
+.c3-grid line {
+    stroke: none; /* hide line stroke at bar chart */
+}

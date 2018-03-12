@@ -1,11 +1,10 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="user.LoggedUsers" %>
-<%@ page import="beans.*" %><%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 12.07.2017
-  Time: 19:03
-  To change this template use File | Settings | File Templates.
+<%@ page import="beans.*" %>
+<%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents the current status of the vote in a pie chart
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -24,11 +23,11 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the C3 diagramm CSS -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.css" rel="stylesheet" type="text/css">
     <!-- Import the JavaScript for D3 diagramm  -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" charset="utf-8"></script>
     <!-- Import the JavaScript for C3 diagramm  -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.min.js"></script>
     <!-- Import the JavaScript of  Navbar -->
     <script src="js/NavbarAdmin.js"></script>
 </head>
@@ -38,12 +37,12 @@
 <div id="container">
     <br><br>
     <%
-        HttpSession ses = request.getSession();
-        LoggedUsers lU = LoggedUsers.getInstance();
+        HttpSession httpSession = request.getSession();
+        LoggedUsers loggesUser = LoggedUsers.getInstance();
 
-        String hash = (String) ses.getAttribute("hash");
+        String hash = (String) httpSession.getAttribute("hash");
 
-        if (!lU.compareRights(hash, RightEnum.ADMIN)) {
+        if (!loggesUser.compareRights(hash, RightEnum.ADMIN)) {
             response.sendRedirect("/LoginSL");
         }
 
@@ -60,31 +59,30 @@
         var chart = c3.generate({
             data: {
                 columns: [
-<%
-                       int count = 0;
-    if(request.getSession().getAttribute("evaluationObject") instanceof PollData) {
-       PollData pd = (PollData) request.getSession().getAttribute("evaluationObject");
-
-       for (PollAnswer pa: pd.getAnswerList()) {
-           if (count == pd.getAnswerList().size()) {
-               out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
-           } else {
-               out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
-           }
-           count++;
-        }
-    } else if (request.getSession().getAttribute("evaluationObject") instanceof ElectionData){
-        ElectionData ed = (ElectionData)request.getSession().getAttribute("evaluationObject");
-        for (CandidateData cd: ed.getLiCandidates()) {
-            if (count == ed.getLiCandidates().size()) {
-                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
-            }else{
-                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
-            }
-            count++;
-        }
-    }
-%>
+                <%
+                    int count = 0;
+                    if(request.getSession().getAttribute("evaluationObject") instanceof PollData) {
+                        PollData pd = (PollData) request.getSession().getAttribute("evaluationObject");
+                        for (PollAnswer pa: pd.getAnswerList()) {
+                            if (count == pd.getAnswerList().size()) {
+                                out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "]");
+                            } else {
+                             out.println("['" + pa.getTitle() + "', " + pa.getVoteCount() + "],");
+                            }
+                            count++;
+                        }
+                    } else if (request.getSession().getAttribute("evaluationObject") instanceof ElectionData){
+                        ElectionData ed = (ElectionData)request.getSession().getAttribute("evaluationObject");
+                        for (CandidateData cd: ed.getLiCandidates()) {
+                            if (count == ed.getLiCandidates().size()) {
+                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
+                            }else{
+                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                            }
+                            count++;
+                        }
+                    }
+                %>
                 ],
                 type: 'donut',
                 onclick: function (d, i) {
@@ -109,6 +107,9 @@
             },
             donut: {
                 title: "Prozentverteilung"
+            },
+            bar: {
+                width: 30
             }
         });
     </script>
@@ -122,7 +123,7 @@
 </div>
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 </body>

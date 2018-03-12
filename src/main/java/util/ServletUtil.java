@@ -4,6 +4,11 @@ package util;
  * Created by Leonhard on 17.09.2017.
  */
 public class ServletUtil {
+    /***
+     * This method filters the user / admin input to be safe against attacks
+     * @param inputText user / admin input
+     * @return filtered string
+     */
     public static String filter(String inputText) {
         if (inputText == null)
             return "";

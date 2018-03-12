@@ -70,54 +70,58 @@ public class PollSL extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Get the value from the radiobuttongroup
-        int val = Integer.parseInt(req.getParameter("optradio").trim());
-
-        //Create pollHandler object
-        PollHandler pollHandler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
-
-        String address = null;
         try {
-            //Get Credentials from session scope
-            Credentials user = (Credentials) req.getSession().getAttribute("credentials");
+            //Get the value from the radiobuttongroup
+            int val = Integer.parseInt(req.getParameter("optradio").trim());
 
-            //Create adminHandler object
-            AdminHandler adminHandler = new AdminHandler(user);
+            //Create pollHandler object
+            PollHandler pollHandler = new PollHandler((Credentials) req.getSession().getAttribute("credentials"));
 
-            //Load Admincontract to adminHandler
-            adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+            String address = null;
+            try {
+                //Get Credentials from session scope
+                Credentials user = (Credentials) req.getSession().getAttribute("credentials");
 
-            //Get Accountaddress from the Hash(user+salt+password)
-            address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
+                //Create adminHandler object
+                AdminHandler adminHandler = new AdminHandler(user);
 
-            //Get Contractaddress from poll for voter
-            Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
+                //Load Admincontract to adminHandler
+                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
 
-            //Load Contrat in pollHandler
-            pollHandler.loadSmartContract(contractAddress);
+                //Get Accountaddress from the Hash(user+salt+password)
+                address = userInstance.getAddressOfHash((String) req.getSession().getAttribute("hash"));
 
-            //Give vote to the answer
-            pollHandler.vote(new Uint8(val), new Address(address));
+                //Get Contractaddress from poll for voter
+                Address contractAddress = adminHandler.getContractAddressForVoter(new Address(user.getAddress()));
 
-            //get the updated pollobject without answers
-            PollData pd = pollHandler.getPollData();
+                //Load Contrat in pollHandler
+                pollHandler.loadSmartContract(contractAddress);
 
-            //Add Answers to the pollobject
-            LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
-            for (int i = 0; i < pollHandler.getAnswerArraySize(); i++) {
-                liPollAnswer.add(pollHandler.getAnswerData(i));
-            }
-            pd.setAnswerList(liPollAnswer);
+                //Give vote to the answer
+                pollHandler.vote(new Uint8(val), new Address(address));
 
-            //Check if showing diagrams is allowed
-            if (pd.isDiagramOption()) {
-                req.getSession().setAttribute("voteObject", pd);
-                resp.sendRedirect("EvaluationBarChartUI.jsp");
-            } else {
-                resp.sendRedirect("ThankYouUI.jsp");
+                //get the updated pollobject without answers
+                PollData pd = pollHandler.getPollData();
+
+                //Add Answers to the pollobject
+                LinkedList<PollAnswer> liPollAnswer = new LinkedList<>();
+                for (int i = 0; i < pollHandler.getAnswerArraySize(); i++) {
+                    liPollAnswer.add(pollHandler.getAnswerData(i));
+                }
+                pd.setAnswerList(liPollAnswer);
+
+                //Check if showing diagrams is allowed
+                if (pd.isDiagramOption()) {
+                    req.getSession().setAttribute("voteObject", pd);
+                    resp.sendRedirect("EvaluationBarChartUI.jsp");
+                } else {
+                    resp.sendRedirect("ThankYouUI.jsp");
+                }
+            } catch (Exception e) {
+                Logger.logError("Error while voting: " + e.toString(), PollSL.class);
             }
         } catch (Exception e) {
-            Logger.logError("Error while voting: "+e.toString(), PollSL.class);
+            req.setAttribute("error", "Bitte wählen Sie einen Kandidaten aus.");
         }
     }
 

@@ -74,16 +74,6 @@ public class LoggedUsers {
     }
 
     /**
-     * prints all users out
-     */
-    public void outPutUserList() {
-        System.out.println("----------LoggedUsers------------");
-        for (Map.Entry<String, RightEnum> e : tokenList.entrySet()) {
-            System.out.println(e.getKey() + "|" + e.getValue());
-        }
-    }
-
-    /**
      *
      * @param hash hash of username, password and salt
      * @return the address(username) of this hash

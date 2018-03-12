@@ -1,9 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Ewald
-  Date: 12.07.2017
-  Time: 18:06
-  To change this template use File | Settings | File Templates.
+<%@ page import="user.LoggedUsers" %>
+<%@ page import="beans.RightEnum" %><%--
+ Author:          Ewald Hartmann
+ Created on:
+ Description:     represents the error page
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
@@ -25,6 +24,7 @@
     <script src="js/NavbarNotLogedUser.js"></script>
 </head>
 <body>
+
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
 
@@ -44,7 +44,7 @@
 
 <footer class="footer">
     <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam HTBLA Kaindorf</p>
+        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
     </div>
 </footer>
 </body>
