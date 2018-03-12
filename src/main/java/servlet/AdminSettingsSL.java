@@ -25,11 +25,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Ewald on 06.03.2018.
+ * Author: Ewald Hartmann
+ * Created on:
+ * Description: This class is placed in the Backend from the "AdminSettingsUI.jsp" and is responsible for loading
+ * all polls and elections from the Blockchain and set them to session scope so the "ActiveVotesUI.jsp" is able
+ * to list them up. This servlet also checks if the administrator is logged in correctly.
  */
 @WebServlet(urlPatterns = {"/AdminSettingsSL"})
 public class AdminSettingsSL extends HttpServlet {
 
+    //The instance where all logged users and administrators are saved
     private LoggedUsers userInstance = LoggedUsers.getInstance();
 
     @Override
@@ -44,6 +49,18 @@ public class AdminSettingsSL extends HttpServlet {
         rd.forward(request, response);
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     *
+     * This method will be fired when the "AdminSettingsUI.jsp" will be loaded and so it fits perfectly for loading
+     * all elections and polls from Blockchain. This method also has double login validation. Firstly it checks if the Account
+     * is allowed to see this site. Then it checks if the Account is logged in the Blockchain. After that it creates
+     * Handler objects and then loads the elections and polls to later save it to the session scope.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -117,6 +134,16 @@ public class AdminSettingsSL extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     *
+     * This method will be fired from the "UploadUserFileUI.jsp". When the administrator successfully downloaded the
+     * userkeys, this method will delete the .xlsx file from the server environment
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (Files.exists(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
