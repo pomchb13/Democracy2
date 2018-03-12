@@ -55,7 +55,6 @@ public class ElectionHandler {
      * @return address of the contract
      * @throws Exception if an error occurs
      */
-    //TODO: souts entfernen
     public String createContract(int numCandidates, String title, LocalDate dateFrom, LocalDate dateDue, boolean showDiagram) throws Exception {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
