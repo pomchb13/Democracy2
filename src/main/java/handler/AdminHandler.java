@@ -25,7 +25,7 @@ public class AdminHandler {
     private AdminContract admin;
 
     /**
-     * Constructor to initiliaze the web3j web-service
+     * Constructor to initiliaze the web3j web-service and the credentials
      *
      * @param credentials: credentials of the user (wallet file)
      */

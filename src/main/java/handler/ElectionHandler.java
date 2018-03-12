@@ -34,7 +34,7 @@ public class ElectionHandler {
     private ElectionContract election;
 
     /**
-     * Constructor to initiliaze the web3j web-service
+     * Constructor to initiliaze the web3j web-service and the credentials
      *
      * @param credentials: credentials of the user (wallet file)
      */
