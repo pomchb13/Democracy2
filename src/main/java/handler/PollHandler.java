@@ -33,14 +33,7 @@ public class PollHandler {
     private Credentials credentials;
     private PollContract poll;
 
-    // for testing purpose only
-    public PollHandler() throws IOException, CipherException {
-        web3 = Web3j.build(new HttpService());
-        credentials = BlockchainUtil.loginToBlockhain("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be", "1234");
-    }
-
-
-    /**
+        /**
      * Constructor to initiliaze the web3j web-service
      *
      * @param credentials: credentials of the user (wallet file)
@@ -66,6 +59,17 @@ public class PollHandler {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         poll = PollContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numAnswers + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        return poll.getContractAddress();
+    }
+
+    /**
+     * Method responsible for loading an existing contract with a specific address
+     *
+     * @param contractAddress: address of the contract
+     * @return address of the contract
+     */
+    public String loadSmartContract(Address contractAddress) {
+        poll = PollContract.load(contractAddress.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         return poll.getContractAddress();
     }
 
@@ -125,14 +129,14 @@ public class PollHandler {
     /**
      * Method responsible for storing the data of an answer
      *
-     * @param answer:      index of the answer
+     * @param answerIndex: index of the answer
      * @param title:       title of the answer
      * @param description: description of the answer
      * @throws Exception if the poll contract is not loaded
      */
-    public void storeAnswerData(int answer, String title, String description) throws Exception {
+    public void storeAnswerData(int answerIndex, String title, String description) throws Exception {
         if (poll != null) {
-            poll.storeAnswerData(new BigInteger(answer + ""), title, description).send();
+            poll.storeAnswerData(new BigInteger(answerIndex + ""), title, description).send();
         } else {
             throw new Exception("poll object is null!");
         }
@@ -141,13 +145,13 @@ public class PollHandler {
     /**
      * Method responsible for getting the data of a specific answer
      *
-     * @param answer: index of the answer
+     * @param answerIndex: index of the answer
      * @return PollAnswer object
      * @throws Exception if the poll contract is not loaded
      */
-    public PollAnswer getAnswerData(int answer) throws Exception {
+    public PollAnswer getAnswerData(int answerIndex) throws Exception {
         if (poll != null) {
-            BigInteger answerBigInt = new BigInteger(answer + "");
+            BigInteger answerBigInt = new BigInteger(answerIndex + "");
             String title = poll.getAnswerData(answerBigInt).send().getValue1();
             String description = poll.getAnswerData(answerBigInt).send().getValue2();
             BigInteger voteCount = poll.getAnswerData(answerBigInt).send().getValue3();
@@ -178,17 +182,6 @@ public class PollHandler {
         }
     }
 
-
-    /**
-     * Method responsible for loading an existing contract with a specific address
-     *
-     * @param address: address of the contract
-     * @return address of the contract
-     */
-    public String loadSmartContract(Address address) {
-        poll = PollContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
-        return poll.getContractAddress();
-    }
 
     /**
      * Method responsible for returning the contract address of the poll contract
@@ -222,13 +215,13 @@ public class PollHandler {
     /**
      * Method responsible for determining whether the voter has already voted
      *
-     * @param address: address of the voter
+     * @param voterAddress: address of the voter
      * @return boolean if the given voter has already voted
      * @throws Exception if the poll contract is not loaded
      */
-    public boolean getAlreadyVotedForVoter(Address address) throws Exception {
+    public boolean getAlreadyVotedForVoter(Address voterAddress) throws Exception {
         if (poll != null) {
-            return poll.getAlreadyVotedForVoter(address.toString()).send();
+            return poll.getAlreadyVotedForVoter(voterAddress.toString()).send();
         } else {
             throw new Exception("poll object is null!");
         }
@@ -245,59 +238,6 @@ public class PollHandler {
             return poll.getAnswerSize().send().intValue();
         } else {
             throw new Exception("election object is null!");
-        }
-    }
-
-    // for testing purpose only
-    public static void main(String[] args) {
-        try {
-            String address = "0x36b158126df76110aa16e29b76172d8b3ed82dbf";
-            String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
-                    "0x1fA240651d34b5abc091F1CF3387fd278e714098",
-                    "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
-                    "0x44D6e503b8028Ab6B6a4f5bB8959e1258Cd9a584"};
-
-            PollAnswer a1 = new PollAnswer("A1", "B1");
-            PollAnswer a2 = new PollAnswer("A2", "B2");
-            PollAnswer a3 = new PollAnswer("A3", "B3");
-
-            PollHandler tester = new PollHandler();
-          /*  tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
-            tester.storeAnswerData(0, a1.getTitle(), a1.getDescription());
-            tester.storeAnswerData(1, a2.getTitle(), a2.getDescription());
-            tester.storeAnswerData(2, a3.getTitle(), a3.getDescription());*/
-
-            tester.loadSmartContract(new Address(address));
-
-            System.out.println(tester.getPollData());
-            System.out.println(tester.getAnswerData(0));
-            System.out.println(tester.getAnswerData(1));
-            System.out.println(tester.getAnswerData(2));
-
-
-            /*tester.giveRightToVote(new Address(users[0]));
-            tester.giveRightToVote(new Address(users[1]));
-            tester.giveRightToVote(new Address(users[2]));
-            tester.giveRightToVote(new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[0]));
-            tester.vote(new Uint8(1), new Address(users[1]));
-            tester.vote(new Uint8(1), new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[2]));*/
-
-           /* PollAnswer pa1 = tester.getAnswerData(0);
-            PollAnswer pa2 = tester.getAnswerData(1);
-            PollAnswer pa3 = tester.getAnswerData(2);
-            List<PollAnswer> pollAnswerList = new ArrayList<>();
-            pollAnswerList.add(pa1);
-            pollAnswerList.add(pa2);
-            pollAnswerList.add(pa3);
-            System.out.println(Arrays.toString(tester.getWinners(pollAnswerList).toArray()));*/
-
-            // System.out.println(tester.getContractAddressForVoter("0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be"));
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 }

@@ -48,24 +48,24 @@ public class AdminHandler {
     /**
      * Method responsible for loading an existing contrat with a specific address
      *
-     * @param address: address of the contract
+     * @param contractAddress: address of the contract
      * @return address of the contract
      */
-    public String loadSmartContract(Address address) {
-        admin = AdminContract.load(address.toString(), web3, credentials, new BigInteger("0"), new BigInteger("4700000"));
+    public String loadSmartContract(Address contractAddress) {
+        admin = AdminContract.load(contractAddress.toString(), web3, credentials, new BigInteger("0"), new BigInteger("4700000"));
         return admin.getContractAddress();
     }
 
     /**
      * Method responsible for checking if a user is admin
      *
-     * @param address: address of a user
+     * @param userAddress: address of a user
      * @return true if the user is admin, false if the user is not admin
      * @throws Exception if the admin contract is not loaded
      */
-    public boolean checkIfAdmin(Address address) throws Exception {
+    public boolean checkIfAdmin(Address userAddress) throws Exception {
         if (admin != null) {
-            return admin.checkIfAdmin(address.toString()).send();
+            return admin.checkIfAdmin(userAddress.toString()).send();
         } else {
             throw new Exception("admin object is null!");
         }
@@ -162,14 +162,14 @@ public class AdminHandler {
     /**
      * Method responsible for adding a new admin to the contract
      *
-     * @param address:       address of the new admin
-     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @param newAdminAddress: address of the new admin
+     * @param senderAddress:   address of the sender to check if he is allowed to perform this operation
      * @throws Exception if the admin contract is not loaded
      */
-    public void addAdminAddress(Address address, Address senderAddress) throws Exception {
+    public void addAdminAddress(Address newAdminAddress, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
-                admin.addAdmin(address.toString()).send();
+                admin.addAdmin(newAdminAddress.toString()).send();
             } else {
                 throw new Exception("admin object is null!");
             }
@@ -182,14 +182,14 @@ public class AdminHandler {
     /**
      * Method responsible for adding a contract address
      *
-     * @param address:       address of the contract
-     * @param senderAddress: address of the sender to check if he is allowed to perform this operation
+     * @param contractAddress: address of the contract
+     * @param senderAddress:   address of the sender to check if he is allowed to perform this operation
      * @throws Exception if the admin contract is not loaded
      */
-    public void addContractAddress(Address address, Address senderAddress) throws Exception {
+    public void addContractAddress(Address contractAddress, Address senderAddress) throws Exception {
         if (checkIfAdmin(senderAddress)) {
             if (admin != null) {
-                admin.addContractAddress(address.toString()).send();
+                admin.addContractAddress(contractAddress.toString()).send();
             } else {
                 throw new Exception("admin object is null!");
             }

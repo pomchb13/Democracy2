@@ -33,12 +33,6 @@ public class ElectionHandler {
     private Credentials credentials;
     private ElectionContract election;
 
-    // for testing purpose only
-    public ElectionHandler() throws IOException, CipherException {
-        web3 = Web3j.build(new HttpService());
-        credentials = BlockchainUtil.loginToBlockhain("0x67db9880d62389799691b9b1806ab59f90b49259", "1234");
-    }
-
     /**
      * Constructor to initiliaze the web3j web-service
      *
@@ -66,6 +60,17 @@ public class ElectionHandler {
         BigInteger dateFromInMilliseconds = new BigInteger(dateFrom.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         BigInteger dateDueInMilliseconds = new BigInteger(dateDue.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
         election = ElectionContract.deploy(web3, credentials, BigInteger.ZERO, new BigInteger("4700000"), new BigInteger(numCandidates + ""), title, dateFromInMilliseconds, dateDueInMilliseconds, showDiagram).send();
+        return election.getContractAddress();
+    }
+
+    /**
+     * Method responsible for loading an existing contract with a specific address
+     *
+     * @param contractAddress: address of the contract
+     * @return address of the contract
+     */
+    public String loadSmartContract(Address contractAddress) {
+        election = ElectionContract.load(contractAddress.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
         return election.getContractAddress();
     }
 
@@ -127,20 +132,20 @@ public class ElectionHandler {
     /**
      * Method responsible for storing a candidate in the Ethereum blockchain
      *
-     * @param candidate: index of the candidate
-     * @param title:     academic title of the candidate
-     * @param firstname: firstname of the candidate
-     * @param lastname:  lastname of the candidate
-     * @param birthday:  birthday of the candidate
-     * @param party:     party of the candidate
-     * @param slogan:    slogan of the candidate
-     * @param imagePath: path to the portrait of the candidate
+     * @param candidateIndex: index of the candidate
+     * @param title:          academic title of the candidate
+     * @param firstname:      firstname of the candidate
+     * @param lastname:       lastname of the candidate
+     * @param birthday:       birthday of the candidate
+     * @param party:          party of the candidate
+     * @param slogan:         slogan of the candidate
+     * @param imagePath:      path to the portrait of the candidate
      * @throws Exception if the election contract is not loaded
      */
-    public void storeCandidateData(int candidate, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, String imagePath) throws Exception {
+    public void storeCandidateData(int candidateIndex, String title, String firstname, String lastname, LocalDate birthday, String party, String slogan, String imagePath) throws Exception {
         if (election != null) {
             BigInteger birthdayInMilliseconds = new BigInteger(birthday.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli() + "");
-            election.storeCandidateData(new BigInteger(candidate + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan, imagePath).send();
+            election.storeCandidateData(new BigInteger(candidateIndex + ""), title, firstname, lastname, birthdayInMilliseconds, party, slogan, imagePath).send();
         } else {
             throw new Exception("election object is null!");
         }
@@ -194,17 +199,6 @@ public class ElectionHandler {
 
 
     /**
-     * Method responsible for loading an existing contract with a specific address
-     *
-     * @param address: address of the contract
-     * @return address of the contract
-     */
-    public String loadSmartContract(Address address) {
-        election = ElectionContract.load(address.toString(), web3, credentials, new BigInteger("300000"), new BigInteger("4700000"));
-        return election.getContractAddress();
-    }
-
-    /**
      * Method responsible for returning the address of the admin of an election
      *
      * @return the address of the admin of an election
@@ -235,13 +229,13 @@ public class ElectionHandler {
     /**
      * Method responsible for determining whether the voter has already voted
      *
-     * @param address: address of the voter
+     * @param voterAddress: address of the voter
      * @return boolean if the given voter has already voted
      * @throws Exception if the election contract is not loaded
      */
-    public boolean getAlreadyVotedForVoter(Address address) throws Exception {
+    public boolean getAlreadyVotedForVoter(Address voterAddress) throws Exception {
         if (election != null) {
-            return election.getAlreadyVotedForVoter(address.toString()).send();
+            return election.getAlreadyVotedForVoter(voterAddress.toString()).send();
         } else {
             throw new Exception("election object is null!");
         }
@@ -274,63 +268,5 @@ public class ElectionHandler {
         } else {
             throw new Exception("election object is null!");
         }
-    }
-
-
-    // for testing purpose only
-    public static void main(String[] args) {
-        try {
-            String address = "0x39ed290931679c83e1f96ba6ce2181ae0989854a";
-
-            String users[] = {"0xdCc97F1Bd80b47137480D2A3D9a54a0aF6aA92Be",
-                    "0x1fA240651d34b5abc091F1CF3387fd278e714098",
-                    "0x8060735949f5244b8bC3FbAc129A4e0B9578dF25",
-                    "0x44D6e503b8028Ab6B6a4f5bB8959e1258Cd9a584"};
-
-            BlockchainUtil.setPATH("D:\\Daten\\Git\\Democracy2\\out\\artifacts\\test_webapp2_war_exploded\\res\\geth_data\\keystore\\");
-
-            CandidateData p1 = new CandidateData("Dr", "F1", "L1", LocalDate.of(1999, 9, 3), "ÖVP", "S1", null);
-            CandidateData p2 = new CandidateData("Mag", "F2", "L2", LocalDate.of(1980, 9, 3), "FPÖ", "S2", null);
-            CandidateData p3 = new CandidateData("DI", "F3", "L3", LocalDate.of(1970, 9, 3), "SPÖ", "S3", null);
-
-
-            Credentials cr = BlockchainUtil.loginToBlockhain("0x88c50c20dbbc569c956792510c7451b3e7b74b8a", "N{1ee-mO/Bx0A!qUM|6F");
-            ElectionHandler tester = new ElectionHandler(cr);
-            tester.createContract(3, "TestTitle", LocalDate.of(2017, 3, 2), LocalDate.of(2018, 1, 1), true);
-            tester.storeCandidateData(0, p1.getTitle(), p1.getForename(), p1.getSurname(), p1.getBirthday(), p1.getParty(), p1.getSlogan(), "");
-            tester.storeCandidateData(1, p2.getTitle(), p2.getForename(), p2.getSurname(), p2.getBirthday(), p2.getParty(), p2.getSlogan(), "");
-            tester.storeCandidateData(2, p3.getTitle(), p3.getForename(), p3.getSurname(), p3.getBirthday(), p3.getParty(), p3.getSlogan(), "");
-            //   tester.loadSmartContract(address);
-            System.out.println(tester.getElectionData());
-            System.out.println(tester.getCandidateData(0));
-            System.out.println(tester.getCandidateData(1));
-            System.out.println(tester.getCandidateData(2));
-
-            System.out.println(tester.getCandidateArraySize());
-
-
-           /* tester.giveRightToVote(new Address(users[0]));
-            tester.giveRightToVote(new Address(users[1]));
-            tester.giveRightToVote(new Address(users[2]));
-            tester.giveRightToVote(new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[0]));
-            tester.vote(new Uint8(1), new Address(users[1]));
-            tester.vote(new Uint8(1), new Address(users[3]));
-            tester.vote(new Uint8(2), new Address(users[2]));
-
-            CandidateData c1 = tester.getCandidateData(0);
-            CandidateData c2 = tester.getCandidateData(1);
-            CandidateData c3 = tester.getCandidateData(2);
-            List<CandidateData> candidateDataList = new ArrayList<>();
-            candidateDataList.add(c1);
-            candidateDataList.add(c2);
-            candidateDataList.add(c3);
-            System.out.println(Arrays.toString(tester.getWinners(candidateDataList).toArray()));*/
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
     }
 }
