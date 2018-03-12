@@ -51,7 +51,8 @@
     <h1>Generator der Userkeys</h1>
     <p>Anzahl der zugelassernen Wähler</p>
     <center>
-        <form method="POST" action="/UploadUserFileSL" enctype="multipart/form-data">
+        <form method="POST" action="/UploadUserFileSL">
+            <!-- input field for typing in the number of eligible voters -->
             <div class="input-group">
                 <span class="input-group-addon">Anzahl</span>
                 <input id="titelVote" type="text" name="input_Count_Voter" class="form-control farm-control-sm"
@@ -59,6 +60,7 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
+            <!-- Button to create the .xlsx file -->
             <div class="submitButton">
                 <button type="submit" id="upload" class="btn btn-primary" name="Upload"
                         value="uploadFile"><span
@@ -66,10 +68,12 @@
                 </button>
             </div>
         </form>
+        <!-- Shows the status after trying to create the .xlsx file. -->
         <%=  request.getAttribute("status") != null ? request.getAttribute("status") : ""  %>
 
         <br><br>
         <%
+            //Inline code which shows a download button and a forward button, if the .xlsx file is generated successfully
             if (request.getAttribute("newPath") != null) {
                 File file = new File((String) request.getAttribute("newPath"));
                 if (file != null) {
