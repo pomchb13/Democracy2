@@ -157,19 +157,19 @@ public class NewElectionSL extends HttpServlet {
                     String candFirstname = ServletUtil.filter(req.getParameter("input_cand_Firstname"));
                     String candLastname = ServletUtil.filter((req.getParameter("input_cand_Lastname")));
                     LocalDate dateOfBirth = LocalDate.parse(ServletUtil.filter(req.getParameter("input_cand_Birthday")), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
+                    String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
+                    String portraitPath = this.getServletContext().getRealPath("/res/") + "images"
+                            + File.separator
+                            + ServletUtil.filter(req.getParameter("input_cand_Picture"));
+
+                    //set default photo is photo if no photo is selected from the dropdown
+                    if (portraitPath == null) {
+                        portraitPath = this.getServletContext().getRealPath("/res/images/user.png");
+                    }
 
                     // check if the candidate is between 18 and 99 years
                     if (dateOfBirth.isBefore(LocalDate.now().minusYears(18)) && dateOfBirth.isAfter(LocalDate.now().minusYears(99))) {
-                        String party = ServletUtil.filter(req.getParameter("input_cand_Party"));
-                        String slogan = ServletUtil.filter(req.getParameter("input_cand_Slogan"));
-                        String portraitPath = this.getServletContext().getRealPath("/res/") + "images"
-                                + File.separator
-                                + ServletUtil.filter(req.getParameter("input_cand_Picture"));
-
-                        //set default photo is photo if no photo is selected from the dropdown
-                        if (portraitPath == null) {
-                            portraitPath = this.getServletContext().getRealPath("/res/images/user.png");
-                        }
 
                         //create new candidate
                         CandidateData candidate = new CandidateData(candTitle, candFirstname, candLastname, dateOfBirth, party, slogan, portraitPath);

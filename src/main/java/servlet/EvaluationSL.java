@@ -4,6 +4,7 @@ import beans.ElectionData;
 import beans.PollData;
 import beans.RightEnum;
 import user.LoggedUsers;
+import util.BlockchainUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -31,6 +32,7 @@ public class EvaluationSL extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
