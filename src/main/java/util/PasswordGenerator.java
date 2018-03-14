@@ -10,9 +10,6 @@ import java.security.SecureRandom;
 
 public class PasswordGenerator {
 
-
-
-
     private static final SecureRandom secureRand = new SecureRandom();
     /**
      * Letters to generate the password

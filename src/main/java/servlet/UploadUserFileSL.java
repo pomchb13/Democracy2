@@ -1,15 +1,5 @@
 package servlet;
 
-/**
- * Author: Leonhard Gangl
- * Datum:
- * Description: This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled
- * everything for an election or poll up and presses the last button he will be redirected to the UploadUserFileUI.
- * In this UI he has to fill in how many voters he wants to generate. The Blockchain will auto generate the usernames
- * and passwords and create and .xlsx file which the administrator is able to download after the Backend has successfully
- * done its work.
- */
-
 import beans.RightEnum;
 import logger.Logger;
 import org.web3j.crypto.Credentials;
@@ -27,6 +17,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 
+/**
+ * Author: Leonhard Gangl
+ * Datum:
+ * Description: This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled
+ * everything for an election or poll up and presses the last button he will be redirected to the UploadUserFileUI.
+ * In this UI he has to fill in how many voters he wants to generate. The Blockchain will auto generate the usernames
+ * and passwords and create and .xlsx file which the administrator is able to download after the Backend has successfully
+ * done its work.
+ */
 @WebServlet(urlPatterns = {"/UploadUserFileSL"})
 @MultipartConfig
 public class UploadUserFileSL extends HttpServlet {

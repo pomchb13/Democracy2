@@ -1,13 +1,5 @@
 package servlet;
 
-/**
- * Author:          Leonhard Gangl
- * Description:     In this Servlet we define the "Backend" for the "UploadImageUI.jsp". This Servlet grants that the
- * images put from the Administrator into the fileinput will be saved to our server environment. In our project
- * structure the server environment is the "out" directory. Before the administrator well be redirected to the JSP it
- * checks if the administrator is logged in.
- */
-
 import beans.RightEnum;
 import logger.Logger;
 import user.LoggedUsers;
@@ -25,6 +17,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 
+/**
+ * Author:          Leonhard Gangl
+ * Description:     In this Servlet we define the "Backend" for the "UploadImageUI.jsp". This Servlet grants that the
+ * images put from the Administrator into the fileinput will be saved to our server environment. In our project
+ * structure the server environment is the "out" directory. Before the administrator well be redirected to the JSP it
+ * checks if the administrator is logged in.
+ */
 @WebServlet(urlPatterns = {"/UploadImageSL"})
 @MultipartConfig
 public class UploadImageSL extends HttpServlet {
@@ -33,8 +32,7 @@ public class UploadImageSL extends HttpServlet {
     private LoggedUsers userInstance = LoggedUsers.getInstance();
 
     /**
-     * @param config
-     * In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
+     * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
      * @throws ServletException
      */
     @Override
@@ -45,9 +43,7 @@ public class UploadImageSL extends HttpServlet {
 
     /**
      * @param request
-     * @param response
-     *
-     * In this Method we only get the RequestDispatcher which forwards to the "UploadImageUI.jsp".
+     * @param response In this Method we only get the RequestDispatcher which forwards to the "UploadImageUI.jsp".
      * @throws ServletException
      * @throws IOException
      */
@@ -60,7 +56,7 @@ public class UploadImageSL extends HttpServlet {
 
     /**
      * @param part --> uploaded image saved in a part object
-     * The method takes the filename from the part and deletes useless blanks.
+     *             The method takes the filename from the part and deletes useless blanks.
      * @return the filename from the image
      */
     private String getFileName(final Part part) {
@@ -75,15 +71,12 @@ public class UploadImageSL extends HttpServlet {
 
     /**
      * @param req
-     * @param resp
-     *
-     * The doPost will be fired if the user presses the upload button in the JSP. Firstly it gets the path for the
-     * server environment. Then it reads the Part sent via the encryption type mulipart/form-data from the fileinput.
-     * After we get the filename, we add a Timestamp made of date and time to the filename, so we could ensure that
-     * no file will be overwritten. Then we add the filename to a list. This list can be seen in the NewVoteUI to add
-     * a portrait to the candidate. If everything goes well the status "Bild wurde erfolgreich hochgeladen" will be shown
-     * above the button. If not, it will show an other message. If no file is selected it will show a matching status.
-     *
+     * @param resp The doPost will be fired if the user presses the upload button in the JSP. Firstly it gets the path for the
+     *             server environment. Then it reads the Part sent via the encryption type mulipart/form-data from the fileinput.
+     *             After we get the filename, we add a Timestamp made of date and time to the filename, so we could ensure that
+     *             no file will be overwritten. Then we add the filename to a list. This list can be seen in the NewVoteUI to add
+     *             a portrait to the candidate. If everything goes well the status "Bild wurde erfolgreich hochgeladen" will be shown
+     *             above the button. If not, it will show an other message. If no file is selected it will show a matching status.
      * @throws ServletException
      * @throws IOException
      */
@@ -126,7 +119,7 @@ public class UploadImageSL extends HttpServlet {
                 status = "Bild wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
-                Logger.logError("Error while reading image from file input: "+ fne.toString(), UploadUserFileSL.class);
+                Logger.logError("Error while reading image from file input: " + fne.toString(), UploadUserFileSL.class);
             } finally {
                 if (out != null) {
                     out.close();
@@ -135,7 +128,7 @@ public class UploadImageSL extends HttpServlet {
                     filecontent.close();
                 }
             }
-        }else{
+        } else {
             status = "Bitte ein Bild auswählen!";
         }
         req.setAttribute("status", status);
@@ -144,9 +137,8 @@ public class UploadImageSL extends HttpServlet {
 
     /**
      * @param req
-     * @param resp
-     * Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
-     * in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
+     * @param resp Because the doGet will be fired everytime we load the JSP, we had the method to check, if the person is logged in,
+     *             in there. It only takes the hash from the session object and checks with the loggedUserInstance if the login is correct.
      * @throws ServletException
      * @throws IOException
      */
