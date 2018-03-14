@@ -42,7 +42,6 @@
     if (!loggesUser.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
-
 %>
 <!-- Implements the navigation bar in the webseite -->
 

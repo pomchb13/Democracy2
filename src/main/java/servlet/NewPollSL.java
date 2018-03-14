@@ -82,8 +82,8 @@ public class NewPollSL extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Checks if an old userlist file exists. If yes, it will be deleted.
-        if(Files.exists(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
-        Files.delete(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        if (Files.exists(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
+            Files.delete(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
 
         String pollStatus = null;
         String answerStatus = null;
@@ -94,28 +94,33 @@ public class NewPollSL extends HttpServlet {
                 String title = ServletUtil.filter(req.getParameter("input_Title"));
                 String date_from = ServletUtil.filter(req.getParameter("input_Start"));
                 String date_due = ServletUtil.filter(req.getParameter("input_End"));
+                if (!title.isEmpty() || !date_due.isEmpty() || !date_from.isEmpty()) {
 
-                //Checks if the administrator allowed seeing diagrams
-                boolean voteDiagrams;
-                if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
-                    voteDiagrams = true;
-                else
-                    voteDiagrams = false;
 
-                //Parsing the dates from String to LocalDate
-                LocalDate vote_fromDate = LocalDate.parse(date_from, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-                LocalDate vote_dueDate = LocalDate.parse(date_due, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    //Checks if the administrator allowed seeing diagrams
+                    boolean voteDiagrams;
+                    if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
+                        voteDiagrams = true;
+                    else
+                        voteDiagrams = false;
 
-                //date validation
-                if (LocalDate.now().isBefore(vote_fromDate)
-                        || LocalDate.now().isEqual(vote_fromDate)
-                        && LocalDate.now().isBefore(vote_dueDate)
-                        && vote_fromDate.isBefore(vote_dueDate)) {
-                    //Creating the poll and saving it to request scope
-                    PollData newPoll = new PollData(title, vote_fromDate, vote_dueDate, voteDiagrams);
-                    req.getSession().setAttribute("newPoll", newPoll);
+                    //Parsing the dates from String to LocalDate
+                    LocalDate vote_fromDate = LocalDate.parse(date_from, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    LocalDate vote_dueDate = LocalDate.parse(date_due, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-                    pollStatus = "Abstimmung erfolgreich erstellt und zwischengespeichert";
+                    //date validation
+                    if (LocalDate.now().isBefore(vote_fromDate)
+                            || LocalDate.now().isEqual(vote_fromDate)
+                            && LocalDate.now().isBefore(vote_dueDate)
+                            && vote_fromDate.isBefore(vote_dueDate)) {
+                        //Creating the poll and saving it to request scope
+                        PollData newPoll = new PollData(title, vote_fromDate, vote_dueDate, voteDiagrams);
+                        req.getSession().setAttribute("newPoll", newPoll);
+
+                        pollStatus = "Abstimmung erfolgreich erstellt und zwischengespeichert";
+                    }
+                } else {
+                    pollStatus = "Bitte überprüfen Sie Ihre Eingabe!";
                 }
             } catch (Exception ex) {
                 pollStatus = "Bitte überprüfen Sie Ihre Eingabe!";
@@ -137,20 +142,23 @@ public class NewPollSL extends HttpServlet {
                     LinkedList<PollAnswer> answerList = newPoll.getAnswerList();
 
                     boolean addAnswer = true;
-                    for (PollAnswer pollAnswer:answerList) {
+                    for (PollAnswer pollAnswer : answerList) {
 
-                        if (pollAnswer.getTitle().contains(pAnswer.getTitle()))
-                        {
+                        if (pollAnswer.getTitle().contains(pAnswer.getTitle())) {
                             addAnswer = false;
                         }
                     }
-                    if (addAnswer){
-                        answerList.add(pAnswer);
-                        newPoll.setAnswerList(answerList);
-                        req.getSession().setAttribute("newPoll", newPoll);
-                        answerStatus = "Antwort erfolgreich hinzugefügt!";
-                    } else {
-                        answerStatus = "Es können nicht 2 Antworten mit den selben Titeln erstell werden";
+                    if (newPoll != null) {
+                        if (addAnswer) {
+                            answerList.add(pAnswer);
+                            newPoll.setAnswerList(answerList);
+                            req.getSession().setAttribute("newPoll", newPoll);
+                            answerStatus = "Antwort erfolgreich hinzugefügt!";
+                        } else {
+                            answerStatus = "Es können nicht 2 Antworten mit den selben Titeln erstell werden";
+                        }
+                    }else{
+                        answerStatus = "Bitte zuerste eine Wahl erstellen!";
                     }
 
                 } catch (Exception ex) {
@@ -187,7 +195,7 @@ public class NewPollSL extends HttpServlet {
                 req.getSession().setAttribute("newTypeOfVote", VoteType.POLL);
 
             } catch (Exception e) {
-                Logger.logError("Error while creating a new Poll on Blockchain: "+e.toString(), NewPollSL.class);
+                Logger.logError("Error while creating a new Poll on Blockchain: " + e.toString(), NewPollSL.class);
                 req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
             }
             List<PollAnswer> answerList = newPoll.getAnswerList();
@@ -197,7 +205,7 @@ public class NewPollSL extends HttpServlet {
                 try {
                     pollHandler.storeAnswerData(i, answerList.get(i).getTitle(), answerList.get(i).getDescription());
                 } catch (Exception e) {
-                    Logger.logError("Error while adding a pollAnswer to the poll: "+e.toString(), NewPollSL.class);
+                    Logger.logError("Error while adding a pollAnswer to the poll: " + e.toString(), NewPollSL.class);
                     req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                 }
             }
@@ -207,7 +215,7 @@ public class NewPollSL extends HttpServlet {
             pollList.add(newPoll);
             req.getSession().setAttribute("pollList", pollList);
 
-            Logger.logInformation("The Poll "+newPoll.getTitle()+" was saved successfully on the Blockchain", NewPollSL.class);
+            Logger.logInformation("The Poll " + newPoll.getTitle() + " was saved successfully on the Blockchain", NewPollSL.class);
 
             //Forward to the Userkey Generator
             resp.sendRedirect("/UploadUserFileSL");
