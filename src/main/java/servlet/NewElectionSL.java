@@ -74,7 +74,7 @@ public class NewElectionSL extends HttpServlet {
      * @param req
      * @param resp
      *
-     * Checks if the account is logged into the webplatform and is allowed to see this site
+     * Checks if the account is logged into the web platform and is allowed to see this site
      * @throws ServletException
      * @throws IOException
      */
@@ -197,47 +197,55 @@ public class NewElectionSL extends HttpServlet {
         } else {
             try {
 
-                //get credentials from session scope
-                Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
-
-                //create new ElectionHandler
-                electionHandler = new ElectionHandler(cr);
-
                 //get newElection from request scope
                 ElectionData newElection = (ElectionData) req.getSession().getAttribute("newElection");
 
-                //create ContractAddress for the new election and save the new election in Blockchain
-                String newContractAdress = electionHandler.createContract(newElection.getLiCandidates().size(), newElection.getTitle(), newElection.getDate_from(),
-                        newElection.getDate_due(), newElection.isShow_diagrams());
+                //check if election is created
+                if (newElection != null && newElection.getLiCandidates().size() >= 2)
+                {
+                    //get credentials from session scope
+                    Credentials cr = (Credentials) req.getSession().getAttribute("credentials");
 
-                //Create adminHandler-object
-                AdminHandler adminHandler = new AdminHandler(cr);
+                    //create new ElectionHandler
+                    electionHandler = new ElectionHandler(cr);
 
-                //Load all AdminContract
-                adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+                    //create ContractAddress for the new election and save the new election in Blockchain
+                    String newContractAdress = electionHandler.createContract(newElection.getLiCandidates().size(), newElection.getTitle(), newElection.getDate_from(),
+                            newElection.getDate_due(), newElection.isShow_diagrams());
 
-                //Add the new ContractAddress to the adminContract
-                adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
+                    //Create adminHandler-object
+                    AdminHandler adminHandler = new AdminHandler(cr);
 
-                List<CandidateData> candidateList = newElection.getLiCandidates();
-                for (int i = 0; i < candidateList.size(); i++) {
-                    //add candidate to blockchain
-                    electionHandler.storeCandidateData(i, candidateList.get(i).getTitle(), candidateList.get(i).getForename(), candidateList.get(i).getSurname(),
-                            candidateList.get(i).getBirthday(), candidateList.get(i).getParty(), candidateList.get(i).getSlogan(), candidateList.get(i).getPortraitPath());
+                    //Load all AdminContract
+                    adminHandler.loadSmartContract(AdminReader.getAdminContractAddress(this.getServletContext().getRealPath("/res/admin/")));
+
+                    //Add the new ContractAddress to the adminContract
+                    adminHandler.addContractAddress(new Address(newContractAdress), new Address(cr.getAddress()));
+
+                    List<CandidateData> candidateList = newElection.getLiCandidates();
+                    for (int i = 0; i < candidateList.size(); i++) {
+                        //add candidate to blockchain
+                        electionHandler.storeCandidateData(i, candidateList.get(i).getTitle(), candidateList.get(i).getForename(), candidateList.get(i).getSurname(),
+                                candidateList.get(i).getBirthday(), candidateList.get(i).getParty(), candidateList.get(i).getSlogan(), candidateList.get(i).getPortraitPath());
+                    }
+                    Logger.logInformation("The Election "+newElection.getTitle()+" was successfully saved on the Blockchain", NewElectionSL.class);
+
+                    //After everything ran successfully the new election will be set to session scope
+                    LinkedList<ElectionData> electionList = (LinkedList<ElectionData>) req.getSession().getAttribute("electionList");
+                    electionList.add(newElection);
+                    req.getSession().setAttribute("electionList", electionList);
+
+                    //set ContractAdress and TypeofVote
+                    req.getSession().setAttribute("newContractAdress", newContractAdress);
+                    req.getSession().setAttribute("newTypeOfVote", VoteType.ELECTION);
+
+                    //forward to UploadUserFileSL
+                    resp.sendRedirect("/UploadUserFileSL");
                 }
-                Logger.logInformation("The Election "+newElection.getTitle()+" was successfully saved on the Blockchain", NewElectionSL.class);
-
-                //After everything ran successfully the new election will be set to session scope
-                LinkedList<ElectionData> electionList = (LinkedList<ElectionData>) req.getSession().getAttribute("electionList");
-                electionList.add(newElection);
-                req.getSession().setAttribute("electionList", electionList);
-
-                //set ContractAdress and TypeofVote
-                req.getSession().setAttribute("newContractAdress", newContractAdress);
-                req.getSession().setAttribute("newTypeOfVote", VoteType.ELECTION);
-
-                //forward to UploadUserFileSL
-                resp.sendRedirect("/UploadUserFileSL");
+                else {
+                    req.setAttribute("errorComplete", "Um weitergeleitet zu werden, muss eine Wahl erstellt sein und mind. 2 Kandidaten hinzugefügt sein!!");
+                    processRequest(req, resp);
+                }
             } catch (Exception e) {
                 Logger.logInformation("Error while saving election and candidates in Blockchain: "+e.toString(), NewElectionSL.class);
                 req.setAttribute("errorComplete", "Fehler beim Speichern der kompletten Wahl auf der Blockchain");

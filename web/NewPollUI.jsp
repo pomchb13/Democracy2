@@ -137,6 +137,7 @@
                 </button>
             </div>
         </form>
+        <%=  request.getAttribute("errorComplete") != null ? request.getAttribute("errorComplete") : ""  %>
         <div class="submitButton">
             <form action="/NewPollSL" id="form3" method="post">
                 <button type="submit" class="btn btn-primary" name="actionButton"

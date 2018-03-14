@@ -176,7 +176,9 @@ public class NewPollSL extends HttpServlet {
             AdminHandler adminHandler = new AdminHandler(cr);
 
             PollData newPoll = (PollData) req.getSession().getAttribute("newPoll");
-            if (newPoll != null) {
+            if (newPoll != null && newPoll.getAnswerList().size() >= 2) {
+
+
                 try {
                     //Method to create the PollContract on the Blockchain
                     String contractAdress = pollHandler.createContract(newPoll.getAnswerList().size(),
@@ -221,11 +223,12 @@ public class NewPollSL extends HttpServlet {
                 //Forward to the Userkey Generator
                 resp.sendRedirect("/UploadUserFileSL");
             } else {
-                answerStatus = "Bitte die Eingaben überprüfen!";
-                req.setAttribute("answerStatus", answerStatus);
+                req.setAttribute("errorComplete", "Um weitergeleitet zu werden, muss eine Abstimmung erstellt sein und mind. 2 Antworten hinzugefügt sein!!");
                 processRequest(req, resp);
             }
+
         }
+
     }
 
     /**
