@@ -1,11 +1,7 @@
 package servlet;
 
-import beans.RightEnum;
-import user.HashGenerator;
-import user.LoggedUsers;
 import user.LoggedUsers;
 import util.BlockchainUtil;
-import util.ServletUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;

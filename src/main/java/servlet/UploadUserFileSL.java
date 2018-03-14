@@ -1,5 +1,14 @@
 package servlet;
 
+/**
+ * Author: Leonhard Gangl
+ * Datum:
+ * Description: This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled
+ * everything for an election or poll up and presses the last button he will be redirected to the UploadUserFileUI.
+ * In this UI he has to fill in how many voters he wants to generate. The Blockchain will auto generate the usernames
+ * and passwords and create and .xlsx file which the administrator is able to download after the Backend has successfully
+ * done its work.
+ */
 
 import beans.RightEnum;
 import logger.Logger;
@@ -20,17 +29,10 @@ import java.io.*;
 
 @WebServlet(urlPatterns = {"/UploadUserFileSL"})
 @MultipartConfig
-/**
- * Author:          Leonhard Gangl
- * Description:     This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled everything for an election
- * or poll up and presses the last button he will be redirected to the UploadUserFileUI. In this UI he has to upload
- * the electoral register as an excel file so the Blockchain backend can generate the usernames and passwords and add
- * the right to vote to the election or poll the administrator created. After a while an additional button should appear
- * below the upload button. The administrator has to press it to download the electoral register where all usernames and
- * password to the eligible voter are saved.
- */
 public class UploadUserFileSL extends HttpServlet {
+    //The Instance where all logged users and administrator are saved
     private LoggedUsers userInstance = LoggedUsers.getInstance();
+    //The UserCreator object is responsible for creating the userkeys.
     private UserCreator userCreator = new UserCreator();
 
 
@@ -47,6 +49,15 @@ public class UploadUserFileSL extends HttpServlet {
         rd.forward(request, response);
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     *
+     * Checks if the administrator is logged in correctly and is allowed to see this site
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -58,6 +69,15 @@ public class UploadUserFileSL extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     *
+     * Reads in the number of eligible voters. Then it lets the userCreator create all users and save them to an excel file.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String status = null;
@@ -71,7 +91,7 @@ public class UploadUserFileSL extends HttpServlet {
                         (String) req.getSession().getAttribute("newContractAdress"),
                         (VoteType) req.getSession().getAttribute("newTypeOfVote"),
                         (Credentials) req.getSession().getAttribute("credentials"),
-                        count_voter, this.getServletContext().getRealPath("/res/admin/"));
+                        count_voter,this.getServletContext().getRealPath("/res/admin/"));
                 req.setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
                 status = "Userkeys wurden erfolgreich generiert!";
@@ -81,7 +101,7 @@ public class UploadUserFileSL extends HttpServlet {
             }
         } catch (Exception ex) {
             status = "Bitte nur Zahlen eingeben";
-            Logger.logError("Fehler beim parsen der eingegebenen Zahl: " + ex.toString(), UploadUserFileSL.class);
+            Logger.logError("Fehler beim parsen der eingegebenen Zahl: "+ex.toString(), UploadUserFileSL.class);
         }
 
         req.setAttribute("status", status);

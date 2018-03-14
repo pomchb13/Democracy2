@@ -25,8 +25,11 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 /**
- * Author:          Ewald Hartmann
- * Description:
+ * Author: Ewald Hartmann
+ * Created on:
+ * Description: This servlet class is responsible for a secure vote process. After the user is validated the vote will
+ * be saved to the Blockchain. This servlet also is responsible for an AJAX request which comes from the UI to show
+ * more detailed information about the candidate.Then he gets forwarded to an evaluation chart or to the "ThankYouUI.jsp"
  */
 @WebServlet(urlPatterns = {"/ElectionSL"})
 public class ElectionSL extends HttpServlet {
@@ -37,6 +40,15 @@ public class ElectionSL extends HttpServlet {
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     *
+     * This method processes the AJAX Request and forwards to the "ElectionUI.jsp"
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -65,6 +77,19 @@ public class ElectionSL extends HttpServlet {
         processRequest(req, resp);
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     *
+     * This method will be called, when the user presses the button "Stimme abgeben". It checks if the user is logged into
+     * the Blockchain and then loads the contract. Later the electionHandler calls the methode "vote". So the vote from
+     * the user is saved securely to the Blockchain. At the end he reloads the election from the electionHandler object,
+     * gets the candidates to the election. And if showing diagrams is allowed it will forward us to an evaluationchart.
+     * Else it will forward us to the "ThankYouUI.jsp".
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {

@@ -1,7 +1,9 @@
 package util;
 
 /**
- * Created by Leonhard on 17.09.2017.
+ * Author: Leonhard Gangl
+ * Created on:
+ * Description: Filters special characters from the inputs.
  */
 public class ServletUtil {
     /***
