@@ -28,7 +28,7 @@
     <!-- Set Tab picture -->
     <link rel="icon" type="image/png" href="res/Avatar.png">
     <!-- Import the JavaScript of  Navbar -->
-    <script type="text/javascript" src="js/NavbarAdmin.js"></script>
+    <script type="text/javascript" src="js/NavbarAdminDownload.js"></script>
 </head>
 <body>
 <!-- Implements the navigation bar in the webseite -->

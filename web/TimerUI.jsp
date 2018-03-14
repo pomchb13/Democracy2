@@ -36,13 +36,15 @@
     }
 %>
 <div id="container">
-    <div id="title">Die gewählte Wahl hat noch nicht begonnen./div>
+    <div id="title">Die ausgewählte Wahl von Ihnen hat noch nicht begonnen.</div>
 </div>
-<footer class="footer">
-    <div class="container text-center">
-        <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
-    </div>
-</footer>
+<center>
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-muted">© 2018 Copyright by BearingPoint | Diplomarbeitsteam Democracy 2.0</p>
+        </div>
+    </footer>
+</center>
 
 </body>
 </html>
