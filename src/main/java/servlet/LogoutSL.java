@@ -19,7 +19,6 @@ import java.io.IOException;
 
 /**
  * Author:          Ewald Hartmann
- * Created on:
  * Description:     Servlet to logout the user
  */
 

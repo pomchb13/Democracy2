@@ -1,15 +1,5 @@
 package servlet;
 
-/**
- * Created by Leonhard on 05.03.2018
- * <p>
- * This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled everything for an election
- * or poll up and presses the last button he will be redirected to the UploadUserFileUI. In this UI he has to upload
- * the electoral register as an excel file so the Blockchain backend can generate the usernames and passwords and add
- * the right to vote to the election or poll the administrator created. After a while an additional button should appear
- * below the upload button. The administrator has to press it to download the electoral register where all usernames and
- * password to the eligible voter are saved.
- */
 
 import beans.RightEnum;
 import logger.Logger;
@@ -30,6 +20,15 @@ import java.io.*;
 
 @WebServlet(urlPatterns = {"/UploadUserFileSL"})
 @MultipartConfig
+/**
+ * Author:          Leonhard Gangl
+ * Description:     This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled everything for an election
+ * or poll up and presses the last button he will be redirected to the UploadUserFileUI. In this UI he has to upload
+ * the electoral register as an excel file so the Blockchain backend can generate the usernames and passwords and add
+ * the right to vote to the election or poll the administrator created. After a while an additional button should appear
+ * below the upload button. The administrator has to press it to download the electoral register where all usernames and
+ * password to the eligible voter are saved.
+ */
 public class UploadUserFileSL extends HttpServlet {
     private LoggedUsers userInstance = LoggedUsers.getInstance();
     private UserCreator userCreator = new UserCreator();
@@ -72,7 +71,7 @@ public class UploadUserFileSL extends HttpServlet {
                         (String) req.getSession().getAttribute("newContractAdress"),
                         (VoteType) req.getSession().getAttribute("newTypeOfVote"),
                         (Credentials) req.getSession().getAttribute("credentials"),
-                        count_voter,this.getServletContext().getRealPath("/res/admin/"));
+                        count_voter, this.getServletContext().getRealPath("/res/admin/"));
                 req.setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
                 status = "Userkeys wurden erfolgreich generiert!";
@@ -82,7 +81,7 @@ public class UploadUserFileSL extends HttpServlet {
             }
         } catch (Exception ex) {
             status = "Bitte nur Zahlen eingeben";
-            Logger.logError("Fehler beim parsen der eingegebenen Zahl: "+ex.toString(), UploadUserFileSL.class);
+            Logger.logError("Fehler beim parsen der eingegebenen Zahl: " + ex.toString(), UploadUserFileSL.class);
         }
 
         req.setAttribute("status", status);

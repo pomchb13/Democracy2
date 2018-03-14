@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 /**
  * Author:          Ewald Hartmann
- * Created on:
  * Description:     beans class responsible for the CandidateData object
  */
 public class CandidateData {

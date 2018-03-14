@@ -26,7 +26,6 @@ import java.util.LinkedList;
 
 /**
  * Author:          Ewald Hartmann
- * Created on:
  * Description:     Servlet behind the LoginUI
  */
 

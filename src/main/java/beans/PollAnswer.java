@@ -2,7 +2,6 @@ package beans;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     beans class responsible for the PollAnswer object.
  */
 public class PollAnswer {

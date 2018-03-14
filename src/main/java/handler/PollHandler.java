@@ -22,7 +22,6 @@ import java.util.List;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     Class responsible for handling a poll.
  * All methods of the contract are implemented in this handler.
  * The communication between java and the Blockchain is also implemented here.

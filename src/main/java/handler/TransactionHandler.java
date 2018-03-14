@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     Class responsible for sending Ether from one account to another account
  */
 public class TransactionHandler {

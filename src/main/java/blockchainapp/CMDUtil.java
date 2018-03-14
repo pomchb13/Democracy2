@@ -4,7 +4,6 @@ import java.io.IOException;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     Class responsible for opening command prompts with certain commands/parameters to start
  *                  the private Blockchain environment.
  */

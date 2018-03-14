@@ -2,7 +2,6 @@ package servlet;
 
 /**
  * Author:          Leonhard Gangl
- * Created on:
  * Description:     In this Servlet we define the "Backend" for the "UploadImageUI.jsp". This Servlet grants that the
  * images put from the Administrator into the fileinput will be saved to our server environment. In our project
  * structure the server environment is the "out" directory. Before the administrator well be redirected to the JSP it

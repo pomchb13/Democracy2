@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * Author: Ewald Hartmann
- * Created on:
  * Description: This class is placed in the Backend from the "AdminSettingsUI.jsp" and is responsible for loading
  * all polls and elections from the Blockchain and set them to session scope so the "ActiveVotesUI.jsp" is able
  * to list them up. This servlet also checks if the administrator is logged in correctly.

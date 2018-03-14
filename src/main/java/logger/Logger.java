@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Created by Ewald on 08.03.2018.
+ * Author:
+ * Description:
  */
 public class Logger {
 

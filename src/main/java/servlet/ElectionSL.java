@@ -25,7 +25,8 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 /**
- * Created by Ewald on 28.02.2018.
+ * Author:          Ewald Hartmann
+ * Description:
  */
 @WebServlet(urlPatterns = {"/ElectionSL"})
 public class ElectionSL extends HttpServlet {

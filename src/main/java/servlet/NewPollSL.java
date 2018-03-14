@@ -30,7 +30,6 @@ import java.util.List;
 
 /**
  * Author:          Ewald Hartmann
- * Created on:
  * Description:     This Servlet java class is responsible for creating a new PollContract and push it to the Blockchain. Before
  * the administrator is able to create a new PollContract it also checks if the administrator is logged in correctly.
  * The creation of the new PollContract could take a while because the PollHandler needs to push it to the Blockchain and

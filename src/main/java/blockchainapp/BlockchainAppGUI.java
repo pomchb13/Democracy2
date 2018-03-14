@@ -22,7 +22,6 @@ import java.util.List;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     GUI for the Blockchain app for admins, to start the private Blockchain environment,
  *                  deploy the admin-contract and create new admins.
  */

@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 /**
  * Author:          Christoph Pommer
- * Created on:
  * Description:     This class is responsible for writing the username and password into an excel file
  */
 public class ExcelHandler {

@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 /**
  * Author:          Patrick Windegger
- * Created on:
  * Description:     beans class responsible for the ElectionData objects.
  *                  The object contains a list of all candidates of the election.
  */

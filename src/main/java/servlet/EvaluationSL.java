@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /**
- * Created by Ewald on 06.03.2018.
+ * Author:          Ewald Hartmann
+ * Description:
  */
 @WebServlet(urlPatterns = {"/EvaluationSL"})
 public class EvaluationSL extends HttpServlet {

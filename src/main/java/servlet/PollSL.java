@@ -26,7 +26,6 @@ import java.util.LinkedList;
 
 /**
  * Author:          Ewald Hartmann
- * Created on:
  * Description:     This servlet java class is responsible for a secure voting.
  */
 
