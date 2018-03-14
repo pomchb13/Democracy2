@@ -105,6 +105,7 @@
                 x: {
                     label: '<%= request.getSession().getAttribute("evaluationObject") instanceof ElectionData ? "Kandidaten" : "Antworten"%>',
                     type: 'category',
+                    position: 'outer-middle',
                     categories: [
                         <%
                         int count1 = 0;
@@ -133,14 +134,18 @@
                     ]
                 },
                 y: {
-                    label: 'Stimmen'
+                    label: 'Stimmen',
+                    position: 'outer-middle'
                 }
             },
             donut: {
                 title: "Prozentverteilung"
             },
             bar: {
-                width: 150
+                width: 40
+            },
+            legend: {
+                position: 'bottom'
             }
         });
     </script>

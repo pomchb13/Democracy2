@@ -177,8 +177,6 @@ public class NewPollSL extends HttpServlet {
 
             PollData newPoll = (PollData) req.getSession().getAttribute("newPoll");
             if (newPoll != null) {
-
-
                 try {
                     //Method to create the PollContract on the Blockchain
                     String contractAdress = pollHandler.createContract(newPoll.getAnswerList().size(),
@@ -227,9 +225,7 @@ public class NewPollSL extends HttpServlet {
                 req.setAttribute("answerStatus", answerStatus);
                 processRequest(req, resp);
             }
-
         }
-
     }
 
     /**

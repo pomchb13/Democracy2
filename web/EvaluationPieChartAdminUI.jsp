@@ -77,7 +77,7 @@
                             if (count == ed.getLiCandidates().size()) {
                                 out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "]");
                             }else{
-                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount() + "],");
+                                out.println("['" + cd.getSurname().toUpperCase() + " " + cd.getForename() + "', " + cd.getVoteCount()+ "],");
                             }
                             count++;
                         }

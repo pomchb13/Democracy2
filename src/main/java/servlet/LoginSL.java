@@ -140,7 +140,7 @@ public class LoginSL extends HttpServlet {
                         if (electionHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || election.getDate_due().isBefore(LocalDate.now())) {
                             // forward to EvaluationBarChartUI
                             resp.sendRedirect("EvaluationBarChartUI.jsp");
-                        } else if (election.getDate_from().isAfter(LocalDate.now())) {
+                        } else if (!election.getDate_from().isAfter(LocalDate.now())) {
                             resp.sendRedirect("/TimerUI.jsp");
                         } else{
                             // forward to ElectionSL
@@ -165,7 +165,7 @@ public class LoginSL extends HttpServlet {
                             if (pollHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || poll.getDate_due().isBefore(LocalDate.now())) {
                                 //forward to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-                            } else if (poll.getDate_from().isAfter(LocalDate.now())) {
+                            } else if (!poll.getDate_from().isAfter(LocalDate.now())) {
                                 resp.sendRedirect("/TimerUI.jsp");
                             } else {
                                 //forward to PollUI

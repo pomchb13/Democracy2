@@ -146,7 +146,7 @@
                 },
             },
             bar: {
-                width: 30
+                width: 40
             },
             legend: {
                 position: 'bottom'
