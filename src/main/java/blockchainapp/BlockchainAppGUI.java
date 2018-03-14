@@ -155,13 +155,16 @@ public class BlockchainAppGUI extends JFrame {
     private void onStartGeth(ActionEvent e) throws Exception {
         File file = new File(path + "admin" + File.separator + "contract.txt");
         if (file.exists()) {
+            // Read the contract address of the text file if it exists
             BufferedReader br = new BufferedReader(new FileReader(file));
             String contractAddress = br.readLine();
+            // Read username from JOptionPane
             String adminAddress = JOptionPane.showInputDialog(this, "Please enter your admin username:").trim();
             if (adminAddress.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Username may not be empty!");
                 return;
             }
+            // Read password from JOptionPane
             JPasswordField passwordField = new JPasswordField();
             if (JOptionPane.showConfirmDialog(this, passwordField, "Please enter your password!",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.OK_OPTION) {
@@ -170,6 +173,7 @@ public class BlockchainAppGUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Password may not be empty!");
                     return;
                 }
+                // Load the contract
                 adminCredentials = BlockchainUtil.loginToBlockhain(adminAddress, password, path + "geth_data"
                         + File.separator + "keystore" + File.separator);
                 adminHandler = new AdminHandler(adminCredentials);
@@ -177,6 +181,7 @@ public class BlockchainAppGUI extends JFrame {
                 contractExists = true;
                 startGeth();
                 try {
+                    // Get all admins from the contract
                     List<Address> admins = adminHandler.getAllAdmins(new Address(adminCredentials.getAddress()));
                     dtm.removeAllElements();
                     for (Address a : admins) {
@@ -188,6 +193,7 @@ public class BlockchainAppGUI extends JFrame {
 
             }
         } else {
+            // Start the Blockchain and create the first admin user if the contract does not exist
             contractExists = false;
             startGeth();
             JOptionPane.showMessageDialog(this, "The first admin will be created automatically!\n Press OK to continue!",
@@ -212,13 +218,14 @@ public class BlockchainAppGUI extends JFrame {
      */
     private void onCreateNewAdmin(ActionEvent e) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException, IOException {
         UserCreator creator = new UserCreator();
-
         if (contractExists) {
             if (adminHandler != null) {
+                // Generate new wallet file with random password
                 String password = PasswordGenerator.createPassword(20);
                 String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                         + File.separator + "keystore" + File.separator);
 
+                // Show login data
                 JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
                         + "Username: " + newAddress + "\nPassword: " + password
                         + "\nPress OK and start the miner in the java script console with the 'miner.start()' command, if it is not already started!");
@@ -227,6 +234,7 @@ public class BlockchainAppGUI extends JFrame {
                 try {
                     Credentials cr = BlockchainUtil.loginToBlockhain(newAddress, password, path
                             + "geth_data" + File.separator + "keystore" + File.separator);
+                    // Add the new admin to the list and contract
                     dtm.addElement(new Address(newAddress));
                     adminHandler.addAdminAddress(new Address(cr.getAddress()), new Address(adminCredentials.getAddress()));
                 } catch (Exception ex) {
@@ -235,10 +243,12 @@ public class BlockchainAppGUI extends JFrame {
                 }
             }
         } else {
+            // Generate new wallet file with random password for the first admin
             String password = PasswordGenerator.createPassword(20);
             String newAddress = creator.createNewUserAddress(password, path + "geth_data"
                     + File.separator + "keystore" + File.separator);
 
+            // Show login data
             JTextArea optionPaneArea = new JTextArea("Please store the login data at a save place!\n"
                     + "Username: " + newAddress + "\nPassword: " + password
                     + "\nPress OK and start the miner in the java script console with the 'miner.start()' command, if it is not already started!");
@@ -249,12 +259,14 @@ public class BlockchainAppGUI extends JFrame {
                         + "geth_data" + File.separator + "keystore" + File.separator);
 
                 if (adminHandler == null) {
+                    // Create contract and save the address to the text file
                     adminHandler = new AdminHandler(adminCredentials);
                     String contractAddress = adminHandler.createSmartContract();
                     BufferedWriter bw = new BufferedWriter(new FileWriter(path + "admin"
                             + File.separator + "contract.txt"));
                     bw.write(contractAddress);
                     bw.close();
+                    // Add admin to the list
                     dtm.addElement(new Address(newAddress));
                 }
             } catch (Exception ex) {
@@ -277,6 +289,7 @@ public class BlockchainAppGUI extends JFrame {
         res = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "gethpath.txt";
         File f = new File(res);
         if (f.exists()) {
+            // Read the paths if the file exists
             try {
                 BufferedReader br = new BufferedReader(new FileReader(f));
                 gethDirectory = br.readLine();
@@ -288,6 +301,7 @@ public class BlockchainAppGUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "IOException");
             }
         } else {
+            // Create file choosers
             JFileChooser jfc1 = new JFileChooser("user.home");
             jfc1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             jfc1.setDialogTitle("Path to geth.exe");
@@ -295,6 +309,7 @@ public class BlockchainAppGUI extends JFrame {
             jfc2.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             jfc2.setDialogTitle("Path to the data directory");
 
+            // Read the paths from the file choosers and write them into the text file
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));
             if (jfc1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 gethDirectory = jfc1.getSelectedFile().getAbsolutePath() + File.separator;
