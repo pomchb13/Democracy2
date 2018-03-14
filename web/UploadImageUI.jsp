@@ -48,11 +48,11 @@
     <h1>Upload von Dateien</h1>
     <p>bevorzugestes Dateiformat: 35*45</p>
     <center>
-        <form method="POST" action="/UploadImageSL" enctype="multipart/form-data">
+        <form method="POST" action="/UploadImageSL" enctype="multipart/form-data" onsubmit="return validation(this)">
             <div class="input-group">
                 <span class="input-group-addon">Portrait</span>
                 <input id="inputPicture" type="file" name="input_Picture" class="form-control"
-                       placeholder="Bild">
+                       placeholder="Bild" accept="image/*">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
@@ -72,4 +72,70 @@
     </div>
 </footer>
 </body>
+<script>
+    function validation(thisform) {
+        with (thisform) {
+            if (validateFileExtension(file, "valid_msg", "pdf/office/image files are only allowed!",
+                    new Array("jpg", "jpeg", "png")) == false) {
+                return false;
+            }
+            if (validateFileSize(file, 1048576, "valid_msg", "Document size should be less than 1MB !") == false) {
+                return false;
+            }
+        }
+    }
+
+    function validateFileExtension(component, msg_id, msg, extns) {
+        var flag = 0;
+        with (component) {
+            var ext = value.substring(value.lastIndexOf('.') + 1);
+            for (i = 0; i < extns.length; i++) {
+                if (ext == extns[i]) {
+                    flag = 0;
+                    break;
+                }
+                else {
+                    flag = 1;
+                }
+            }
+            if (flag != 0) {
+                document.getElementById(msg_id).innerHTML = msg;
+                component.value = "";
+                component.style.backgroundColor = "#eab1b1";
+                component.style.border = "thin solid #000000";
+                component.focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    }
+
+    function validateFileSize(component, maxSize, msg_id, msg) {
+        if (navigator.appName == "Microsoft Internet Explorer") {
+            if (component.value) {
+                var oas = new ActiveXObject("Scripting.FileSystemObject");
+                var e = oas.getFile(component.value);
+                var size = e.size;
+            }
+        }
+        else {
+            if (component.files[0] != undefined) {
+                size = component.files[0].size;
+            }
+        }
+        if (size != undefined && size > maxSize) {
+            document.getElementById(msg_id).innerHTML = msg;
+            component.value = "";
+            component.style.backgroundColor = "#eab1b1";
+            component.style.border = "thin solid #000000";
+            component.focus();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
 </html>
