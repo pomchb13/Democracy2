@@ -65,12 +65,12 @@ public class BlockchainAppGUI extends JFrame {
     }
 
     /**
-     * Method responsible for insitializing all components of the window
+     * Method responsible for initializing all components of the window
      * and adding ActionListeners on the different buttons.
      */
     private void initComponents() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JButton btStart = new JButton("Start Blockchain environement");
+        JButton btStart = new JButton("Start Blockchain environment");
         btStart.addActionListener((e) -> {
             try {
                 onStartGeth(e);

@@ -111,8 +111,6 @@ public class AdminHandler {
         } else {
             throw new Exception("sender address is not allowed to perform this operation!");
         }
-
-
     }
 
     /**
