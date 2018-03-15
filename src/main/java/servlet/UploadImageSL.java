@@ -97,11 +97,6 @@ public class UploadImageSL extends HttpServlet {
             //Adding the a DateTimestamp to the filename to be sure no files will be overwritten
             final String fileName = fileField[0] + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("_dd_MM_yyyy-hh_mm_ss")) + "." + fileField[1];
 
-            //List where all filenames from images are saved
-            LinkedList<String> liFilenames = (LinkedList<String>) this.getServletContext().getAttribute("liFilenames");
-            liFilenames.add(fileName);
-            this.getServletContext().setAttribute("liFilenames", liFilenames);
-
             OutputStream out = null;
             InputStream filecontent = null;
 
@@ -116,6 +111,12 @@ public class UploadImageSL extends HttpServlet {
                 while ((read = filecontent.read(bytes)) != -1) {
                     out.write(bytes, 0, read);
                 }
+
+                //List where all filenames from images are saved
+                LinkedList<String> liFilenames = (LinkedList<String>) this.getServletContext().getAttribute("liFilenames");
+                liFilenames.add(fileName);
+                this.getServletContext().setAttribute("liFilenames", liFilenames);
+
                 status = "Bild wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";

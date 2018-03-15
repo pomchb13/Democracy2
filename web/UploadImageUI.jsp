@@ -52,7 +52,7 @@
             <div class="input-group">
                 <span class="input-group-addon">Portrait</span>
                 <input id="inputPicture" type="file" name="input_Picture" class="form-control"
-                       placeholder="Bild">
+                       placeholder="Bild" accept="image/*">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
             <br>
