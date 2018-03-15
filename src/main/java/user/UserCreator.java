@@ -40,16 +40,14 @@ public class UserCreator {
 
 
     /**
-     *
-     * @param password password for the Blockchain user
+     * @param password        password for the Blockchain user
      * @param destinationPath path where the Blockchain user wallet file gets saved
      * @return String with the new created users address
      * @throws CipherException
      * @throws InvalidAlgorithmParameterException
      * @throws NoSuchAlgorithmException
      * @throws NoSuchProviderException
-     * @throws IOException
-     * throws a lot of exceptions because there are a lot of things that can go wrong while creating a new Blockchain user
+     * @throws IOException                        throws a lot of exceptions because there are a lot of things that can go wrong while creating a new Blockchain user
      */
     public String createNewUserAddress(String password, String destinationPath) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         String filename = WalletUtils.generateFullNewWalletFile(password, new File(destinationPath));
@@ -73,20 +71,21 @@ public class UserCreator {
      * at last the user gets the rightToVote in the specific election or poll
      * the excelhandler gets the excelFilePath, the newly created usermap and the sheetcount which will create the excel
      * file
-     * @param path where the created excel file gets saved for the download
-     * @param walletPath path where the wallet files gets saved
+     *
+     * @param path            where the created excel file gets saved for the download
+     * @param walletPath      path where the wallet files gets saved
      * @param contractAddress every user is created for a specific election or poll and this is the address to this
      *                        election or poll
-     * @param vt the type of the vote, election or poll, so we do not to test it
-     * @param cr the credentials of the admin for giving the user the right to vote on the specific election or poll
-     * @param votersCount count of the voters allowed on the poll or election, also the amount of users that need to be
-     *                    created
-     * @param adminFilepath because we needed the admincontract, we need this path to load the admincontract
+     * @param vt              the type of the vote, election or poll, so we do not to test it
+     * @param cr              the credentials of the admin for giving the user the right to vote on the specific election or poll
+     * @param votersCount     count of the voters allowed on the poll or election, also the amount of users that need to be
+     *                        created
+     * @param adminFilepath   because we needed the admincontract, we need this path to load the admincontract
      * @throws Exception throws the exception of the excel handler along, and all the exceptions of the contracts
      */
-    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int votersCount,String adminFilepath) throws Exception {
+    public void createNewUsers(String path, String walletPath, String contractAddress, VoteType vt, Credentials cr, int votersCount, String adminFilepath) throws Exception {
         int sheetCount = votersCount / 1048576;
-        if(votersCount%1048576>0 &&votersCount<1048576)sheetCount++;
+        if (votersCount % 1048576 > 0 && votersCount < 1048576) sheetCount++;
         AdminHandler ah = new AdminHandler(cr);
         ah.loadSmartContract(AdminReader.getAdminContractAddress(adminFilepath));
 
@@ -96,7 +95,7 @@ public class UserCreator {
         if (vt.equals(VoteType.ELECTION)) {
             el = new ElectionHandler(cr);
             el.loadSmartContract(new Address(contractAddress));
-        } else if(vt.equals(VoteType.POLL)) {
+        } else if (vt.equals(VoteType.POLL)) {
             pl = new PollHandler(cr);
             pl.loadSmartContract(new Address(contractAddress));
         }
@@ -106,12 +105,12 @@ public class UserCreator {
             String password = PasswordGenerator.createPassword(PASSWORDLENGTH);
             String username = createNewUserAddress(password, walletPath);
             map.put(username, password);
-            ah.addContractAddressToVoter(new Address(contractAddress),new Address(username),new Address(cr.getAddress()));
+            ah.addContractAddressToVoter(new Address(contractAddress), new Address(username), new Address(cr.getAddress()));
             th.sendTransaction(new Address(username));
             if (vt.equals(VoteType.ELECTION)) {
                 el.giveRightToVote(new Address(username));
 
-            } else if(vt.equals(VoteType.POLL)) {
+            } else if (vt.equals(VoteType.POLL)) {
                 pl.giveRightToVote(new Address(username));
             }
         }

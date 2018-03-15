@@ -25,45 +25,39 @@ public class ExcelHandler {
      * it writes the voterswrotecount (id), the username and the password down
      * the if is used to increase the sheet index when the row limit is reached
      * at the end the file gets wrote out and saved
-     * @param file  where the new excel file gets saved
-     * @param map   map with all user logins
+     *
+     * @param file       where the new excel file gets saved
+     * @param map        map with all user logins
      * @param sheetCount count of needed sheets because excel can only have 1048000 million rows in one sheet
      * @throws IOException throws when the path or the file can't be created on the given path
      */
-    public static void createExcelFile(String file, TreeMap<String,String> map,int sheetCount) throws IOException {
+    public static void createExcelFile(String file, TreeMap<String, String> map, int sheetCount) throws IOException {
         Workbook w = new XSSFWorkbook();
-        int votersWroteOutCount=1;
-        int sheetIndex=0;
-        int rowIndex=1;
+        int votersWroteOutCount = 1;
+        int sheetIndex = 0;
+        int rowIndex = 1;
         LinkedList<Sheet> sheetList = new LinkedList<>();
-        for(int i=0;i<sheetCount;i++)
-        {
-            Sheet sheet = w.createSheet("Users"+i);
+        for (int i = 0; i < sheetCount; i++) {
+            Sheet sheet = w.createSheet("Users" + i);
             Row row = sheet.createRow(0);
             row.createCell(0).setCellValue("ID");
             row.createCell(1).setCellValue("Username");
             row.createCell(2).setCellValue("Password");
-
             sheetList.add(sheet);
-
         }
 
-        for(Map.Entry<String,String> entry:map.entrySet())
-        {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             Row row = sheetList.get(sheetIndex).createRow(rowIndex);
             row.createCell(0).setCellValue(votersWroteOutCount);
             row.createCell(1).setCellValue(entry.getKey());
             row.createCell(2).setCellValue(entry.getValue());
-            if(votersWroteOutCount%1048575==0)
-            {
-              sheetIndex++;
-              rowIndex=1;
+            if (votersWroteOutCount % 1048575 == 0) {
+                sheetIndex++;
+                rowIndex = 1;
             }
             rowIndex++;
             votersWroteOutCount++;
         }
-
-
         FileOutputStream out = new FileOutputStream(file);
         w.write(out);
         out.close();
