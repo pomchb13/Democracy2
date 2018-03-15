@@ -85,6 +85,7 @@
                 %>
                 ],
                 type: 'donut',
+                
                 onclick: function (d, i) {
                     console.log("onclick", d, i);
                 },

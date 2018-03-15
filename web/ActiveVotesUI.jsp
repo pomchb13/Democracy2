@@ -86,8 +86,8 @@
                                 count += pa.getVoteCount();
                             }
                             out.println("<td>" + count + "</td>");
-                            out.println("<td style=\"width: 100%;\">"
-                                    + "<button style=\"width: 100%;\" class=\"btn btn-primary\" value=\" " + pd.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
+                            out.println("<td style=\"width: 50%;\">"
+                                    + "<button style=\"width: 50%;\" class=\"btn btn-primary\" value=\" " + pd.getTitle() + "\" name =\"actionbutton\" type=\"submit\">"
                                     + "Diagramm anzeigen"
                                     + "</button>"
                                     + "</td>");

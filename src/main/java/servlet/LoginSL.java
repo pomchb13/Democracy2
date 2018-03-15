@@ -43,7 +43,7 @@ public class LoginSL extends HttpServlet {
         try {
             Logger.setPath(this.getServletContext().getRealPath("/res/files/"));
         } catch (FileNotFoundException e) {
-            Logger.logError("Error while initializing BufferedWriter: "+e.toString(), Logger.class);
+            Logger.logError("Error while initializing BufferedWriter: " + e.toString(), Logger.class);
         }
     }
 
@@ -141,11 +141,12 @@ public class LoginSL extends HttpServlet {
                         if (electionHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || election.getDate_due().isBefore(LocalDate.now())) {
                             // forward to EvaluationBarChartUI
                             resp.sendRedirect("EvaluationBarChartUI.jsp");
-                        } else if (!election.getDate_from().isAfter(LocalDate.now())) {
-                            resp.sendRedirect("/TimerUI.jsp");
-                        } else{
+                        } else if ((LocalDate.now().isAfter(election.getDate_from()) || LocalDate.now().isEqual(election.getDate_from())) &&
+                                (LocalDate.now().isBefore(election.getDate_due()) || LocalDate.now().isEqual(election.getDate_due()))) {
                             // forward to ElectionSL
                             resp.sendRedirect("/ElectionSL");
+                        } else {
+                            resp.sendRedirect("/TimerUI.jsp");
                         }
                     } catch (Exception ex) {
                         try {
@@ -166,15 +167,16 @@ public class LoginSL extends HttpServlet {
                             if (pollHandler.getAlreadyVotedForVoter(new Address(credentials.getAddress())) || poll.getDate_due().isBefore(LocalDate.now())) {
                                 //forward to EvaluationBarChartUI
                                 resp.sendRedirect("EvaluationBarChartUI.jsp");
-                            } else if (!poll.getDate_from().isAfter(LocalDate.now())) {
-                                resp.sendRedirect("/TimerUI.jsp");
+                            } else if ((LocalDate.now().isAfter(poll.getDate_from()) || LocalDate.now().isEqual(poll.getDate_from())) &&
+                                    (LocalDate.now().isBefore(poll.getDate_due()) || LocalDate.now().isEqual(poll.getDate_due()))) {
+                                // forward to ElectionSL
+                                resp.sendRedirect("/PollSL");
                             } else {
-                                //forward to PollUI
-                                resp.sendRedirect("PollUI.jsp");
+                                resp.sendRedirect("/TimerUI.jsp");
                             }
                         } catch (Exception e) {
                             req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
-                            Logger.logError("Fehler bei der Weiterleitung: "+e.toString(), LoginSL.class);
+                            Logger.logError("Fehler bei der Weiterleitung: " + e.toString(), LoginSL.class);
                         }
                     }
                     //Account is an Adminaccount

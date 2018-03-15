@@ -100,11 +100,10 @@
             },
             axis: {
                 x: {
-                    label: {
-                        text: '<%= request.getSession().getAttribute("voteObject") instanceof ElectionData ? "Kandidaten" : "Antworten"%>',
-                        position: 'outer-center',
-                        type: 'category',
-                        categories: [
+                    label: '<%= request.getSession().getAttribute("voteObject") instanceof ElectionData ? "Kandidaten" : "Antworten"%>',
+                    position: 'outer-center',
+                    type: 'category',
+                    categories: [
                         <%
                             int count1 = 0;
                             if(request.getSession().getAttribute("voteObject") instanceof PollData) {
@@ -129,14 +128,7 @@
                                 }
                             }
                         %>
-                        ]
-                    },
-                    tick: {
-                        count: 1,
-                        format: function () {
-                            return ''
-                        }
-                    }
+                    ]
                 },
                 y: {
                     label: {

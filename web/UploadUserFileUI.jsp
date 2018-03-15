@@ -87,8 +87,8 @@
                     out.print("<br><br>\n" +
                             "        <form method=\"post\" action=\"/AdminSettingsSL\">\n" +
                             "            <button type=\"submit\" id=\"forward\" class=\"btn btn-primary\" name=\"forward\"\n" +
-                            "                    value=\"forwardToAdminSite\"><span\n" +
-                            "                    class=\"glyphicon glyphicon-floppy-disk\"></span> Weiter zur Admin-Seite\n" +
+                            "                    value=\"forwardToAdminSite\"> Weiter zur Admin-Seite\n" +
+                            " <span class=\"glyphicon glyphicon-arrow-right\"></span>"+
                             "            </button>\n" +
                             "        </form>");
                 }

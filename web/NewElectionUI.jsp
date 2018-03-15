@@ -219,6 +219,7 @@
 
         <br>
         <br>
+        <%= request.getAttribute("errorComplete") != null ? request.getAttribute("errorComplete") : ""%>
         <p>Hierbei könnte es zu etweiligen Verzögerungen kommen</p>
         <form action="/NewElectionSL" id="CompletionForm" method="post">
             <div class="submitButton">
@@ -229,8 +230,6 @@
             </div>
             <br><br><br>
         </form>
-        <%= request.getAttribute("errorComplete") != null ? request.getAttribute("errorComplete") : ""%>
-
     </div>
 </div>
 <footer class="footer">
