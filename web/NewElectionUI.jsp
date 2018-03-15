@@ -6,8 +6,8 @@
  Created on:
  Description:     represents the jsp where an admin can create a new election
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=ISO-8859-1" language="java" %>
+<%@ page pageEncoding="UTF-8"%>
 <html>
 <head>
     <!-- Change the Tab-title of the page -->
@@ -43,7 +43,6 @@
     if (!loggesUser.compareRights(hash, RightEnum.ADMIN)) {
         response.sendRedirect("/LoginSL");
     }
-
 %>
 <!-- Implements the navigation bar in the webseite -->
 <div id="navbar"></div>
@@ -224,7 +223,7 @@
         <form action="/NewElectionSL" id="CompletionForm" method="post">
             <div class="submitButton">
                 <button type="submit" class="btn btn-primary" name="actionButton"
-                        value="forward"> Weiter zur Generierung der Userkeys<span
+                        value="forward"> Weiter zur Generierung der Userkeys <span
                         class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>

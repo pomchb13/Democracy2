@@ -7,7 +7,7 @@
  Created on:
  Description:     represents the jsp where an admin can create an poll
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=ISO-8859-1" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 <html>
 <head>

@@ -110,6 +110,7 @@ public class LoginSL extends HttpServlet {
                     }
                 } catch (Exception e) {
                     req.setAttribute("error", "Account bereits eingeloggt");
+                    processRequest(req, resp);
                 }
 
                 // check rights of logged in Account
@@ -196,7 +197,6 @@ public class LoginSL extends HttpServlet {
                 resp.sendRedirect("ErrorUI.jsp");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             req.setAttribute("error", "Username oder Passwort ist falsch");
             processRequest(req, resp);
         }

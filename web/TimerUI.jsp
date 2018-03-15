@@ -5,7 +5,7 @@
  Created on:
  Description:     represents the time if an election or poll did not start yet
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=ISO-8859-1" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 <html>
 <head>
