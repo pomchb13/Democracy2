@@ -107,9 +107,8 @@
         <hr>
         <br>
         <div>
-            <h1>Antwortmöglichkeiten zur Abstimmung " <%= request.getSession().getAttribute("newPoll") != null ?
-                    ((PollData) request.getSession().getAttribute("newPoll")).getTitle() : ""%>
-                " hinzufügen</h1></div>
+            <h1>Antwortmöglichkeiten zur Abstimmung "<%= request.getSession().getAttribute("newPoll") != null ?
+                    ((PollData) request.getSession().getAttribute("newPoll")).getTitle() : ""%>" hinzufügen</h1></div>
         <form id="form2" action="/NewPollSL" method="post">
             <br>
             <br>

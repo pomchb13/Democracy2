@@ -49,7 +49,7 @@
 <div id="container">
     <br>
     <h1>Generator der Userkeys</h1>
-    <p>Anzahl der zugelassernen Wähler</p>
+    <p>Anzahl der zugelassenen Wähler</p>
     <center>
         <form method="POST" action="/UploadUserFileSL">
             <!-- input field for typing in the number of eligible voters -->
