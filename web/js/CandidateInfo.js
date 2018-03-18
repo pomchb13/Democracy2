@@ -32,9 +32,6 @@ function reply_click(buttonStr) {
     xmlhttp.onreadystatechange = processRequest;
     xmlhttp.open("GET", url, true);
     xmlhttp.send(null);
-
-
-
 }
 
 /**

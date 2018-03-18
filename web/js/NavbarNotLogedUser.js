@@ -25,7 +25,7 @@ window.onload = function userNavbar() {
         '       <div class="collapse navbar-collapse" id="navBar"> ' +
         '           <ul class="nav navbar-nav"> ' +
         '               <li><a href="HomeUI.jsp"><span class="glyphicon glyphicon-home"></span> Startseite</a></li> ' +
-        '               <li><a href="AboutUI.jsp"><span class="glyphicon glyphicon-user"></span> Über Uns</a></li> ' +
+        '               <li><a href="AboutUI.jsp"><span class="glyphicon glyphicon-user"></span>Team</a></li> ' +
         '           </ul>' +
         '           <ul class="nav navbar-nav navbar-right"> ' +
         '               <li><a href="/LoginSL" accesskey="1"><span class="glyphicon glyphicon-log-in"></span> Anmelden</a></li> ' +

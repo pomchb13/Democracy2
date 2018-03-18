@@ -108,44 +108,44 @@ public class NewElectionSL extends HttpServlet {
 
         //check if value of the clicked button is "createVote"
         if (req.getParameter("actionButton").equals("createVote")) {
-            try {
-                //read title, start and duedate from the input fields
-                String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
-                String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
-                String dueDate = ServletUtil.filter(req.getParameter("input_End"));
+                try {
+                    //read title, start and duedate from the input fields
+                    String voteTitle = ServletUtil.filter(req.getParameter("input_Title"));
+                    String fromDate = ServletUtil.filter((req.getParameter("input_Start")));
+                    String dueDate = ServletUtil.filter(req.getParameter("input_End"));
 
-                //check if showDiagram is true
-                boolean voteDiagrams;
-                if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
-                    voteDiagrams = true;
-                else
-                    voteDiagrams = false;
+                    //check if showDiagram is true
+                    boolean voteDiagrams;
+                    if (ServletUtil.filter(req.getParameter("input_DiaOption")).equals("1"))
+                        voteDiagrams = true;
+                    else
+                        voteDiagrams = false;
 
-                //parse the dates to LocalDate
-                LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-                LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    //parse the dates to LocalDate
+                    LocalDate vote_fromDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    LocalDate vote_dueDate = LocalDate.parse(dueDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-                //date validation
-                if (LocalDate.now().isBefore(vote_fromDate)
-                        || LocalDate.now().isEqual(vote_fromDate)
-                        && LocalDate.now().isBefore(vote_dueDate)
-                        && vote_fromDate.isBefore(vote_dueDate)) {
+                    //date validation
+                    if (LocalDate.now().isBefore(vote_fromDate)
+                            || LocalDate.now().isEqual(vote_fromDate)
+                            && LocalDate.now().isBefore(vote_dueDate)
+                            && vote_fromDate.isBefore(vote_dueDate)) {
 
-                    //create new Election-object
-                    ElectionData newElection = new ElectionData(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
+                        //create new Election-object
+                        ElectionData newElection = new ElectionData(voteTitle, vote_fromDate, vote_dueDate, voteDiagrams);
 
-                    //set the new election on request scope
-                    req.getSession().setAttribute("newElection", newElection);
+                        //set the new election on request scope
+                        req.getSession().setAttribute("newElection", newElection);
 
-                    req.setAttribute("statusVote", "Wahl erfolreich erstellt und zwischengespeichert!");
-                } else {
-                    req.setAttribute("statusVote", "Wahl nicht erstellt! Bitte Datum überprüfen!");
+                        req.setAttribute("statusVote", "Wahl erfolreich erstellt und zwischengespeichert!");
+                    } else {
+                        req.setAttribute("statusVote", "Wahl nicht erstellt! Bitte Datum überprüfen!");
+                    }
+                } catch (Exception ex) {
+                    req.setAttribute("statusVote", "Wahl nicht erstellt! Bitte Datumsformat überprüfen \"MM/DD/YYYY\"!");
+                } finally {
+                    processRequest(req, resp);
                 }
-            } catch (Exception ex) {
-                req.setAttribute("statusVote", "Wahl nicht erstellt! Bitte Datumsformat überprüfen \"MM/DD/YYYY\"!");
-            } finally {
-                processRequest(req, resp);
-            }
             //check if value of the button is "addPolitican"
         } else if (req.getParameter("actionButton").equals("addPolitician")) {
             try {

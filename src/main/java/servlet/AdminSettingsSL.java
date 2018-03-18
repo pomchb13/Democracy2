@@ -51,14 +51,11 @@ public class AdminSettingsSL extends HttpServlet {
     }
 
     /**
-     *
      * @param req
-     * @param resp
-     *
-     * This method will be fired when the "AdminSettingsUI.jsp" will be loaded and so it fits perfectly for loading
-     * all elections and polls from Blockchain. This method also has double login validation. Firstly it checks if the Account
-     * is allowed to see this site. Then it checks if the Account is logged in the Blockchain. After that it creates
-     * Handler objects and then loads the elections and polls to later save it to the session scope.
+     * @param resp This method will be fired when the "AdminSettingsUI.jsp" will be loaded and so it fits perfectly for loading
+     *             all elections and polls from Blockchain. This method also has double login validation. Firstly it checks if the Account
+     *             is allowed to see this site. Then it checks if the Account is logged in the Blockchain. After that it creates
+     *             Handler objects and then loads the elections and polls to later save it to the session scope.
      * @throws ServletException
      * @throws IOException
      */
@@ -136,19 +133,22 @@ public class AdminSettingsSL extends HttpServlet {
     }
 
     /**
-     *
      * @param req
-     * @param resp
-     *
-     * This method will be fired from the "UploadUserFileUI.jsp". When the administrator successfully downloaded the
-     * userkeys, this method will delete the .xlsx file from the server environment
+     * @param resp This method will be fired from the "UploadUserFileUI.jsp". When the administrator successfully downloaded the
+     *             userkeys, this method will delete the .xlsx file from the server environment
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (Files.exists(Paths.get(this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"))))
-            Files.delete(Paths.get( this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        if (Files.exists(
+                Paths.get(
+                        this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")))) {
+            Files.delete(
+                    Paths.get(
+                            this.getServletContext().getRealPath("/res/userLists/userlist.xlsx")));
+        }
+
         processRequest(req, resp);
     }
 }
