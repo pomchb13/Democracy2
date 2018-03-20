@@ -2,7 +2,9 @@ package servlet;
 
 import beans.*;
 import handler.AdminHandler;
-import logger.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import handler.PollHandler;
@@ -42,6 +44,8 @@ public class NewPollSL extends HttpServlet {
     private LoggedUsers userInstance = LoggedUsers.getInstance();
     //The Pollhandler object is responsible for the communication with the Blockchain
     private PollHandler pollHandler;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewPollSL.class);
 
     /**
      * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
@@ -198,7 +202,7 @@ public class NewPollSL extends HttpServlet {
                     req.getSession().setAttribute("newTypeOfVote", VoteType.POLL);
 
                 } catch (Exception e) {
-                    Logger.logError("Error while creating a new Poll on Blockchain: " + e.toString(), NewPollSL.class);
+                    LOGGER.error("Error while creating a new Poll on Blockchain: {}" , e.toString());
                     req.setAttribute("answerStatus", "Fehler beim Erstellen der Volksabstimmung");
                 }
                 List<PollAnswer> answerList = newPoll.getAnswerList();
@@ -208,7 +212,7 @@ public class NewPollSL extends HttpServlet {
                     try {
                         pollHandler.storeAnswerData(i, answerList.get(i).getTitle(), answerList.get(i).getDescription());
                     } catch (Exception e) {
-                        Logger.logError("Error while adding a pollAnswer to the poll: " + e.toString(), NewPollSL.class);
+                        LOGGER.error("Error while adding a pollAnswer to the poll: {}" , e.toString());
                         req.setAttribute("answerStatus", "Fehler beim Hinzufügen der Antworten");
                     }
                 }
@@ -218,7 +222,7 @@ public class NewPollSL extends HttpServlet {
                 pollList.add(newPoll);
                 req.getSession().setAttribute("pollList", pollList);
 
-                Logger.logInformation("The Poll " + newPoll.getTitle() + " was saved successfully on the Blockchain", NewPollSL.class);
+                LOGGER.info("The Poll {} was saved successfully on the Blockchain", newPoll.getTitle());
 
                 //Forward to the Userkey Generator
                 resp.sendRedirect("/UploadUserFileSL");

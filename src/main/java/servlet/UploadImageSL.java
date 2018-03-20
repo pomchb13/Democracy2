@@ -1,7 +1,8 @@
 package servlet;
 
 import beans.RightEnum;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import user.LoggedUsers;
 import util.BlockchainUtil;
 
@@ -30,6 +31,8 @@ public class UploadImageSL extends HttpServlet {
 
     //The Instance where all logged users and administrator are saved
     private LoggedUsers userInstance = LoggedUsers.getInstance();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadImageSL.class);
 
     /**
      * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
@@ -120,7 +123,7 @@ public class UploadImageSL extends HttpServlet {
                 status = "Bild wurde erfolgreich hochgeladen!";
             } catch (FileNotFoundException fne) {
                 status = "Fehlgeschlagen! Bitte versuchen Sie es erneut, oder verwenden Sie eine andere Datei";
-                Logger.logError("Error while reading image from file input: " + fne.toString(), UploadUserFileSL.class);
+                LOGGER.error("Error while reading image from file input: {} " , fne.toString());
             } finally {
                 if (out != null) {
                     out.close();

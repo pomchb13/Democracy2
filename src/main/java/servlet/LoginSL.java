@@ -4,7 +4,8 @@ import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import user.HashGenerator;
@@ -32,6 +33,8 @@ import java.util.LinkedList;
 @WebServlet(urlPatterns = {"/LoginSL"})
 public class LoginSL extends HttpServlet {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSL.class);
+
     private HashGenerator hashInstance;
     private LoggedUsers userInstance;
     private LinkedList<String> liFilenames = new LinkedList<>();
@@ -40,11 +43,7 @@ public class LoginSL extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BlockchainUtil.setPATH(this.getServletContext().getRealPath("/res/geth_data/keystore"));
-        try {
-            Logger.setPath(this.getServletContext().getRealPath("/res/files/"));
-        } catch (FileNotFoundException e) {
-            Logger.logError("Error while initializing BufferedWriter: " + e.toString(), Logger.class);
-        }
+
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -72,8 +71,7 @@ public class LoginSL extends HttpServlet {
         try {
             //login to Blockchain
             Credentials credentials = BlockchainUtil.loginToBlockhain(username, password);
-            Logger.logInformation("Account " + credentials.getAddress() + " logged into Blockchain", LoginSL.class);
-
+            LOGGER.info("Account {} logged into Blockchain", credentials.getAddress());
             //Create session-object
             HttpSession session = req.getSession();
 
@@ -104,9 +102,9 @@ public class LoginSL extends HttpServlet {
                 try {
                     userInstance.login(hash, right, username);
                     if (right == RightEnum.ADMIN) {
-                        Logger.logInformation("Admin " + credentials.getAddress() + " is logged in", LoginSL.class);
+                        LOGGER.info("Admin {} is logged in",credentials.getAddress());
                     } else {
-                        Logger.logInformation("User " + credentials.getAddress() + " is logged in", LoginSL.class);
+                        LOGGER.info("User {} is logged in",credentials.getAddress());
                     }
                 } catch (Exception e) {
                     req.setAttribute("error", "Account bereits eingeloggt");
@@ -176,7 +174,7 @@ public class LoginSL extends HttpServlet {
                             }
                         } catch (Exception e) {
                             req.setAttribute("error", "Es ist ein Fehler bei der Weiterleitung aufgetreten");
-                            Logger.logError("Fehler bei der Weiterleitung: " + e.toString(), LoginSL.class);
+                            LOGGER.error("Error while forwarding {}",e.toString());
                         }
                     }
                     //Account is an Adminaccount
@@ -195,7 +193,7 @@ public class LoginSL extends HttpServlet {
                     resp.sendRedirect("AdminSettingsSL");
                 }
             } else {
-                Logger.logError("Contract datei existiert nicht", LoginSL.class);
+                LOGGER.error("Contract file doesn't exist");
                 resp.sendRedirect("ErrorUI.jsp");
             }
         } catch (Exception e) {

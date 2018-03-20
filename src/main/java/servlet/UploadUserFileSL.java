@@ -1,7 +1,8 @@
 package servlet;
 
 import beans.RightEnum;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.crypto.Credentials;
 import beans.VoteType;
 import user.LoggedUsers;
@@ -19,7 +20,6 @@ import java.io.*;
 
 /**
  * Author: Leonhard Gangl
- * Datum:
  * Description: This class works as a "Backend" class for the "UploadUserFileUI.jsp". After the administrator filled
  * everything for an election or poll up and presses the last button he will be redirected to the UploadUserFileUI.
  * In this UI he has to fill in how many voters he wants to generate. The Blockchain will auto generate the usernames
@@ -34,6 +34,8 @@ public class UploadUserFileSL extends HttpServlet {
     //The UserCreator object is responsible for creating the userkeys.
     private UserCreator userCreator = new UserCreator();
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadUserFileSL.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -94,13 +96,14 @@ public class UploadUserFileSL extends HttpServlet {
                 req.setAttribute("newPath", this.getServletContext().getRealPath("/res/userLists/userlist.xlsx"));
 
                 status = "Userkeys wurden erfolgreich generiert!";
-                Logger.logInformation("Alle Userkeys wurden erfolgreich erstellt", UploadUserFileSL.class);
+                LOGGER.info("All user logins created");
             } else {
                 status = "Bitte nur Zahlen größer 0 eingeben";
             }
         } catch (Exception ex) {
             status = "Bitte nur Zahlen eingeben";
-            Logger.logError("Fehler beim parsen der eingegebenen Zahl: "+ex.toString(), UploadUserFileSL.class);
+            LOGGER.error("Error while parsing {} ",ex.toString());
+
         }
 
         req.setAttribute("status", status);

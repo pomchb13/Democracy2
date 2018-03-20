@@ -4,7 +4,8 @@ import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
 import handler.PollHandler;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
@@ -25,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
+
 /**
  * Author: Ewald Hartmann
  * Description: This class is placed in the Backend from the "AdminSettingsUI.jsp" and is responsible for loading
@@ -37,6 +39,7 @@ public class AdminSettingsSL extends HttpServlet {
     //The instance where all logged users and administrators are saved
     private LoggedUsers userInstance = LoggedUsers.getInstance();
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminSettingsSL.class);
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -83,7 +86,7 @@ public class AdminSettingsSL extends HttpServlet {
                 try {
                     contractList = adminHandler.getAllContractAddresses(new Address(credentials.getAddress()));
                 } catch (Exception ex) {
-                    Logger.logError("Error with the admin object: " + ex.toString(), AdminSettingsSL.class);
+                    LOGGER.error("Error with the admin object: {}", ex.toString());
                 }
 
                 for (Address address : contractList) {
@@ -123,7 +126,7 @@ public class AdminSettingsSL extends HttpServlet {
                     }
                 }
             } catch (Exception e) {
-                Logger.logError("Account is not logged in: " + e.toString(), AdminSettingsSL.class);
+                LOGGER.error("Account is not logged in: {}", e.toString());
             }
             session.setAttribute("pollList", pollList);
             session.setAttribute("electionList", electionList);

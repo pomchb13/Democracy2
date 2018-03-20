@@ -1,6 +1,8 @@
 package blockchainapp;
 
 import handler.AdminHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;

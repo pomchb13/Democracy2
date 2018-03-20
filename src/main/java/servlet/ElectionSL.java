@@ -4,7 +4,8 @@ import beans.CandidateData;
 import beans.ElectionData;
 import handler.AdminHandler;
 import handler.ElectionHandler;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
@@ -34,6 +35,7 @@ import java.util.LinkedList;
 @WebServlet(urlPatterns = {"/ElectionSL"})
 public class ElectionSL extends HttpServlet {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElectionSL.class);
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -143,7 +145,7 @@ public class ElectionSL extends HttpServlet {
                     resp.sendRedirect("ThankYouUI.jsp");
                 }
             } catch (Exception e) {
-                Logger.logError("Error while voting: " + e.toString(), ElectionSL.class);
+                LOGGER.error("Error while voting: {}" , e.toString());
             }
         } catch (Exception e) {
             req.setAttribute("error", "Bitte wählen Sie einen Kandidaten aus.");

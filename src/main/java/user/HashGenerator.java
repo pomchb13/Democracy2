@@ -31,9 +31,9 @@ public class HashGenerator {
      * @param passwordAndUsername given password and username fom the user
      * @return an hash of username, password and salt
      */
-    public static String get_SHA_256_SecurePassword(String passwordAndUsername) {
+    public static String get_SHA_256_SecurePassword(String passwordAndUsername) throws NoSuchAlgorithmException {
         String generatedPassword = null;
-        try {
+
             // set hash algorithms
             MessageDigest md = MessageDigest.getInstance("SHA-256");
 
@@ -51,9 +51,7 @@ public class HashGenerator {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+
         return generatedPassword;
     }
 

@@ -3,7 +3,8 @@ package servlet;
 import beans.*;
 import handler.AdminHandler;
 import handler.ElectionHandler;
-import logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.crypto.Credentials;
 import user.LoggedUsers;
@@ -41,6 +42,7 @@ public class NewElectionSL extends HttpServlet {
     //The ElectionHandler object is responsible for the communication with the Blockchain
     private ElectionHandler electionHandler;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewElectionSL.class);
     /**
      *
      * @param config
@@ -189,7 +191,7 @@ public class NewElectionSL extends HttpServlet {
                     }
                 }
             } catch (Exception e) {
-                Logger.logError("Error while creating Candidate: "+e.toString(), NewElectionSL.class);
+                LOGGER.error("Error while creating Candidate: {}",e.toString());
                 req.setAttribute("statusCand", "Bitte überprüfen Sie ihre Eingaben!");
             } finally {
                 processRequest(req, resp);
@@ -228,7 +230,7 @@ public class NewElectionSL extends HttpServlet {
                         electionHandler.storeCandidateData(i, candidateList.get(i).getTitle(), candidateList.get(i).getForename(), candidateList.get(i).getSurname(),
                                 candidateList.get(i).getBirthday(), candidateList.get(i).getParty(), candidateList.get(i).getSlogan(), candidateList.get(i).getPortraitPath());
                     }
-                    Logger.logInformation("The Election "+newElection.getTitle()+" was successfully saved on the Blockchain", NewElectionSL.class);
+                    LOGGER.info("The Election {} was successfully saved on the Blockchain",newElection.getTitle());
 
                     //After everything ran successfully the new election will be set to session scope
                     LinkedList<ElectionData> electionList = (LinkedList<ElectionData>) req.getSession().getAttribute("electionList");
@@ -247,7 +249,7 @@ public class NewElectionSL extends HttpServlet {
                     processRequest(req, resp);
                 }
             } catch (Exception e) {
-                Logger.logInformation("Error while saving election and candidates in Blockchain: "+e.toString(), NewElectionSL.class);
+                LOGGER.error("Error while saving election and candidates in Blockchain: {}",e.toString());
                 req.setAttribute("errorComplete", "Fehler beim Speichern der kompletten Wahl auf der Blockchain");
             }
         }

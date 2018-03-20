@@ -5,7 +5,9 @@ import beans.PollData;
 import beans.RightEnum;
 import handler.AdminHandler;
 import handler.PollHandler;
-import logger.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
@@ -34,6 +36,8 @@ public class PollSL extends HttpServlet {
 
     //The Instance where all logged users and administrator are saved
     private LoggedUsers userInstance = LoggedUsers.getInstance();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PollSL.class);
 
     /**
      * @param config In the init Method we need to set the path in the BlockchainUtil to the keystore in the server environment.
@@ -117,7 +121,7 @@ public class PollSL extends HttpServlet {
                     resp.sendRedirect("ThankYouUI.jsp");
                 }
             } catch (Exception e) {
-                Logger.logError("Error while voting: " + e.toString(), PollSL.class);
+                LOGGER.error("Error while voting: {}", e.toString());
             }
         } catch (Exception e) {
             req.setAttribute("error", "Bitte wählen Sie einen Kandidaten aus.");
